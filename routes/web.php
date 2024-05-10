@@ -109,3 +109,6 @@ Route::resource('employee-attribute-setting-information', EmployeeAttributeSetti
 
 // Rute untuk Employee Information
 Route::resource('employee-information', EmployeeInformationController::class);
+// Rute untuk membuat data karyawan baru
+Route::get('/employees/create', [EmployeeInformationController::class, 'create'])->name('employees.create');
+

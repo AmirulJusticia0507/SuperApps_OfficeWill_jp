@@ -35,7 +35,9 @@
 </style>
 
 <!-- resources/views/includes/sidebar.blade.php -->
-<aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
+{{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
+<aside class="bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
+
     <div class="p-4">
         <a href="{{ route('dashboard') }}" class="text-white text-lg font-semibold">
             <img src="img/officewill.png" alt="DEP SERVICE" class="w-32 mx-auto">
@@ -79,7 +81,7 @@
                 <a href="#" class="block py-2 px-4 text-sm toggle-submenu"><i class="fas fa-users-cog mr-2"></i> Employee Management</a>
                 <ul class="treeview" style="display: none;">
                     <li>
-                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Member Registration</a>
+                        <a href="{{ route('employees.create') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Member Registration</a>
                     </li>
                     <li>
                         <a href="{{ route('affiliation-information.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Affiliation Master Registration</a>
