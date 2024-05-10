@@ -18,7 +18,7 @@
             <br><br><button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createCompanyModal"><i class="fas fa-plus"></i> Create Company</button>
 
             <div class="card">
-                <div class="card-header">Company Information</div>
+                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Company Information</b></div>
 
                 <div class="card-body">
                     <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="companyTable">

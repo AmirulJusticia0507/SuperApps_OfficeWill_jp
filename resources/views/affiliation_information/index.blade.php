@@ -2,49 +2,133 @@
 
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">Affiliation Information</div>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
 
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Affiliation Code</th>
-                                <th scope="col">Company ID</th>
-                                <th scope="col">Affiliation Name</th>
-                                <th scope="col">Display Order</th>
-                                <th scope="col">Organization Type</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($affiliations as $affiliation)
-                            <tr>
-                                <td>{{ $affiliation->affiliation_code }}</td>
-                                <td>{{ $affiliation->company_id }}</td>
-                                <td>{{ $affiliation->affiliation_name }}</td>
-                                <td>{{ $affiliation->display_order }}</td>
-                                <td>{{ $affiliation->organization_type }}</td>
-                                <td>
-                                    <a href="{{ route('affiliation-information.show', $affiliation->id) }}" class="btn btn-primary"><i class="fas fa-eye"></i> View</a>
-                                    <a href="{{ route('affiliation-information.edit', $affiliation->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
-                                    <form action="{{ route('affiliation-information.destroy', $affiliation->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+@section('content')
+    <!-- Header -->
+    @include('includes.header')
+
+    <div class="container">
+        <div class="row justify-content-center">
+                    <!-- Sidebar -->
+        <div class="col-md-3">
+            @include('includes.sidebar')
+        </div>
+            <!-- Kolom untuk tabel -->
+            <div class="col-md-4">
+                <br><br><br>
+                <div class="card">
+                    <div class="card-header" style="background-color: darkblue">
+                        <b style="color: aliceblue">List of Affiliation</b>
+                    </div>
+                    <div class="card-body">
+                        <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="affiliationTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Affiliation Code</th>
+                                    {{-- <th scope="col">Company ID</th> --}}
+                                    <th scope="col" nowrap>Affiliation Name</th>
+                                    {{-- <th scope="col">Display Order</th> --}}
+                                    {{-- <th scope="col">Organization Type</th> --}}
+                                    {{-- <th scope="col">Actions</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($affiliations as $affiliation)
+                                    <tr>
+                                        <td>{{ $affiliation->affiliation_code }}</td>
+                                        {{-- <td>{{ $affiliation->company_id }}</td> --}}
+                                        <td nowrap>{{ $affiliation->affiliation_name }}</td>
+                                        {{-- <td>{{ $affiliation->display_order }}</td> --}}
+                                        {{-- <td>{{ $affiliation->organization_type }}</td> --}}
+                                        {{-- <td>
+                                            <a href="{{ route('affiliation-information.show', $affiliation->id) }}" class="btn btn-primary"><i class="fas fa-eye"></i> View</a>
+                                            <a href="{{ route('affiliation-information.edit', $affiliation->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                                            <form action="{{ route('affiliation-information.destroy', $affiliation->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                            </form>
+                                        </td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom untuk form -->
+            <div class="col-md-4">
+                <br><br><br>
+                <div class="card">
+                    <div class="card-header" style="background-color: darkblue">
+                        <b style="color: aliceblue">Affiliation Information Form</b>
+                        <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('affiliation-information.store') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label for="affiliation_code">Affiliation Code: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" id="affiliation_code" name="affiliation_code">
+                            </div>
+                            <div class="form-group">
+                                <label for="company_id">Company ID:</label>
+                                <input type="text" class="form-control" id="company_id" name="company_id">
+                            </div>
+                            <div class="form-group">
+                                <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" id="affiliation_name" name="affiliation_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="display_order">Display Order: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" id="display_order" name="display_order">
+                            </div>
+                            <div class="form-group">
+                                <label for="organization_type">Organization Type: <b style="color: red">*</b></label>
+                                <div class="row">
+                                    <div class="form-check">
+                                        &emsp;<input class="form-check-input" type="radio" name="organization_type" id="main_store_equivalent" value="Main store equivalent" required>
+                                        <label class="form-check-label" for="main_store_equivalent"> Main store equivalent</label>
+                                    {{-- </div>
+                                    <div class="form-check"> --}}
+                                        &emsp;&emsp;<input class="form-check-input" type="radio" name="organization_type" id="fc_store" value="FC Store" required>
+                                        <label class="form-check-label" for="fc_store">FC Store</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Footer -->
+    @include('includes.footer')
+
+@endsection
+
+@section('scripts')
+<!-- Script DataTables -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<!-- Script for Modals -->
+<script>
+    // Function to show modal when the button is clicked
+    // const createClassificationModal = new bootstrap.Modal(document.getElementById('createClassificationModal'));
+    $(document).ready(function () {
+            var table = $('#affiliationTable').DataTable({
+                responsive: true,
+                scrollX: true,
+                searching: true,
+                lengthMenu: [10, 25, 50, 100, 500],
+                pageLength: 10,
+                dom: 'lBfrtip',
+                buttons: ['copy', 'excel', 'pdf']
+            });
+        });
+</script>
 @endsection

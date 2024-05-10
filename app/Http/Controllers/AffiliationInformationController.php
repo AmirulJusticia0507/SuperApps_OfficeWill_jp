@@ -13,8 +13,9 @@ class AffiliationInformationController extends Controller
     public function index()
     {
         $affiliations = AffiliationInformation::all();
-        return view('affiliation.index', compact('affiliations'));
+        return view('affiliation_information.index', compact('affiliations'));
     }
+
 
     /**
      * Show the form for creating a new resource.
