@@ -18,7 +18,7 @@
             <br><br><br>
             <!-- Course Classifications Table -->
             <div class="card">
-                <div class="card-header">Course Classifications Registration</div>
+                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classifications Registration</b></div>
                 <div class="card-body">
                     <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="classificationTable">
                         <thead>
