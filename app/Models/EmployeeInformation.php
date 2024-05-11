@@ -9,6 +9,12 @@ class EmployeeInformation extends Model
 {
     use HasFactory;
 
+    protected $table = 'employee_information';
+
+    protected $primaryKey = 'employee_id'; // Tambahkan primary key
+
+    public $timestamps = false; // Tidak ada kolom created_at dan updated_at pada tabel
+
     protected $fillable = [
         'employee_id',
         'company_id',
@@ -73,5 +79,12 @@ class EmployeeInformation extends Model
             return true;
         }
         return false;
+    }
+
+    // Metode untuk mendapatkan data yang akan ditampilkan di sidebar
+    public static function getSidebarData()
+    {
+        // Anda dapat menyesuaikan data yang ingin ditampilkan di sidebar di sini
+        return self::select('fullname', 'employee_code')->get();
     }
 }

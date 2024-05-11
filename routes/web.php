@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MemberRegistrationController;
+use App\Http\Controllers\MasterRegistrationController;
 use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\AffiliationInformationController;
 use App\Http\Controllers\AttendanceTodoAnswerSelectionInformationController;
@@ -49,8 +49,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rute untuk menampilkan halaman registrasi anggota
-Route::get('/member-registration', [MemberRegistrationController::class, 'show'])->name('member-registration.show');
-Route::post('/member-registration', [MemberRegistrationController::class, 'store'])->name('member-registration.store');
+Route::get('/master-registration', 'MasterRegistrationController@create')->name('master-registration.create');
+
+Route::get('/master-registration', [MasterRegistrationController::class, 'show'])->name('master-registration.show');
+Route::post('/member-registration', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
 
 // Rute untuk job titles
 Route::resource('job-titles', JobTitleController::class);
@@ -90,25 +92,29 @@ Route::resource('course-information', CourseInformationController::class);
 Route::resource('course-material-information', CourseMaterialInformationController::class);
 
 // Rute untuk Course Schedule Results Information
-Route::resource('course-schedule-results-information', CourseScheduleResultsInformationController::class);
+Route::resource('course-schedule-results', CourseScheduleResultsInformationController::class);
 
 // Rute untuk Course Todo Item Information
 Route::resource('course-todo-item-information', CourseTodoItemInformationController::class);
 
 // Rute untuk Course Todo Items Choice Information
-Route::resource('course-todo-items-choice-information', CourseTodoItemsChoiceInformationController::class);
+Route::resource('course-todo-items-choice', CourseTodoItemsChoiceInformationController::class);
 
 // Rute untuk Employee Affiliation Information
 Route::resource('employee-affiliation-information', EmployeeAffiliationInformationController::class);
 
 // Rute untuk Employee Attribute Dropdown Settings Information
-Route::resource('employee-attribute-dropdown-settings-information', EmployeeAttributeDropdownSettingsInformationController::class);
+Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdownSettingsInformationController::class);
 
 // Rute untuk Employee Attribute Setting Information
 Route::resource('employee-attribute-setting-information', EmployeeAttributeSettingInformationController::class);
 
 // Rute untuk Employee Information
 Route::resource('employee-information', EmployeeInformationController::class);
+
 // Rute untuk membuat data karyawan baru
 Route::get('/employees/create', [EmployeeInformationController::class, 'create'])->name('employees.create');
 
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+?>

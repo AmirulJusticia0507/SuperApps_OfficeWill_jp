@@ -81,7 +81,7 @@
                 <a href="#" class="block py-2 px-4 text-sm toggle-submenu"><i class="fas fa-users-cog mr-2"></i> Employee Management</a>
                 <ul class="treeview" style="display: none;">
                     <li>
-                        <a href="{{ route('employees.create') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Member Registration</a>
+                        <a href="{{ route('register') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Member Registration</a>
                     </li>
                     <li>
                         <a href="{{ route('affiliation-information.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Affiliation Master Registration</a>
