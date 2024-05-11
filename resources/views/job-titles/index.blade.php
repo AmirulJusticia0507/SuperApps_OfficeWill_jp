@@ -1,128 +1,106 @@
 @extends('layouts.app')
-@push('styles')
+
+<!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<!-- Tambahkan link AdminLTE CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
-<style>
-    .nowrap {
-        white-space: nowrap;
-    }
-</style>
-@endpush
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
+
 @section('content')
-    <div class="content-wrapper">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-            <!-- Include Header -->
-            @include('includes.header')
-        </nav>
+    <!-- Header -->
+    @include('includes.header')
 
-        <!-- Include Sidebar -->
-        @include('includes.sidebar')
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                @include('includes.sidebar')
+            </div>
 
-        <div class="content"><br><br>
-            <div class="container mx-auto">
-                <div class="flex justify-center">
-                    <div class="w-full max-w-lg">
-                        <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-                            <div class="mb-4">
-                                <h1 class="text-center text-2xl font-semibold mb-8" style="color: #2564bc;">JOB INFORMATION</h1>
-                                <form action="{{ isset($jobTitle) ? route('job-titles.update', $jobTitle->JobID) : route('job-titles.store') }}" method="POST">
-                                    @csrf
-                                    @if(isset($jobTitle))
-                                        @method('PUT')
-                                    @endif
-                                    <div class="mb-4">
-                                        <label for="job_title" class="block text-gray-700 text-sm font-bold mb-2">Job Title:</label>
-                                        <input type="text" name="JobTitle" id="job_title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ isset($jobTitle) ? $jobTitle->JobTitle : '' }}" required>
-                                    </div>
-                                    <div class="mb-6">
-                                        <label for="display_order" class="block text-gray-700 text-sm font-bold mb-2">Display Order:</label>
-                                        <input type="number" name="DisplayOrder" id="display_order" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ isset($jobTitle) ? $jobTitle->DisplayOrder : '' }}" required>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">{{ isset($jobTitle) ? 'Update' : 'Save' }}</button>
-                                        <a href="{{ route('job-titles.index') }}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Cancel</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+            <!-- Tabel dan Form -->
+            <div class="col-md-9">
+                <br><br><br>
+                <!-- Tabel Affiliation -->
+                <div class="card">
+                    <div class="card-header" style="background-color: darkblue">
+                        <b style="color: aliceblue">List of Job Titles</b>
                     </div>
-                </div><br><br>
-        
-                <!-- Daftar Job Title -->
-                <div class="flex justify-center mt-8">
-                    <div class="w-full max-w-lg">
-                        <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8">
-                            {{-- <div class="flex justify-between items-center mb-4">
-                                <h2 class="text-xl font-bold">Job Titles</h2>
-                                <a href="{{ route('job-titles.create') }}" class="text-blue-500 hover:text-blue-800">Create New Job Title</a>
-                            </div> --}}
-                            <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="jobtitleTable">
-                                <thead>
+                    <div class="card-body">
+                        <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="jobTitleTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Job Title</th>
+                                    <th scope="col">Display Order</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($jobTitles as $jobTitle)
                                     <tr>
-                                        <th class="px-4 py-2">Job Title</th>
-                                        <th class="px-4 py-2">Display Order</th>
-                                        <th class="px-4 py-2">Actions</th>
+                                        <td>{{ $jobTitle->job_title }}</td>
+                                        <td>{{ $jobTitle->display_order }}</td>
+                                        <td>
+                                            <a href="{{ route('job-titles.edit', $jobTitle->Job_id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                                            <form action="{{ route('job-titles.destroy', $jobTitle->Job_id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($jobTitles as $jobTitle)
-                                        <tr>
-                                            <td class="border px-4 py-2">{{ $jobTitle->JobTitle }}</td>
-                                            <td class="border px-4 py-2">{{ $jobTitle->DisplayOrder }}</td>
-                                            <td class="border px-4 py-2 nowrap">
-                                                <!-- Tombol Edit -->
-                                                <a href="{{ route('job-titles.edit', $jobTitle->JobID) }}" class="text-blue-500 hover:text-blue-800"><i class="fas fa-edit"></i> Edit</a>
-                                                <!-- Tombol Delete -->
-                                                <form action="{{ route('job-titles.destroy', $jobTitle->JobID) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
-                                                </form>
-                                            </td>                                                                                   
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Form Create/Edit Job Title -->
+                <div class="card">
+                    <div class="card-header" style="background-color: darkblue">
+                        <b style="color: aliceblue">Job Title Information Form</b>
+                        <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ isset($editingId) ? route('job-titles.update', $editingId) : route('job-titles.store') }}">
+                            @csrf
+                            @if(isset($editingId))
+                                @method('PUT')
+                            @endif
+                            <div class="form-group">
+                                <label for="job_title">Job Title: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" id="job_title" name="job_title" value="{{ isset($jobTitle) ? $jobTitle->job_title : '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="display_order">Display Order: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" id="display_order" name="display_order" value="{{ isset($jobTitle) ? $jobTitle->display_order : '' }}">
+                            </div>
+                            <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
+
+    <!-- Footer -->
+    @include('includes.footer')
+
 @endsection
 
 @section('scripts')
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- Bootstrap Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-    <!-- AdminLTE -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
-    <!-- jQuery UI -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- Select2 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <!-- Toggle Sidebar -->
-    <script>
-        $(document).ready(function() {
-            // Tambahkan event click pada tombol pushmenu
-            $('.nav-link[data-widget="pushmenu"]').on('click', function() {
-                // Toggle class 'sidebar-collapse' pada elemen body
-                $('body').toggleClass('sidebar-collapse');
-            });
+<!-- Script DataTables -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<!-- Script for DataTables -->
+<script>
+    $(document).ready(function () {
+        $('#jobTitleTable').DataTable({
+            responsive: true,
+            scrollX: true,
+            searching: true,
+            lengthMenu: [10, 25, 50, 100, 500],
+            pageLength: 10,
+            dom: 'lBfrtip',
+            buttons: ['copy', 'excel', 'pdf']
         });
-    </script>    
-    <script>
-        new DataTable('#jobtitleTable');
-    </script>
+    });
+</script>
 @endsection
