@@ -23,13 +23,13 @@ class JobTitleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'JobTitle' => 'required',
-            'DisplayOrder' => 'required|numeric',
+            'job_title' => 'required',
+            'display_order' => 'required|numeric',
         ]);
 
         JobInformation::create([
-            'JobTitle' => $request->JobTitle,
-            'DisplayOrder' => $request->DisplayOrder,
+            'job_title' => $request->job_title,
+            'display_order' => $request->display_order,
         ]);
 
         return redirect()->route('job-titles.index')->with('success', 'Job Title created successfully.');
@@ -46,20 +46,20 @@ class JobTitleController extends Controller
         $jobTitle = JobInformation::findOrFail($id);
         $isEditing = true; // Setel variabel untuk menandai bahwa sedang dalam mode edit
         $editingId = $id; // Setel ID yang sedang diedit
-        return view('job-titles.index', compact('jobTitle', 'isEditing', 'editingId'));
-    }    
+        return view('job-titles.edit', compact('jobTitle', 'isEditing', 'editingId'));
+    }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'JobTitle' => 'required',
-            'DisplayOrder' => 'required|numeric',
+            'job_title' => 'required',
+            'display_order' => 'required|numeric',
         ]);
 
         $jobTitle = JobInformation::findOrFail($id);
         $jobTitle->update([
-            'JobTitle' => $request->JobTitle,
-            'DisplayOrder' => $request->DisplayOrder,
+            'job_title' => $request->job_title,
+            'display_order' => $request->display_order,
         ]);
 
         return redirect()->route('job-titles.index')->with('success', 'Job Title updated successfully.');

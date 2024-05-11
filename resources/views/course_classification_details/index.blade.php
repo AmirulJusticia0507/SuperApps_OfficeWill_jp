@@ -63,7 +63,7 @@
         <div class="col md-2">
             <br><br><br>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Create / Edit Course Classification Detail</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>
+                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classification Detail</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>
                 <div class="card-body">
                     <form id="classificationDetailsForm" action="{{ route('details.store') }}" method="POST">
                         @csrf
@@ -80,7 +80,10 @@
                             <label for="icon_file_path" class="form-label">Course classification details icon </label>
                             <input type="file" class="form-control" id="icon_file_path" name="icon_file_path">
                         </div><br><br>
-                        <button type="submit" class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Save</button>
+                        <div align="center">
+                            <button type="submit" class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Save</button>
+                            <button type="reset" class="btn btn-danger"><i class="fas fa-power-off"></i> Reset</button>
+                        </div>
                     </form>
                 </div>
             </div>

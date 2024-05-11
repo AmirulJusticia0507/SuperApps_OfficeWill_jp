@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class JobInformation extends Model
 {
     // Sesuaikan dengan nama tabel di database
-    protected $table = 'jobinformation';
+    protected $table = 'job_information';
 
     // Sesuaikan dengan primary key di tabel
-    protected $primaryKey = 'JobID';
+    protected $primaryKey = 'Job_id';
 
     // Kolom yang dapat diisi (fillable) saat membuat atau memperbarui model
     protected $fillable = [
-        'JobTitle',
-        'DisplayOrder',
+        'job_title',
+        'display_order',
     ];
 
     // Jika tidak menggunakan kolom timestamps, atur menjadi false

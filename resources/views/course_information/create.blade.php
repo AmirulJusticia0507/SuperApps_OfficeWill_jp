@@ -138,8 +138,6 @@
                             <label for="test_passed_score">Test Pass Threshold :</label>
                             <input type="text" name="test_passed_score" id="test_passed_score" class="form-control"><p>Complete the course with % or more correc</p>
                         </div>
-                        <!-- Other input fields for course information -->
-
                         <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Submit</button>
                     </form>
                 </div>

@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseInformation;
+use App\Models\CourseClassificationInformation;
+use App\Models\CourseClassificationDetailInformation;
 
 class CourseInformationController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $courses = CourseInformation::all();
-        return view('course.index', compact('courses'));
-    }
+     */public function index()
+{
+    $courses = CourseInformation::all();
+    $classifications = CourseClassificationInformation::all();
+    $details = CourseClassificationDetailInformation::all();
+    return view('course_information.index', compact('courses', 'classifications', 'details'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -69,4 +73,13 @@ class CourseInformationController extends Controller
         CourseInformation::destroy($id);
         return redirect()->route('courses.index')->with('success', 'Course deleted successfully');
     }
+
+    /**
+     * Show the Course Registration page.
+     */
+    public function courseRegistration()
+    {
+        return view('course-registration');
+    }
 }
+

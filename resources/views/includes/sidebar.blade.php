@@ -55,12 +55,12 @@
                 <a href="#" class="block py-2 px-4 text-sm toggle-submenu"><i class="fas fa-book-open mr-2"></i> In-house Training</a>
                 <ul class="treeview" style="display: none;">
                     <li>
-                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Confirm and attend courses</a>
+                        <a href="{{ route('confirm-courses.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Confirm and attend courses</a>
                     </li>
                     <li>
                         <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Course Registration</a>
                         <ul class="treeview" style="display: none;">
-                            <li><a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Course Registration</a></li>
+                            <li><a href="{{ route('course-registration.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Course Registration</a></li>
                             <li><a href="{{ route('course-classification.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Course classification registration</a></li>
                             <li><a href="{{ route('course-classification-details.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Course classification details registration</a></li>
                         </ul>
@@ -87,7 +87,7 @@
                         <a href="{{ route('affiliation-information.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Affiliation Master Registration</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Job Title Master Registration</a>
+                        <a href="{{ route('job-titles.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Job Title Master Registration</a>
                     </li>
                 </ul>
             </li><br><br><br><br><br><br><br>

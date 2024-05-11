@@ -25,6 +25,7 @@ use App\Http\Controllers\EmployeeAffiliationInformationController;
 use App\Http\Controllers\EmployeeAttributeDropdownSettingsInformationController;
 use App\Http\Controllers\EmployeeAttributeSettingInformationController;
 use App\Http\Controllers\EmployeeInformationController;
+use App\Http\Controllers\ConfirmCoursesController;
 
 // Rute untuk menampilkan halaman login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -87,6 +88,10 @@ Route::post('/classifications', [CourseClassificationInformationController::clas
 
 // Rute untuk Course Information
 Route::resource('course-information', CourseInformationController::class);
+// Rute untuk menampilkan halaman Course Registration
+// Rute untuk menampilkan halaman Course Information (atau Course Registration)
+Route::get('/course-registration', [CourseInformationController::class, 'index'])->name('course-registration.index');
+
 
 // Rute untuk Course Material Information
 Route::resource('course-material-information', CourseMaterialInformationController::class);
@@ -104,10 +109,20 @@ Route::resource('course-todo-items-choice', CourseTodoItemsChoiceInformationCont
 Route::resource('employee-affiliation-information', EmployeeAffiliationInformationController::class);
 
 // Rute untuk Employee Attribute Dropdown Settings Information
-Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdownSettingsInformationController::class);
+// Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdownSettingsInformationController::class);
+// Rute untuk Employee Attribute Dropdown Settings Information
+Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdownSettingsInformationController::class)->parameters([
+    'employee-attribute-dropdown-settings' => 'attribute-dropdown-setting',
+]);
+
 
 // Rute untuk Employee Attribute Setting Information
-Route::resource('employee-attribute-setting-information', EmployeeAttributeSettingInformationController::class);
+// Route::resource('employee-attribute-setting-information', EmployeeAttributeSettingInformationController::class);
+// Rute untuk Employee Attribute Setting Information
+Route::resource('employee-attribute-setting-information', EmployeeAttributeSettingInformationController::class)->parameters([
+    'employee-attribute-setting-information' => 'attribute-setting',
+]);
+
 
 // Rute untuk Employee Information
 Route::resource('employee-information', EmployeeInformationController::class);
@@ -116,5 +131,10 @@ Route::resource('employee-information', EmployeeInformationController::class);
 Route::get('/employees/create', [EmployeeInformationController::class, 'create'])->name('employees.create');
 
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+// Rute untuk menampilkan halaman konfirmasi dan menghadiri kursus
+Route::get('/confirm-courses', [ConfirmCoursesController::class, 'index'])->name('confirm-courses.index');
+
+
 
 ?>
