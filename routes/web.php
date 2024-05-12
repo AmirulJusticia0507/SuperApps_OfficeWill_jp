@@ -26,6 +26,7 @@ use App\Http\Controllers\EmployeeAttributeDropdownSettingsInformationController;
 use App\Http\Controllers\EmployeeAttributeSettingInformationController;
 use App\Http\Controllers\EmployeeInformationController;
 use App\Http\Controllers\ConfirmCoursesController;
+use App\Http\Controllers\CourseController;
 
 // Rute untuk menampilkan halaman login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -49,10 +50,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 // Rute untuk logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Rute untuk menampilkan halaman registrasi anggota
-Route::get('/master-registration', 'MasterRegistrationController@create')->name('master-registration.create');
-
-Route::get('/master-registration', [MasterRegistrationController::class, 'show'])->name('master-registration.show');
+Route::get('/member-registration', [MasterRegistrationController::class, 'show'])->name('member-registration.create');
 Route::post('/member-registration', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
 
 // Rute untuk job titles
@@ -134,7 +132,16 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 
 // Rute untuk menampilkan halaman konfirmasi dan menghadiri kursus
 Route::get('/confirm-courses', [ConfirmCoursesController::class, 'index'])->name('confirm-courses.index');
+// Rute untuk menampilkan halaman Course List
+Route::get('/course-list', function () {
+    // Ambil data yang diperlukan dari model dan kirim ke view
+    $classifications = App\Models\CourseClassificationInformation::all();
+    $details = App\Models\CourseClassificationDetailInformation::all();
+    return view('courselist', compact('classifications', 'details'));
+})->name('course-list');
 
-
+// Define the route for course filter
+Route::get('/course/filter', [CourseController::class, 'filter'])->name('course.filter');
+Route::get('/course-settings', [CourseController::class, 'settings'])->name('course-settings');
 
 ?>

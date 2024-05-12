@@ -18,26 +18,26 @@
             <!-- Create Classification Form -->
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">List of courses taken</b></div>
-                <div class="card-body">
-                    <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="confirmcoursesTable">
-                        <thead>
-                            <tr>
-                                <th>Course Name</th>
-                                <th>Deadline for enrollment</th>
-                                <th>ToDo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($courses as $course)
+                    <div class="card-body">
+                        <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="confirmcoursesTable">
+                            <thead>
                                 <tr>
-                                    <td>{{ $course->Course_Name }}</td>
-                                    <td>{{ $course->Deadline_for_Enrollment }}</td>
-                                    <td>{{ $course->ToDo }}</td>
+                                    <th>Course Name</th>
+                                    <th>Deadline for enrollment</th>
+                                    <th>ToDo</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach($courses as $course)
+                                    <tr>
+                                        <td>{{ $course->Course_Name }}</td>
+                                        <td>{{ $course->Deadline_for_Enrollment }}</td>
+                                        <td>{{ $course->ToDo }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
             </div>
         </div>
     </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

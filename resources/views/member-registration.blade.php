@@ -145,7 +145,7 @@
                                 <label for="remarks">Remarks:</label>
                                 <textarea name="remarks" id="remarks" class="form-control" cols="5" rows="5"></textarea>
                             </div>
-                    <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
+                            <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="account_status" style="margin-right: 10px;">Account Status:</label>
                                 <select name="account_status" id="account_status" class="form-control" style="width: 100%">
