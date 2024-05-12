@@ -14,7 +14,7 @@
             @include('includes.sidebar')
         </div>
         <!-- Kolom untuk tabel -->
-        <div class="col md-3">
+        <div class="col md-4">
             <br><br><br>
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classification Details</b></div>

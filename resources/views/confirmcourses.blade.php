@@ -13,7 +13,7 @@
         <div class="col-md-3">
             @include('includes.sidebar')
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <br><br><br>
             <!-- Create Classification Form -->
             <div class="card">

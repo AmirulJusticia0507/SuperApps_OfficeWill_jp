@@ -143,5 +143,6 @@ Route::get('/course-list', function () {
 // Define the route for course filter
 Route::get('/course/filter', [CourseController::class, 'filter'])->name('course.filter');
 Route::get('/course-settings', [CourseController::class, 'settings'])->name('course-settings');
+Route::get('/search-courses', 'CourseController@search')->name('search_courses');
 
 ?>

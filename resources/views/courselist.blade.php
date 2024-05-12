@@ -14,7 +14,7 @@
             <div class="col-md-3">
                 @include('includes.sidebar')
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <br><br><br>
                 <div class="card">
                     <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Registration</b></div>

@@ -57,8 +57,42 @@ class CourseController extends Controller
 
     public function settings()
     {
-        // Lakukan apa yang perlu dilakukan untuk menampilkan halaman course settings
-        return view('coursesettings');
+        $classifications = CourseClassificationInformation::all(); // Get classification data from the model
+        $details = CourseClassificationDetailInformation::all(); // Get details data from the model
+        $filteredCourses = []; // Initialize an empty array for filtered courses
+
+        // Return the view with the necessary data
+        return view('coursesettings', compact('classifications', 'details', 'filteredCourses'));
+    }
+
+
+    public function search(Request $request)
+    {
+        // Ambil nilai input dari permintaan pencarian
+        $classificationId = $request->input('classificationId');
+        $detailId = $request->input('detailId');
+        $courseName = $request->input('courseName');
+
+        // Lakukan pencarian berdasarkan kriteria yang diberikan
+        $courses = CourseInformation::query();
+
+        if ($classificationId) {
+            $courses->where('course_classification_id', $classificationId);
+        }
+
+        if ($detailId) {
+            $courses->where('course_classification_details_id', $detailId);
+        }
+
+        if ($courseName) {
+            $courses->where('coursename', 'like', '%' . $courseName . '%');
+        }
+
+        // Ambil hasil pencarian
+        $filteredCourses = $courses->get();
+
+        // Kirim data yang ditemukan ke dalam view 'coursesettings' sebagai respons AJAX
+        return view('partials.course_table', compact('filteredCourses'))->render();
     }
 
 }
