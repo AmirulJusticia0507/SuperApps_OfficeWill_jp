@@ -26,30 +26,14 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Affiliation Code</th>
-                                    {{-- <th scope="col">Company ID</th> --}}
                                     <th scope="col" nowrap>Affiliation Name</th>
-                                    {{-- <th scope="col">Display Order</th> --}}
-                                    {{-- <th scope="col">Organization Type</th> --}}
-                                    {{-- <th scope="col">Actions</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($affiliations as $affiliation)
                                     <tr>
                                         <td>{{ $affiliation->affiliation_code }}</td>
-                                        {{-- <td>{{ $affiliation->company_id }}</td> --}}
                                         <td nowrap>{{ $affiliation->affiliation_name }}</td>
-                                        {{-- <td>{{ $affiliation->display_order }}</td> --}}
-                                        {{-- <td>{{ $affiliation->organization_type }}</td> --}}
-                                        {{-- <td>
-                                            <a href="{{ route('affiliation-information.show', $affiliation->id) }}" class="btn btn-primary"><i class="fas fa-eye"></i> View</a>
-                                            <a href="{{ route('affiliation-information.edit', $affiliation->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
-                                            <form action="{{ route('affiliation-information.destroy', $affiliation->id) }}" method="POST" style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
-                                            </form>
-                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -70,13 +54,17 @@
                         <form method="POST" action="{{ route('affiliation-information.store') }}">
                             @csrf
                             <div class="form-group">
+                                <label for="company_name_search">Search Company Name:</label>
+                                <input type="text" class="form-control" id="company_name_search" name="company_name_search">
+                            </div>
+                            <div class="form-group">
                                 <label for="affiliation_code">Affiliation Code: <b style="color: red">*</b></label>
                                 <input type="text" class="form-control" id="affiliation_code" name="affiliation_code">
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="company_id">Company ID:</label>
                                 <input type="text" class="form-control" id="company_id" name="company_id">
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
                                 <input type="text" class="form-control" id="affiliation_name" name="affiliation_name">

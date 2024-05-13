@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AffiliationInformation;
+use App\Models\CompanyInformation;
 
 class AffiliationInformationController extends Controller
 {
@@ -30,9 +31,39 @@ class AffiliationInformationController extends Controller
      */
     public function store(Request $request)
     {
-        AffiliationInformation::create($request->all());
-        return redirect()->route('affiliations.index')->with('success', 'Affiliation created successfully');
+        // Lakukan validasi untuk memastikan input tidak kosong
+        $request->validate([
+            'company_name_search' => 'required',
+            'affiliation_code' => 'required',
+            'affiliation_name' => 'required',
+            'display_order' => 'required',
+            'organization_type' => 'required',
+        ]);
+    
+        // Cari company berdasarkan nama yang dimasukkan
+        $company = CompanyInformation::where('company_name', $request->input('company_name_search'))->first();
+    
+        // Pastikan company ditemukan
+        if ($company) {
+            // Buat data affiliation
+            $affiliationData = [
+                'company_id' => $company->company_id,
+                'affiliation_code' => $request->input('affiliation_code'),
+                'affiliation_name' => $request->input('affiliation_name'),
+                'display_order' => $request->input('display_order'),
+                'organization_type' => $request->input('organization_type'),
+            ];
+    
+            // Simpan data affiliation
+            AffiliationInformation::create($affiliationData);
+    
+            return redirect()->route('affiliation-information.index')->with('success', 'Affiliation created successfully');
+        } else {
+            // Redirect kembali ke form dengan pesan error jika company tidak ditemukan
+            return back()->withErrors(['company_name_search' => 'Company not found.'])->withInput();
+        }
     }
+    
 
     /**
      * Display the specified resource.
