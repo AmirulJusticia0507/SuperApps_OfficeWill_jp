@@ -44,11 +44,13 @@
                                 <!-- Course Name Filter -->
                                 <div class="form-group">
                                     <label for="course_name">Course Name:</label>
-                                    <input type="text" name="course_name" id="course_name" class="form-control" value="{{ isset($course) ? $course->coursename : '' }}">
+                                    <input type="text" name="course_name" id="course_name" class="form-control" value="{{ isset($course) ? $course->coursename : '' }}" style="display: inline-block; width: 60%;">
                                 </div>
 
                                 <!-- Search Button -->
-                                <button type="submit" class="btn btn-primary">Search</button>
+                                <div align="center">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
                             </form>
                         </div>
                 </div>

@@ -86,7 +86,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Submit</button>
+                            <div align="center">
+                                <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
+                                <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
                         </form>
                     </div>
                 </div>

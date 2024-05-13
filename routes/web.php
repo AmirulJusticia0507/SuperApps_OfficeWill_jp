@@ -59,6 +59,8 @@ Route::resource('job-titles', JobTitleController::class);
 // Rute untuk Affiliation Information
 Route::resource('affiliation-information', AffiliationInformationController::class);
 Route::get('/coursesettings', 'AffiliationInformationController@showCourseSettings');
+Route::post('/affiliation-information/reset', [AffiliationInformationController::class, 'resetForm'])->name('affiliation-information.reset');
+Route::delete('/affiliation-information/{id}', [AffiliationInformationController::class, 'delete'])->name('affiliation-information.delete');
 
 
 // Rute untuk Atendance Todo Answer Selection Information

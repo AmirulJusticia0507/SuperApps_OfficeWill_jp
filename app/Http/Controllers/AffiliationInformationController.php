@@ -107,4 +107,27 @@ class AffiliationInformationController extends Controller
         $affiliations = AffiliationInformation::all();
         return view('coursesettings', compact('affiliations'));
     }
+
+    public function resetForm()
+    {
+        // Redirect kembali ke halaman form dengan input yang telah di-reset
+        return redirect()->route('affiliation-information.create');
+    }
+
+    public function delete(Request $request, string $id)
+    {
+        // Temukan data affiliasi yang akan dihapus
+        $affiliation = AffiliationInformation::find($id);
+
+        // Pastikan data ditemukan
+        if ($affiliation) {
+            // Hapus data
+            $affiliation->delete();
+            return redirect()->route('affiliation-information.index')->with('success', 'Affiliation deleted successfully');
+        } else {
+            // Redirect dengan pesan error jika data tidak ditemukan
+            return back()->withErrors(['delete_error' => 'Affiliation not found.']);
+        }
+    }
+
 }

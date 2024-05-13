@@ -21,7 +21,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Employee Registration</a></li>
-                <li class="breadcrumb-item"><a href="#">Employee List</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('course-list') }}">Employee List</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Employee Information Registration</li>
             </ol>
         </nav>
@@ -185,18 +185,19 @@
     </div>
     <!-- List of Links and Buttons -->
     <div class="col-md-3">
-        <br><br><br>
+    <br><br><br>
         <div class="mt-2">
-            <ul class="list-group">
-                <li class="list-group-item" style="background-color: darkblue"><a href="#"><b style="color:aliceblue"> 社員一覧</b></a></li>
-                <li class="list-group-item" style="background-color: darkblue"><a href="#"><b style="color:aliceblue">  社員登録トップ</b></a></li>
-                <li class="list-group-item" style="background-color: #92CDFC"><a href="#"><b style="color:aliceblue"> 所属情報</b></a></li>
-                <li class="list-group-item" style="background-color: #92CDFC"><a href="#"><b style="color:aliceblue"> 基本情報</b></a></li>
-                <li class="list-group-item" style="background-color: #92CDFC"><a href="#"><b style="color:aliceblue"> アカウント情報</b></a></li>
-                <li class="list-group-item" style="background-color: darkblue"><a href=""><b style="color:aliceblue"> 登録</b></a></li>
+            <ul class="list-group rounded-6">
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('course-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#" title="Employee registration"><b style="color:aliceblue">  社員登録トップ</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#" title="Affiliation information"><b style="color:aliceblue"> 所属情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#" title="account information"><b style="color:aliceblue"> アカウント情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
             </ul>
         </div>
     </div>
+
 </div>
 
 <!-- Footer -->
