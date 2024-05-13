@@ -14,8 +14,7 @@ class CourseClassificationInformationController extends Controller
     public function index()
     {
         $classifications = CourseClassificationInformation::all();
-        $companies = CompanyInformation::all();
-        return view('course_classification.index', compact('classifications', 'companies'));
+        return view('course_classification.index', compact('classifications'));
     }
 
     /**
@@ -39,10 +38,15 @@ class CourseClassificationInformationController extends Controller
             'display_order' => 'required',
         ]);
 
-        // Menambahkan company_id ke dalam data yang akan disimpan
-        $data = $request->all();
+        // Menambahkan data ke dalam database
+        $classification = new CourseClassificationInformation();
+        $classification->company_id = $request->input('company_id');
+        $classification->course_classification_name = $request->input('classification_name');
+        // Handling file upload for icon file path, if needed
+        $classification->icon_file_path = $request->file('icon_file_path')->store('icon_files', 'public');
+        $classification->displayorder = $request->input('display_order');
+        $classification->save();
 
-        CourseClassificationInformation::create($data);
         return redirect()->route('classifications.index')->with('success', 'Classification created successfully');
     }
     
@@ -61,7 +65,8 @@ class CourseClassificationInformationController extends Controller
     public function edit(string $id)
     {
         $classification = CourseClassificationInformation::find($id);
-        return view('course_classification.edit', compact('classification'));
+        $companies = CompanyInformation::all();
+        return view('course_classification.edit', compact('classification', 'companies'));
     }
 
     /**
@@ -69,8 +74,26 @@ class CourseClassificationInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Validasi request
+        $request->validate([
+            'company_id' => 'required',
+            'classification_name' => 'required',
+            'display_order' => 'required',
+        ]);
+
+        // Temukan klasifikasi yang ingin diperbarui
         $classification = CourseClassificationInformation::find($id);
-        $classification->update($request->all());
+
+        // Update data klasifikasi
+        $classification->company_id = $request->input('company_id');
+        $classification->course_classification_name = $request->input('classification_name');
+        // Handling file upload for icon file path, if needed
+        if ($request->hasFile('icon_file_path')) {
+            $classification->icon_file_path = $request->file('icon_file_path')->store('icon_files', 'public');
+        }
+        $classification->displayorder = $request->input('display_order');
+        $classification->save();
+
         return redirect()->route('classifications.index')->with('success', 'Classification updated successfully');
     }
 

@@ -39,24 +39,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($classifications as $classification)
-                            <tr>
-                                <td>{{ $classification->course_classification_id }}</td>
-                                <td>{{ $classification->course_classification_name }}</td>
-                                <td>{{ $classification->icon_file_path }}</td>
-                                <td>{{ $classification->displayorder }}</td>
-                                <td>
-                                    <!-- Edit Button -->
-                                    <a href="{{ route('classifications.edit', $classification->id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Edit</a>
-                                    <!-- Delete Form -->
-                                    <form action="{{ route('classifications.destroy', $classification->course_classification_id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
+                        @foreach ($classifications as $classification)
+                        <tr>
+                            <td>{{ $classification->course_classification_id }}</td>
+                            <td>{{ $classification->course_classification_name }}</td>
+                            <td>{{ $classification->icon_file_path }}</td>
+                            <td>{{ $classification->displayorder }}</td>
+                            <td>
+                                <!-- Edit Button -->
+                                <a href="{{ route('classifications.edit', $classification->course_classification_id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                                <!-- Delete Form -->
+                                <form action="{{ route('classifications.destroy', $classification->course_classification_id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
