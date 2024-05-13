@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseClassificationInformation;
+use App\Models\CompanyInformation;
 
 class CourseClassificationInformationController extends Controller
 {
@@ -13,7 +14,8 @@ class CourseClassificationInformationController extends Controller
     public function index()
     {
         $classifications = CourseClassificationInformation::all();
-        return view('course_classification.index', compact('classifications'));
+        $companies = CompanyInformation::all();
+        return view('course_classification.index', compact('classifications', 'companies'));
     }
 
     /**
@@ -29,13 +31,17 @@ class CourseClassificationInformationController extends Controller
      */
     public function store(Request $request)
     {
-        // Menambahkan company_id ke dalam data yang akan disimpan
+        // Menentukan company_id berdasarkan pilihan yang dibuat dalam form
         $data = $request->all();
-        $data['company_id'] = // isikan dengan nilai company_id yang sesuai;
-
+        $data['company_id'] = $request->input('company_id');
+    
+        // Simpan data ke dalam database
         CourseClassificationInformation::create($data);
+    
+        // Redirect ke halaman index
         return redirect()->route('classifications.index')->with('success', 'Classification created successfully');
     }
+    
 
     /**
      * Display the specified resource.

@@ -105,6 +105,14 @@
                     <form method="POST" action="{{ route('classifications.store') }}">
                         @csrf
                         <div class="mb-3">
+                            <label for="company_id" class="form-label">Company</label>
+                            <select class="form-control" id="company_id" name="company_id" required>
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="classification_name" class="form-label">Classification Name : <b style="color: red">*</b></label>
                             <input type="text" class="form-control" id="classification_name" name="classification_name" required>
                         </div>

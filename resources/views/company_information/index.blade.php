@@ -37,10 +37,10 @@
                                 <td>{{ $company->company_name }}</td>
                                 <td>{{ $company->login_screen_url }}</td>
                                 <td>
-                                    <img src="{{ $company->icon_storage_file_path }}" alt="Company Icon" style="max-width: 100px;">
+                                    <img src="{{ Storage::url($company->icon_storage_file_path) }}" alt="Company Icon" style="max-width: 100px;">
                                 </td>
                                 <td>
-                                    <img src="{{ $company->teaching_material_storage_file_path }}" alt="Teaching Material" style="max-width: 100px;">
+                                    <img src="{{ Storage::url($company->teaching_material_storage_file_path) }}" alt="Teaching Material" style="max-width: 100px;">
                                 </td>
                                 <td>
                                     <!-- Tombol Edit Company Modal -->
