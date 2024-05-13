@@ -9,7 +9,7 @@ class CourseClassificationInformation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['course_classification_id', 'company_id', 'course_classification_name', 'icon_file_path', 'displayorder'];
+    protected $fillable = ['course_classification_id', 'course_classification_name', 'icon_file_path', 'displayorder'];
 
     // Nonaktifkan timestamps
     public $timestamps = false;

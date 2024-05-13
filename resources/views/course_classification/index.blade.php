@@ -76,17 +76,24 @@
                         @method('PUT')
                         @endif
                         <div class="mb-3">
-                            <label for="company_id" class="form-label">Company</label>
-                            <input type="text" class="form-control" id="company_name_input" name="company_name" value="{{ isset($editClassification) ? $editClassification->company_name : '' }}" required>
+                            <label for="company_name" class="form-label">Company</label>
                             <!-- Input tersembunyi untuk menyimpan ID perusahaan -->
                             <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
+                            <!-- Dropdown atau field autocomplete untuk memilih company_name -->
+                            <select class="form-select" id="company_name" name="company_name" required>
+                                <option value="" selected disabled>Select Company</option>
+                                @foreach($companies as $company)
+                                <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="classification_name" class="form-label">Classification Name : <b style="color: red">*</b></label>
+                            <label for="classification_name" class="form-label">Classification Name <span style="color: red">*</span></label>
                             <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ isset($editClassification) ? $editClassification->course_classification_name : '' }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="icon_file_path" class="form-label">Icon File Path</label>
+                            <!-- Field untuk mengunggah file ikon -->
                             <input type="file" class="form-control" id="icon_file_path" name="icon_file_path">
                         </div>
                         <div class="mb-3">
@@ -101,6 +108,7 @@
                             @endif
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>

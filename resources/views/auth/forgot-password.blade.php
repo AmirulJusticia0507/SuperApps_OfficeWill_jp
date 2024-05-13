@@ -20,7 +20,7 @@
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" id="email" name="email" class="form-control" required autofocus>
                             </div>
-                            <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
+                            <button type="submit" class="btn btn-primary">Reset Password</button>
                         </form>
                     </div>
                 </div>

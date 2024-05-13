@@ -37,11 +37,16 @@
 <!-- resources/views/includes/sidebar.blade.php -->
 {{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
 <aside class="bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
-
-    <div class="p-4">
-        <a href="{{ route('dashboard') }}" class="text-white text-lg font-semibold">
-            <img src="img/officewill.png" alt="DEP SERVICE" class="w-32 mx-auto">
-        </a>
+    <nav class="p-4 flex justify-between items-center">
+        <div>
+            <a href="{{ route('dashboard') }}" class="text-white text-lg font-semibold">
+                <img src="img/officewill.png" alt="DEP SERVICE" class="w-32 mx-auto">
+            </a>
+        </div>
+        &emsp;&emsp;&emsp;<button id="sidebarToggle" class="text-white focus:outline-none"><i class="fas fa-bars fa-lg"></i></button>
+    </nav>
+    <div class="page-spinner" id="page-spinner">
+        <div class="spinner"></div>
     </div>
     <nav class="text-white">
         <ul>
@@ -204,3 +209,26 @@
     });
 });
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        const sidebar = document.querySelector(".sidebar");
+
+        // Sembunyikan sidebar secara default
+        sidebar.classList.add("hidden");
+
+        // Tambahkan event listener untuk menangani klik pada tombol sidebar toggle
+        sidebarToggle.addEventListener("click", function () {
+            // Toggle class 'hidden' pada sidebar untuk menampilkan/menyembunyikan sidebar
+            sidebar.classList.toggle("hidden");
+        });
+
+        // Tambahkan event listener untuk menangani klik pada tombol toggler untuk sidebar
+        $('.navbar-toggler[aria-controls="sidebar"]').on('click', function() {
+            // Toggle class 'show' pada elemen sidebar
+            $('#sidebar').toggleClass('show');
+        });
+    });
+</script>
+

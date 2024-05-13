@@ -37,7 +37,7 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/register', [RegisterController::class, 'register']);
 
 // Rute untuk menampilkan halaman forgot password
-Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
 // Rute untuk menampilkan halaman reset password
@@ -61,7 +61,6 @@ Route::resource('affiliation-information', AffiliationInformationController::cla
 Route::get('/coursesettings', 'AffiliationInformationController@showCourseSettings');
 Route::post('/affiliation-information/reset', [AffiliationInformationController::class, 'resetForm'])->name('affiliation-information.reset');
 Route::delete('/affiliation-information/{id}', [AffiliationInformationController::class, 'delete'])->name('affiliation-information.delete');
-
 
 // Rute untuk Atendance Todo Answer Selection Information
 Route::resource('attendance', AttendanceTodoAnswerSelectionInformationController::class);
@@ -115,16 +114,14 @@ Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdow
     'employee-attribute-dropdown-settings' => 'attribute-dropdown-setting',
 ]);
 
-
 // Rute untuk Employee Attribute Setting Information
 Route::resource('employee-attribute-setting-information', EmployeeAttributeSettingInformationController::class)->parameters([
     'employee-attribute-setting-information' => 'attribute-setting',
 ]);
 
-
 // Rute untuk Employee Information
 Route::resource('employee-information', EmployeeInformationController::class);
-Route::get('/employees/search', [EmployeeInformationController::class, 'search'])->name('employees.search'); 
+Route::get('/employees/search', [EmployeeInformationController::class, 'search'])->name('employees.search');
 // Rute untuk membuat data karyawan baru
 Route::get('/employees/create', [EmployeeInformationController::class, 'create'])->name('employees.create');
 
@@ -133,7 +130,6 @@ Route::get('/employee-index', [EmployeeInformationController::class, 'index'])->
 
 // Rute untuk menampilkan halaman employeelist
 Route::get('/employeelist', [EmployeeInformationController::class, 'employeelist'])->name('employee-list');
-
 
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 

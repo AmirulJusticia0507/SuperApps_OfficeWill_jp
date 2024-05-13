@@ -33,18 +33,18 @@ class CompanyInformationController extends Controller
         // Validasi apakah file ikon telah dipilih
         if ($request->hasFile('icon_storage_file_path') && $request->hasFile('teaching_material_storage_file_path')) {
             // Simpan file ikon
-            $iconPath = $request->file('icon_storage_file_path')->store('public/icons/'); 
+            $iconPath = $request->file('icon_storage_file_path')->store('public/icons/');
             // Simpan file material pengajaran
             $materialPath = $request->file('teaching_material_storage_file_path')->store('public/teaching/');
-    
+
             // Tambahkan nilai 'icon_storage_file_path' dan 'teaching_material_storage_file_path' ke data perusahaan sebelum disimpan
             $companyData = $request->all();
             $companyData['icon_storage_file_path'] = Storage::url($iconPath); // Simpan path relatif ke database
             $companyData['teaching_material_storage_file_path'] = Storage::url($materialPath); // Simpan path relatif ke database
-    
+
             // Buat perusahaan baru
             CompanyInformation::create($companyData);
-    
+
             return redirect()->route('company-information.index')->with('success', 'Company created successfully');
         } else {
             // Jika file tidak dipilih, kembalikan ke formulir pembuatan perusahaan dengan pesan kesalahan

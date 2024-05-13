@@ -18,6 +18,10 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <!-- Tambahkan tombol hamburger di sini -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -67,6 +71,12 @@
             $('.nav-link[data-widget="pushmenu"]').on('click', function() {
                 // Toggle class 'sidebar-collapse' pada elemen body
                 $('body').toggleClass('sidebar-collapse');
+            });
+
+            // Tambahkan event click pada tombol toggler untuk sidebar
+            $('.navbar-toggler[aria-controls="sidebar"]').on('click', function() {
+                // Toggle class 'show' pada elemen sidebar
+                $('#sidebar').toggleClass('show');
             });
         });
     </script>

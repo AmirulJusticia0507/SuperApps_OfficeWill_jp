@@ -26,6 +26,8 @@ class CourseClassificationInformationController extends Controller
         return view('course_classification.create', compact('companies'));
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -33,14 +35,17 @@ class CourseClassificationInformationController extends Controller
     {
         // Validasi request
         $request->validate([
-            'company_id' => 'required',
+            'company_name' => 'required',
             'classification_name' => 'required',
             'display_order' => 'required',
         ]);
 
+        // Cari company_id berdasarkan company_name
+        $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
+
         // Menambahkan data ke dalam database
         $classification = new CourseClassificationInformation();
-        $classification->company_id = $request->input('company_id');
+        $classification->company_id = $company->company_id;
         $classification->course_classification_name = $request->input('classification_name');
         // Handling file upload for icon file path, if needed
         $classification->icon_file_path = $request->file('icon_file_path')->store('icon_files', 'public');
@@ -48,15 +53,6 @@ class CourseClassificationInformationController extends Controller
         $classification->save();
 
         return redirect()->route('classifications.index')->with('success', 'Classification created successfully');
-    }
-    
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $classification = CourseClassificationInformation::find($id);
-        return view('course_classification.show', compact('classification'));
     }
 
     /**
@@ -76,7 +72,7 @@ class CourseClassificationInformationController extends Controller
     {
         // Validasi request
         $request->validate([
-            'company_id' => 'required',
+            'company_name' => 'required',
             'classification_name' => 'required',
             'display_order' => 'required',
         ]);
@@ -84,8 +80,11 @@ class CourseClassificationInformationController extends Controller
         // Temukan klasifikasi yang ingin diperbarui
         $classification = CourseClassificationInformation::find($id);
 
+        // Cari company_id berdasarkan company_name
+        $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
+
         // Update data klasifikasi
-        $classification->company_id = $request->input('company_id');
+        $classification->company_id = $company->company_id;
         $classification->course_classification_name = $request->input('classification_name');
         // Handling file upload for icon file path, if needed
         if ($request->hasFile('icon_file_path')) {
