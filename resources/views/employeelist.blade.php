@@ -21,6 +21,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}">Employee Registration</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">Employee List</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Employee List</li>
                     </ol>
                 </nav>
                 <div class="card">

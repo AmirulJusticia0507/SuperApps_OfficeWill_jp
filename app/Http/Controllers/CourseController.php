@@ -100,4 +100,9 @@ class CourseController extends Controller
         return view('partials.course_table', compact('filteredCourses'))->render();
     }
 
+    public function inquiry()
+    {
+        return view('courseinquiry');
+    }
+
 }

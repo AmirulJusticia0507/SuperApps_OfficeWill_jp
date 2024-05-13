@@ -71,7 +71,7 @@
                     <li>
                         <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Course Inquiries</a>
                         <ul class="treeview" style="display: none;">
-                            <li><a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Course Specific Inquiry</a></li>
+                            <li><a href="{{ route('course-inquiry') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Course Specific Inquiry</a></li>
                             <li><a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Employee-Specific Inquiry</a></li>
                         </ul>
                     </li>

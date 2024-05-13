@@ -19,16 +19,16 @@
                         <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Course-specific inquiry</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('course-list') }}">Course List</a></li>
+                        <li class="breadcrumb-item"><a href="#">Course-specific Inquiry</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('course-inquiry') }}">Course List</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Course-specific inquiry</li>
                     </ol>
                 </nav>
                 <div class="card">
-                    <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course</b></div>
+                    <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Specific Inquiry</b></div>
                     <h3>Course Classification: </h3>
                     <h3>Course Classification Details: </h3>
-                    <h3>Course Name: </h3><br><br>
+                    <h3>Course Name: </h3>
                     <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue"> Employees attending the course</b></div>
                     <div class="card-body">
                             <form action="" method="get">
@@ -63,9 +63,9 @@
                                     <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
                                 </div>
                                 <div class="form-group">
-                                    <label for="course deadline">Course Deadline :</label>
+                                    <label for="course_deadline">Course Deadline :</label>
                                     <div class="d-flex align-items-center">
-                                        <input type="date" name="course_dealine" id="course_dealine" class="form-control mr-3" style="width: 60%;">
+                                        <input type="date" name="course_deadline" id="course_deadline" class="form-control mr-3" style="width: 20%;">
                                         <div>
                                             <label class="radio-inline">
                                                 <input type="radio" name="search_option" value="Designated date"> Designated date
@@ -76,6 +76,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div align="center">
                                     <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
                                 </div>
@@ -84,9 +85,12 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> List of employees attending the course</b><a href="#" class="btn btn-info"> ToDo Inquiry</a></div>
+                            <div class="card-header" style="background-color: #92CDFC; display: flex; justify-content: space-between; align-items: center;">
+                                <b style="color: aliceblue; margin: 0;">List of employees attending the course</b>
+                                <a href="#" class="btn btn-info">ToDo Inquiry</a>
+                            </div>
                             <!-- DataTable -->
-                            <table id="courseTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" >
+                            <table id="courseinquiryTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" >
                                 <thead>
                                     <tr>
                                         <th>Affiliation</th>
@@ -106,4 +110,30 @@
                             </table>
                         </div>
                     </div>
-                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+    @include('includes.footer')
+@endsection
+
+@section('scripts')
+<!-- Script DataTables -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<!-- Script for Modals -->
+<script>
+    $(document).ready(function () {
+            var table = $('#courseinquiryTable').DataTable({
+                responsive: true,
+                scrollX: true,
+                searching: true,
+                lengthMenu: [10, 25, 50, 100, 500],
+                pageLength: 10,
+                dom: 'lBfrtip',
+                buttons: ['copy', 'excel', 'pdf']
+            });
+        });
+</script>
+@endsection

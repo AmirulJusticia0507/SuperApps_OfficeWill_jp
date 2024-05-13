@@ -15,6 +15,14 @@
     </div>
     <div class="col-md-8">
         <br><br><br>
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Course Settings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('course-list') }}">Course List</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Course Settings</li>
+                    </ol>
+                </nav>
         <!-- Create Classification Form -->
         <div class="card">
             <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Settings -> Choose your course</b></div><br><br>

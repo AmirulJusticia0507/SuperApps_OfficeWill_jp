@@ -64,7 +64,7 @@
         </div>
 
         <div class="col-md-4">
-            <br><br><br>
+            <br><br><br><br><br>
             <!-- Create Classification Form -->
             <div class="card mb-4">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Create / Edit Classification</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>

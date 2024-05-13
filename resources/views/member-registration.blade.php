@@ -185,7 +185,7 @@
     </div>
     <!-- List of Links and Buttons -->
     <div class="col-md-3">
-        <br><br><br>
+        <br><br><br><br><br>
         <div class="mt-2">
             <ul class="list-group rounded-6">
                 <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>

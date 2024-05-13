@@ -16,6 +16,14 @@
         <!-- Kolom untuk tabel -->
         <div class="col md-4">
             <br><br><br>
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Course Classification Details Registration</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('course-classification-details.index') }}">Course Classification Details</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Course Classification Details Registration</li>
+                    </ol>
+                </nav>
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classification Details</b></div>
                 <div class="card-body">
@@ -61,7 +69,7 @@
 
         <!-- Kolom untuk form -->
         <div class="col md-2">
-            <br><br><br>
+            <br><br><br><br><br>
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classification Detail</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>
                 <div class="card-body">
