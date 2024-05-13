@@ -124,10 +124,16 @@ Route::resource('employee-attribute-setting-information', EmployeeAttributeSetti
 
 // Rute untuk Employee Information
 Route::resource('employee-information', EmployeeInformationController::class);
-Route::get('/employees/search', [EmployeeInformationController::class, 'search'])->name('employees.search'); // <-- Perbaikan nama rute
-
+Route::get('/employees/search', [EmployeeInformationController::class, 'search'])->name('employees.search'); 
 // Rute untuk membuat data karyawan baru
 Route::get('/employees/create', [EmployeeInformationController::class, 'create'])->name('employees.create');
+
+// Rute untuk menampilkan halaman index employee (employee.index)
+Route::get('/employee-index', [EmployeeInformationController::class, 'index'])->name('employee.index');
+
+// Rute untuk menampilkan halaman employeelist
+Route::get('/employeelist', [EmployeeInformationController::class, 'employeelist'])->name('employee-list');
+
 
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 

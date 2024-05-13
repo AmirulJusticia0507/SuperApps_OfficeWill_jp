@@ -102,8 +102,9 @@
                         <img id="material_preview" src="#" alt="Preview Material" style="max-width: 100px; display: none;">
                     </div><br><br>
                     <div align="center">
-                        <button type="submit" class="btn btn-info"><i class="fas fa-paper-plane"></i> Submit</button>&emsp;
-                        <button type="reset" class="btn btn-danger"><i class="fas fa-power-off"></i> Reset</button>
+                        <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
+                        <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
                     </div>
                 </form>
             </div>

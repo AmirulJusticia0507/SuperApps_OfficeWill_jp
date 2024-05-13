@@ -16,25 +16,31 @@
             </div>
             <div class="col-md-8">
                 <br><br><br>
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}">Employee Registration</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">Employee List</a></li>
+                    </ol>
+                </nav>
                 <div class="card">
                     <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee List</b></div>
                         <div class="card-body">
                             <form action="" method="get">
                                 <div class="form-group">
-                                    <label for="affiliation_id">&emsp;Affiliation:</label>
-                                    <select class="form-control" id="affiliation_id" name="affiliation_id" required style="display: inline-block; width: 60%;">
-                                        
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label style="display: inline-block; width: 30%;"></label>
-                                    <div style="display: inline-block; width: 60%;">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="search_option" value="Display selected affiliation"> Display selected affiliation
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="search_option" value="Display selected affiliation and below"> Display selected affiliation and below
-                                        </label>
+                                    <label for="affiliation_id">Affiliation:</label>
+                                    <div class="d-flex align-items-center">
+                                        <select class="form-control mr-3" id="affiliation_id" name="affiliation_id" required style="width: 60%;">
+                                            <!-- Opsi pilihan affiliasi -->
+                                        </select>
+                                        <div>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="search_option" value="Display selected affiliation"> Display selected affiliation
+                                            </label>
+                                            <label class="radio-inline ml-3">
+                                                <input type="radio" name="search_option" value="Display selected affiliation and below"> Display selected affiliation and below
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -52,7 +58,7 @@
                                     <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
                                 </div>
                                 <div align="center">
-                                    <button type="submit" class="btn btn-info" style="color: white">search</button>
+                                    <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
                                 </div>
                             </form>
                         </div>

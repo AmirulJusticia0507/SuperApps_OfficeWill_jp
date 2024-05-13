@@ -81,8 +81,9 @@
                             <input type="file" class="form-control" id="icon_file_path" name="icon_file_path">
                         </div><br><br>
                         <div align="center">
-                            <button type="submit" class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Save</button>
-                            <button type="reset" class="btn btn-danger"><i class="fas fa-power-off"></i> Reset</button>
+                            <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
+                            <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
                         </div>
                     </form>
                 </div>

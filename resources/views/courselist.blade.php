@@ -49,7 +49,7 @@
 
                                 <!-- Search Button -->
                                 <div align="center">
-                                    <button type="submit" class="btn btn-primary">Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
                                 </div>
                             </form>
                         </div>

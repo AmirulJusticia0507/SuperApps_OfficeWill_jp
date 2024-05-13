@@ -20,8 +20,8 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Employee Registration</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('course-list') }}">Employee List</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}">Employee Registration</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">Employee List</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Employee Information Registration</li>
             </ol>
         </nav>
@@ -44,7 +44,7 @@
                                 <input type="text" name="kana_name" id="kana_name" class="form-control" required style="width: 100%">
                             </div>
                         </div>
-                        <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div>
+                        <div id="affiliation-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div>
                         <div class="mb-3">
                             <label for="affiliation_start_date">Affiliation Start Date: <b
                                     style="color: red">*</b></label>
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     <!-- Informasi Dasar -->
-                    <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Basic information</b></div>
+                    <div id="basic-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Basic information</b></div>
                             <div class="mb-3">
                                 <label for="email_address">Email Address: <b style="color: red">*</b></label>
                                 <input type="email" name="email_address" id="email_address" class="form-control" required style="width: 100%">
@@ -154,7 +154,7 @@
                                 <label for="remarks">Remarks:</label>
                                 <textarea name="remarks" id="remarks" class="form-control" cols="5" rows="5"></textarea>
                             </div>
-                            <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
+                            <div id="account-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="account_status" style="margin-right: 10px;">Account Status:</label>
                                 <select name="account_status" id="account_status" class="form-control" style="width: 100%">
@@ -174,7 +174,7 @@
                                 <label for="account_lock_date_time" style="margin-right: 10px;">Account Lock Date and Time:</label>
                                 <input type="datetime-local" name="account_lock_date_time" id="account_lock_date_time" class="form-control">
                             </div>
-                    <div align="center">
+                    <div align="center" id="savelocation">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i>
                             Register</button>
                         <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
@@ -185,19 +185,18 @@
     </div>
     <!-- List of Links and Buttons -->
     <div class="col-md-3">
-    <br><br><br>
+        <br><br><br>
         <div class="mt-2">
             <ul class="list-group rounded-6">
-                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('course-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
-                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#" title="Employee registration"><b style="color:aliceblue">  社員登録トップ</b></a></li>
-                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#" title="Affiliation information"><b style="color:aliceblue"> 所属情報</b></a></li>
-                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a></li>
-                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#" title="account information"><b style="color:aliceblue"> アカウント情報</b></a></li>
-                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('member-registration.create') }}" title="Employee registration"><b style="color:aliceblue">  社員登録トップ</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#affiliation-information" title="Affiliation information"><b style="color:aliceblue"> 所属情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#basic-information" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#account-information" title="Account information"><b style="color:aliceblue"> アカウント情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#savelocation" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
             </ul>
         </div>
     </div>
-
 </div>
 
 <!-- Footer -->

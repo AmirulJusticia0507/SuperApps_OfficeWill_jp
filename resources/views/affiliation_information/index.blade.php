@@ -17,6 +17,14 @@
             <!-- Kolom untuk tabel -->
             <div class="col-md-5">
                 <br><br><br>
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Affiliation Master Registration</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('affiliation-information.index') }}">Affiliation List</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Affiliation Information Registration</li>
+                    </ol>
+                </nav>
                 <div class="card">
                     <div class="card-header" style="background-color: darkblue">
                         <b style="color: aliceblue">List of Affiliation</b>

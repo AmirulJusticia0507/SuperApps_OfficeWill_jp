@@ -23,7 +23,7 @@
                     </ol>
                 </nav>
                 <div class="card">
-                    <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Registration</b></div>
+                    <div id="courseregistration" class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Registration</b></div>
                     <div class="card-body">
                         <form method="POST" action="{{ isset($course) ? route('course-information.update', $course->course_id) : route('course-information.store') }}">
                             @csrf
@@ -115,13 +115,13 @@
                                 <textarea name="remarks" id="remarks" cols="5" rows="5" class="form-control" style="display: inline-block; width: 60%;"></textarea>
                             </div>
 
-                            <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
+                            <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
                             <div class="card-body">
-                                <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black">Teaching Material</b></div><br>
-                                <div align="right">
+                                <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black">Teaching Material</b></div>
+                                <div align="right"><br>
                                     <button type="button" class="btn btn-light" onclick="addMaterial()">Addition</button>
                                     <button type="button" class="btn btn-dark" onclick="removeMaterial()">Delete</button>
-                                </div>
+                                </div><br>
                                 <form id="teachingMaterialForm">
                                     <div class="form-group">
                                         <label for="Teaching Material Name" style="display: inline-block; width: 30%;">Teaching Material Name :</label><b style="color: red">*</b>
@@ -153,7 +153,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Post-course ToDo</b></div>
+                            <div id="posttodo" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Post-course ToDo</b></div>
                             <div class="mb-3">
                                 <div style="display: flex; align-items: center;">
                                     <label for="todo_type" style="margin-right: 10px;" style="width: 100%">ToDo Type : <b style="color: red">*</b></label>
@@ -190,7 +190,7 @@
                                 <button class="btn btn-warning" title="*If ToDo type is survey response">※ToDo種別がアンケート回答の場合</button>
                             </div><br> --}}
                             {{-- <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black"> Question</b></div><br><br> --}}
-                            <div align="center">
+                            <div align="center" id="save-course">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Save Course</button>
                                 <button type="reset" class="btn btn-secondary"> Delete</button>
                             </div>
@@ -207,19 +207,19 @@
                             <a href="{{ route('course-list') }}" title="Course list"><b style="color:aliceblue"> コース一覧</b></a>
                         </li>
                         <li class="list-group-item" style="background-color: darkblue">
-                            <a href="#" title="Course registration"><b style="color:aliceblue"> コース登録トップ</b></a>
+                            <a href="#courseregistration" title="Course registration"><b style="color:aliceblue"> コース登録トップ</b></a>
                         </li>
                         <li class="list-group-item" style="background-color: #92CDFC">
-                            <a href="#" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a>
+                            <a href="#basicinformation" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a>
                         </li>
                         <li class="list-group-item" style="background-color: #92CDFC">
-                            <a href="#" title="Textbook information"><b style="color:aliceblue"> 教材情報</b></a>
+                            <a href="#textbookinformation" title="Textbook information"><b style="color:aliceblue"> 教材情報</b></a>
                         </li>
                         <li class="list-group-item" style="background-color: #92CDFC">
-                            <a href="#" title="Post-course ToDo"><b style="color:aliceblue"> 受講後ToDo</b></a>
+                            <a href="#posttodo" title="Post-course ToDo"><b style="color:aliceblue"> 受講後ToDo</b></a>
                         </li>
                         <li class="list-group-item" style="background-color: darkblue">
-                            <a href="Save Course"><b style="color:aliceblue"> コース保存</b></a>
+                            <a href="#save-course"><b style="color:aliceblue"> コース保存</b></a>
                         </li>
                     </ul>
                 </div>

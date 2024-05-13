@@ -20,6 +20,17 @@ class EmployeeInformationController extends Controller
         return view('employee.index', compact('employees', 'affiliations', 'jobs')); // Kirim data affiliations dan jobs ke view
     }
     
+    public function employeelist()
+    {
+        $employees = EmployeeInformation::all();
+        $affiliations = AffiliationInformation::all();
+        $jobs = JobInformation::all();
+        $filteredEmployees = $employees; // Menggunakan data $employees sebagai $filteredEmployees
+        return view('employeelist', compact('filteredEmployees', 'affiliations', 'jobs'));
+    }
+    
+    
+    
     /**
      * Show the form for creating a new resource.
      */

@@ -30,3 +30,80 @@
                     <h3>Course Classification Details: </h3>
                     <h3>Course Name: </h3><br><br>
                     <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue"> Employees attending the course</b></div>
+                    <div class="card-body">
+                            <form action="" method="get">
+                                <div class="form-group">
+                                    <label for="affiliation_id">Affiliation:</label>
+                                    <div class="d-flex align-items-center">
+                                        <select class="form-control mr-3" id="affiliation_id" name="affiliation_id" required style="width: 60%;">
+                                            <!-- Opsi pilihan affiliasi -->
+                                        </select>
+                                        <div>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="search_option" value="Display selected affiliation"> Display selected affiliation
+                                            </label>
+                                            <label class="radio-inline ml-3">
+                                                <input type="radio" name="search_option" value="Display selected affiliation and below"> Display selected affiliation and below
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_id">&emsp;Job Title:</label>
+                                    <select class="form-control" id="job_id" name="job_id" required style="display: inline-block; width: 60%;">
+                                        
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fullname">&emsp;Full Name:</label>
+                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="employee_code">&emsp;Employee Code:</label>
+                                    <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="course deadline">Course Deadline :</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="date" name="course_dealine" id="course_dealine" class="form-control mr-3" style="width: 60%;">
+                                        <div>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="search_option" value="Designated date"> Designated date
+                                            </label>
+                                            <label class="radio-inline ml-3">
+                                                <input type="radio" name="search_option" value="After the designated date"> After the designated date
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div align="center">
+                                    <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
+                                </div>
+                            </form>
+                    </div><br>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> List of employees attending the course</b><a href="#" class="btn btn-info"> ToDo Inquiry</a></div>
+                            <!-- DataTable -->
+                            <table id="courseTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" >
+                                <thead>
+                                    <tr>
+                                        <th>Affiliation</th>
+                                        <th>Job Title(Pos)</th>
+                                        <th>Full Name</th>
+                                        <th>Employee Codes</th>
+                                        <th>Sex</th>
+                                        <th>Age</th>
+                                        <th>Information day</th>
+                                        <th>Course deadline</th>
+                                        <th>ToDo progress</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    

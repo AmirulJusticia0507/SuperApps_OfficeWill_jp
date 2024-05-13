@@ -16,6 +16,14 @@
         </div>
         <div class="col-md-4">
             <br><br><br>
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Course Classification Registration</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('course-classification.index') }}">Course Classification</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Course Classification Registration</li>
+                    </ol>
+                </nav>
             <!-- Course Classifications Table -->
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classifications Registration</b></div>
@@ -67,7 +75,7 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="classification_name" class="form-label">Classification Name</label>
+                            <label for="classification_name" class="form-label">Classification Name : <b style="color: red">*</b></label>
                             <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ $editClassification->course_classification_name }}" required>
                         </div>
                         <div class="mb-3">
@@ -86,14 +94,18 @@
                             <label for="display_order" class="form-label">Display Order</label>
                             <input type="number" class="form-control" id="display_order" name="display_order" value="{{ $editClassification->display_order }}" required>
                         </div>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                        <div align="center">
+                            <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
+                            <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
                     </form>
                     @else
                     <!-- Form Create Classification -->
                     <form method="POST" action="{{ route('classifications.store') }}">
                         @csrf
                         <div class="mb-3">
-                            <label for="classification_name" class="form-label">Classification Name</label>
+                            <label for="classification_name" class="form-label">Classification Name : <b style="color: red">*</b></label>
                             <input type="text" class="form-control" id="classification_name" name="classification_name" required>
                         </div>
                         <div class="mb-3">
@@ -105,8 +117,9 @@
                             <input type="number" class="form-control" id="display_order" name="display_order" required>
                         </div>
                         <div align="center">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Save</button>
-                            <button type="reset" class="btn btn-danger"><i class="fas fa-power-off"></i> Reset</button>
+                            <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
+                            <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
                         </div>
                     </form>
                     @endif

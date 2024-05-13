@@ -17,7 +17,7 @@
         <br><br><br>
         <!-- Create Classification Form -->
         <div class="card">
-            <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Settings -> Choose your course</b></div>
+            <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Settings -> Choose your course</b></div><br><br>
             <form action="" method="get">
                 <div class="form-group">
                     <label for="course_classification">&emsp;Course Classification:</label>
