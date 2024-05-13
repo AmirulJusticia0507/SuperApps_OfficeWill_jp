@@ -58,6 +58,8 @@ Route::resource('job-titles', JobTitleController::class);
 
 // Rute untuk Affiliation Information
 Route::resource('affiliation-information', AffiliationInformationController::class);
+Route::get('/coursesettings', 'AffiliationInformationController@showCourseSettings');
+
 
 // Rute untuk Atendance Todo Answer Selection Information
 Route::resource('attendance', AttendanceTodoAnswerSelectionInformationController::class);
@@ -107,15 +109,11 @@ Route::resource('course-todo-items-choice', CourseTodoItemsChoiceInformationCont
 Route::resource('employee-affiliation-information', EmployeeAffiliationInformationController::class);
 
 // Rute untuk Employee Attribute Dropdown Settings Information
-// Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdownSettingsInformationController::class);
-// Rute untuk Employee Attribute Dropdown Settings Information
 Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdownSettingsInformationController::class)->parameters([
     'employee-attribute-dropdown-settings' => 'attribute-dropdown-setting',
 ]);
 
 
-// Rute untuk Employee Attribute Setting Information
-// Route::resource('employee-attribute-setting-information', EmployeeAttributeSettingInformationController::class);
 // Rute untuk Employee Attribute Setting Information
 Route::resource('employee-attribute-setting-information', EmployeeAttributeSettingInformationController::class)->parameters([
     'employee-attribute-setting-information' => 'attribute-setting',
@@ -124,6 +122,7 @@ Route::resource('employee-attribute-setting-information', EmployeeAttributeSetti
 
 // Rute untuk Employee Information
 Route::resource('employee-information', EmployeeInformationController::class);
+Route::get('/employees/search', [EmployeeInformationController::class, 'search'])->name('employees.search'); // <-- Perbaikan nama rute
 
 // Rute untuk membuat data karyawan baru
 Route::get('/employees/create', [EmployeeInformationController::class, 'create'])->name('employees.create');
@@ -143,6 +142,7 @@ Route::get('/course-list', function () {
 // Define the route for course filter
 Route::get('/course/filter', [CourseController::class, 'filter'])->name('course.filter');
 Route::get('/course-settings', [CourseController::class, 'settings'])->name('course-settings');
-Route::get('/search-courses', 'CourseController@search')->name('search_courses');
+Route::get('/search-courses', [CourseController::class, 'search'])->name('search.courses'); // <-- Perbaikan nama rute
+Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 
 ?>

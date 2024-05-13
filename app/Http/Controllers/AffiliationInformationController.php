@@ -70,4 +70,10 @@ class AffiliationInformationController extends Controller
         AffiliationInformation::destroy($id);
         return redirect()->route('affiliations.index')->with('success', 'Affiliation deleted successfully');
     }
+
+    public function showCourseSettings()
+    {
+        $affiliations = AffiliationInformation::all();
+        return view('coursesettings', compact('affiliations'));
+    }
 }

@@ -26,7 +26,7 @@
                                     {{-- <th scope="col">Company ID</th> --}}
                                     <th scope="col">Job Title</th>
                                     {{-- <th scope="col">Display Order</th> --}}
-                                    <th scope="col" nowrap>Actions</th>
+                                    <!-- <th scope="col" nowrap>Actions</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,7 +36,7 @@
                                         {{-- <td>{{ $jobTitle->company_id }}</td> --}}
                                         <td>{{ $jobTitle->job_title }}</td>
                                         {{-- <td>{{ $jobTitle->display_order }}</td> --}}
-                                        <td nowrap>
+                                        <!-- <td nowrap>
                                             <a href="{{ route('job-titles.show', $jobTitle->Job_id) }}" class="btn btn-primary"><i class="fas fa-eye"></i> View</a>
                                             <a href="{{ route('job-titles.edit', $jobTitle->Job_id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
                                             <form action="{{ route('job-titles.destroy', $jobTitle->Job_id) }}" method="POST" style="display: inline;">
@@ -44,7 +44,7 @@
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
                                             </form>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -91,7 +91,7 @@
 @section('scripts')
 <!-- Script DataTables -->
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script> -->
 <!-- Script for DataTables -->
 <script>
     $(document).ready(function () {

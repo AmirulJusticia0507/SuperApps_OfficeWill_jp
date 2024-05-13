@@ -14,13 +14,22 @@
     <div class="col-md-3">
         @include('includes.sidebar')
     </div>
-    <div class="col-md-8">
+    <div class="col-md-4">
         <br><br><br>
         <!-- Create Classification Form -->
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Employee Registration</a></li>
+                <li class="breadcrumb-item"><a href="#">Employee List</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Employee Information Registration</li>
+            </ol>
+        </nav>
+
         <div class="card">
             <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee Registration</b></div>
             <div class="card-body">
-                <form action="{{ route('register') }}" method="POST">
+                <form action="{{ route('member-registration.store') }}" method="POST">
                     @csrf
                     {{-- <div class="row"> --}}
                         <div class="col-md-6">

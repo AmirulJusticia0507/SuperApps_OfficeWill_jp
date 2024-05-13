@@ -59,12 +59,17 @@ class CourseController extends Controller
     {
         $classifications = CourseClassificationInformation::all(); // Get classification data from the model
         $details = CourseClassificationDetailInformation::all(); // Get details data from the model
-        $filteredCourses = []; // Initialize an empty array for filtered courses
-
+    
+        // Initialize an empty array for filtered courses
+        $filteredCourses = CourseInformation::all();
+    
+        // Initialize an empty array for filtered employees
+        $filteredEmployees = []; 
+    
         // Return the view with the necessary data
-        return view('coursesettings', compact('classifications', 'details', 'filteredCourses'));
+        return view('coursesettings', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees'));
     }
-
+    
 
     public function search(Request $request)
     {

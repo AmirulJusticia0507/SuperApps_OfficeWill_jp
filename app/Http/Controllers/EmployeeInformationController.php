@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmployeeInformation;
-
+use App\Models\AffiliationInformation;
+use App\Models\JobInformation;
+use App\Models\CourseInformation;
 class EmployeeInformationController extends Controller
 {
     /**
@@ -13,17 +15,21 @@ class EmployeeInformationController extends Controller
     public function index()
     {
         $employees = EmployeeInformation::all();
-        return view('employee.index', compact('employees'));
+        $affiliations = AffiliationInformation::all(); // Ambil data affiliations
+        $jobs = JobInformation::all(); // Ambil data job titles
+        return view('employee.index', compact('employees', 'affiliations', 'jobs')); // Kirim data affiliations dan jobs ke view
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('employee.create');
+        $affiliations = AffiliationInformation::all();
+        $jobs = JobInformation::all();
+        return view('employee.create', compact('affiliations', 'jobs'));
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -69,4 +75,39 @@ class EmployeeInformationController extends Controller
         EmployeeInformation::destroy($id);
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully');
     }
+
+    public function search(Request $request)
+    {
+        // Ambil nilai pencarian dari request
+        $fullname = $request->input('fullname');
+        $employeeCode = $request->input('employee_code');
+    
+        // Lakukan query berdasarkan kriteria pencarian
+        $employees = EmployeeInformation::query();
+    
+        // Filter berdasarkan fullname jika ada
+        if ($fullname) {
+            $employees->where('fullname', 'like', '%' . $fullname . '%');
+        }
+    
+        // Filter berdasarkan employee_code jika ada
+        if ($employeeCode) {
+            $employees->where('employee_code', $employeeCode);
+        }
+    
+        // Eksekusi query dan ambil hasilnya
+        $filteredEmployees = $employees->get();
+    
+        // Kembalikan hasil pencarian ke view
+        return view('employee.index', compact('filteredEmployees'));
+    }
+    
+
+    public function showCourseSettings()
+    {
+        $employees = EmployeeInformation::all();
+        $filteredEmployees = $employees; // Tambahkan baris ini untuk menyediakan data filteredEmployees
+        return view('coursesettings', compact('filteredEmployees'));
+    }
+    
 }

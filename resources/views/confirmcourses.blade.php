@@ -15,6 +15,13 @@
         </div>
         <div class="col-md-8">
             <br><br><br>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Confirm and take courses</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">List of courses taken</li>
+                </ol>
+            </nav>
             <!-- Create Classification Form -->
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">List of courses taken</b></div>
@@ -30,7 +37,7 @@
                             <tbody>
                                 @foreach($courses as $course)
                                     <tr>
-                                        <td>{{ $course->Course_Name }}</td>
+                                        <td><a href="#" data-toggle="modal" data-target="#exampleModal"></a>{{ $course->Course_Name }}</td>
                                         <td>{{ $course->Deadline_for_Enrollment }}</td>
                                         <td>{{ $course->ToDo }}</td>
                                     </tr>
@@ -39,6 +46,29 @@
                         </table>
                     </div>
             </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Course Details</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Isi modal disini -->
+                            <!-- Contoh: Menampilkan detail kursus -->
+                            <p>Courses Name: <span id="courseName"></span></p>
+                            <p>Deadline for Enrollment: <span id="deadline"></span></p>
+                            <p>ToDo: <span id="todo"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <!-- Footer -->
@@ -62,4 +92,20 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#confirmcoursesTable').on('click', 'a[data-toggle="modal"]', function () {
+                var courseName = $(this).text();
+                var row = $(this).closest('tr');
+                var deadline = row.find('td:eq(1)').text();
+                var todo = row.find('td:eq(2)').text();
+
+                // Mengatur nilai pada modal sesuai dengan data kursus yang dipilih
+                $('#courseName').text(courseName);
+                $('#deadline').text(deadline);
+                $('#todo').text(todo);
+            });
+        });
+    </script>
+
 @endsection
