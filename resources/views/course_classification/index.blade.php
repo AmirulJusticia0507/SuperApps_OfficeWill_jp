@@ -65,56 +65,25 @@
 
         <div class="col-md-4">
             <br><br><br><br><br>
-            <!-- Create Classification Form -->
+            <!-- Create/Edit Classification Form -->
             <div class="card mb-4">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Create / Edit Classification</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>
                 <div class="card-body">
-                    @if(isset($editClassification))
-                    <!-- Form Edit Classification -->
-                    <form method="POST" action="{{ route('classifications.update', $editClassification->course_classification_id) }}">
+                    <!-- Form Create/Edit Classification -->
+                    <form method="POST" action="{{ isset($editClassification) ? route('classifications.update', $editClassification->course_classification_id) : route('classifications.store') }}">
                         @csrf
+                        @if(isset($editClassification))
                         @method('PUT')
-                        <div class="mb-3">
-                            <label for="classification_name" class="form-label">Classification Name : <b style="color: red">*</b></label>
-                            <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ $editClassification->course_classification_name }}" required>
-                        </div>
+                        @endif
                         <div class="mb-3">
                             <label for="company_id" class="form-label">Company</label>
-                            <select class="form-control" id="company_id" name="company_id" required>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->company_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="icon_file_path" class="form-label">Icon File Path</label>
-                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" value="{{ $editClassification->icon_file_path }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="display_order" class="form-label">Display Order</label>
-                            <input type="number" class="form-control" id="display_order" name="display_order" value="{{ $editClassification->display_order }}" required>
-                        </div>
-                        <div align="center">
-                            <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
-                            <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
-                        </div>
-                    </form>
-                    @else
-                    <!-- Form Create Classification -->
-                    <form method="POST" action="{{ route('classifications.store') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="company_id" class="form-label">Company</label>
-                            <select class="form-control" id="company_id" name="company_id" required>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->company_name }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control" id="company_name_input" name="company_name" value="{{ isset($editClassification) ? $editClassification->company_name : '' }}" required>
+                            <!-- Input tersembunyi untuk menyimpan ID perusahaan -->
+                            <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
                         </div>
                         <div class="mb-3">
                             <label for="classification_name" class="form-label">Classification Name : <b style="color: red">*</b></label>
-                            <input type="text" class="form-control" id="classification_name" name="classification_name" required>
+                            <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ isset($editClassification) ? $editClassification->course_classification_name : '' }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="icon_file_path" class="form-label">Icon File Path</label>
@@ -122,18 +91,20 @@
                         </div>
                         <div class="mb-3">
                             <label for="display_order" class="form-label">Display Order</label>
-                            <input type="number" class="form-control" id="display_order" name="display_order" required>
+                            <input type="number" class="form-control" id="display_order" name="display_order" value="{{ isset($editClassification) ? $editClassification->display_order : '' }}" required>
                         </div>
                         <div align="center">
                             <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
                             <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
+                            @if(isset($editClassification))
                             <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
+                            @endif
                         </div>
                     </form>
-                    @endif
                 </div>
             </div>
         </div>
+
 
     </div><br><br><br><br><br><br><br><br><br><br><br><br>
 {{-- </div> --}}
@@ -164,4 +135,5 @@
             });
         });
 </script>
+
 @endsection

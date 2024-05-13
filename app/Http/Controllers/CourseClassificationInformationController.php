@@ -23,7 +23,8 @@ class CourseClassificationInformationController extends Controller
      */
     public function create()
     {
-        return view('course_classification.create');
+        $companies = CompanyInformation::all();
+        return view('course_classification.create', compact('companies'));
     }
 
     /**
@@ -31,18 +32,20 @@ class CourseClassificationInformationController extends Controller
      */
     public function store(Request $request)
     {
-        // Menentukan company_id berdasarkan pilihan yang dibuat dalam form
+        // Validasi request
+        $request->validate([
+            'company_id' => 'required',
+            'classification_name' => 'required',
+            'display_order' => 'required',
+        ]);
+
+        // Menambahkan company_id ke dalam data yang akan disimpan
         $data = $request->all();
-        $data['company_id'] = $request->input('company_id');
-    
-        // Simpan data ke dalam database
+
         CourseClassificationInformation::create($data);
-    
-        // Redirect ke halaman index
         return redirect()->route('classifications.index')->with('success', 'Classification created successfully');
     }
     
-
     /**
      * Display the specified resource.
      */

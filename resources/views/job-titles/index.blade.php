@@ -14,6 +14,14 @@
             <!-- Kolom untuk tabel -->
             <div class="col-md-4">
                 <br><br><br>
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Job Title/Position Master Registration</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('job-titles.index') }}">Job/Position Master Registration</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Job Title/Position Master Registration</li>
+                    </ol>
+                </nav>
                 <div class="card">
                     <div class="card-header" style="background-color: darkblue">
                         <b style="color: aliceblue">List of Job Titles</b>
@@ -73,8 +81,9 @@
                                 <input type="text" class="form-control" id="display_order" name="display_order">
                             </div>
                             <div align="center">
-                                <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Submit</button>
-                                <button type="reset" class="btn btn-danger"><i class="fas fa-power-off"></i> Reset</button>
+                                <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
+                                <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
                             </div>
                         </form>
                     </div>
