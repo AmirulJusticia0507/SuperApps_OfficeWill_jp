@@ -4,10 +4,19 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
+    /**
+     * Show the forgot password form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
+
     /**
      * Handle an incoming forgot password request.
      *
@@ -16,19 +25,6 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request)
     {
-        // Validasi input
-        $request->validate(['email' => 'required|email']);
-
-        // Kirim email reset password
-        $status = Password::sendResetLink($request->only('email'));
-
-        // Berikan respons berdasarkan status pengiriman email
-        if ($status === Password::RESET_LINK_SENT) {
-            return redirect()->route('password.request')->with('status', 'Reset password link has been sent to your email.');
-        } else {
-            return back()->withErrors(['email' => trans($status)]);
-        }
+        // Logic to send reset password link will be implemented here
     }
 }
-
-?>
