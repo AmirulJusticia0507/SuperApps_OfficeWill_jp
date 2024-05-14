@@ -20,19 +20,43 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Course-specific Inquiry</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('course-inquiry') }}">Course-specific Inquiry</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('course-list') }}">Course List</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Course-specific inquiry</li>
                 </ol>
             </nav>
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Specific Inquiry</b></div>
-                <h3>Course Classification: </h3>
-                <h3>Course Classification Details: </h3>
-                <h3>Course Name: </h3>
+                <!-- <h3>Course Classification: </h3> -->
+                <!-- <h3>Course Classification Details: </h3> -->
+                <!-- <h3>Course Name: </h3> -->
+                <div class="form-group">
+                    <label for="course_classification">&emsp;Course Classification:</label>
+                    <select class="form-control" id="course_classification" name="course_classification" required style="display: inline-block; width: 60%;">
+                        <option value="">Select Course Classification</option>
+                        <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification -->
+                        @foreach($classifications as $classification)
+                            <option value="{{ $classification->id }}">{{ $classification->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="course_classification_details">&emsp;Course Classification Details:</label>
+                    <select class="form-control" id="course_classification_details" name="course_classification_details" required style="display: inline-block; width: 60%;">
+                        <option value="">Select Course Classification Details</option>
+                        <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification details -->
+                        @foreach($details as $detail)
+                            <option value="{{ $detail->id }}">{{ $detail->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="course_name">&emsp;Course Name:</label>
+                    <input type="text" class="form-control" id="course_name" name="course_name" placeholder="Enter Course Name" required style="display: inline-block; width: 60%;">
+                </div>
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue"> Employees attending the course</b></div>
                 <div class="card-body">
-                    <form action="" method="get">
+                    <form action="{{ route('course-inquiry-search') }}" method="get">
                         <div class="form-group">
                             <label for="affiliation_id">Affiliation:</label>
                             <div class="d-flex align-items-center">
@@ -70,7 +94,7 @@
                             <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
                         </div>
                         <div class="form-group">
-                            <label for="course_deadline">Course Deadline :</label>
+                            <label for="course_deadline">&emsp;Course Deadline :</label>
                             <div class="d-flex align-items-center">
                                 <input type="date" name="course_deadline" id="course_deadline" class="form-control mr-3" style="width: 20%;">
                                 <div>
@@ -112,7 +136,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @foreach($employees as $employee)
+                                <tr>
+                                    <td>{{ $employee->affiliation }}</td>
+                                    <td>{{ $employee->job_title }}</td>
+                                    <td>{{ $employee->fullname }}</td>
+                                    <td>{{ $employee->employee_code }}</td>
+                                    <td>{{ $employee->sex }}</td>
+                                    <td>{{ $employee->age }}</td>
+                                    <!-- Kosongkan untuk kolom lainnya -->
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

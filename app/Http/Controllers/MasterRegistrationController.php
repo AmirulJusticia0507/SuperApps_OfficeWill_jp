@@ -71,7 +71,7 @@ class MasterRegistrationController extends Controller
         EmployeeInformation::create($validatedData);
     
         // Setelah data disimpan, redirect pengguna ke halaman dashboard atau ke halaman yang sesuai
-        return redirect()->route('dashboard')->with('success', 'Member registered successfully!');
+        return redirect()->route('member-registration')->with('success', 'Member registered successfully!');
     }
     
 
@@ -142,7 +142,7 @@ class MasterRegistrationController extends Controller
         ]);
 
         // Setelah data diperbarui, redirect pengguna ke halaman dashboard atau ke halaman yang sesuai
-        return redirect()->route('dashboard')->with('success', 'Member updated successfully!');
+        return redirect()->route('member-registration')->with('success', 'Member updated successfully!');
     }
 
 

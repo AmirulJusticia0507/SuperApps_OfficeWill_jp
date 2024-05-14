@@ -3,19 +3,20 @@
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 @section('content')
     <!-- Header -->
     @include('includes.header')
 
-    <div class="container">
+    <!-- <div class="container"> -->
         <div class="row justify-content-center">
                     <!-- Sidebar -->
         <div class="col-md-3">
             @include('includes.sidebar')
         </div>
             <!-- Kolom untuk tabel -->
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <br><br><br>
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
@@ -109,7 +110,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 
     <!-- Footer -->
     @include('includes.footer')
@@ -122,18 +123,17 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <!-- Script for Modals -->
 <script>
-    // Function to show modal when the button is clicked
-    // const createClassificationModal = new bootstrap.Modal(document.getElementById('createClassificationModal'));
     $(document).ready(function () {
-            var table = $('#affiliationTable').DataTable({
-                responsive: true,
-                scrollX: true,
-                searching: true,
-                lengthMenu: [10, 25, 50, 100, 500],
-                pageLength: 10,
-                dom: 'lBfrtip',
-                buttons: ['copy', 'excel', 'pdf']
-            });
+        var table = $('#affiliationTable').DataTable({
+            responsive: true,
+            scrollX: true,
+            searching: true,
+            lengthMenu: [10, 25, 50, 100, 500],
+            pageLength: 10,
+            dom: 'lBfrtip',
+            buttons: ['copy', 'excel', 'pdf']
         });
+    });
+
 </script>
 @endsection

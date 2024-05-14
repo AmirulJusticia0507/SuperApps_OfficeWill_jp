@@ -177,4 +177,5 @@ Route::get('/course/filter', [CourseController::class, 'filter'])->name('course.
 Route::get('/course-settings', [CourseController::class, 'settings'])->name('course-settings');
 Route::get('/search-courses', [CourseController::class, 'search'])->name('search.courses'); // <-- Perbaikan nama rute
 Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
+Route::get('/course-inquiry-search', 'CourseController@search')->name('course-inquiry-search');
 

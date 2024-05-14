@@ -9,42 +9,60 @@ class CourseInformation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['course_id', 'company_id', 'Course_classification_id', 'course_classification_details_id', 'coursename', 'coursename_kana', 'course_description', 'possible_retake_course_deadline', 'remarks', 'todo_type', 'todo_description', 'repeated_retest', 'test_passed_score', 'course_attributes_01', 'course_attributes_02', 'course_attributes_03', 'course_attributes_04', 'course_attributes_05'];
+    protected $primaryKey = 'course_id';
 
-    // Fungsi CRUD
+    protected $fillable = [
+        'company_id',
+        'course_classification_id',
+        'course_classification_details_id',
+        'coursename',
+        'coursename_kana',
+        'course_description',
+        'possible_retake_course_deadline',
+        'remarks',
+        'todo_type',
+        'todo_description',
+        'repeated_retest',
+        'test_passed_score',
+        'course_attributes_01',
+        'course_attributes_02',
+        'course_attributes_03',
+        'course_attributes_04',
+        'course_attributes_05'
+    ];
 
     // Create
-    public static function createCourse($data)
+    public function createCourse(array $courseData)
     {
-        return self::create($data);
+        return $this->create($courseData);
     }
 
     // Read
-    public static function getAllCourses()
+    public function getAllCourses()
     {
-        return self::all();
+        return $this->all();
     }
 
-    public static function getCourseById($id)
+    public function getCourseById($id)
     {
-        return self::find($id);
+        return $this->find($id);
     }
 
     // Update
-    public static function updateCourse($id, $data)
+    public function updateCourse($id, array $courseData)
     {
-        $course = self::find($id);
+        $course = $this->find($id);
         if ($course) {
-            $course->update($data);
+            $course->update($courseData);
             return $course;
         }
         return null;
     }
 
     // Delete
-    public static function deleteCourse($id)
+    public function deleteCourse($id)
     {
-        $course = self::find($id);
+        $course = $this->find($id);
         if ($course) {
             $course->delete();
             return true;

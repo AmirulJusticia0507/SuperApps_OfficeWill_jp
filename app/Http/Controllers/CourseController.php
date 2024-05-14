@@ -8,6 +8,7 @@ use App\Models\CourseClassificationDetailInformation;
 use App\Models\CourseInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
+use App\Models\EmployeeInformation;
 
 class CourseController extends Controller
 {
@@ -24,7 +25,7 @@ class CourseController extends Controller
         $filteredEmployees = []; // Pastikan variabel $filteredEmployees juga didefinisikan jika digunakan di tampilan
         $affiliations = AffiliationInformation::all(); // Tambahkan jika diperlukan
         $jobTitles = JobInformation::all(); // Tambahkan jika diperlukan
-        return view('courselist', compact('classifications', 'details', 'filteredCourses'));
+        return view('courselist', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees', 'affiliations', 'jobTitles'));
     }
     
 
@@ -40,39 +41,43 @@ class CourseController extends Controller
         $classificationId = $request->input('course_classification_id');
         $detailId = $request->input('course_classification_details_id');
         $courseName = $request->input('course_name');
-    
+
         // Query courses based on the filter criteria
         $courses = CourseInformation::query();
-    
+
         if ($classificationId) {
             $courses->where('course_classification_id', $classificationId);
         }
-    
+
         if ($detailId) {
             $courses->where('course_classification_details_id', $detailId);
         }
-    
+
         if ($courseName) {
             $courses->where('coursename', 'like', '%' . $courseName . '%');
         }
-    
+
         $filteredCourses = $courses->get();
-    
+
         // Return filtered courses to the view
         return view('courselist', compact('filteredCourses'));
     }
-    
-    
 
     public function settings()
     {
         $affiliations = AffiliationInformation::all();
-        $jobTitles = JobInformation::all();
-        $classifications = CourseClassificationInformation::all();
-        $details = CourseClassificationDetailInformation::all();
-        $filteredCourses = CourseInformation::all(); // sesuaikan dengan logika Anda untuk mengambil data kursus
-        $filteredEmployees = []; // Pastikan variabel $filteredEmployees juga didefinisikan jika digunakan di tampilan
-        return view('coursesettings', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees', 'affiliations', 'jobTitles'));
+        $jobTitles  = JobInformation::all();
+        $classifications = CourseClassificationInformation::all(); // Get classification data from the model
+        $details = CourseClassificationDetailInformation::all(); // Get details data from the model
+    
+        // Inisialisasi array kosong untuk filteredCourses
+        $filteredCourses = CourseInformation::all();
+    
+        // Inisialisasi array kosong untuk filteredEmployees
+        $filteredEmployees = []; 
+    
+        // Kembalikan view dengan data yang diperlukan
+        return view('coursesettings', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees','affiliations','jobTitles'));
     }
     
     
@@ -110,7 +115,20 @@ class CourseController extends Controller
     {
         $affiliations = AffiliationInformation::all();
         $jobTitles  = JobInformation::all();
-        return view('courseinquiry', compact('affiliations','jobTitles'));
+        $employees = EmployeeInformation::all();
+        $classifications = CourseClassificationInformation::all();
+        $details = CourseClassificationDetailInformation::all();
+        return view('courseinquiry', compact('affiliations','jobTitles', 'employees','classifications', 'details'));
     }
 
+    public function showCourseInquiryForm()
+    {
+        $classifications = CourseClassificationInformation::all();
+        $details = CourseClassificationDetailInformation::all();
+        $courses = CourseInformation::all();
+    
+        return view('courseinquiry', compact('classifications', 'details', 'courses'));
+    }
+    
+    
 }
