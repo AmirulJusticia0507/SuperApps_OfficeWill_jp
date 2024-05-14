@@ -18,9 +18,6 @@ class CourseClassificationInformationController extends Controller
         return view('course_classification.index', compact('classifications', 'companies'));
     }
     
-    protected $primaryKey = 'course_classification_id';
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -69,7 +66,6 @@ class CourseClassificationInformationController extends Controller
         $companies = CompanyInformation::all();
         return view('course_classification.edit', compact('classification', 'companies'));
     }
-    
 
     /**
      * Update the specified resource in storage.

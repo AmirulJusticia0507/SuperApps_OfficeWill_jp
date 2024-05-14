@@ -9,6 +9,7 @@
             <div class="card">
                 <div class="card-header">Edit Course Classification Detail</div>
                 <div class="card-body">
+                    @if($detail)
                     <form method="POST" action="{{ route('details.update', $detail->course_classification_details_id) }}">
                         @csrf
                         @method('PUT')
@@ -37,6 +38,11 @@
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-edit"></i> Update</button>
                     </form>
+                    @else
+                    <div class="alert alert-danger" role="alert">
+                        Detail not found.
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

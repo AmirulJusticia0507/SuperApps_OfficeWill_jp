@@ -39,28 +39,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($details as $detail)
-                            <tr>
-                                <td>{{ $detail->course_classification_details_id }}</td>
-                                <td>{{ $detail->classification->course_classification_name }}</td>
-                                <td>{{ $detail->course_classification_detailsname }}</td>
-                                {{-- <td>{{ $detail->icon_file_path }}</td> --}}
-                                {{-- <td>{{ $detail->display_order }}</td> --}}
-                                {{-- <td>
-                                    <!-- Edit Button -->
-                                    <button type="button" class="btn btn-sm btn-info edit-btn" data-detail="{{ json_encode($detail) }}">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-
-                                    <!-- Delete Form -->
-                                    <form action="{{ route('details.destroy', $detail->course_classification_details_id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</button>
-                                    </form>
-                                </td> --}}
-                            </tr>
-                            @endforeach
+                        @if($details->isNotEmpty())
+                                @foreach ($details as $detail)
+                                    <tr>
+                                        <td>{{ $detail->course_classification_details_id }}</td>
+                                        <td>{{ $detail->classification->course_classification_name ?? '' }}</td>
+                                        <td>{{ $detail->course_classification_detailsname }}</td>
+                                        <!-- <td>
+                                            <button type="button" class="btn btn-sm btn-info edit-btn" data-detail="{{ json_encode($detail) }}">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <form action="{{ route('details.destroy', $detail->course_classification_details_id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</button>
+                                            </form>
+                                        </td> -->
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="4">No data found</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -73,9 +74,28 @@
             <div class="card">
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classification Detail</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>
                 <div class="card-body">
-                    <form id="classificationDetailsForm" action="{{ route('details.store') }}" method="POST">
+                    <form id="classificationDetailsForm" action="{{ route('details.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <!-- Your Form Fields Here -->
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label">Company</label>
+                            <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
+                            <select class="form-select" id="company_name" name="company_name" required>
+                                <option value="" selected disabled>Select Company</option>
+                                @foreach($companies as $company)
+                                <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="course_classification_id" class="form-label">Course Classification</label>
+                            <select class="form-select" id="course_classification_id" name="Course_classification_id" required>
+                                <option value="" selected disabled>Select Course Classification</option>
+                                @foreach($classifications as $classification)
+                                <option value="{{ $classification->course_classification_id }}">{{ $classification->course_classification_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label for="course_classification_detailsname" class="form-label">Classification Detail Name <b style="color: red">*</b></label>
                             <input type="text" class="form-control" id="course_classification_detailsname" name="course_classification_detailsname" required>
@@ -133,6 +153,10 @@
             $('#course_classification_detailsname').val(detailData.course_classification_detailsname);
             $('#icon_file_path').val(detailData.icon_file_path);
             $('#display_order').val(detailData.display_order);
+
+            // Fill Company Data
+            $('#selectedCompanyId').val(detailData.company_id);
+            $('#company_name').val(detailData.company_id);
 
             // Scroll to Form
             $('html, body').animate({

@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class CourseClassificationDetailInformation extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'course_classification_details_id';
+
 
     protected $fillable = ['course_classification_details_id', 'Course_classification_id', 'company_id', 'course_classification_detailsname', 'icon_file_path', 'display_order'];
-
+    public $timestamps = false;
     // Fungsi CRUD
 
     // Create
