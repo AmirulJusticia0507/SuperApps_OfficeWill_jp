@@ -74,7 +74,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Data will be populated dynamically -->
+                                @if($filteredCourses->isEmpty())
+                                    <tr>
+                                        <td colspan="3">No courses found</td>
+                                    </tr>
+                                @else
+                                    @foreach($filteredCourses as $course)
+                                        <tr>
+                                            <td>{{ $course->classification->course_classification_name }}</td>
+                                            <td>{{ $course->detail->course_classification_detailsname }}</td>
+                                            <td>{{ $course->coursename }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

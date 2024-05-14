@@ -147,11 +147,11 @@
                                     <label for="sex" style="margin-right: 10px;" style="width: 100%">Sex: <b style="color: red">*</b></label>
                                     <div style="display: flex;">
                                         <input type="radio" name="sex" id="male" value="male" required>
-                                        <label for="male" style="margin-right: 10px;">Male</label>
+                                        &nbsp;<label for="male" style="margin-right: 10px;"> Male</label>
                                         <input type="radio" name="sex" id="female" value="female" required>
-                                        <label for="female" style="margin-right: 10px;">Female</label>
+                                        &nbsp;<label for="female" style="margin-right: 10px;"> Female</label>
                                         <input type="radio" name="sex" id="other" value="other" required>
-                                        <label for="other">Other</label>
+                                        &nbsp;<label for="other"> Other</label>
                                     </div>
                                 </div>
                             </div>
@@ -173,6 +173,14 @@
                                 <textarea name="remarks" id="remarks" class="form-control" cols="5" rows="5"></textarea>
                             </div>
                             <div id="account-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
+                            <br>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="encrypted_password" style="margin-right: 10px;">Password:</label>
+                                <input type="password" name="encrypted_password" id="encrypted_password" class="form-control" style="width: 100%">
+                                <button type="button" id="togglePassword" style="border: none; background: none; outline: none; margin-left: -30px;">
+                                    <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                                </button>
+                            </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="account_status" style="margin-right: 10px;">Account Status:</label>
                                 <select name="account_status" id="account_status" class="form-control" style="width: 100%">
@@ -192,11 +200,10 @@
                                 <label for="account_lock_date_time" style="margin-right: 10px;">Account Lock Date and Time:</label>
                                 <input type="datetime-local" name="account_lock_date_time" id="account_lock_date_time" class="form-control">
                             </div>
-                    <div align="center" id="savelocation">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i>
-                            Register</button>
-                        <button type="button" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
-                    </div>
+                        <div align="center">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Register</button>
+                            <button type="button" class="btn btn-dark"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
                 </form>
             </div>
         </div>
@@ -211,7 +218,7 @@
                 <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#affiliation-information" title="Affiliation information"><b style="color:aliceblue"> 所属情報</b></a></li>
                 <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#basic-information" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a></li>
                 <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#account-information" title="Account information"><b style="color:aliceblue"> アカウント情報</b></a></li>
-                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#savelocation" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
             </ul>
         </div>
     </div>
@@ -247,3 +254,26 @@
         }
     });
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("encrypted_password");
+        const passwordToggle = document.getElementById("togglePassword");
+        const passwordToggleIcon = document.getElementById("passwordToggleIcon");
+
+        // Tambahkan event listener untuk tombol toggle
+        passwordToggle.addEventListener("click", function () {
+            // Ubah tipe input password menjadi text atau sebaliknya
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordToggleIcon.classList.remove("fa-eye");
+                passwordToggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                passwordToggleIcon.classList.remove("fa-eye-slash");
+                passwordToggleIcon.classList.add("fa-eye");
+            }
+        });
+    });
+</script>
+

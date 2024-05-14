@@ -26,11 +26,11 @@
         <!-- Create Classification Form -->
         <div class="card">
             <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Settings -> Choose your course</b></div><br><br>
-            <form action="" method="get">
+            <form action="{{ route('course.filter') }}" method="get"><br>
+                @csrf
                 <div class="form-group">
                     <label for="course_classification">&emsp;Course Classification:</label>
-                    <select class="form-control" id="course_classification_id" name="Course_classification_id" required
-                        style="display: inline-block; width: 60%;">
+                    <select class="form-control" id="course_classification_id" name="Course_classification_id" required style="display: inline-block; width: 60%;">
                         @foreach($classifications as $classification)
                         <option value="{{ $classification->id }}">{{ $classification->course_classification_name }}
                         </option>
@@ -41,8 +41,7 @@
                 <!-- Course Classification Details Filter -->
                 <div class="form-group">
                     <label for="course_classification_details">&emsp;Course Classification Details:</label>
-                    <select class="form-control" id="course_classification_details_id"
-                        name="course_classification_details_id" required style="display: inline-block; width: 60%;">
+                    <select class="form-control" id="course_classification_details_id" name="course_classification_details_id" required style="display: inline-block; width: 60%;">
                         @foreach($details as $detail)
                         <option value="{{ $detail->course_classification_details_id }}">
                             {{ $detail->course_classification_detailsname }}</option>
@@ -164,17 +163,24 @@
 
         <div class="card">
             <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee Choice</b></div>
-            <form action="" method="get">
+            <form action="{{ route('employee.filter') }}" method="get"><br>
+                @csrf
                 <div class="form-group">
                     <label for="affiliation_id">&emsp;Affiliation:</label>
-                    <select class="form-control" id="affiliation_id" name="affiliation_id" required style="display: inline-block; width: 60%;">
-                        
+                    <select class="form-control" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
+                        <option value="">Select Affiliation</option>
+                        @foreach($affiliations as $affiliation)
+                            <option value="{{ $affiliation->id }}">{{ $affiliation->affiliation_name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="job_id">&emsp;Job Title:</label>
-                    <select class="form-control" id="job_id" name="job_id" required style="display: inline-block; width: 60%;">
-                        
+                    <select class="form-control" id="job_id" name="jobId" required style="display: inline-block; width: 60%;">
+                        <option value="">Select Job Title</option>
+                        @foreach($jobTitles as $job)
+                            <option value="{{ $job->id }}">{{ $job->job_title }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">

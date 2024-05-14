@@ -23,6 +23,15 @@ class MasterRegistrationController extends Controller
         return view('member-registration', compact('affiliations', 'jobTitles'));
     }
 
+    public function create()
+    {
+        $affiliations = AffiliationInformation::all();
+        $jobTitles = JobInformation::all();
+        // Tampilkan halaman formulir pembuatan karyawan baru
+        return view('member-registration', compact('affiliations', 'jobTitles'));
+    }
+
+
     /**
      * Menyimpan data registrasi anggota yang baru.
      *
@@ -54,35 +63,17 @@ class MasterRegistrationController extends Controller
             'employee_attribute03' => 'nullable|string|max:255',
             'employee_attribute04' => 'nullable|string|max:255',
             'employee_attribute05' => 'nullable|string|max:255',
+            'company_id' => 'required',
         ]);
-
+    
         // Proses penyimpanan data registrasi anggota ke dalam database
-        EmployeeInformation::create([
-            'fullname' => $request->full_name,
-            'kananame' => $request->kana_name,
-            'email_address' => $request->email_address,
-            'contact_phonenumber' => $request->contact_phone_number,
-            'employee_code' => $request->employee_code,
-            'sex' => $request->sex,
-            'dateofbirth' => $request->date_of_birth,
-            'dateofjoining' => $request->date_of_joining,
-            'retirementdate' => $request->retirement_date,
-            'remarks' => $request->remarks,
-            'encrypted_password' => $request->encrypted_password,
-            'account_status' => $request->account_status,
-            'password_expiration' => $request->password_expiration_date,
-            'numberofincorrect_passwords' => $request->number_of_incorrect_passwords,
-            'account_lock_datetime' => $request->account_lock_date_time,
-            'employee_attribute01' => $request->employee_attribute01,
-            'employee_attribute02' => $request->employee_attribute02,
-            'employee_attribute03' => $request->employee_attribute03,
-            'employee_attribute04' => $request->employee_attribute04,
-            'employee_attribute05' => $request->employee_attribute05,
-        ]);
-
+        $validatedData['company_id'] = $request->company_id;
+        EmployeeInformation::create($validatedData);
+    
         // Setelah data disimpan, redirect pengguna ke halaman dashboard atau ke halaman yang sesuai
         return redirect()->route('dashboard')->with('success', 'Member registered successfully!');
     }
+    
 
     public function edit($id)
     {
@@ -118,11 +109,14 @@ class MasterRegistrationController extends Controller
             'employee_attribute03' => 'nullable|string|max:255',
             'employee_attribute04' => 'nullable|string|max:255',
             'employee_attribute05' => 'nullable|string|max:255',
+            'company_id' => 'required',
         ]);
 
         // Temukan data anggota yang akan diperbarui berdasarkan ID
+        
         $member = EmployeeInformation::findOrFail($id);
-
+        
+        $member->update($validatedData);
         // Update data anggota
         $member->update([
             'fullname' => $request->full_name,
@@ -156,10 +150,10 @@ class MasterRegistrationController extends Controller
     {
         // Temukan data anggota yang akan dihapus berdasarkan ID
         $member = EmployeeInformation::findOrFail($id);
-
+    
         // Hapus data anggota
         $member->delete();
-
+    
         // Setelah data dihapus, redirect pengguna ke halaman dashboard atau ke halaman yang sesuai
         return redirect()->route('dashboard')->with('success', 'Member deleted successfully!');
     }

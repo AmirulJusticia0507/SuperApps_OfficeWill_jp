@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\CourseClassificationInformation;
 use App\Models\CourseClassificationDetailInformation;
 use App\Models\CourseInformation;
+use App\Models\AffiliationInformation;
+use App\Models\JobInformation;
 
 class CourseController extends Controller
 {
@@ -18,8 +20,13 @@ class CourseController extends Controller
     {
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
-        return view('courselist', compact('classifications', 'details'));
+        $filteredCourses = CourseInformation::all(); // sesuaikan dengan logika Anda untuk mengambil data kursus
+        $filteredEmployees = []; // Pastikan variabel $filteredEmployees juga didefinisikan jika digunakan di tampilan
+        $affiliations = AffiliationInformation::all(); // Tambahkan jika diperlukan
+        $jobTitles = JobInformation::all(); // Tambahkan jika diperlukan
+        return view('courselist', compact('classifications', 'details', 'filteredCourses'));
     }
+    
 
     /**
      * Filter courses based on the given criteria.
@@ -33,42 +40,41 @@ class CourseController extends Controller
         $classificationId = $request->input('course_classification_id');
         $detailId = $request->input('course_classification_details_id');
         $courseName = $request->input('course_name');
-
+    
         // Query courses based on the filter criteria
         $courses = CourseInformation::query();
-
+    
         if ($classificationId) {
             $courses->where('course_classification_id', $classificationId);
         }
-
+    
         if ($detailId) {
             $courses->where('course_classification_details_id', $detailId);
         }
-
+    
         if ($courseName) {
             $courses->where('coursename', 'like', '%' . $courseName . '%');
         }
-
+    
         $filteredCourses = $courses->get();
-
+    
         // Return filtered courses to the view
-        return view('filtered_courses', compact('filteredCourses'));
+        return view('courselist', compact('filteredCourses'));
     }
+    
+    
 
     public function settings()
     {
-        $classifications = CourseClassificationInformation::all(); // Get classification data from the model
-        $details = CourseClassificationDetailInformation::all(); // Get details data from the model
-    
-        // Initialize an empty array for filtered courses
-        $filteredCourses = CourseInformation::all();
-    
-        // Initialize an empty array for filtered employees
-        $filteredEmployees = []; 
-    
-        // Return the view with the necessary data
-        return view('coursesettings', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees'));
+        $affiliations = AffiliationInformation::all();
+        $jobTitles = JobInformation::all();
+        $classifications = CourseClassificationInformation::all();
+        $details = CourseClassificationDetailInformation::all();
+        $filteredCourses = CourseInformation::all(); // sesuaikan dengan logika Anda untuk mengambil data kursus
+        $filteredEmployees = []; // Pastikan variabel $filteredEmployees juga didefinisikan jika digunakan di tampilan
+        return view('coursesettings', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees', 'affiliations', 'jobTitles'));
     }
+    
     
 
     public function search(Request $request)
@@ -102,7 +108,9 @@ class CourseController extends Controller
 
     public function inquiry()
     {
-        return view('courseinquiry');
+        $affiliations = AffiliationInformation::all();
+        $jobTitles  = JobInformation::all();
+        return view('courseinquiry', compact('affiliations','jobTitles'));
     }
 
 }

@@ -50,8 +50,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 // Rute untuk logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/member-registration', [MasterRegistrationController::class, 'show'])->name('member-registration.create');
+Route::get('/member-registration', [MasterRegistrationController::class, 'create'])->name('member-registration.create');
 Route::post('/member-registration', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
+Route::get('/member-registration/{id}/edit', 'MasterRegistrationController@edit')->name('member-registration.edit');
+Route::put('/member-registration/{id}', 'MasterRegistrationController@update')->name('member-registration.update');
+Route::delete('/member-registration/{id}', 'MasterRegistrationController@destroy')->name('member-registration.destroy');
+
 
 // Rute untuk job titles
 Route::resource('job-titles', JobTitleController::class);
@@ -152,6 +156,8 @@ Route::get('/employee-index', [EmployeeInformationController::class, 'index'])->
 
 // Rute untuk menampilkan halaman employeelist
 Route::get('/employeelist', [EmployeeInformationController::class, 'employeelist'])->name('employee-list');
+// Rute untuk filter employee
+Route::get('/employee/filter', [EmployeeInformationController::class, 'filter'])->name('employee.filter');
 
 
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
