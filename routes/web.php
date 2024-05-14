@@ -82,6 +82,8 @@ Route::resource('course-attribute-setting', CourseAttributeSettingInformationCon
 // Rute untuk Course Classification Detail Information
 Route::resource('course-classification-details', CourseClassificationDetailInformationController::class);
 Route::post('/course-classification-details', [CourseClassificationDetailInformationController::class, 'store'])->name('details.store');
+Route::resource('classifications', CourseClassificationDetailInformationController::class);
+
 
 // Rute untuk Course Classification Information
 Route::resource('course-classifications', CourseClassificationInformationController::class);

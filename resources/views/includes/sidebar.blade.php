@@ -43,7 +43,7 @@
                 <img src="img/officewill.png" alt="DEP SERVICE" class="w-32 mx-auto">
             </a>
         </div>
-        &emsp;&emsp;&emsp;<button id="sidebarToggle" class="text-white focus:outline-none"><i class="fas fa-bars fa-lg"></i></button>
+        <!-- &emsp;&emsp;&emsp;<button id="sidebarToggle" class="text-white focus:outline-none"><i class="fas fa-bars fa-lg"></i></button> -->
     </nav>
     <div class="page-spinner" id="page-spinner">
         <div class="spinner"></div>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseClassificationInformation extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'course_classification_id';
 
     protected $fillable = ['course_classification_id', 'course_classification_name', 'icon_file_path', 'displayorder'];
 

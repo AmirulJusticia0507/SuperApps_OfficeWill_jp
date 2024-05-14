@@ -43,7 +43,13 @@
                         <tr>
                             <td>{{ $classification->course_classification_id }}</td>
                             <td>{{ $classification->course_classification_name }}</td>
-                            <td>{{ $classification->icon_file_path }}</td>
+                            <td>
+                                @if($classification->icon_file_path)
+                                    <img src="{{ asset('storage/' . $classification->icon_file_path) }}" alt="Icon">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
                             <td>{{ $classification->displayorder }}</td>
                             <td>
                                 <!-- Edit Button -->
@@ -77,9 +83,7 @@
                         @endif
                         <div class="mb-3">
                             <label for="company_name" class="form-label">Company</label>
-                            <!-- Input tersembunyi untuk menyimpan ID perusahaan -->
                             <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
-                            <!-- Dropdown atau field autocomplete untuk memilih company_name -->
                             <select class="form-select" id="company_name" name="company_name" required>
                                 <option value="" selected disabled>Select Company</option>
                                 @foreach($companies as $company)
