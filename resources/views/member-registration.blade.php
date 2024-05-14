@@ -51,57 +51,75 @@
                             <input type="date" name="affiliation_start_date" id="affiliation_start_date"
                                 class="form-control" style="width: 100%">
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
                             <input type="text" name="affiliation_name" id="affiliation_name" class="form-control" style="width: 100%" required>
-                        </div>
+                        </div> -->
                         <div class="mb-3">
+                            <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
+                            <select name="affiliation_name" id="affiliation_name" class="form-control" style="width: 100%" required>
+                                <option value="">Select Affiliation</option>
+                                @foreach($affiliations as $affiliation)
+                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <!-- <div class="mb-3">
                             <label for="job_title">Job Title: <b style="color: red">*</b></label>
                             <input type="text" name="job_title" id="job_title" class="form-control" style="width: 100%" required>
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="job_title">Job Title: <b style="color: red">*</b></label>
+                            <select name="job_title" id="job_title" class="form-control" style="width: 100%" required>
+                                <option value="">Select Job Title</option>
+                                @foreach($jobTitles as $jobTitle)
+                                    <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
                             <label>System Administrator Privileges: <b style="color: red">*</b></label>
                             <div>
-                                <input type="checkbox" name="system_admin_privileges" value="1" required>
+                                <input type="radio" name="system_admin_privileges" value="1" required>
                                 <label class="checkbox-label">With Permission</label>
-                                <input type="checkbox" name="system_admin_privileges" value="0" required>
+                                <input type="radio" name="system_admin_privileges" value="0" required>
                                 <label class="checkbox-label">Without Permission</label>
                             </div>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
                             <label>Employee Registration Authority: <b style="color: red">*</b></label>
                             <div>
-                                <input type="checkbox" name="employee_registration_authority" value="1" required> <label class="checkbox-label">With Permission</label>
-                                <input type="checkbox" name="employee_registration_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="employee_registration_authority" value="1" required> <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="employee_registration_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
                             </div>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
                             <label>Course Enrollment Privileges: <b style="color: red">*</b></label>
                             <div>
-                                <input type="checkbox" name="course_enrollment_privileges" value="1" required> <label class="checkbox-label">With Permission</label>
-                                <input type="checkbox" name="course_enrollment_privileges" value="0" required> <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="course_enrollment_privileges" value="1" required> <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="course_enrollment_privileges" value="0" required> <label class="checkbox-label">Without Permission</label>
                             </div>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
                             <label>Attendance Settings Authority: <b style="color: red">*</b></label>
                             <div>
-                                <input type="checkbox" name="attendance_settings_authority" value="1" required> <label class="checkbox-label">With Permission</label>
-                                <input type="checkbox" name="attendance_settings_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="attendance_settings_authority" value="1" required> <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="attendance_settings_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="authority_effective_affiliation">Authority Effective Affiliation: <b style="color: red">*</b></label>
                             <div class="d-inline-block">
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" class="form-check-input" id="authority_effective_affiliation_1" name="authority_effective_affiliation" value="1" required>
+                                    <input type="radio" class="form-check-input" id="authority_effective_affiliation_1" name="authority_effective_affiliation" value="1" required>
                                     <label class="form-check-label" for="authority_effective_affiliation_1">Limited to affiliation</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" class="form-check-input" id="authority_effective_affiliation_2" name="authority_effective_affiliation" value="2" required>
+                                    <input type="radio" class="form-check-input" id="authority_effective_affiliation_2" name="authority_effective_affiliation" value="2" required>
                                     <label class="form-check-label" for="authority_effective_affiliation_2">Below affiliation</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="checkbox" class="form-check-input" id="authority_effective_affiliation_3" name="authority_effective_affiliation" value="3" required>
+                                    <input type="radio" class="form-check-input" id="authority_effective_affiliation_3" name="authority_effective_affiliation" value="3" required>
                                     <label class="form-check-label" for="authority_effective_affiliation_3">All affiliations</label>
                                 </div>
                             </div>

@@ -94,12 +94,16 @@ public function edit(string $id)
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $affiliation = AffiliationInformation::find($id);
-        $affiliation->update($request->all());
-        return redirect()->route('affiliations.index')->with('success', 'Affiliation updated successfully');
-    }
+/**
+ * Update the specified resource in storage.
+ */
+public function update(Request $request, string $id)
+{
+    $affiliation = AffiliationInformation::find($id);
+    $affiliation->update($request->all());
+    return redirect()->route('affiliation-information.index')->with('success', 'Affiliation updated successfully');
+}
+
 
     /**
      * Remove the specified resource from storage.
