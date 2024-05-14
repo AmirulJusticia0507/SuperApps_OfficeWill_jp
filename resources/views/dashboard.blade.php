@@ -15,9 +15,6 @@
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand navbar-white navbar-light shadow">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <!-- Tambahkan tombol hamburger di sini -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
                 <span class="navbar-toggler-icon"></span>

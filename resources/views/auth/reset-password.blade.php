@@ -14,9 +14,9 @@
                 <div class="card">
                     <div class="card-header">Reset Password</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('password.update') }}">
+`                        <form method="POST" action="{{ route('password.update') }}">
                             @csrf
-                            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                            <input type="hidden" name="token" value="{{ $token }}">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" id="email" name="email" class="form-control" value="{{ $request->email }}" required autofocus>
@@ -30,7 +30,7 @@
                                 <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Reset Password</button>
-                        </form>
+                        </form>`
                     </div>
                 </div>
             </div>
