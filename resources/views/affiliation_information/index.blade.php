@@ -59,12 +59,21 @@
                         <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('affiliation-information.store') }}">
+                        <form method="POST" action="{{ isset($affiliation) ? route('affiliation-information.update', $affiliation->id) : route('affiliation-information.store') }}">
                             @csrf
+                            @if(isset($affiliation))
+                                @method('PUT') <!-- Jika sedang dalam mode edit -->
+                            @endif
                             <div class="form-group">
-                                <label for="company_name_search">Search Company Name:</label>
-                                <input type="text" class="form-control" id="company_name_search" name="company_name_search">
+                                <label for="company_name">Company Name: <b style="color: red">*</b></label>
+                                <select class="form-select" id="company_name" name="company_name" required>
+                                    <option value="" selected disabled>Select Company</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{ $company->company_id }}">{{ $company->company_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
+
                             <div class="form-group">
                                 <label for="affiliation_code">Affiliation Code: <b style="color: red">*</b></label>
                                 <input type="text" class="form-control" id="affiliation_code" name="affiliation_code">

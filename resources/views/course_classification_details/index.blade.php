@@ -79,10 +79,10 @@
                         <div class="mb-3">
                             <label for="company_name" class="form-label">Company</label>
                             <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
-                            <select class="form-select" id="company_name" name="company_name" required>
+                            <select class="form-select" id="company_name" name="company_id" required>
                                 <option value="" selected disabled>Select Company</option>
                                 @foreach($companies as $company)
-                                <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    <option value="{{ $company->company_id }}" @if(isset($editClassification) && $editClassification->company_id == $company->company_id) selected @endif>{{ $company->company_name }}</option>
                                 @endforeach
                             </select>
                         </div>

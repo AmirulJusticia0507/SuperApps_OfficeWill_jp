@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AffiliationInformation extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'affiliation_code';
     public $timestamps = false;
 
     protected $fillable = ['affiliation_code', 'company_id', 'affiliation_name', 'display_order', 'organization_type'];

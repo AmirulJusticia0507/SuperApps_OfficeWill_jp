@@ -62,10 +62,13 @@ class CourseClassificationInformationController extends Controller
      */
     public function edit(string $id)
     {
+        // Temukan klasifikasi kursus yang ingin diedit
         $classification = CourseClassificationInformation::findOrFail($id);
+        // Ambil semua perusahaan
         $companies = CompanyInformation::all();
         return view('course_classification.edit', compact('classification', 'companies'));
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -103,8 +106,11 @@ class CourseClassificationInformationController extends Controller
      */
     public function destroy(string $id)
     {
+        // Temukan klasifikasi kursus yang ingin dihapus
         $classification = CourseClassificationInformation::findOrFail($id);
+        // Hapus data
         $classification->delete();
         return redirect()->route('classifications.index')->with('success', 'Classification deleted successfully');
     }
+    
 }

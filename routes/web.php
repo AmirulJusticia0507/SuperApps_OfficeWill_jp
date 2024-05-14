@@ -83,12 +83,29 @@ Route::resource('course-attribute-setting', CourseAttributeSettingInformationCon
 Route::resource('course-classification-details', CourseClassificationDetailInformationController::class);
 Route::post('/course-classification-details', [CourseClassificationDetailInformationController::class, 'store'])->name('details.store');
 Route::resource('classifications', CourseClassificationDetailInformationController::class);
+// Rute untuk edit Course Classification Detail Information
+Route::get('/course-classification-details/{id}/edit', [CourseClassificationDetailInformationController::class, 'edit'])->name('course-classification-details.edit');
 
+// Rute untuk mengupdate Course Classification Detail Information
+Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('course-classification-details.update');
+
+// Rute untuk menghapus Course Classification Detail Information
+Route::delete('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('course-classification-details.destroy');
+Route::get('/details', [CourseClassificationDetailInformationController::class, 'index'])->name('details.index');
+Route::delete('/details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('details.destroy');
 
 // Rute untuk Course Classification Information
 Route::resource('course-classifications', CourseClassificationInformationController::class);
 Route::get('/course-classification', [CourseClassificationInformationController::class, 'index'])->name('course-classification.index');
 Route::post('/classifications', [CourseClassificationInformationController::class, 'store'])->name('classifications.store');
+// Rute untuk edit Course Classification Information
+Route::get('/course-classifications/{id}/edit', [CourseClassificationInformationController::class, 'edit'])->name('course-classifications.edit');
+
+// Rute untuk mengupdate Course Classification Information
+Route::put('/course-classifications/{id}', [CourseClassificationInformationController::class, 'update'])->name('course-classifications.update');
+
+// Rute untuk menghapus Course Classification Information
+Route::delete('/course-classifications/{id}', [CourseClassificationInformationController::class, 'destroy'])->name('course-classifications.destroy');
 
 // Rute untuk Course Information
 Route::resource('course-information', CourseInformationController::class);

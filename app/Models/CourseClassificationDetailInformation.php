@@ -53,4 +53,10 @@ class CourseClassificationDetailInformation extends Model
         }
         return false;
     }
+
+    public function classification()
+{
+    return $this->belongsTo(CourseClassificationInformation::class, 'Course_classification_id', 'course_classification_id');
+}
+
 }
