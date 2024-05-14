@@ -37,6 +37,8 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'email_verified_at' => null, // Set email_verified_at menjadi null
+            'remember_token' => Str::random(10), // Generate remember_token
         ]);
 
         // Optionally, you can login the user after registration
@@ -44,4 +46,16 @@ class RegisterController extends Controller
 
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
+
 }

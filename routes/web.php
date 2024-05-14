@@ -31,6 +31,7 @@ use App\Http\Controllers\CourseController;
 // Rute untuk menampilkan halaman login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rute untuk menampilkan halaman register
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -178,4 +179,5 @@ Route::get('/course-settings', [CourseController::class, 'settings'])->name('cou
 Route::get('/search-courses', [CourseController::class, 'search'])->name('search.courses'); // <-- Perbaikan nama rute
 Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 Route::get('/course-inquiry-search', 'CourseController@search')->name('course-inquiry-search');
+Route::get('job/{id}', 'CourseController@show')->name('job.show');
 

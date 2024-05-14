@@ -26,7 +26,7 @@
                 </ol>
             </nav>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Specific Inquiry</b></div>
+                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Specific Inquiry</b></div><br><br>
                 <!-- <h3>Course Classification: </h3> -->
                 <!-- <h3>Course Classification Details: </h3> -->
                 <!-- <h3>Course Name: </h3> -->

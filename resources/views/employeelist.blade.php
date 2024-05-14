@@ -31,9 +31,12 @@
                                 <div class="form-group">
                                     <label for="affiliation_id">Affiliation:</label>
                                     <div class="d-flex align-items-center">
-                                        <select class="form-control mr-3" id="affiliation_id" name="affiliation_id" required style="width: 60%;">
-                                            <!-- Opsi pilihan affiliasi -->
-                                        </select>
+                                        <select class="form-control" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
+                                            <option value="">Select Affiliation</option>
+                                            @foreach($affiliations as $affiliation)
+                                                <option value="{{ $affiliation->id }}">{{ $affiliation->affiliation_name }}</option>
+                                            @endforeach
+                                        </select>&emsp;
                                         <div>
                                             <label class="radio-inline">
                                                 <input type="radio" name="search_option" value="Display selected affiliation"> Display selected affiliation

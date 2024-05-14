@@ -21,10 +21,10 @@ class CourseController extends Controller
     {
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
-        $filteredCourses = CourseInformation::all(); // sesuaikan dengan logika Anda untuk mengambil data kursus
-        $filteredEmployees = []; // Pastikan variabel $filteredEmployees juga didefinisikan jika digunakan di tampilan
-        $affiliations = AffiliationInformation::all(); // Tambahkan jika diperlukan
-        $jobTitles = JobInformation::all(); // Tambahkan jika diperlukan
+        $filteredCourses = CourseInformation::all();
+        $filteredEmployees = [];
+        $affiliations = AffiliationInformation::all();
+        $jobTitles = JobInformation::all(); // Initialize the $jobTitles variable
         return view('courselist', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees', 'affiliations', 'jobTitles'));
     }
     
@@ -74,7 +74,7 @@ class CourseController extends Controller
         $filteredCourses = CourseInformation::all();
     
         // Inisialisasi array kosong untuk filteredEmployees
-        $filteredEmployees = []; 
+        $filteredEmployees = EmployeeInformation::all();
     
         // Kembalikan view dengan data yang diperlukan
         return view('coursesettings', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees','affiliations','jobTitles'));
@@ -114,21 +114,22 @@ class CourseController extends Controller
     public function inquiry()
     {
         $affiliations = AffiliationInformation::all();
-        $jobTitles  = JobInformation::all();
+        $jobTitles = JobInformation::all(); // Initialize the $jobTitles variable
         $employees = EmployeeInformation::all();
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
-        return view('courseinquiry', compact('affiliations','jobTitles', 'employees','classifications', 'details'));
+        return view('courseinquiry', compact('affiliations', 'jobTitles', 'employees', 'classifications', 'details'));
     }
+    
 
     public function showCourseInquiryForm()
     {
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
+        $jobTitles = JobInformation::all(); // Inisialisasi variabel $jobTitles
         $courses = CourseInformation::all();
     
-        return view('courseinquiry', compact('classifications', 'details', 'courses'));
+        return view('courseinquiry', compact('classifications', 'details', 'jobTitles', 'courses'));
     }
-    
     
 }
