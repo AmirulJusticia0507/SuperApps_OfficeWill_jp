@@ -65,7 +65,7 @@
 
                             <div class="form-group">
                                 <label for="possible_retake_course_deadline" style="display: inline-block; width: 30%;">Retake course deadline :<b style="color: red">*</b></label>
-                                <div style="display: inline-block; width: 100%;">
+                                <div style="display: inline-block; width: 60%;">
                                     <input type="radio" name="possible_retake_course_deadline" id="re_attendance_possible" value="Re-attendance possible" required>
                                     <label for="re_attendance_possible" style="margin-right: 5px; margin-left: 5px;">Re-attendance possible</label>
                                     <input type="radio" name="possible_retake_course_deadline" id="re_attendance_not_allowed" value="Re-attendance not allowed" required>
@@ -184,7 +184,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="test_passed_score">Test Pass Threshold :</label>
-                                <input type="text" name="test_passed_score" id="test_passed_score" class="form-control" placeholder="xx.xx" style="width: 20%"><p>Complete the course with % or more correct</p>
+                                <input type="text" name="test_passed_score" id="test_passed_score" class="form-control" placeholder="xx.xx" style="display: inline-block; width: 10%;">
+                                <p>Complete the course with % or more correct</p>
                             </div>
                             {{-- <div align="left">
                                 <button class="btn btn-warning" title="*If ToDo type is survey response">※ToDo種別がアンケート回答の場合</button>

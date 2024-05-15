@@ -91,16 +91,16 @@
                         </div>
                         <div class="mb-3">
                             <label for="classification_name" class="form-label">Classification Name <span style="color: red">*</span></label>
-                            <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ isset($editClassification) ? $editClassification->course_classification_name : '' }}" required>
+                            <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ isset($editClassification) ? $editClassification->course_classification_name : '' }}" required style="display: inline-block; width: 79%;">
                         </div>
                         <div class="mb-3">
                             <label for="icon_file_path" class="form-label">Icon File Path</label>
                             <!-- Field untuk mengunggah file ikon -->
-                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path">
+                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" style="display: inline-block; width: 86%;">
                         </div>
                         <div class="mb-3">
-                            <label for="display_order" class="form-label">Display Order</label>
-                            <input type="number" class="form-control" id="display_order" name="display_order" value="{{ isset($editClassification) ? $editClassification->display_order : '' }}" required>
+                            <label for="display_order" class="form-label">Display Order <span style="color: red">*</span></label>
+                            <input type="number" class="form-control" id="display_order" name="display_order" value="{{ isset($editClassification) ? $editClassification->display_order : '' }}" required style="display: inline-block; width: 84%;">
                         </div>
                         <div align="center">
                             <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>

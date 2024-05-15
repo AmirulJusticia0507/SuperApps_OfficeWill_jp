@@ -73,7 +73,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="affiliation_code">Affiliation Code: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="affiliation_code" name="affiliation_code">
+                                <input type="text" class="form-control" id="affiliation_code" name="affiliation_code" style="display: inline-block; width: 81%;" required>
                             </div>
                             <!-- <div class="form-group">
                                 <label for="company_id">Company ID:</label>
@@ -81,15 +81,15 @@
                             </div> -->
                             <div class="form-group">
                                 <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="affiliation_name" name="affiliation_name">
+                                <input type="text" class="form-control" id="affiliation_name" name="affiliation_name" style="display: inline-block; width: 80%;" required>
                             </div>
                             <div class="form-group">
                                 <label for="display_order">Display Order: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="display_order" name="display_order">
+                                <input type="text" class="form-control" id="display_order" name="display_order" style="display: inline-block; width: 83%;">
                             </div>
                             <div class="form-group">
                                 <label for="organization_type">Organization Type: <b style="color: red">*</b></label>
-                                <div class="row">
+                                <div class="row" style="display: inline-block; width: 60%;">
                                     <div class="form-check">
                                         &emsp;<input class="form-check-input" type="radio" name="organization_type" id="main_store_equivalent" value="Main store equivalent" required>
                                         <label class="form-check-label" for="main_store_equivalent"> Main store equivalent</label>

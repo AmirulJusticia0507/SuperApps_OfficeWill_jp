@@ -36,20 +36,19 @@
                             <div class="mb-3">
                                 <label for="full_name" class="form-label">Full Name: <span
                                         style="color: red">*</span></label>
-                                <input type="text" name="full_name" id="full_name" class="form-control" required style="width: 100%">
+                                <input type="text" name="full_name" id="full_name" class="form-control" required style="display: inline-block; width: 72%;">
                             </div>
                             <div class="mb-3">
                                 <label for="kana_name" class="form-label">Kana Name: <span
                                         style="color: red">*</span></label>
-                                <input type="text" name="kana_name" id="kana_name" class="form-control" required style="width: 100%">
+                                <input type="text" name="kana_name" id="kana_name" class="form-control" required style="display: inline-block; width: 70%;">
                             </div>
                         </div>
-                        <div id="affiliation-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div>
+                        <div id="affiliation-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div><br>
                         <div class="mb-3">
                             <label for="affiliation_start_date">Affiliation Start Date: <b
                                     style="color: red">*</b></label>
-                            <input type="date" name="affiliation_start_date" id="affiliation_start_date"
-                                class="form-control" style="width: 100%">
+                            <input type="date" name="affiliation_start_date" id="affiliation_start_date" class="form-control" style="display: inline-block; width: 25%;">
                         </div>
                         <!-- <div class="mb-3">
                             <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
@@ -57,7 +56,7 @@
                         </div> -->
                         <div class="mb-3">
                             <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
-                            <select name="affiliation_name" id="affiliation_name" class="form-control" style="width: 100%" required>
+                            <select name="affiliation_name" id="affiliation_name" class="form-control" style="display: inline-block; width: 81%;" required>
                                 <option value="">Select Affiliation</option>
                                 @foreach($affiliations as $affiliation)
                                     <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
@@ -70,7 +69,7 @@
                         </div> -->
                         <div class="mb-3">
                             <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                            <select name="job_title" id="job_title" class="form-control" style="width: 100%" required>
+                            <select name="job_title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
                                 <option value="">Select Job Title</option>
                                 @foreach($jobTitles as $jobTitle)
                                     <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>

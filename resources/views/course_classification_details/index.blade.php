@@ -98,15 +98,15 @@
 
                         <div class="mb-3">
                             <label for="course_classification_detailsname" class="form-label">Classification Detail Name <b style="color: red">*</b></label>
-                            <input type="text" class="form-control" id="course_classification_detailsname" name="course_classification_detailsname" required>
+                            <input type="text" class="form-control" id="course_classification_detailsname" name="course_classification_detailsname" required style="display: inline-block; width: 75%;">
                         </div>
                         <div class="mb-3">
                             <label for="display_order" class="form-label">Display Ranking <b style="color: red">*</b></label>
-                            <input type="number" class="form-control" id="display_order" name="display_order" required>
+                            <input type="number" class="form-control" id="display_order" name="display_order" required style="display: inline-block; width: 84%;">
                         </div>
                         <div class="mb-3">
                             <label for="icon_file_path" class="form-label">Course classification details icon </label>
-                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path">
+                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" style="display: inline-block; width: 72%;">
                         </div><br><br>
                         <div align="center">
                             <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>

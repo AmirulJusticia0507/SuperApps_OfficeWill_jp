@@ -74,11 +74,11 @@
                             @csrf
                             <div class="form-group">
                                 <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="job_title" name="job_title">
+                                <input type="text" class="form-control" id="job_title" name="job_title" style="display: inline-block; width: 80%;" required>
                             </div>
                             <div class="form-group">
                                 <label for="display_order">Display Order: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="display_order" name="display_order">
+                                <input type="text" class="form-control" id="display_order" name="display_order" style="display: inline-block; width: 71%;" required>
                             </div>
                             <div align="center">
                                 <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>

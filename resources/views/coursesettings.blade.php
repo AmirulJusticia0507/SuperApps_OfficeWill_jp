@@ -193,15 +193,14 @@
                 </div>
                 <div class="mb-3">
                     <div style="display: flex; align-items: center;">
-                        <label for="sex" style="margin-right: 10px;" style="width: 100%">&emsp;Sex: <b
-                                style="color: red">*</b></label>
-                        <div style="display: flex;">
+                        <label for="sex" style="margin-right: 10px;" style="width: 100%">&emsp;Sex: <b style="color: red">*</b></label>
+                        <div style="display: flex;" style="display: inline-block; width: 60%;">
                             <input type="radio" name="sex" id="male" value="male" required>
-                            <label for="male" style="margin-right: 10px;">Male</label>
+                            <label for="male" style="margin-right: 10px;">&emsp;Male</label>
                             <input type="radio" name="sex" id="female" value="female" required>
-                            <label for="female" style="margin-right: 10px;">Female</label>
+                            <label for="female" style="margin-right: 10px;">&emsp;Female</label>
                             <input type="radio" name="sex" id="other" value="other" required>
-                            <label for="other">Other</label>
+                            <label for="other">&emsp;Other</label>
                         </div>
                     </div>
                 </div>

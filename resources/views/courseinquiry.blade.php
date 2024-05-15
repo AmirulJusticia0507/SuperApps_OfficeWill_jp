@@ -26,15 +26,15 @@
                 </ol>
             </nav>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Specific Inquiry</b></div><br><br>
+                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Specific Inquiry</b></div>
                 <!-- <h3>Course Classification: </h3> -->
                 <!-- <h3>Course Classification Details: </h3> -->
                 <!-- <h3>Course Name: </h3> -->
+                <!-- <br><br> -->
                 <div class="form-group">
                     <label for="course_classification">&emsp;Course Classification:</label>
                     <select class="form-control" id="course_classification" name="course_classification" required style="display: inline-block; width: 60%;">
                         <option value="">Select Course Classification</option>
-                        <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification -->
                         @foreach($classifications as $classification)
                             <option value="{{ $classification->id }}">{{ $classification->name }}</option>
                         @endforeach
@@ -97,7 +97,7 @@
                             <label for="course_deadline">&emsp;Course Deadline :</label>
                             <div class="d-flex align-items-center">
                                 <input type="date" name="course_deadline" id="course_deadline" class="form-control mr-3" style="width: 20%;">
-                                <div>
+                                <div >
                                     <label class="radio-inline">
                                         <input type="radio" name="search_option" value="Designated date"> Designated date
                                     </label>
@@ -107,7 +107,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div align="center">
                             <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
                         </div>
