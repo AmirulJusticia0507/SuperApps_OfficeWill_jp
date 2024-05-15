@@ -50,9 +50,18 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="course_name">&emsp;Course Name:</label>
                     <input type="text" class="form-control" id="course_name" name="course_name" placeholder="Enter Course Name" required style="display: inline-block; width: 60%;">
+                </div> -->
+                <div class="form-group">
+                    <label for="course_id">&emsp;Course Name:</label>
+                    <select name="course_id" id="course_id" class="form-control" style="display: inline-block; width: 60%;">
+                        <option value="">Select Course</option>
+                        @foreach($courses as $course)
+                            <option value="{{ $course->id }}" @if(isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>{{ $course->course_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue"> Employees attending the course</b></div>
                 <div class="card-body">
@@ -87,7 +96,7 @@
                         </div>
                         <div class="form-group">
                             <label for="fullname">&emsp;Full Name:</label>
-                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;">
+                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
                         </div>
                         <div class="form-group">
                             <label for="employee_code">&emsp;Employee Code:</label>
@@ -189,5 +198,20 @@
                 buttons: ['copy', 'excel', 'pdf']
             });
         });
+    </script>
+    <script>
+        function updateEmployeeCode() {
+            var fullname = document.getElementById('fullname').value;
+            // Logika untuk menghasilkan kode karyawan berdasarkan nama lengkap
+            // Misalnya, Anda dapat menggunakan inisial atau bagian dari nama sebagai kode karyawan
+            var employeeCode = generateEmployeeCode(fullname);
+            document.getElementById('employee_code').value = employeeCode;
+        }
+
+        function generateEmployeeCode(fullname) {
+            // Misalnya, menggunakan inisial dari setiap kata dalam nama lengkap
+            var initials = fullname.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
+            return initials;
+        }
     </script>
 @endsection

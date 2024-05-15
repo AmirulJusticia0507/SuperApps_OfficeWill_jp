@@ -3,7 +3,7 @@
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
-
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 @section('content')
 <!-- Header -->
 @include('includes.header')
@@ -187,15 +187,62 @@
                                 <input type="text" name="test_passed_score" id="test_passed_score" class="form-control" placeholder="xx.xx" style="display: inline-block; width: 10%;">
                                 <p>Complete the course with % or more correct</p>
                             </div>
-                            {{-- <div align="left">
-                                <button class="btn btn-warning" title="*If ToDo type is survey response">※ToDo種別がアンケート回答の場合</button>
-                            </div><br> --}}
                             {{-- <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black"> Question</b></div><br><br> --}}
                             <div align="center" id="save-course">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Save Course</button>
                                 <button type="reset" class="btn btn-secondary"> Delete</button>
-                            </div>
+                            </div><br><br>
                         </form>
+                        <div align="left">
+                            <button class="btn btn-warning" title="*If ToDo type is survey response">※ToDo種別がアンケート回答の場合</button>
+                        </div>
+                        <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="questionModalLabel">Add Question</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Form untuk menambah pertanyaan -->
+                                        <form id="questionForm">
+                                            <div class="card-header" style="background-color: #F7F7F7" align="center">
+                                                <b style="color:black">Question</b>
+                                                <div style="float: right;">
+                                                    <button type="button" class="btn btn-light" id="addQuestionBtn">Addition</button>
+                                                    <button type="button" class="btn btn-light">Copy</button>
+                                                    <button type="button" class="btn btn-light">Delete</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="questionText">Question:</label>
+                                                <input type="text" class="form-control" id="questionText" name="questionText" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="answerType">Answer Type:</label>
+                                                <select class="form-control" id="answerType" name="answerType" required>
+                                                    <option value="text">Text</option>
+                                                    <option value="radio">Radio Button</option>
+                                                    <option value="checkbox">Checkbox</option>
+                                                    <option value="select">Selectbox</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="isRequired">Is Required:</label><br>
+                                                <input type="radio" id="isRequiredYes" name="isRequired" value="yes" required>
+                                                <label for="isRequiredYes">Yes</label>
+                                                <input type="radio" id="isRequiredNo" name="isRequired" value="no" required>
+                                                <label for="isRequiredNo">No</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -231,12 +278,13 @@
 @include('includes.footer')
 @endsection
 
-@section('scripts')
+
 <!-- Script DataTables -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<!-- Script for Modals -->
+@section('scripts')
 <script>
     $(document).ready(function () {
         var table = $('#courseTable').DataTable({
@@ -260,5 +308,30 @@
         });
     });
 </script>
+@endsection
+<!-- Script for Modals -->
+@section('scripts')
+<script>
+    $(document).ready(function () {
+        // Tampilkan modal saat tombol "Addition" diklik
+        $('#addQuestionBtn').click(function() {
+            $('#questionModal').modal('show');
+        });
 
+        // Handler untuk submit form survei
+        $('#questionForm').submit(function(event) {
+            event.preventDefault();
+
+            // Ambil nilai dari form
+            var questionText = $('#questionText').val();
+            var answerType = $('#answerType').val();
+            var isRequired = $('input[name="isRequired"]:checked').val();
+
+            // Lakukan sesuatu dengan nilai yang diambil dari form survei di sini (misalnya, simpan ke database)
+
+            // Tutup modal
+            $('#questionModal').modal('hide');
+        });
+    });
+</script>
 @endsection

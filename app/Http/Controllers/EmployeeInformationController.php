@@ -27,8 +27,9 @@ class EmployeeInformationController extends Controller
         $employees = EmployeeInformation::all();
         $affiliations = AffiliationInformation::all();
         $jobs = JobInformation::all();
+        $jobTitles = JobInformation::all();
         $filteredEmployees = $employees; // Menggunakan data $employees sebagai $filteredEmployees
-        return view('employeelist', compact('filteredEmployees', 'affiliations', 'jobs'));
+        return view('employeelist', compact('filteredEmployees', 'affiliations', 'jobs', 'jobTitles'));
     }
     
     
@@ -155,4 +156,30 @@ class EmployeeInformationController extends Controller
         return view('employeeinquiry', compact('affiliations', 'jobs', 'jobTitles', 'filteredEmployees','courses', 'classifications', 'details'));
     }
     
+    public function filter(Request $request)
+{
+    // Ambil nilai pencarian dari request
+    $fullname = $request->input('fullname');
+    $employeeCode = $request->input('employee_code');
+
+    // Lakukan query berdasarkan kriteria pencarian
+    $employees = EmployeeInformation::query();
+
+    // Filter berdasarkan fullname jika ada
+    if ($fullname) {
+        $employees->where('fullname', 'like', '%' . $fullname . '%');
+    }
+
+    // Filter berdasarkan employee_code jika ada
+    if ($employeeCode) {
+        $employees->where('employee_code', $employeeCode);
+    }
+
+    // Eksekusi query dan ambil hasilnya
+    $filteredEmployees = $employees->get();
+
+    // Kembalikan hasil pencarian ke view
+    return view('coursesettings', compact('filteredEmployees'));
+}
+
 }

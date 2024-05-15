@@ -3,6 +3,7 @@
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
 
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 @section('content')
@@ -37,12 +38,23 @@
                             <tr>
                                 <td>{{ $company->company_name }}</td>
                                 <td>{{ $company->login_screen_url }}</td>
-                                <td>
+                                <!-- <td>
                                     <img src="{{ Storage::url($company->icon_storage_file_path) }}" alt="Company Icon" style="max-width: 100px;">
                                 </td>
                                 <td>
                                     <img src="{{ Storage::url($company->teaching_material_storage_file_path) }}" alt="Teaching Material" style="max-width: 100px;">
+                                </td> -->
+                                <td>
+                                    <a data-fancybox="gallery{{ $company->id }}" data-src="{{ Storage::url($company->icon_storage_file_path) }}" data-caption="Company Icon">
+                                        <img src="{{ Storage::url($company->icon_storage_file_path) }}" alt="Company Icon" style="max-width: 100px;">
+                                    </a>
                                 </td>
+                                <td>
+                                    <a data-fancybox="gallery{{ $company->id }}" data-src="{{ Storage::url($company->teaching_material_storage_file_path) }}" data-caption="Teaching Material">
+                                        <img src="{{ Storage::url($company->teaching_material_storage_file_path) }}" alt="Teaching Material" style="max-width: 100px;">
+                                    </a>
+                                </td>
+
                                 <td>
                                     <!-- Tombol Edit Company Modal -->
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->id }}"><i class="fas fa-edit"></i> Edit</button>
@@ -166,16 +178,12 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-{{-- <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
 <!-- Script for Modals -->
 <script>
     // Function to show modal when the button is clicked
     const createCompanyModal = new bootstrap.Modal(document.getElementById('createCompanyModal'));
-
-    // Initialize DataTables
-    // $(document).ready(function() {
-    //     $('#companyTable').DataTable();
-    // });
     $(document).ready(function () {
             var table = $('#companyTable').DataTable({
                 responsive: true,
@@ -187,6 +195,12 @@
                 buttons: ['copy', 'excel', 'pdf']
             });
         });
+</script>
+<script>
+    $(document).ready(function() {
+        $("[data-fancybox]").fancybox({
+        });
+    });
 </script>
 @endsection
 

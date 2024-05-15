@@ -47,10 +47,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="job_id">&emsp;Job Title:</label>
-                                    <select class="form-control" id="job_id" name="job_id" required style="display: inline-block; width: 60%;">
-                                        
+                                <div class="mb-3">
+                                    <label for="job_title">Job Title: <b style="color: red">*</b></label>
+                                    <select name="job_title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
+                                        <option value="">Select Job Title</option>
+                                        @foreach($jobTitles as $jobTitle)
+                                            <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">

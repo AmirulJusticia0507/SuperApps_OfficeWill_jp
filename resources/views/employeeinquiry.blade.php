@@ -79,11 +79,20 @@
                         <label for="course_name">&emsp;Course Name:</label>
                         <input type="text" class="form-control" id="course_name" name="course_name" placeholder="Enter Course Name" required style="display: inline-block; width: 60%;">
                     </div> -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="course_name">&emsp;Course Name:</label>
                         &emsp;<input type="text" name="course_name" id="course_name" class="form-control"
                             style="display: inline-block; width: 60%;"
                             value="{{ isset($course) ? $course->coursename : '' }}">
+                    </div> -->
+                    <div class="form-group">
+                        <label for="course_id">&emsp;Course Name:</label>
+                        <select name="course_id" id="course_id" class="form-control" style="display: inline-block; width: 60%;">
+                            <option value="">Select Course</option>
+                            @foreach($courses as $course)
+                                <option value="{{ $course->id }}" @if(isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>{{ $course->course_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div align="center">
                         <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
