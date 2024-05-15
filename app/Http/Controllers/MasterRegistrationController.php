@@ -3,23 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\EmployeeInformation; // Import model EmployeeInformation
+use App\Models\EmployeeInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
+use App\Models\EmployeeAffiliationInformation;
+
 use Illuminate\Support\Facades\Redirect;
 
 class MasterRegistrationController extends Controller
 {
-    /**
-     * Menampilkan halaman registrasi anggota.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show()
+    public function index()
     {
         $affiliations = AffiliationInformation::all();
         $jobTitles = JobInformation::all();
-        // Tampilkan halaman registrasi
         return view('member-registration', compact('affiliations', 'jobTitles'));
     }
 
@@ -27,83 +23,96 @@ class MasterRegistrationController extends Controller
     {
         $affiliations = AffiliationInformation::all();
         $jobTitles = JobInformation::all();
-        // Tampilkan halaman formulir pembuatan karyawan baru
         return view('member-registration', compact('affiliations', 'jobTitles'));
     }
 
-
-    /**
-     * Menyimpan data registrasi anggota yang baru.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
-        // Validasi data yang diterima dari form registrasi
+        // Validasi data dari formulir
         $validatedData = $request->validate([
-            // Aturan validasi untuk setiap field formulir
-            'full_name' => 'required|string|max:255',
-            'kana_name' => 'nullable|string|max:255',
+            // Validasi untuk field-field dari employee_information
+            'fullname' => 'required|string|max:255',
+            'kananame' => 'nullable|string|max:255',
             'email_address' => 'required|string|email|max:255|unique:employee_information',
-            'contact_phone_number' => 'nullable|string|max:20',
+            'contact_phonenumber' => 'nullable|string|max:20',
             'employee_code' => 'required|string|max:50|unique:employee_information',
             'sex' => 'nullable|string|max:10',
-            'date_of_birth' => 'nullable|date',
-            'date_of_joining' => 'nullable|date',
-            'retirement_date' => 'nullable|date',
+            'dateofbirth' => 'nullable|date',
+            'dateofjoining' => 'nullable|date',
+            'retirementdate' => 'nullable|date',
             'remarks' => 'nullable|string|max:255',
             'encrypted_password' => 'required|string|max:255',
             'account_status' => 'required|string|max:20',
-            'password_expiration_date' => 'nullable|date',
-            'number_of_incorrect_passwords' => 'required|integer',
-            'account_lock_date_time' => 'nullable|date',
+            'password_expiration' => 'nullable|date',
+            'numberofincorrect_passwords' => 'required|integer',
+            'account_lock_datetime' => 'nullable|date',
             'employee_attribute01' => 'nullable|string|max:255',
             'employee_attribute02' => 'nullable|string|max:255',
             'employee_attribute03' => 'nullable|string|max:255',
             'employee_attribute04' => 'nullable|string|max:255',
             'employee_attribute05' => 'nullable|string|max:255',
             'company_id' => 'required',
+    
+            // Validasi untuk field-field dari employee_affiliation_information
+            'affiliation_code' => 'required',
+            'job_id' => 'required',
+            'application_startdate' => 'required|date',
+            'enddate_of_application' => 'required|date',
+            'system_administrator_privileges' => 'required|boolean',
+            'employee_registration_authority' => 'required|boolean',
+            'course_enrollment_privileges' => 'required|boolean',
+            'attendance_setting_authority' => 'required|boolean',
+            'authority_validity_scope' => 'required|string|max:255',
+            'authority_validity_code' => 'required|string|max:255',
         ]);
     
-        // Proses penyimpanan data registrasi anggota ke dalam database
-        $validatedData['company_id'] = $request->company_id;
-        EmployeeInformation::create($validatedData);
+        // Membuat entri baru dalam tabel employee_information
+        $employeeInformation = EmployeeInformation::create($validatedData);
     
-        // Setelah data disimpan, redirect pengguna ke halaman dashboard atau ke halaman yang sesuai
+        // Membuat entri baru dalam tabel employee_affiliation_information
+        $affiliationInformation = EmployeeAffiliationInformation::create([
+            'company_id' => $validatedData['company_id'],
+            'affiliation_code' => $validatedData['affiliation_code'],
+            'job_id' => $validatedData['job_id'],
+            'application_startdate' => $validatedData['application_startdate'],
+            'enddate_of_application' => $validatedData['enddate_of_application'],
+            'system_administrator_privileges' => $validatedData['system_administrator_privileges'],
+            'employee_registration_authority' => $validatedData['employee_registration_authority'],
+            'course_enrollment_privileges' => $validatedData['course_enrollment_privileges'],
+            'attendance_setting_authority' => $validatedData['attendance_setting_authority'],
+            'authority_validity_scope' => $validatedData['authority_validity_scope'],
+            'authority_validity_code' => $validatedData['authority_validity_code'],
+        ]);
+    
+        // Redirect dengan pesan sukses jika berhasil disimpan
         return redirect()->route('member-registration')->with('success', 'Member registered successfully!');
     }
     
 
     public function edit($id)
     {
-        // Temukan data anggota berdasarkan ID
         $member = EmployeeInformation::findOrFail($id);
-
-        // Tampilkan halaman edit dengan data anggota yang ditemukan
         return view('edit-member', compact('member'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validasi data yang diterima dari form edit
         $validatedData = $request->validate([
-            // Aturan validasi untuk setiap field formulir
-            'full_name' => 'required|string|max:255',
-            'kana_name' => 'nullable|string|max:255',
+            'fullname' => 'required|string|max:255',
+            'kananame' => 'nullable|string|max:255',
             'email_address' => 'required|string|email|max:255|unique:employee_information,email_address,'.$id,
             'contact_phone_number' => 'nullable|string|max:20',
             'employee_code' => 'required|string|max:50|unique:employee_information,employee_code,'.$id,
             'sex' => 'nullable|string|max:10',
-            'date_of_birth' => 'nullable|date',
-            'date_of_joining' => 'nullable|date',
-            'retirement_date' => 'nullable|date',
+            'dateofbirth' => 'nullable|date',
+            'dateofjoining' => 'nullable|date',
+            'retirementdate' => 'nullable|date',
             'remarks' => 'nullable|string|max:255',
             'encrypted_password' => 'required|string|max:255',
             'account_status' => 'required|string|max:20',
-            'password_expiration_date' => 'nullable|date',
-            'number_of_incorrect_passwords' => 'required|integer',
-            'account_lock_date_time' => 'nullable|date',
+            'password_expiration' => 'nullable|date',
+            'numberofincorrect_passwords' => 'required|integer',
+            'account_lock_datetime' => 'nullable|date',
             'employee_attribute01' => 'nullable|string|max:255',
             'employee_attribute02' => 'nullable|string|max:255',
             'employee_attribute03' => 'nullable|string|max:255',
@@ -112,49 +121,17 @@ class MasterRegistrationController extends Controller
             'company_id' => 'required',
         ]);
 
-        // Temukan data anggota yang akan diperbarui berdasarkan ID
-        
         $member = EmployeeInformation::findOrFail($id);
         
         $member->update($validatedData);
-        // Update data anggota
-        $member->update([
-            'fullname' => $request->full_name,
-            'kananame' => $request->kana_name,
-            'email_address' => $request->email_address,
-            'contact_phonenumber' => $request->contact_phone_number,
-            'employee_code' => $request->employee_code,
-            'sex' => $request->sex,
-            'dateofbirth' => $request->date_of_birth,
-            'dateofjoining' => $request->date_of_joining,
-            'retirementdate' => $request->retirement_date,
-            'remarks' => $request->remarks,
-            'encrypted_password' => $request->encrypted_password,
-            'account_status' => $request->account_status,
-            'password_expiration' => $request->password_expiration_date,
-            'numberofincorrect_passwords' => $request->number_of_incorrect_passwords,
-            'account_lock_datetime' => $request->account_lock_date_time,
-            'employee_attribute01' => $request->employee_attribute01,
-            'employee_attribute02' => $request->employee_attribute02,
-            'employee_attribute03' => $request->employee_attribute03,
-            'employee_attribute04' => $request->employee_attribute04,
-            'employee_attribute05' => $request->employee_attribute05,
-        ]);
 
-        // Setelah data diperbarui, redirect pengguna ke halaman dashboard atau ke halaman yang sesuai
         return redirect()->route('member-registration')->with('success', 'Member updated successfully!');
     }
 
-
     public function destroy($id)
     {
-        // Temukan data anggota yang akan dihapus berdasarkan ID
         $member = EmployeeInformation::findOrFail($id);
-    
-        // Hapus data anggota
         $member->delete();
-    
-        // Setelah data dihapus, redirect pengguna ke halaman dashboard atau ke halaman yang sesuai
         return redirect()->route('dashboard')->with('success', 'Member deleted successfully!');
     }
 }

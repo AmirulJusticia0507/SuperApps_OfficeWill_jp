@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="fullname">&emsp;Full Name:</label>
-                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;">
+                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
                                 </div>
                                 <div class="form-group">
                                     <label for="employee_code">&emsp;Employee Code:</label>
@@ -109,6 +109,7 @@
 
     @section('scripts')
     <!-- Script DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
@@ -124,4 +125,20 @@
             });
         });
     </script>
+    <script>
+        function updateEmployeeCode() {
+            var fullname = document.getElementById('fullname').value;
+            // Logika untuk menghasilkan kode karyawan berdasarkan nama lengkap
+            // Misalnya, Anda dapat menggunakan inisial atau bagian dari nama sebagai kode karyawan
+            var employeeCode = generateEmployeeCode(fullname);
+            document.getElementById('employee_code').value = employeeCode;
+        }
+
+        function generateEmployeeCode(fullname) {
+            // Misalnya, menggunakan inisial dari setiap kata dalam nama lengkap
+            var initials = fullname.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
+            return initials;
+        }
+    </script>
+
     @endsection

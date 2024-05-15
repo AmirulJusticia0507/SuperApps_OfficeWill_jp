@@ -9,6 +9,7 @@ class EmployeeAffiliationInformation extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'eai_id';
     protected $fillable = [
         'eai_id',
         'company_id',

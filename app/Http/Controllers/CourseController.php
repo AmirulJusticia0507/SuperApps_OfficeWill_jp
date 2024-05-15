@@ -114,13 +114,12 @@ class CourseController extends Controller
     public function inquiry()
     {
         $affiliations = AffiliationInformation::all();
-        $jobTitles = JobInformation::all(); // Initialize the $jobTitles variable
+        $jobTitles = JobInformation::all(); 
         $employees = EmployeeInformation::all();
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
         return view('courseinquiry', compact('affiliations', 'jobTitles', 'employees', 'classifications', 'details'));
     }
-    
 
     public function showCourseInquiryForm()
     {
@@ -128,8 +127,8 @@ class CourseController extends Controller
         $details = CourseClassificationDetailInformation::all();
         $jobTitles = JobInformation::all(); // Inisialisasi variabel $jobTitles
         $courses = CourseInformation::all();
-    
-        return view('courseinquiry', compact('classifications', 'details', 'jobTitles', 'courses'));
+        $employees = EmployeeInformation::all();
+        return view('courseinquiry', compact('classifications', 'details', 'jobTitles', 'courses', 'employees'));
     }
     
 }

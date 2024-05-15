@@ -180,4 +180,8 @@ Route::get('/search-courses', [CourseController::class, 'search'])->name('search
 Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 Route::get('/course-inquiry-search', 'CourseController@search')->name('course-inquiry-search');
 Route::get('job/{id}', 'CourseController@show')->name('job.show');
+// Rute untuk employee inquiry
+Route::get('/employee-inquiry', [EmployeeInformationController::class, 'employeeInquiry'])->name('employee-inquiry');
 
+// Rute untuk filter employee
+Route::get('/employees/filter', [EmployeeInformationController::class, 'filter'])->name('employees.filter');

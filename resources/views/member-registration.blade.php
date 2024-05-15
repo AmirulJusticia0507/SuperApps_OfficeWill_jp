@@ -34,14 +34,14 @@
                     {{-- <div class="row"> --}}
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="full_name" class="form-label">Full Name: <span
+                                <label for="fullname" class="form-label">Full Name: <span
                                         style="color: red">*</span></label>
-                                <input type="text" name="full_name" id="full_name" class="form-control" required style="display: inline-block; width: 72%;">
+                                <input type="text" name="fullname" id="fullname" class="form-control" required style="display: inline-block; width: 72%;">
                             </div>
                             <div class="mb-3">
-                                <label for="kana_name" class="form-label">Kana Name: <span
+                                <label for="kananame" class="form-label">Kana Name: <span
                                         style="color: red">*</span></label>
-                                <input type="text" name="kana_name" id="kana_name" class="form-control" required style="display: inline-block; width: 70%;">
+                                <input type="text" name="kananame" id="kananame" class="form-control" required style="display: inline-block; width: 70%;">
                             </div>
                         </div>
                         <div id="affiliation-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div><br>
@@ -79,9 +79,9 @@
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
                             <label>System Administrator Privileges: <b style="color: red">*</b></label>
                             <div>
-                                <input type="radio" name="system_admin_privileges" value="1" required>
+                                <input type="radio" name="system_administrator_privileges" value="1" required>
                                 <label class="checkbox-label">With Permission</label>
-                                <input type="radio" name="system_admin_privileges" value="0" required>
+                                <input type="radio" name="system_administrator_privileges" value="0" required>
                                 <label class="checkbox-label">Without Permission</label>
                             </div>
                         </div>
@@ -102,26 +102,32 @@
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
                             <label>Attendance Settings Authority: <b style="color: red">*</b></label>
                             <div>
-                                <input type="radio" name="attendance_settings_authority" value="1" required> <label class="checkbox-label">With Permission</label>
-                                <input type="radio" name="attendance_settings_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="attendance_setting_authority" value="1" required> <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="attendance_setting_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="authority_effective_affiliation">Authority Effective Affiliation: <b style="color: red">*</b></label>
-                            <div class="d-inline-block">
+                            <label for="authority_validity_scope">Authority Effective Affiliation: <b style="color: red">*</b></label>
+                            <div class="d-inline-block mb-3">
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_effective_affiliation_1" name="authority_effective_affiliation" value="1" required>
-                                    <label class="form-check-label" for="authority_effective_affiliation_1">Limited to affiliation</label>
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_1" name="authority_validity_scope" value="1" required>
+                                    <label class="form-check-label" for="authority_validity_scope_1">Limited to affiliation</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_effective_affiliation_2" name="authority_effective_affiliation" value="2" required>
-                                    <label class="form-check-label" for="authority_effective_affiliation_2">Below affiliation</label>
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_2" name="authority_validity_scope" value="2" required>
+                                    <label class="form-check-label" for="authority_validity_scope_2">Below affiliation</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_effective_affiliation_3" name="authority_effective_affiliation" value="3" required>
-                                    <label class="form-check-label" for="authority_effective_affiliation_3">All affiliations</label>
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_3" name="authority_validity_scope" value="3" required>
+                                    <label class="form-check-label" for="authority_validity_scope_3">All affiliations</label>
                                 </div>
                             </div>
+                            <select name="authority_validity_code" id="authority_validity_code" class="form-control" style="display: inline-block; width: 81%;" required>
+                                <option value="">Select Affiliation</option>
+                                @foreach($affiliations as $affiliation)
+                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     <!-- Informasi Dasar -->
                     <div id="basic-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Basic information</b></div>
@@ -134,8 +140,8 @@
                                 <input type="email" name="email_address_confirmation" id="email_address_confirmation" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
-                                <label for="contact_phone_number">Contact Phone Number: <b style="color: red">*</b></label>
-                                <input type="text" name="contact_phone_number" id="contact_phone_number" class="form-control" required style="width: 100%">
+                                <label for="contact_phonenumber">Contact Phone Number: <b style="color: red">*</b></label>
+                                <input type="text" name="contact_phonenumber" id="contact_phonenumber" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
                                 <label for="employee_code">Employee Code:</label>
@@ -155,16 +161,16 @@
                                 </div>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="date_of_birth" style="margin-right: 10px; flex-grow: 1;">Date of Birth: <b style="color: red">*</b></label>
-                                <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                                <label for="dateofbirth" style="margin-right: 10px; flex-grow: 1;">Date of Birth: <b style="color: red">*</b></label>
+                                <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="date_of_joining" style="margin-right: 10px; flex-grow: 1;">Date of Joining:</label>
-                                <input type="date" name="date_of_joining" id="date_of_joining" class="form-control" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                                <label for="dateofjoining" style="margin-right: 10px; flex-grow: 1;">Date of Joining:</label>
+                                <input type="date" name="dateofjoining" id="dateofjoining" class="form-control" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="retirement_date" style="margin-right: 10px; flex-grow: 1;">Retirement Date:</label>
-                                <input type="date" name="retirement_date" id="retirement_date" class="form-control" min="2022-01-01" max="2050-12-31">
+                                <label for="retirementdate" style="margin-right: 10px; flex-grow: 1;">Retirement Date:</label>
+                                <input type="date" name="retirementdate" id="retirementdate" class="form-control" min="2022-01-01" max="2050-12-31">
                             </div>
                             <!-- Tambahkan input untuk atribut karyawan -->
                             <div class="mb-3">
@@ -188,16 +194,16 @@
                                 </select>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="password_expiration_date" style="margin-right: 10px;">Password Expiration Date:</label>
-                                <input type="date" name="password_expiration_date" id="password_expiration_date" class="form-control">
+                                <label for="password_expiration" style="margin-right: 10px;">Password Expiration Date:</label>
+                                <input type="date" name="password_expiration" id="password_expiration" class="form-control">
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="number_of_incorrect_passwords" style="margin-right: 10px;">Number of Incorrect Passwords:</label>
-                                <input type="number" name="number_of_incorrect_passwords" id="number_of_incorrect_passwords" class="form-control">
+                                <label for="numberofincorrect_passwords" style="margin-right: 10px;">Number of Incorrect Passwords:</label>
+                                <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords" class="form-control">
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="account_lock_date_time" style="margin-right: 10px;">Account Lock Date and Time:</label>
-                                <input type="datetime-local" name="account_lock_date_time" id="account_lock_date_time" class="form-control">
+                                <label for="account_lock_datetime" style="margin-right: 10px;">Account Lock Date and Time:</label>
+                                <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" class="form-control">
                             </div>
                         <div align="center">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Register</button>
@@ -228,12 +234,12 @@
 @endsection
 
 <script>
-    // Mendapatkan elemen input date_of_birth
-    var dateOfBirthInput = document.getElementById('date_of_birth');
-    // Mendapatkan elemen input date_of_joining
-    var dateOfJoiningInput = document.getElementById('date_of_joining');
+    // Mendapatkan elemen input dateofbirth
+    var dateOfBirthInput = document.getElementById('dateofbirth');
+    // Mendapatkan elemen input dateofjoining
+    var dateOfJoiningInput = document.getElementById('dateofjoining');
 
-    // Batasi pilihan bulan untuk date_of_birth
+    // Batasi pilihan bulan untuk dateofbirth
     dateOfBirthInput.addEventListener('input', function() {
         var selectedDate = new Date(this.value);
         var maxDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
@@ -243,7 +249,7 @@
         }
     });
 
-    // Batasi pilihan bulan untuk date_of_joining
+    // Batasi pilihan bulan untuk dateofjoining
     dateOfJoiningInput.addEventListener('input', function() {
         var selectedDate = new Date(this.value);
         var maxDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();

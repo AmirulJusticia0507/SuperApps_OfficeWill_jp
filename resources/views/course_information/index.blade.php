@@ -17,13 +17,13 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Course Registration</a></li>
+                        <li class="breadcrumb-item"><a href="#">Course Information Registration</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('course-list') }}">Course List</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Employee Information Registration</li>
+                        <li class="breadcrumb-item active" aria-current="page">Course Information Registration</li>
                     </ol>
                 </nav>
                 <div class="card">
-                    <div id="courseregistration" class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Registration</b></div>
+                    <div id="courseregistration" class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Information Registration</b></div>
                     <div class="card-body">
                         <form method="POST" action="{{ isset($course) ? route('course-information.update', $course->course_id) : route('course-information.store') }}">
                             @csrf
@@ -233,6 +233,7 @@
 
 @section('scripts')
 <!-- Script DataTables -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <!-- Script for Modals -->

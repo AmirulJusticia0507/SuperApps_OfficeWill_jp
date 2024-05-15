@@ -50,13 +50,10 @@
                 </div>
                 <div class="form-group">
                     <label for="course_name">&emsp;Course Name:</label>
-                    &emsp;<input type="text" name="course_name" id="course_name" class="form-control"
-                        style="display: inline-block; width: 60%;"
-                        value="{{ isset($course) ? $course->coursename : '' }}">
+                    &emsp;<input type="text" name="course_name" id="course_name" class="form-control" style="display: inline-block; width: 60%;" value="{{ isset($course) ? $course->coursename : '' }}">
                 </div>
                 <div class="form-group">
-                    <label for="course_attributes_01" style="display: inline-block; width: 30%;">&emsp;(Course attribute
-                        01) :</label>
+                    <label for="course_attributes_01" style="display: inline-block; width: 30%;">&emsp;(Course attribute 01) :</label>
                     <select name="course_attributes_01" id="course_attributes_01"
                         style="display: inline-block; width: 60%;" class="form-control">
                         <option value="-"> </option>
@@ -364,6 +361,7 @@
 
     @section('scripts')
     <!-- Script DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>

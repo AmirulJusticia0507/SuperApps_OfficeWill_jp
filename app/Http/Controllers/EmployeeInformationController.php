@@ -7,6 +7,8 @@ use App\Models\EmployeeInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\CourseInformation;
+use App\Models\CourseClassificationInformation;
+use App\Models\CourseClassificationDetailInformation;
 class EmployeeInformationController extends Controller
 {
     /**
@@ -46,8 +48,28 @@ class EmployeeInformationController extends Controller
      */
     public function store(Request $request)
     {
+        // Ambil nama lengkap dari input
+        $fullname = $request->input('fullname');
+        
+        // Hasilkan kode karyawan dari nama lengkap
+        $employeeCode = $this->generateEmployeeCode($fullname);
+    
+        // Tambahkan kode karyawan ke dalam request sebelum menyimpan data
+        $request->merge(['employee_code' => $employeeCode]);
+    
+        // Simpan data karyawan ke dalam database
         EmployeeInformation::create($request->all());
+        
         return redirect()->route('employees.index')->with('success', 'Employee created successfully');
+    }
+
+    private function generateEmployeeCode($fullname)
+    {
+        // Misalnya, menggunakan inisial dari setiap kata dalam nama lengkap
+        $initials = implode('', array_map('ucfirst', array_map('substr', explode(' ', $fullname), array_fill(0, count(explode(' ', $fullname)), 0, 1))));
+        
+        // Anda dapat menambahkan logika lain sesuai kebutuhan
+        return $initials;
     }
 
     /**
@@ -119,6 +141,18 @@ class EmployeeInformationController extends Controller
         $employees = EmployeeInformation::all();
         $filteredEmployees = $employees; // Tambahkan baris ini untuk menyediakan data filteredEmployees
         return view('coursesettings', compact('filteredEmployees'));
+    }
+
+    public function employeeInquiry()
+    {
+        $classifications = CourseClassificationInformation::all();
+        $details = CourseClassificationDetailInformation::all();
+        $affiliations = AffiliationInformation::all();
+        $jobs = JobInformation::all();
+        $jobTitles = JobInformation::all();
+        $courses = CourseInformation::all();
+        $filteredEmployees = EmployeeInformation::all();
+        return view('employeeinquiry', compact('affiliations', 'jobs', 'jobTitles', 'filteredEmployees','courses', 'classifications', 'details'));
     }
     
 }
