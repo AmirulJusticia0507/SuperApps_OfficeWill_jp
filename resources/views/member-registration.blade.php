@@ -29,7 +29,7 @@
         <div class="card">
             <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee Registration</b></div>
             <div class="card-body">
-                <form action="{{ route('member-registration.store') }}" method="POST">
+                <form action="{{ route('member-registration.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     {{-- <div class="row"> --}}
                         <div class="col-md-6">
