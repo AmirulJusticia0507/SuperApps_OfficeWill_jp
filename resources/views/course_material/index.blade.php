@@ -29,6 +29,15 @@
             <div id="materialForm">
                 <form id="courseMaterialForm" enctype="multipart/form-data" method="POST" action="{{ route('materials.store') }}">
                     @csrf
+                    <div class="mb-3">
+                        <label for="company_id" class="form-label">Company</label>
+                        <select class="form-select" id="company_id" name="company_id" required>
+                            <option value="" selected disabled>Select Company</option>
+                            @foreach($companies as $company)
+                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="teaching_material_name">Teaching Material Name: <b style="color: red">*</b></label>
                         <input type="text" class="form-control" id="teaching_material_name" name="teaching_material_name" required>
@@ -43,15 +52,15 @@
                     </div>
                     <div id="videoFields" >
                         <div class="form-group">
-                            <label for="youtube_video_url">Video URL: <b style="color: red">*</b></label>
-                            <input type="url" class="form-control" id="youtube_video_url" name="youtube_video_url" required>
+                            <label for="youtube_video_url">Video URL: </label>
+                            <input type="url" class="form-control" id="youtube_video_url" name="youtube_video_url">
                         </div>
                         <!-- Add preview for video here if needed -->
                     </div>
                     <div id="booksFields" >
                         <div class="form-group">
-                            <label for="bookfile">Book File: <b style="color: red">*</b></label>
-                            <input type="file" class="form-control" id="bookfile" name="bookfile" required>
+                            <label for="bookfile">Book File: </label>
+                            <input type="file" class="form-control" id="bookfile" name="bookfile">
                         </div>
                         <!-- Add preview for book file here if needed -->
                     </div>
@@ -144,32 +153,32 @@
             }
         });
 
-        const materialFormElement = document.getElementById('courseMaterialForm');
-        materialFormElement.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            fetch(this.action, {
-                method: this.method,
-                body: formData,
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);
-                // Reset form after successful submission
-                materialFormElement.reset();
-                // Hide form after successful submission
-                hideAllFields();
-                // You may want to reload or update the table here
-            })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
-            });
-        });
+        // const materialFormElement = document.getElementById('courseMaterialForm');
+        // materialFormElement.addEventListener('submit', function(event) {
+        //     event.preventDefault();
+        //     const formData = new FormData(this);
+        //     fetch(this.action, {
+        //         method: this.method,
+        //         body: formData,
+        //     })
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         console.log(data);
+        //         // Reset form after successful submission
+        //         materialFormElement.reset();
+        //         // Hide form after successful submission
+        //         hideAllFields();
+        //         // You may want to reload or update the table here
+        //     })
+        //     .catch(error => {
+        //         console.error('There has been a problem with your fetch operation:', error);
+        //     });
+        // });
     });
 
 </script>

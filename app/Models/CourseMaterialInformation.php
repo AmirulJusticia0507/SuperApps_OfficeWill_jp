@@ -9,6 +9,8 @@ class CourseMaterialInformation extends Model
 {
     use HasFactory;
     protected $primaryKey = 'material_id';
+
+    public $timestamps = false;
     protected $fillable = [
         'material_id',
         'company_id',

@@ -115,7 +115,7 @@
                                 <textarea name="remarks" id="remarks" cols="5" rows="5" class="form-control" style="display: inline-block; width: 60%;"></textarea>
                             </div>
 
-                            <!-- <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
+                            <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
                             <div class="card-body">
                                 <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black">Teaching Material</b></div>
                                 <div align="right"><br>
@@ -152,7 +152,7 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div> -->
+                            </div>
                             <div id="posttodo" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Post-course ToDo</b></div>
                             <div class="mb-3">
                                 <div style="display: flex; align-items: center;">

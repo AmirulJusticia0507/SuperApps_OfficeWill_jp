@@ -4,57 +4,75 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseMaterialInformation;
+use App\Models\CompanyInformation;
 
 class CourseMaterialInformationController extends Controller
 {
     public function index()
     {
+        $companies = CompanyInformation::all();
         $materials = CourseMaterialInformation::all();
-        return view('course_material.index', compact('materials'));
+        return view('course_material.index', compact('materials', 'companies'));
     }    
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('course_material.create');
+        $companies = CompanyInformation::all();
+        return view('course_material.create', compact('companies'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'company_id' => 'required|exists:company_informations,id',
+            'teaching_material_name' => 'required',
+            'material_type' => 'required',
+        ]);
+
+        // Jika ada file yang di-upload, proses dan simpan file tersebut
+        if ($request->hasFile('bookfile')) {
+            $bookFile = $request->file('bookfile');
+            $bookFilePath = $bookFile->store('books', 'public');
+            $request->merge(['book_file_path' => $bookFilePath]);
+        }
+
         CourseMaterialInformation::create($request->all());
+    
         return redirect()->route('materials.index')->with('success', 'Material created successfully');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        $material = CourseMaterialInformation::find($id);
-        return view('course_material.edit', compact('material'));
+        $material = CourseMaterialInformation::findOrFail($id);
+        $companies = CompanyInformation::all();
+        return view('course_material.edit', compact('material', 'companies'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $material = CourseMaterialInformation::find($id);
+        $request->validate([
+            'company_id' => 'required|exists:company_informations,id',
+            'teaching_material_name' => 'required',
+            'material_type' => 'required',
+        ]);
+
+        // Jika ada file yang di-upload, proses dan simpan file tersebut
+        if ($request->hasFile('bookfile')) {
+            $bookFile = $request->file('bookfile');
+            $bookFilePath = $bookFile->store('books', 'public');
+            $request->merge(['book_file_path' => $bookFilePath]);
+        }
+
+        $material = CourseMaterialInformation::findOrFail($id);
         $material->update($request->all());
+    
         return redirect()->route('materials.index')->with('success', 'Material updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        CourseMaterialInformation::destroy($id);
+        $material = CourseMaterialInformation::findOrFail($id);
+        $material->delete();
         return redirect()->route('materials.index')->with('success', 'Material deleted successfully');
     }
 }

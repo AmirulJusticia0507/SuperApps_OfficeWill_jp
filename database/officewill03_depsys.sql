@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v13.1.1 (64 bit)
-MySQL - 10.4.32-MariaDB : Database - superapps_officewill_jp
+MySQL - 10.4.32-MariaDB : Database - officewill03_depsys
 *********************************************************************
 */
 
@@ -12,9 +12,9 @@ MySQL - 10.4.32-MariaDB : Database - superapps_officewill_jp
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`superapps_officewill_jp` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`officewill03_depsys` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 
-USE `superapps_officewill_jp`;
+USE `officewill03_depsys`;
 
 /*Table structure for table `affiliation_information` */
 
@@ -59,10 +59,10 @@ CREATE TABLE `attendance_todo_answer_selection_information` (
   KEY `ToDo_option_ID` (`todo_option_id`),
   CONSTRAINT `attendance_todo_answer_selection_information_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `company_information` (`company_id`),
   CONSTRAINT `attendance_todo_answer_selection_information_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee_information` (`employee_id`),
-  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `course_information` (`course_ID`),
-  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_4` FOREIGN KEY (`attendance_setting_id`) REFERENCES `course_schedule_results_information` (`Attendance_setting_id`),
-  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_5` FOREIGN KEY (`todo_items_id`) REFERENCES `course_todo_item_information` (`ToDo_item_id`),
-  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_6` FOREIGN KEY (`todo_option_id`) REFERENCES `course_todo_items_choice_information` (`ToDo_option_id`)
+  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `course_information` (`course_id`),
+  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_4` FOREIGN KEY (`attendance_setting_id`) REFERENCES `course_schedule_results_information` (`attendance_setting_id`),
+  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_5` FOREIGN KEY (`todo_items_id`) REFERENCES `course_todo_item_information` (`todo_item_id`),
+  CONSTRAINT `attendance_todo_answer_selection_information_ibfk_6` FOREIGN KEY (`todo_option_id`) REFERENCES `course_todo_items_choice_information` (`todo_option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `attendance_todo_answer_selection_information` */
@@ -88,9 +88,9 @@ CREATE TABLE `attendance_todo_item_answer_information` (
   KEY `todo_items_id` (`todo_items_id`),
   CONSTRAINT `attendance_todo_item_answer_information_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `company_information` (`company_id`),
   CONSTRAINT `attendance_todo_item_answer_information_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee_information` (`employee_id`),
-  CONSTRAINT `attendance_todo_item_answer_information_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `course_information` (`course_ID`),
-  CONSTRAINT `attendance_todo_item_answer_information_ibfk_4` FOREIGN KEY (`attendance_settings_id`) REFERENCES `course_schedule_results_information` (`Attendance_setting_id`),
-  CONSTRAINT `attendance_todo_item_answer_information_ibfk_5` FOREIGN KEY (`todo_items_id`) REFERENCES `course_todo_item_information` (`ToDo_item_id`)
+  CONSTRAINT `attendance_todo_item_answer_information_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `course_information` (`course_id`),
+  CONSTRAINT `attendance_todo_item_answer_information_ibfk_4` FOREIGN KEY (`attendance_settings_id`) REFERENCES `course_schedule_results_information` (`attendance_setting_id`),
+  CONSTRAINT `attendance_todo_item_answer_information_ibfk_5` FOREIGN KEY (`todo_items_id`) REFERENCES `course_todo_item_information` (`todo_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `attendance_todo_item_answer_information` */
@@ -404,7 +404,7 @@ CREATE TABLE `employee_affiliation_information` (
   KEY `JobID` (`job_id`),
   CONSTRAINT `employee_affiliation_information_ibfk_1` FOREIGN KEY (`affiliation_code`) REFERENCES `affiliation_information` (`affiliation_code`),
   CONSTRAINT `employee_affiliation_information_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `company_information` (`company_id`),
-  CONSTRAINT `employee_affiliation_information_ibfk_3` FOREIGN KEY (`job_id`) REFERENCES `job_information` (`Job_ID`)
+  CONSTRAINT `employee_affiliation_information_ibfk_3` FOREIGN KEY (`job_id`) REFERENCES `job_information` (`Job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `employee_affiliation_information` */
@@ -648,7 +648,8 @@ CREATE TABLE `sessions` (
 /*Data for the table `sessions` */
 
 insert  into `sessions`(`id`,`user_id`,`ip_address`,`user_agent`,`payload`,`last_activity`) values 
-('Kqse5tnGqa27Ey6gqjqoWdmew4JkLYdLm9co5age',3,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0','YTo0OntzOjY6Il90b2tlbiI7czo0MDoic2ZkZ21xQllUNTY0Y2xmTGFnSXRZU0ZrYlRldjR1NnM1NTJGcVhmbyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZXNldC1wYXNzd29yZC9wYXNzd29yZHMuc2VudCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7fQ==',1715828555);
+('qAK85UPkCGpiUK5ZT6Csv19XI7kCtkcFSSbHMp6d',3,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUlpoNkUwQmdVbDRJT0RiaUFKbG94ZkpqazZ4ZGhCSmJ5UXNtS250UiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tYXRlcmlhbHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO30=',1715851635),
+('suWYdmmShDvajIBkYVvxBSgXpIlVeMkSHVNnVN1i',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0','YTozOntzOjY6Il90b2tlbiI7czo0MDoiQ2g1UVhhMnZuUk1mTFRuclZGM3RJbjFtakRGRTVqRGJ1MHBvc1lWcyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tYXRlcmlhbHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19',1715850869);
 
 /*Table structure for table `users` */
 
