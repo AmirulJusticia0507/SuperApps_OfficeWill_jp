@@ -10,9 +10,7 @@ class CourseMaterialInformation extends Model
     use HasFactory;
     protected $primaryKey = 'material_id';
 
-    public $timestamps = false;
     protected $fillable = [
-        'material_id',
         'company_id',
         'Course_id',
         'display_order',
@@ -22,6 +20,7 @@ class CourseMaterialInformation extends Model
         'book_file_path'
     ];
 
+    public $timestamps = false;
     // Fungsi CRUD
 
     // Create

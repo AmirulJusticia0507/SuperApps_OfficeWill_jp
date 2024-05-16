@@ -150,7 +150,6 @@ Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
 // Rute for questionnaire
 Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');
 
-// Rute for materials
 // Rute untuk menampilkan daftar semua materials
 Route::get('/materials', [CourseMaterialInformationController::class, 'index'])->name('materials.index');
 

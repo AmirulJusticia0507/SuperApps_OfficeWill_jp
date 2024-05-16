@@ -24,15 +24,14 @@ class CourseMaterialInformationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'company_id' => 'required|exists:company_informations,id',
+            'company_id' => 'required|exists:company_information,id',
             'teaching_material_name' => 'required',
             'material_type' => 'required',
         ]);
 
-        // Jika ada file yang di-upload, proses dan simpan file tersebut
+        // Handle file upload jika ada
         if ($request->hasFile('bookfile')) {
-            $bookFile = $request->file('bookfile');
-            $bookFilePath = $bookFile->store('books', 'public');
+            $bookFilePath = $request->file('bookfile')->store('books', 'public');
             $request->merge(['book_file_path' => $bookFilePath]);
         }
 
@@ -51,15 +50,14 @@ class CourseMaterialInformationController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'company_id' => 'required|exists:company_informations,id',
+            'company_id' => 'required|exists:company_information,id',
             'teaching_material_name' => 'required',
             'material_type' => 'required',
         ]);
 
-        // Jika ada file yang di-upload, proses dan simpan file tersebut
+        // Handle file upload jika ada
         if ($request->hasFile('bookfile')) {
-            $bookFile = $request->file('bookfile');
-            $bookFilePath = $bookFile->store('books', 'public');
+            $bookFilePath = $request->file('bookfile')->store('books', 'public');
             $request->merge(['book_file_path' => $bookFilePath]);
         }
 

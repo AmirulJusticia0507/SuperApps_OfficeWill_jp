@@ -87,12 +87,12 @@
                         <tbody>
                             @foreach($materials as $material)
                             <tr>
-                                <td>{{ $material->id }}</td>
+                                <td>{{ $material->material_id }}</td> <!-- Ubah $material->id menjadi $material->material_id -->
                                 <td>{{ $material->teaching_material_name }}</td>
                                 <td>{{ $material->material_type }}</td>
                                 <td>
-                                    <a href="{{ route('materials.edit', $material->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                    <form action="{{ route('materials.destroy', $material->id) }}" method="POST" style="display: inline;">
+                                    <a href="{{ route('materials.edit', $material->material_id) }}" class="btn btn-primary btn-sm">Edit</a> <!-- Ubah $material->id menjadi $material->material_id -->
+                                    <form action="{{ route('materials.destroy', $material->material_id) }}" method="POST" style="display: inline;"> <!-- Ubah $material->id menjadi $material->material_id -->
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
@@ -104,6 +104,7 @@
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 @endsection
