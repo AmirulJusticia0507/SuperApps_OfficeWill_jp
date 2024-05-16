@@ -115,7 +115,7 @@
                                 <textarea name="remarks" id="remarks" cols="5" rows="5" class="form-control" style="display: inline-block; width: 60%;"></textarea>
                             </div>
 
-                            <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
+                            <!-- <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
                             <div class="card-body">
                                 <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black">Teaching Material</b></div>
                                 <div align="right"><br>
@@ -152,7 +152,7 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div> -->
                             <div id="posttodo" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Post-course ToDo</b></div>
                             <div class="mb-3">
                                 <div style="display: flex; align-items: center;">
@@ -192,9 +192,9 @@
                                 <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Save Course</button>
                                 <button type="reset" class="btn btn-secondary"> Delete</button>
                             </div><br><br>
-                        </form>
+                        </form><br>
                         <div align="left">
-                            <button class="btn btn-warning" title="*If ToDo type is survey response">※ToDo種別がアンケート回答の場合</button>
+                            <button class="btn btn-warning" title="*If ToDo type is survey response" data-toggle="modal" data-target="#questionModal">※ToDo種別がアンケート回答の場合</button>
                         </div>
                         <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -208,33 +208,63 @@
                                     <div class="modal-body">
                                         <!-- Form untuk menambah pertanyaan -->
                                         <form id="questionForm">
-                                            <div class="card-header" style="background-color: #F7F7F7" align="center">
-                                                <b style="color:black">Question</b>
-                                                <div style="float: right;">
-                                                    <button type="button" class="btn btn-light" id="addQuestionBtn">Addition</button>
-                                                    <button type="button" class="btn btn-light">Copy</button>
-                                                    <button type="button" class="btn btn-light">Delete</button>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="questionText">Question:</label>
+                                                        <input type="text" class="form-control" id="questionText" name="questionText" placeholder="questionaire" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="answerType">Answer Type:</label>
+                                                        <select class="form-control" id="answerType" name="answerType" required>
+                                                            <option value="text">Text</option>
+                                                            <option value="radio">Radio Button</option>
+                                                            <option value="checkbox">Checkbox</option>
+                                                            <option value="select">Selectbox</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="isRequired">Is Required:</label><br>
+                                                        <input type="radio" id="isRequiredYes" name="isRequired" value="yes" required>
+                                                        <label for="isRequiredYes">Yes</label>
+                                                        <input type="radio" id="isRequiredNo" name="isRequired" value="no" required>
+                                                        <label for="isRequiredNo">No</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="questionText">Question:</label>
-                                                <input type="text" class="form-control" id="questionText" name="questionText" required>
+                                            
+                                            <!-- Formulir untuk jawaban Text -->
+                                            <div id="textAnswerForm" class="answerForm" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="textAnswer">Text Answer:</label>
+                                                    <input type="text" class="form-control" id="textAnswer" name="textAnswer">
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="answerType">Answer Type:</label>
-                                                <select class="form-control" id="answerType" name="answerType" required>
-                                                    <option value="text">Text</option>
-                                                    <option value="radio">Radio Button</option>
-                                                    <option value="checkbox">Checkbox</option>
-                                                    <option value="select">Selectbox</option>
-                                                </select>
+
+                                            <!-- Formulir untuk jawaban Radio Button -->
+                                            <div id="radioAnswerForm" class="answerForm" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="radioOptions">Radio Options:</label>
+                                                    <input type="text" class="form-control" id="radioOptions" name="radioOptions" placeholder="Option 1, Option 2, Option 3, ...">
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="isRequired">Is Required:</label><br>
-                                                <input type="radio" id="isRequiredYes" name="isRequired" value="yes" required>
-                                                <label for="isRequiredYes">Yes</label>
-                                                <input type="radio" id="isRequiredNo" name="isRequired" value="no" required>
-                                                <label for="isRequiredNo">No</label>
+
+                                            <!-- Formulir untuk jawaban Checkbox -->
+                                            <div id="checkboxAnswerForm" class="answerForm" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="checkboxOptions">Checkbox Options:</label>
+                                                    <input type="text" class="form-control" id="checkboxOptions" name="checkboxOptions" placeholder="Option 1, Option 2, Option 3, ...">
+                                                </div>
+                                            </div>
+
+                                            <!-- Formulir untuk jawaban Selectbox -->
+                                            <div id="selectAnswerForm" class="answerForm" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="selectOptions">Selectbox Options:</label>
+                                                    <input type="text" class="form-control" id="selectOptions" name="selectOptions" placeholder="Option 1, Option 2, Option 3, ...">
+                                                </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
@@ -332,6 +362,16 @@
             // Tutup modal
             $('#questionModal').modal('hide');
         });
+
+        // Tampilkan atau sembunyikan formulir jawaban sesuai dengan tipe jawaban yang dipilih
+        $('#answerType').change(function() {
+            var selectedAnswerType = $(this).val();
+            $('.answerForm').hide(); // sembunyikan semua formulir jawaban
+
+            // Tampilkan formulir jawaban yang sesuai dengan tipe yang dipilih
+            $('#' + selectedAnswerType + 'AnswerForm').show();
+        });
     });
 </script>
+
 @endsection

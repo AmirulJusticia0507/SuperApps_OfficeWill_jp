@@ -34,59 +34,49 @@ class CourseInformationController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi data yang diterima dari formulir
         $request->validate([
-            'company_id' => 'required|numeric', // ID perusahaan wajib diisi dan harus berupa angka
-            'Course_classification_id' => 'required|numeric', // ID klasifikasi kursus wajib diisi dan harus berupa angka
-            'coursename' => 'required|string|max:255', // Nama kursus wajib diisi, harus berupa string, dan maksimal 255 karakter
-            'coursename_kana' => 'required|string|max:255', // Nama kursus (Kana) wajib diisi, harus berupa string, dan maksimal 255 karakter
-            'course_description' => 'nullable|string', // Deskripsi kursus opsional, harus berupa string
-            'possible_retake_course_deadline' => 'nullable|date', // Batas waktu pengulangan kursus opsional, harus berupa format tanggal
-            'remarks' => 'nullable|string', // Catatan kursus opsional, harus berupa string
-            'todo_type' => 'nullable|string|max:255', // Tipe tugas kursus opsional, harus berupa string dan maksimal 255 karakter
-            'todo_description' => 'nullable|string', // Deskripsi tugas kursus opsional, harus berupa string
-            'repeated_retest' => 'nullable|boolean', // Pengulangan tes kursus opsional, harus berupa boolean (true/false)
-            'test_passed_score' => 'nullable|numeric', // Skor lulus tes kursus opsional, harus berupa angka
-            'course_attributes_01' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_02' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_03' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_04' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_05' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
+            'company_id' => 'required|numeric',
+            'Course_classification_id' => 'required|numeric',
+            'coursename' => 'required|string|max:255',
+            'coursename_kana' => 'nullable|string|max:255',
+            'course_description' => 'required|string',
+            'possible_retake_course_deadline' => 'nullable|date',
+            'remarks' => 'nullable|string',
+            'todo_type' => 'nullable|string|max:255',
+            'todo_description' => 'nullable|string',
+            'repeated_retest' => 'nullable|string|max:255',
+            'test_passed_score' => 'nullable|numeric',
+            'course_attributes_01' => 'nullable|string|max:255',
+            'course_attributes_02' => 'nullable|string|max:255',
+            'course_attributes_03' => 'nullable|string|max:255',
+            'course_attributes_04' => 'nullable|string|max:255',
+            'course_attributes_05' => 'nullable|string|max:255',
         ]);
 
-        // Simpan data ke tabel course_information
-        $course = CourseInformation::create($request->only([
-            'company_id',
-            'Course_classification_id',
-            'coursename',
-            'coursename_kana',
-            'course_description',
-            'possible_retake_course_deadline',
-            'remarks',
-            'todo_type',
-            'todo_description',
-            'repeated_retest',
-            'test_passed_score',
-            'course_attributes_01',
-            'course_attributes_02',
-            'course_attributes_03',
-            'course_attributes_04',
-            'course_attributes_05',
-            // Masukkan field lain yang sesuai dengan tabel course_information
-        ]));
-
-        // Simpan data ke tabel course_material_information
-        CourseMaterialInformation::create([
-            'course_id' => $course->id, // Ambil ID course yang baru dibuat
+        // Simpan data ke dalam database menggunakan model CourseInformation
+        CourseInformation::create([
             'company_id' => $request->input('company_id'),
-            'teaching_material_name' => $request->input('teaching_material_name'),
-            'material_type' => $request->input('material_type'),
-            'youtube_video_url' => $request->input('youtube_video_url'),
-            'book_file_path' => $request->input('book_file_path'),
-            // Masukkan field lain yang sesuai dengan tabel course_material_information
+            'Course_classification_id' => $request->input('Course_classification_id'),
+            'course_classification_details_id' => $request->input('course_classification_details_id'),
+            'coursename' => $request->input('coursename'),
+            'coursename_kana' => $request->input('coursename_kana'),
+            'course_description' => $request->input('course_description'),
+            'possible_retake_course_deadline' => $request->input('possible_retake_course_deadline'),
+            'remarks' => $request->input('remarks'),
+            'todo_type' => $request->input('todo_type'),
+            'todo_description' => $request->input('todo_description'),
+            'repeated_retest' => $request->input('repeated_retest'),
+            'test_passed_score' => $request->input('test_passed_score'),
+            'course_attributes_01' => $request->input('course_attributes_01'),
+            'course_attributes_02' => $request->input('course_attributes_02'),
+            'course_attributes_03' => $request->input('course_attributes_03'),
+            'course_attributes_04' => $request->input('course_attributes_04'),
+            'course_attributes_05' => $request->input('course_attributes_05'),
         ]);
 
         // Redirect dengan pesan sukses
-        return redirect()->route('materials.index')->with('success', 'Course created successfully');
+        return redirect()->route('courses.index')->with('success', 'Course created successfully');
     }
 
     /**
@@ -103,27 +93,51 @@ class CourseInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Temukan data kursus yang akan diubah
+        $course = CourseInformation::findOrFail($id);
+
+        // Validasi data yang diterima dari formulir
         $request->validate([
-            'company_id' => 'required|numeric', // ID perusahaan wajib diisi dan harus berupa angka
-            'Course_classification_id' => 'required|numeric', // ID klasifikasi kursus wajib diisi dan harus berupa angka
-            'coursename' => 'required|string|max:255', // Nama kursus wajib diisi, harus berupa string, dan maksimal 255 karakter
-            'coursename_kana' => 'required|string|max:255', // Nama kursus (Kana) wajib diisi, harus berupa string, dan maksimal 255 karakter
-            'course_description' => 'nullable|string', // Deskripsi kursus opsional, harus berupa string
-            'possible_retake_course_deadline' => 'nullable|date', // Batas waktu pengulangan kursus opsional, harus berupa format tanggal
-            'remarks' => 'nullable|string', // Catatan kursus opsional, harus berupa string
-            'todo_type' => 'nullable|string|max:255', // Tipe tugas kursus opsional, harus berupa string dan maksimal 255 karakter
-            'todo_description' => 'nullable|string', // Deskripsi tugas kursus opsional, harus berupa string
-            'repeated_retest' => 'nullable|boolean', // Pengulangan tes kursus opsional, harus berupa boolean (true/false)
-            'test_passed_score' => 'nullable|numeric', // Skor lulus tes kursus opsional, harus berupa angka
-            'course_attributes_01' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_02' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_03' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_04' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
-            'course_attributes_05' => 'nullable|string|max:255', // Atribut kursus opsional, harus berupa string dan maksimal 255 karakter
+            'company_id' => 'required|numeric',
+            'Course_classification_id' => 'required|numeric',
+            'coursename' => 'required|string|max:255',
+            'coursename_kana' => 'nullable|string|max:255',
+            'course_description' => 'required|string',
+            'possible_retake_course_deadline' => 'nullable|date',
+            'remarks' => 'nullable|string',
+            'todo_type' => 'nullable|string|max:255',
+            'todo_description' => 'nullable|string',
+            'repeated_retest' => 'nullable|string|max:255',
+            'test_passed_score' => 'nullable|numeric',
+            'course_attributes_01' => 'nullable|string|max:255',
+            'course_attributes_02' => 'nullable|string|max:255',
+            'course_attributes_03' => 'nullable|string|max:255',
+            'course_attributes_04' => 'nullable|string|max:255',
+            'course_attributes_05' => 'nullable|string|max:255',
         ]);
 
-        $course = CourseInformation::find($id);
-        $course->update($request->all());
+        // Update data kursus dengan data baru dari formulir
+        $course->update([
+            'company_id' => $request->input('company_id'),
+            'Course_classification_id' => $request->input('Course_classification_id'),
+            'course_classification_details_id' => $request->input('course_classification_details_id'),
+            'coursename' => $request->input('coursename'),
+            'coursename_kana' => $request->input('coursename_kana'),
+            'course_description' => $request->input('course_description'),
+            'possible_retake_course_deadline' => $request->input('possible_retake_course_deadline'),
+            'remarks' => $request->input('remarks'),
+            'todo_type' => $request->input('todo_type'),
+            'todo_description' => $request->input('todo_description'),
+            'repeated_retest' => $request->input('repeated_retest'),
+            'test_passed_score' => $request->input('test_passed_score'),
+            'course_attributes_01' => $request->input('course_attributes_01'),
+            'course_attributes_02' => $request->input('course_attributes_02'),
+            'course_attributes_03' => $request->input('course_attributes_03'),
+            'course_attributes_04' => $request->input('course_attributes_04'),
+            'course_attributes_05' => $request->input('course_attributes_05'),
+        ]);
+
+        // Redirect dengan pesan sukses
         return redirect()->route('courses.index')->with('success', 'Course updated successfully');
     }
 

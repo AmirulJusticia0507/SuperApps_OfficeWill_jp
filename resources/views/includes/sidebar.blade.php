@@ -184,32 +184,31 @@
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    // Fungsi untuk menampilkan SweetAlert konfirmasi logout
-    function confirmLogout() {
-        Swal.fire({
-            title: 'Konfirmasi Logout',
-            text: 'Anda yakin ingin logout?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect ke halaman logout.php jika pengguna menekan "Ya"
-                window.location.href = "{{ route('logout') }}";
-            }
+        // Fungsi untuk menampilkan SweetAlert konfirmasi logout
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: 'Anda yakin ingin logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect ke halaman logout jika pengguna menekan "Ya"
+                    window.location.href = "{{ route('logout') }}";
+                }
+            });
+        }
+
+        // Tambahkan event listener ke tautan "Logout"
+        const logoutLink = document.querySelector(".logout-link");
+        logoutLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            confirmLogout();
         });
-    }
-
-    // Tambahkan event listener ke tautan "Logout"
-    const logoutLink = document.querySelector(".logout-link");
-    logoutLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        confirmLogout();
     });
-});
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const sidebarToggle = document.getElementById("sidebarToggle");

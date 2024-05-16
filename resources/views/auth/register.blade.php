@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Register</div>
+                    <div class="card-header">Register <h2 style="color: cornflowerblue">DEP SERVICE</h2></div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
@@ -44,7 +44,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i>Register</button>
                         </form>
                     </div>
                 </div>
