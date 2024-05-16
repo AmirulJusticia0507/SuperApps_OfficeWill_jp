@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseMaterialInformation extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'material_id';
     protected $fillable = [
         'material_id',
         'company_id',

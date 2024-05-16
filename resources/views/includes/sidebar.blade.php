@@ -65,6 +65,7 @@
                     <li>
                         <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Course Registration</a>
                         <ul class="treeview" style="display: none;">
+                            <li><a href="{{ route('materials.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Material Registration</a></li>
                             <li><a href="{{ route('course-registration.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Information Registration</a></li>
                             <li><a href="{{ route('course-classification.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course classification registration</a></li>
                             <li><a href="{{ route('course-classification-details.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course classification details registration</a></li>
@@ -103,7 +104,9 @@
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block py-2 px-4 text-sm logout-link"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
             </li>
             <li>
-                <span class="block py-2 px-4 text-sm">{{ auth()->user()->name }}</span>
+                <!-- @if(auth()->check()) -->
+                    <span class="block py-2 px-4 text-sm">{{ auth()->user()->name }}</span>
+                <!-- @endif -->
             </li>
         </ul>
     </nav>
@@ -184,31 +187,32 @@
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Fungsi untuk menampilkan SweetAlert konfirmasi logout
-        function confirmLogout() {
-            Swal.fire({
-                title: 'Konfirmasi Logout',
-                text: 'Anda yakin ingin logout?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect ke halaman logout jika pengguna menekan "Ya"
-                    window.location.href = "{{ route('logout') }}";
-                }
-            });
-        }
-
-        // Tambahkan event listener ke tautan "Logout"
-        const logoutLink = document.querySelector(".logout-link");
-        logoutLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            confirmLogout();
+    // Fungsi untuk menampilkan SweetAlert konfirmasi logout
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Konfirmasi Logout',
+            text: 'Anda yakin ingin logout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect ke halaman logout.php jika pengguna menekan "Ya"
+                window.location.href = "{{ route('logout') }}";
+            }
         });
+    }
+
+    // Tambahkan event listener ke tautan "Logout"
+    const logoutLink = document.querySelector(".logout-link");
+    logoutLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        confirmLogout();
     });
+});
 </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const sidebarToggle = document.getElementById("sidebarToggle");

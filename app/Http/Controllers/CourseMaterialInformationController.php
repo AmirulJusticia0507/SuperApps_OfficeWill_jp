@@ -7,14 +7,11 @@ use App\Models\CourseMaterialInformation;
 
 class CourseMaterialInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $materials = CourseMaterialInformation::all();
         return view('course_material.index', compact('materials'));
-    }
+    }    
 
     /**
      * Show the form for creating a new resource.
@@ -31,15 +28,6 @@ class CourseMaterialInformationController extends Controller
     {
         CourseMaterialInformation::create($request->all());
         return redirect()->route('materials.index')->with('success', 'Material created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $material = CourseMaterialInformation::find($id);
-        return view('course_material.show', compact('material'));
     }
 
     /**

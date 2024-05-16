@@ -27,11 +27,13 @@ use App\Http\Controllers\EmployeeAttributeSettingInformationController;
 use App\Http\Controllers\EmployeeInformationController;
 use App\Http\Controllers\ConfirmCoursesController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\QuestionnaireController;
 
 // Rute untuk menampilkan halaman login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // Rute untuk menampilkan halaman register
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
@@ -47,9 +49,6 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name(
 
 // Rute untuk menampilkan halaman dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-// Rute untuk logout
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rute untuk member registration
 Route::resource('member-registration', MasterRegistrationController::class);
@@ -147,3 +146,28 @@ Route::get('/search-courses', [CourseController::class, 'search'])->name('search
 Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
 Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
+
+// Rute for questionnaire
+Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');
+
+// Rute for materials
+// Rute untuk menampilkan daftar semua materials
+Route::get('/materials', [CourseMaterialInformationController::class, 'index'])->name('materials.index');
+
+// Rute untuk menampilkan form untuk membuat course material baru
+Route::get('/materials/create', [CourseMaterialInformationController::class, 'create'])->name('materials.create');
+
+// Rute untuk menyimpan course material baru yang dibuat
+Route::post('/materials', [CourseMaterialInformationController::class, 'store'])->name('materials.store');
+
+// Rute untuk menampilkan form untuk mengedit course material
+Route::get('/materials/{id}/edit', [CourseMaterialInformationController::class, 'edit'])->name('materials.edit');
+
+// Rute untuk menyimpan perubahan pada course material yang sudah diedit
+Route::put('/materials/{id}', [CourseMaterialInformationController::class, 'update'])->name('materials.update');
+
+// Rute untuk menghapus course material
+Route::delete('/materials/{id}', [CourseMaterialInformationController::class, 'destroy'])->name('materials.destroy');
+
+// Rute untuk menampilkan detail course material
+Route::get('/materials/{id}', [CourseMaterialInformationController::class, 'show'])->name('materials.show');

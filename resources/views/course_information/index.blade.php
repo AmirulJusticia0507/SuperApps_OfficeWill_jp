@@ -266,7 +266,7 @@
                                                     <input type="text" class="form-control" id="selectOptions" name="selectOptions" placeholder="Option 1, Option 2, Option 3, ...">
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">Save Question</button>
                                         </form>
                                     </div>
                                 </div>
@@ -326,16 +326,6 @@
             dom: 'lBfrtip',
             buttons: ['copy', 'excel', 'pdf']
         });
-
-        $('input[type=radio][name=material_type]').change(function() {
-            if (this.value === 'Video') {
-                $('#videoFields').show();
-                $('#booksFields').hide();
-            } else if (this.value === 'Books') {
-                $('#videoFields').hide();
-                $('#booksFields').show();
-            }
-        });
     });
 </script>
 @endsection
@@ -357,10 +347,29 @@
             var answerType = $('#answerType').val();
             var isRequired = $('input[name="isRequired"]:checked').val();
 
-            // Lakukan sesuatu dengan nilai yang diambil dari form survei di sini (misalnya, simpan ke database)
+            // Data yang akan dikirim
+            var formData = {
+                questionText: questionText,
+                answerType: answerType,
+                isRequired: isRequired
+            };
 
-            // Tutup modal
-            $('#questionModal').modal('hide');
+            // Kirim data ke fungsi controller store menggunakan AJAX
+            $.ajax({
+                type: "POST",
+                url: "{{ route('questionnaire.store') }}", // Ganti dengan URL yang sesuai
+                data: formData,
+                success: function(response) {
+                    // Lakukan sesuatu setelah data berhasil disimpan
+                    console.log(response);
+                    // Tutup modal
+                    $('#questionModal').modal('hide');
+                },
+                error: function(error) {
+                    // Tampilkan pesan error jika terjadi kesalahan
+                    console.log(error);
+                }
+            });
         });
 
         // Tampilkan atau sembunyikan formulir jawaban sesuai dengan tipe jawaban yang dipilih
