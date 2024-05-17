@@ -98,10 +98,10 @@
                 </ul>
             </li><br><br><br><br><br><br><br>
             <li>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf
+                    &emsp;&emsp;<button type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
                 </form>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block py-2 px-4 text-sm logout-link"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
             </li>
             <li>
                 <!-- @if(auth()->check()) -->

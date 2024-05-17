@@ -37,10 +37,16 @@ class LoginController extends Controller
         return redirect()->route('login')->with('error', 'Invalid credentials');
     }
 
+    /**
+     * Menangani permintaan logout.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function logout(Request $request)
-{
-    Auth::logout();
+    {
+        Auth::logout();
 
-    return redirect()->route('login');
-}
+        return redirect()->route('login');
+    }
 }

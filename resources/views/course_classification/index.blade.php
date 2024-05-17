@@ -34,7 +34,7 @@
                                         <th scope="col">ID</th>
                                         <th scope="col">Classification Name</th>
                                         <th scope="col">Display Order</th>
-                                        <th scope="col">Actions</th>
+                                        {{-- <th scope="col">Actions</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,9 +43,9 @@
                                     <td>{{ $classification->course_classification_id }}</td>
                                     <td>{{ $classification->course_classification_name }}</td>
                                     <td>{{ $classification->displayorder }}</td>
-                                    <td>
+                                    {{-- <td>
                                         <a href="{{ route('classifications.edit', $classification->course_classification_id) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> Edit</a>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 @endforeach
                                 </tbody>
