@@ -73,6 +73,62 @@ class CourseController extends Controller
         return view('coursesettings', compact('filteredCourses', 'classifications','details', 'filteredEmployees','employees'));
     }
     
+    public function filterEmployee(Request $request)
+{
+    // Ambil nilai input dari permintaan filter
+    $affiliationId = $request->input('affiliationId');
+    $jobId = $request->input('jobId');
+    $fullname = $request->input('fullname');
+    $employeeCode = $request->input('employee_code');
+    $sex = $request->input('sex');
+    $dateOfBirth = $request->input('date_of_birth');
+    $dateOfJoining = $request->input('date_of_joining');
+
+    // Query karyawan berdasarkan kriteria filter
+    $employeesQuery = EmployeeInformation::query();
+
+    if ($affiliationId) {
+        $employeesQuery->where('affiliation_id', $affiliationId);
+    }
+
+    if ($jobId) {
+        $employeesQuery->where('job_id', $jobId);
+    }
+
+    if ($fullname) {
+        $employeesQuery->where('fullname', 'like', '%' . $fullname . '%');
+    }
+
+    if ($employeeCode) {
+        $employeesQuery->where('employee_code', 'like', '%' . $employeeCode . '%');
+    }
+
+    if ($sex) {
+        $employeesQuery->where('sex', $sex);
+    }
+
+    if ($dateOfBirth) {
+        $employeesQuery->whereDate('date_of_birth', $dateOfBirth);
+    }
+
+    if ($dateOfJoining) {
+        $employeesQuery->whereDate('date_of_joining', $dateOfJoining);
+    }
+
+    // Dapatkan karyawan yang difilter
+    $filteredEmployees = $employeesQuery->get();
+
+    // Dapatkan data afiliasi, jabatan, dan kursus dari model
+    $affiliations = AffiliationInformation::all();
+    $jobTitles = JobInformation::all();
+    $courses = CourseInformation::all();
+    $classifications = CourseClassificationInformation::all();
+    $details = CourseClassificationDetailInformation::all();
+
+    // Kembalikan karyawan yang difilter ke tampilan
+    return view('coursesettings', compact('filteredEmployees', 'affiliations', 'jobTitles', 'courses', 'classifications', 'details'));
+}
+
 
     public function settings()
     {

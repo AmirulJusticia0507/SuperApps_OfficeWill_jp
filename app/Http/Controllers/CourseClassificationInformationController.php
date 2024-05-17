@@ -17,15 +17,6 @@ class CourseClassificationInformationController extends Controller
         $companies = CompanyInformation::all(); // Mengambil daftar perusahaan
         return view('course_classification.index', compact('classifications', 'companies'));
     }
-    
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $companies = CompanyInformation::all();
-        return view('course_classification.create', compact('companies'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,10 +30,10 @@ class CourseClassificationInformationController extends Controller
             'display_order' => 'required',
             'icon_file_path' => 'required', // Anda mungkin ingin memvalidasi bahwa file ikon telah dipilih
         ]);
-    
+
         // Cari company_id berdasarkan company_name
         $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
-    
+
         // Menambahkan data ke dalam database
         $classification = new CourseClassificationInformation();
         $classification->company_id = $company->company_id;
@@ -53,8 +44,8 @@ class CourseClassificationInformationController extends Controller
         }
         $classification->displayorder = $request->input('display_order');
         $classification->save();
-    
-        return redirect()->route('classifications.index')->with('success', 'Classification created successfully');
+
+        return redirect()->route('course-classification.index')->with('success', 'Classification created successfully');
     }
 
     /**
@@ -66,9 +57,8 @@ class CourseClassificationInformationController extends Controller
         $classification = CourseClassificationInformation::findOrFail($id);
         // Ambil semua perusahaan
         $companies = CompanyInformation::all();
-        return view('course_classification.edit', compact('classification', 'companies'));
+        return view('course_classification.index', compact('classification', 'companies'));
     }
-    
 
     /**
      * Update the specified resource in storage.
@@ -81,13 +71,13 @@ class CourseClassificationInformationController extends Controller
             'classification_name' => 'required',
             'display_order' => 'required',
         ]);
-    
+
         // Temukan klasifikasi yang ingin diperbarui
         $classification = CourseClassificationInformation::findOrFail($id);
-    
+
         // Cari company_id berdasarkan company_name
         $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
-    
+
         // Update data klasifikasi
         $classification->company_id = $company->company_id;
         $classification->course_classification_name = $request->input('classification_name');
@@ -97,8 +87,8 @@ class CourseClassificationInformationController extends Controller
         }
         $classification->displayorder = $request->input('display_order');
         $classification->save();
-    
-        return redirect()->route('classifications.index')->with('success', 'Classification updated successfully');
+
+        return redirect()->route('course-classification.index')->with('success', 'Classification updated successfully');
     }
 
     /**
@@ -110,7 +100,6 @@ class CourseClassificationInformationController extends Controller
         $classification = CourseClassificationInformation::findOrFail($id);
         // Hapus data
         $classification->delete();
-        return redirect()->route('classifications.index')->with('success', 'Classification deleted successfully');
+        return redirect()->route('course-classification.index')->with('success', 'Classification deleted successfully');
     }
-    
 }

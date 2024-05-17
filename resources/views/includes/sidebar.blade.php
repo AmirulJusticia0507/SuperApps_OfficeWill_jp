@@ -65,7 +65,7 @@
                     <li>
                         <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Course Registration</a>
                         <ul class="treeview" style="display: none;">
-                            <li><a href="{{ route('materials.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Material Registration</a></li>
+                            <!-- <li><a href="{{ route('materials.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Material Registration</a></li> -->
                             <li><a href="{{ route('course-registration.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Information Registration</a></li>
                             <li><a href="{{ route('course-classification.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course classification registration</a></li>
                             <li><a href="{{ route('course-classification-details.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course classification details registration</a></li>

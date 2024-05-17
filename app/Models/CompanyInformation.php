@@ -51,4 +51,9 @@ class CompanyInformation extends Model
         }
         return false;
     }
+
+    public function classifications()
+    {
+        return $this->hasMany(CourseClassificationInformation::class, 'company_id', 'company_id');
+    }
 }

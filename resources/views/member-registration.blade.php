@@ -214,7 +214,7 @@
         </div>
     </div>
     <!-- List of Links and Buttons -->
-    <div class="col-md-3">
+    <div class="col-md-2">
         <br><br><br><br><br>
         <div class="mt-2">
             <ul class="list-group rounded-6">

@@ -8,8 +8,6 @@ use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\EmployeeAffiliationInformation;
 
-use Illuminate\Support\Facades\Redirect;
-
 class MasterRegistrationController extends Controller
 {
     public function index()
@@ -28,9 +26,7 @@ class MasterRegistrationController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi data dari formulir
         $validatedData = $request->validate([
-            // Validasi untuk field-field dari employee_information
             'fullname' => 'required|string|max:255',
             'kananame' => 'nullable|string|max:255',
             'email_address' => 'required|string|email|max:255|unique:employee_information',
@@ -51,11 +47,9 @@ class MasterRegistrationController extends Controller
             'employee_attribute03' => 'nullable|string|max:255',
             'employee_attribute04' => 'nullable|string|max:255',
             'employee_attribute05' => 'nullable|string|max:255',
-            'company_id' => 'required',
-    
-            // Validasi untuk field-field dari employee_affiliation_information
-            'affiliation_code' => 'required',
-            'job_id' => 'required',
+            'company_id' => 'required|integer',
+            'affiliation_code' => 'required|integer',
+            'job_id' => 'required|integer',
             'application_startdate' => 'required|date',
             'enddate_of_application' => 'required|date',
             'system_administrator_privileges' => 'required|boolean',
@@ -65,12 +59,13 @@ class MasterRegistrationController extends Controller
             'authority_validity_scope' => 'required|string|max:255',
             'authority_validity_code' => 'required|string|max:255',
         ]);
-    
-        // Membuat entri baru dalam tabel employee_information
+
+        // Create employee information
         $employeeInformation = EmployeeInformation::create($validatedData);
-    
-        // Membuat entri baru dalam tabel employee_affiliation_information
+
+        // Create employee affiliation information
         $affiliationInformation = EmployeeAffiliationInformation::create([
+            'employee_id' => $employeeInformation->id,
             'company_id' => $validatedData['company_id'],
             'affiliation_code' => $validatedData['affiliation_code'],
             'job_id' => $validatedData['job_id'],
@@ -83,11 +78,9 @@ class MasterRegistrationController extends Controller
             'authority_validity_scope' => $validatedData['authority_validity_scope'],
             'authority_validity_code' => $validatedData['authority_validity_code'],
         ]);
-    
-        // Redirect dengan pesan sukses jika berhasil disimpan
-        return redirect()->route('member-registration.create')->with('success', 'Member registered successfully!');
+
+        return redirect()->route('member-registration')->with('success', 'Member registered successfully!');
     }
-    
 
     public function edit($id)
     {
@@ -118,7 +111,7 @@ class MasterRegistrationController extends Controller
             'employee_attribute03' => 'nullable|string|max:255',
             'employee_attribute04' => 'nullable|string|max:255',
             'employee_attribute05' => 'nullable|string|max:255',
-            'company_id' => 'required',
+            'company_id' => 'required|integer',
         ]);
 
         $member = EmployeeInformation::findOrFail($id);

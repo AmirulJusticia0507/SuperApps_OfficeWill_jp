@@ -50,6 +50,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Rute untuk member registration
 Route::resource('member-registration', MasterRegistrationController::class);
+Route::post('/member-registration', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
 
 // Rute untuk job titles
 Route::resource('job-titles', JobTitleController::class);
@@ -93,6 +94,8 @@ Route::post('/classifications', [CourseClassificationInformationController::clas
 Route::get('/course-classifications/{id}/edit', [CourseClassificationInformationController::class, 'edit'])->name('course-classifications.edit');
 Route::put('/course-classifications/{id}', [CourseClassificationInformationController::class, 'update'])->name('course-classifications.update');
 Route::delete('/course-classifications/{id}', [CourseClassificationInformationController::class, 'destroy'])->name('course-classifications.destroy');
+Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');
+
 
 // Rute untuk course information
 Route::resource('course-information', CourseInformationController::class);

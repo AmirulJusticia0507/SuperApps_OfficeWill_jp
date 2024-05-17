@@ -31,6 +31,8 @@ class CourseInformation extends Model
         'course_attributes_05'
     ];
 
+    public $timestamps = false;
+
     // Create
     public function createCourse(array $courseData)
     {
