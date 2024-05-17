@@ -7,13 +7,13 @@
 @section('content')
 <!-- Header -->
 @include('includes.header')
-{{-- <div class="container"> --}}
-        <div class="row justify-content-center">
-            <div class="col-md-3">
-                @include('includes.sidebar')
-            </div>
-            <div class="col-md-5">
-                <br><br><br>
+<!-- <div class="container"> -->
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            @include('includes.sidebar')
+        </div>
+            <div class="col-md-6">
+                <br><br>
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -25,11 +25,8 @@
                 <div class="card">
                     <div id="courseregistration" class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Information Registration</b></div>
                     <div class="card-body">
-                        <form method="POST" action="{{ isset($course) ? route('course-information.update', $course->course_id) : route('course-information.store') }}">
+                        <form method="POST" action="{{ route('course-information.store') }}" enctype="multipart/form-data">
                             @csrf
-                            @if(isset($course))
-                                @method('PUT')
-                            @endif
                             <div class="form-group">
                                 <label for="course_classification_id" style="display: inline-block; width: 30%;">Course Classification :</label><b style="color: red">*</b>
                                 <select class="form-control" id="course_classification_id" name="Course_classification_id" required style="display: inline-block; width: 60%;">
@@ -109,49 +106,9 @@
                                     <option value=""> </option>
                                 </select>
                             </div>
-
                             <div class="form-group">
                                 <label for="remarks" style="display: inline-block; width: 30%;">Remarks :</label>
                                 <textarea name="remarks" id="remarks" cols="5" rows="5" class="form-control" style="display: inline-block; width: 60%;"></textarea>
-                            </div>
-
-                            <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
-                            <div class="card-body">
-                                <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black">Teaching Material</b></div>
-                                <div align="right"><br>
-                                    <button type="button" class="btn btn-light" onclick="addMaterial()">Addition</button>
-                                    <button type="button" class="btn btn-dark" onclick="removeMaterial()">Delete</button>
-                                </div><br>
-                                <form id="teachingMaterialForm">
-                                    <div class="form-group">
-                                        <label for="Teaching Material Name" style="display: inline-block; width: 30%;">Teaching Material Name :</label><b style="color: red">*</b>
-                                        <input type="text" name="teaching_material_name" id="teaching_material_name" style="display: inline-block; width: 65%;" required class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <div style="display: flex; align-items: center;">
-                                            <label for="material_type" style="margin-right: 10px;" style="width: 100%">Material Type:<b style="color: red">*</b></label>
-                                            <div style="display: flex;">
-                                                <input type="radio" name="material_type" id="video" value="Video" required>
-                                                <label for="video" style="margin-right: 10px;">&emsp;Video</label>
-                                                <input type="radio" name="material_type" id="books" value="Books" required>
-                                                <label for="books" style="margin-right: 10px;">&emsp;Books</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="videoFields" style="display: none;">
-                                        <div class="form-group">
-                                            <label for="youtube_video_url">Video URL: <b style="color: red">*</b></label>
-                                            <input type="url" name="youtube_video_url" id="youtube_video_url" class="form-control" required>
-                                        </div>
-                                    </div>
-
-                                    <div id="booksFields" style="display: none;">
-                                        <div class="form-group">
-                                            <label for="book_file_path">Book File: <b style="color: red">*</b></label>
-                                            <input type="file" name="bookfile" id="bookfile" class="form-control" required>
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
                             <div id="posttodo" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Post-course ToDo</b></div>
                             <div class="mb-3">
@@ -187,15 +144,88 @@
                                 <input type="text" name="test_passed_score" id="test_passed_score" class="form-control" placeholder="xx.xx" style="display: inline-block; width: 10%;">
                                 <p>Complete the course with % or more correct</p>
                             </div>
-                            {{-- <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black"> Question</b></div><br><br> --}}
                             <div align="center" id="save-course">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Save Course</button>
                                 <button type="reset" class="btn btn-secondary"> Delete</button>
-                            </div><br><br>
-                        </form><br>
+                            </div>
+                        </form>
+
+                            <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">Teaching Material Information</b></div>
+                            <div class="card-body">
+                                <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black">Teaching Material</b></div>
+                                <!-- <div align="right"><br>
+                                    <button type="button" class="btn btn-light" onclick="addMaterial()">Addition</button>
+                                    <button type="button" class="btn btn-dark" onclick="removeMaterial()">Delete</button>
+                                </div><br> -->
+                                <form method="POST" action="{{ route('materials.store') }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <br>
+                                    <div class="form-group">
+                                        <label for="Teaching Material Name" style="display: inline-block; width: 30%;">Teaching Material Name :</label><b style="color: red">*</b>
+                                        <input type="text" name="teaching_material_name" id="teaching_material_name" style="display: inline-block; width: 65%;" required class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <div style="display: flex; align-items: center;">
+                                            <label for="material_type" style="margin-right: 10px;" style="width: 100%">Material Type:<b style="color: red">*</b></label>
+                                            <div style="display: flex;">
+                                                <input type="radio" name="material_type" id="video" value="Video" required>
+                                                <label for="video" style="margin-right: 10px;">&emsp;Video</label>
+                                                <input type="radio" name="material_type" id="books" value="Books" required>
+                                                <label for="books" style="margin-right: 10px;">&emsp;Books</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="videoFields" >
+                                        <div class="form-group">
+                                            <label for="youtube_video_url">Video URL: <b style="color: red">*</b></label>
+                                            <input type="url" name="youtube_video_url" id="youtube_video_url" class="form-control" >
+                                        </div>
+                                    </div>
+
+                                    <div id="booksFields" >
+                                        <div class="form-group">
+                                            <label for="book_file_path">Book File: <b style="color: red">*</b></label>
+                                            <input type="file" name="bookfile" id="bookfile" class="form-control" >
+                                        </div>
+                                    </div>
+                                    <div align="center">
+                                        <button type="submit" class="btn btn-info"><i class="fas fa-sent"></i> Save Material</button>
+                                    </div>
+                                </form>
+                            </div>
                         <div align="left">
                             <button class="btn btn-warning" title="*If ToDo type is survey response" data-toggle="modal" data-target="#questionModal">※ToDo種別がアンケート回答の場合</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+        <!-- List of Links and Buttons -->
+        <div class="col-md-2">
+                <br><br><br><br><br>
+                <div class="mt-2">
+                    <ul class="list-group">
+                        <li class="list-group-item" style="background-color: darkblue">
+                            <a href="{{ route('course-list') }}" title="Course list"><b style="color:aliceblue"> コース一覧</b></a>
+                        </li>
+                        <li class="list-group-item" style="background-color: darkblue">
+                            <a href="#courseregistration" title="Course registration"><b style="color:aliceblue"> コース登録トップ</b></a>
+                        </li>
+                        <li class="list-group-item" style="background-color: #92CDFC">
+                            <a href="#basicinformation" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a>
+                        </li>
+                        <li class="list-group-item" style="background-color: #92CDFC">
+                            <a href="#textbookinformation" title="Textbook information"><b style="color:aliceblue"> 教材情報</b></a>
+                        </li>
+                        <li class="list-group-item" style="background-color: #92CDFC">
+                            <a href="#posttodo" title="Post-course ToDo"><b style="color:aliceblue"> 受講後ToDo</b></a>
+                        </li>
+                        <li class="list-group-item" style="background-color: darkblue">
+                            <a href="#save-course"><b style="color:aliceblue"> コース保存</b></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
                         <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -272,36 +302,6 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-            </div>
-            <!-- List of Links and Buttons -->
-            <div class="col-md-3">
-                <br><br><br><br><br>
-                <div class="mt-2">
-                    <ul class="list-group">
-                        <li class="list-group-item" style="background-color: darkblue">
-                            <a href="{{ route('course-list') }}" title="Course list"><b style="color:aliceblue"> コース一覧</b></a>
-                        </li>
-                        <li class="list-group-item" style="background-color: darkblue">
-                            <a href="#courseregistration" title="Course registration"><b style="color:aliceblue"> コース登録トップ</b></a>
-                        </li>
-                        <li class="list-group-item" style="background-color: #92CDFC">
-                            <a href="#basicinformation" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a>
-                        </li>
-                        <li class="list-group-item" style="background-color: #92CDFC">
-                            <a href="#textbookinformation" title="Textbook information"><b style="color:aliceblue"> 教材情報</b></a>
-                        </li>
-                        <li class="list-group-item" style="background-color: #92CDFC">
-                            <a href="#posttodo" title="Post-course ToDo"><b style="color:aliceblue"> 受講後ToDo</b></a>
-                        </li>
-                        <li class="list-group-item" style="background-color: darkblue">
-                            <a href="#save-course"><b style="color:aliceblue"> コース保存</b></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
 
         <!-- Footer -->
@@ -382,5 +382,45 @@
         });
     });
 </script>
+<script>
+    // JavaScript for handling form submission and showing/hiding fields based on Material Type
+$(document).ready(function() {
+    // Handle form submission
+    $('#teachingMaterialForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        // Collect data from both forms
+        var formDataCourse = $('#courseForm').serialize();
+        var formDataMaterial = $('#materialForm').serialize();
+        // Combine data
+        var combinedData = formDataCourse + '&' + formDataMaterial;
+        // AJAX request to submit combined data
+        $.ajax({
+            url: '/submit-data',
+            type: 'POST',
+            data: combinedData,
+            success: function(response) {
+                // Handle success response
+                alert('Data submitted successfully');
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                alert('Error submitting data');
+            }
+        });
+    });
 
+    // Show/hide fields based on Material Type selection
+    $('input[name="material_type"]').change(function() {
+        var materialType = $(this).val();
+        if (materialType === 'Video') {
+            $('#videoFields').show();
+            $('#booksFields').hide();
+        } else if (materialType === 'Books') {
+            $('#videoFields').hide();
+            $('#booksFields').show();
+        }
+    });
+});
+
+</script>
 @endsection

@@ -55,14 +55,12 @@
                             <label for="youtube_video_url">Video URL: </label>
                             <input type="url" class="form-control" id="youtube_video_url" name="youtube_video_url">
                         </div>
-                        <!-- Add preview for video here if needed -->
                     </div>
                     <div id="booksFields" >
                         <div class="form-group">
                             <label for="bookfile">Book File: </label>
                             <input type="file" class="form-control" id="bookfile" name="bookfile">
                         </div>
-                        <!-- Add preview for book file here if needed -->
                     </div>
                     <div align="center">
                         <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Save</button>

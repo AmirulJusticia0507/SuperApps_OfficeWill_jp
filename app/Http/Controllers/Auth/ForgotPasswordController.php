@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Lang;
 
 class ForgotPasswordController extends Controller
 {
@@ -32,14 +33,11 @@ class ForgotPasswordController extends Controller
         $status = Password::sendResetLink(
             $request->only('email')
         );
-        
-        // Gunakan === untuk membandingkan dengan tipe data yang tepat
+
         if ($status === Password::RESET_LINK_SENT) {
-            return redirect()->route('password.request')->with('status', __($status));
+            return back()->with('status', __($status));
         } else {
             return back()->withErrors(['email' => __($status)]);
         }
     }
-    
-    
 }

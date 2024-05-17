@@ -15,6 +15,11 @@
                 <div class="card">
                     <div class="card-header">Forgot Password <h2 style="color: cornflowerblue">DEP SERVICE</h2></div>
                     <div class="card-body">
+                        @if(session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
                             <div class="mb-3">

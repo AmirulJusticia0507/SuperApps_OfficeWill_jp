@@ -85,7 +85,7 @@ class MasterRegistrationController extends Controller
         ]);
     
         // Redirect dengan pesan sukses jika berhasil disimpan
-        return redirect()->route('member-registration')->with('success', 'Member registered successfully!');
+        return redirect()->route('member-registration.create')->with('success', 'Member registered successfully!');
     }
     
 

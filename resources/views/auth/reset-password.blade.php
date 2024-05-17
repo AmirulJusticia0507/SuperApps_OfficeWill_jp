@@ -52,28 +52,7 @@
             </div>
         </div>
     </div>
-
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('password');
-        togglePassword.addEventListener('click', function() {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            this.querySelector('i').classList.toggle('bi-eye');
-            this.querySelector('i').classList.toggle('bi-eye-slash');
-        });
-
-        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-        const confirmPassword = document.getElementById('password_confirmation');
-        toggleConfirmPassword.addEventListener('click', function() {
-            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-            confirmPassword.setAttribute('type', type);
-            this.querySelector('i').classList.toggle('bi-eye');
-            this.querySelector('i').classList.toggle('bi-eye-slash');
-        });
-    </script>
-
 </body>
 </html>
