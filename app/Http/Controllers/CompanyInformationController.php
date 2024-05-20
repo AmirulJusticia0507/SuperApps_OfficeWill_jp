@@ -90,15 +90,15 @@ class CompanyInformationController extends Controller
     {
         // Hapus terlebih dahulu semua data affiliasi terkait
         AffiliationInformation::where('company_id', $id)->delete();
-    
+
         // Hapus terlebih dahulu semua data klasifikasi kursus terkait
         CourseClassificationInformation::where('company_id', $id)->delete();
-    
+
         // Setelah semua data terkait dihapus, baru hapus perusahaan
         CompanyInformation::destroy($id);
-    
+
         return redirect()->route('company-information.index')->with('success', 'Company deleted successfully');
     }
-    
+
 
 }

@@ -65,6 +65,7 @@
                                         alt="Teaching Material" style="max-width: 100px;">
                                 </a>
                             </td>
+
                             <td>
                                 <!-- Tombol Edit Company Modal -->
                                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->id }}" title="Edit"><i class="fas fa-edit"></i> 編集</button>
@@ -119,7 +120,6 @@
                     <div class="form-group">
                         <label for="icon_storage_file_path">アイコンストレージファイル:</label>
                         <input type="file" class="form-control" id="icon_storage_file_path" title="Icon Storage File" name="icon_storage_file_path" required onchange="previewIcon(this)">
-                        <!-- Tambahkan atribut 'required' untuk memastikan file dipilih -->
                         <img id="icon_preview" src="#" alt="Preview Icon" style="max-width: 100px; display: none;">
                     </div>
 

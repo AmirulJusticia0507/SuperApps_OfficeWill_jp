@@ -88,15 +88,8 @@ Route::get('/details', [CourseClassificationDetailInformationController::class, 
 Route::delete('/details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('details.destroy');
 
 // Rute untuk course classification information
-Route::resource('course-classifications', CourseClassificationInformationController::class);
-Route::get('/course-classification', [CourseClassificationInformationController::class, 'index'])->name('course-classification.index');
-Route::post('/classifications', [CourseClassificationInformationController::class, 'store'])->name('classifications.store');
-Route::get('/course-classifications/{id}/edit', [CourseClassificationInformationController::class, 'edit'])->name('course-classifications.edit');
-Route::put('/course-classifications/{id}', [CourseClassificationInformationController::class, 'update'])->name('course-classifications.update');
-// routes/web.php
-
-Route::delete('/course-classification/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])
-    ->name('course-classification.destroy');
+Route::resource('course-classification', CourseClassificationInformationController::class);
+Route::get('course-classification/{id}/edit', 'CourseClassificationInformationController@edit')->name('course-classification.edit');
 
 
 // Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');

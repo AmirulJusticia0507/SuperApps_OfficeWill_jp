@@ -41,7 +41,7 @@
     <nav class="p-4 flex justify-between items-center">
         <div>
             <a href="{{ route('dashboard') }}" class="text-white text-lg font-semibold">
-                <img src="img/officewill.png" alt="DEP SERVICE" class="w-32 mx-auto">
+                <img src="{{ asset('storage/1UuccZo6QH8WZP9tMpKAhZAHPunoXHyKRRzzfUQU.png') }}" alt="DEP SERVICE" class="w-32 mx-auto">
             </a>
         </div>
         <!-- &emsp;&emsp;&emsp;<button id="sidebarToggle" class="text-white focus:outline-none"><i class="fas fa-bars fa-lg"></i></button> -->
