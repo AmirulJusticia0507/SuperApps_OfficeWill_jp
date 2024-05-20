@@ -1,289 +1,238 @@
 @extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>DEP SERVICE - OFFICE WILL - JAPAN</title>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
-
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 @section('content')
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light shadow">
-            <!-- Tambahkan tombol hamburger di sini -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-            <!-- Include Header -->
-            @include('includes.header')
+<!-- Header -->
+@include('includes.header')
+
+{{-- <div class="container"> --}}
+<div class="row justify-content-center">
+    <!-- Sidebar -->
+    <div class="col-md-3">
+        @include('includes.sidebar')
+    </div>
+    <div class="col-md-4">
+        <br><br><br>
+        <!-- Create Classification Form -->
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}">Employee Registration</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">Employee List</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Employee Information Registration</li>
+            </ol>
         </nav>
 
-        <!-- Include Sidebar -->
-        @include('includes.sidebar')
-
-        <div class="content-wrapper">
-            <!-- Konten Utama -->
-            <main class="content">
-                <!-- Create Classification Form -->
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}">Employee Registration</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">Employee List</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Employee Information Registration</li>
-                    </ol>
-                </nav>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee Registration</b></div>
-                            <div class="card-body">
-                                <form action="{{ route('member-registration.store') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    {{-- <div class="row"> --}}
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="fullname" class="form-label">Full Name: <span
-                                                        style="color: red">*</span></label>
-                                                <input type="text" name="fullname" id="fullname" class="form-control" required style="display: inline-block; width: 72%;">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="kananame" class="form-label">Kana Name: <span
-                                                        style="color: red">*</span></label>
-                                                <input type="text" name="kananame" id="kananame" class="form-control" required style="display: inline-block; width: 70%;">
-                                            </div>
-                                        </div>
-                                        <div id="affiliation-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div><br>
-                                        <div class="mb-3">
-                                            <label for="affiliation_start_date">Affiliation Start Date: <b
-                                                    style="color: red">*</b></label>
-                                            <input type="date" name="affiliation_start_date" id="affiliation_start_date" class="form-control" style="display: inline-block; width: 25%;">
-                                        </div>
-                                        <!-- <div class="mb-3">
-                                            <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
-                                            <input type="text" name="affiliation_name" id="affiliation_name" class="form-control" style="width: 100%" required>
-                                        </div> -->
-                                        <div class="mb-3">
-                                            <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
-                                            <select name="affiliation_name" id="affiliation_name" class="form-control" style="display: inline-block; width: 81%;" required>
-                                                <option value="">Select Affiliation</option>
-                                                @foreach($affiliations as $affiliation)
-                                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <!-- <div class="mb-3">
-                                            <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                                            <input type="text" name="job_title" id="job_title" class="form-control" style="width: 100%" required>
-                                        </div> -->
-                                        <div class="mb-3">
-                                            <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                                            <select name="job_title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
-                                                <option value="">Select Job Title</option>
-                                                @foreach($jobTitles as $jobTitle)
-                                                    <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                                            <label>System Administrator Privileges: <b style="color: red">*</b></label>
-                                            <div>
-                                                <input type="radio" name="system_administrator_privileges" value="1" required>
-                                                <label class="checkbox-label">With Permission</label>
-                                                <input type="radio" name="system_administrator_privileges" value="0" required>
-                                                <label class="checkbox-label">Without Permission</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                                            <label>Employee Registration Authority: <b style="color: red">*</b></label>
-                                            <div>
-                                                <input type="radio" name="employee_registration_authority" value="1" required> <label class="checkbox-label">With Permission</label>
-                                                <input type="radio" name="employee_registration_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                                            <label>Course Enrollment Privileges: <b style="color: red">*</b></label>
-                                            <div>
-                                                <input type="radio" name="course_enrollment_privileges" value="1" required> <label class="checkbox-label">With Permission</label>
-                                                <input type="radio" name="course_enrollment_privileges" value="0" required> <label class="checkbox-label">Without Permission</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                                            <label>Attendance Settings Authority: <b style="color: red">*</b></label>
-                                            <div>
-                                                <input type="radio" name="attendance_setting_authority" value="1" required> <label class="checkbox-label">With Permission</label>
-                                                <input type="radio" name="attendance_setting_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="authority_validity_scope">Authority Effective Affiliation: <b style="color: red">*</b></label>
-                                            <div class="d-inline-block mb-3">
-                                                <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="authority_validity_scope_1" name="authority_validity_scope" value="1" required>
-                                                    <label class="form-check-label" for="authority_validity_scope_1">Limited to affiliation</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="authority_validity_scope_2" name="authority_validity_scope" value="2" required>
-                                                    <label class="form-check-label" for="authority_validity_scope_2">Below affiliation</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input type="radio" class="form-check-input" id="authority_validity_scope_3" name="authority_validity_scope" value="3" required>
-                                                    <label class="form-check-label" for="authority_validity_scope_3">All affiliations</label>
-                                                </div>
-                                            </div>
-                                            <select name="authority_validity_code" id="authority_validity_code" class="form-control" style="display: inline-block; width: 81%;" required>
-                                                <option value="">Select Affiliation</option>
-                                                @foreach($affiliations as $affiliation)
-                                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    <!-- Informasi Dasar -->
-                                    <div id="basic-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Basic information</b></div>
-                                            <div class="mb-3">
-                                                <label for="email_address">Email Address: <b style="color: red">*</b></label>
-                                                <input type="email" name="email_address" id="email_address" class="form-control" required style="width: 100%">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="email_address_confirmation">Email Address Confirmation: <b style="color: red">*</b></label>
-                                                <input type="email" name="email_address_confirmation" id="email_address_confirmation" class="form-control" required style="width: 100%">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="contact_phonenumber">Contact Phone Number: <b style="color: red">*</b></label>
-                                                <input type="text" name="contact_phonenumber" id="contact_phonenumber" class="form-control" required style="width: 100%">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="employee_code">Employee Code:</label>
-                                                <input type="text" name="employee_code" id="employee_code" class="form-control">
-                                            </div>
-                                            <div class="mb-3">
-                                                <div style="display: flex; align-items: center;">
-                                                    <label for="sex" style="margin-right: 10px;" style="width: 100%">Sex: <b style="color: red">*</b></label>
-                                                    <div style="display: flex;">
-                                                        <input type="radio" name="sex" id="male" value="male" required>
-                                                        &nbsp;<label for="male" style="margin-right: 10px;"> Male</label>
-                                                        <input type="radio" name="sex" id="female" value="female" required>
-                                                        &nbsp;<label for="female" style="margin-right: 10px;"> Female</label>
-                                                        <input type="radio" name="sex" id="other" value="other" required>
-                                                        &nbsp;<label for="other"> Other</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="dateofbirth" style="margin-right: 10px; flex-grow: 1;">Date of Birth: <b style="color: red">*</b></label>
-                                                <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
-                                            </div>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="dateofjoining" style="margin-right: 10px; flex-grow: 1;">Date of Joining:</label>
-                                                <input type="date" name="dateofjoining" id="dateofjoining" class="form-control" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
-                                            </div>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="retirementdate" style="margin-right: 10px; flex-grow: 1;">Retirement Date:</label>
-                                                <input type="date" name="retirementdate" id="retirementdate" class="form-control" min="2022-01-01" max="2050-12-31">
-                                            </div>
-                                            <!-- Tambahkan input untuk atribut karyawan -->
-                                            <div class="mb-3">
-                                                <label for="remarks">Remarks:</label>
-                                                <textarea name="remarks" id="remarks" class="form-control" cols="5" rows="5"></textarea>
-                                            </div>
-                                            <div id="account-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
-                                            <br>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="encrypted_password" style="margin-right: 10px;">Password:</label>
-                                                <input type="password" name="encrypted_password" id="encrypted_password" class="form-control" style="width: 100%">
-                                                <button type="button" id="togglePassword" style="border: none; background: none; outline: none; margin-left: -30px;">
-                                                    <i class="fas fa-eye" id="passwordToggleIcon"></i>
-                                                </button>
-                                            </div>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="account_status" style="margin-right: 10px;">Account Status:</label>
-                                                <select name="account_status" id="account_status" class="form-control" style="width: 100%">
-                                                    <option value="enabled" selected>Account Enabled</option>
-                                                    <option value="disabled">Account Disabled</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="password_expiration" style="margin-right: 10px;">Password Expiration Date:</label>
-                                                <input type="date" name="password_expiration" id="password_expiration" class="form-control">
-                                            </div>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="numberofincorrect_passwords" style="margin-right: 10px;">Number of Incorrect Passwords:</label>
-                                                <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords" class="form-control">
-                                            </div>
-                                            <div class="mb-3" style="display: flex; align-items: center;">
-                                                <label for="account_lock_datetime" style="margin-right: 10px;">Account Lock Date and Time:</label>
-                                                <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" class="form-control">
-                                            </div>
-                                        <div align="center">
-                                            <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Register</button>
-                                            <button type="button" class="btn btn-dark"><i class="fas fa-trash"></i> Delete</button>
-                                        </div>
-                                </form>
+        <div class="card">
+            <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee Registration</b></div>
+            <div class="card-body">
+                <form action="{{ route('member-registration.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    {{-- <div class="row"> --}}
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="fullname" class="form-label">Full Name: <span
+                                        style="color: red">*</span></label>
+                                <input type="text" name="fullname" id="fullname" class="form-control" required style="display: inline-block; width: 72%;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="kananame" class="form-label">Kana Name: <span
+                                        style="color: red">*</span></label>
+                                <input type="text" name="kananame" id="kananame" class="form-control" required style="display: inline-block; width: 70%;">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <br><br><br><br><br>
-                        <div class="mt-2">
-                            <ul class="list-group rounded-6">
-                                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
-                                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('member-registration.create') }}" title="Employee registration"><b style="color:aliceblue">  社員登録トップ</b></a></li>
-                                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#affiliation-information" title="Affiliation information"><b style="color:aliceblue"> 所属情報</b></a></li>
-                                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#basic-information" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a></li>
-                                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#account-information" title="Account information"><b style="color:aliceblue"> アカウント情報</b></a></li>
-                                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
-                            </ul>
+                        <div id="affiliation-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div><br>
+                        <div class="mb-3">
+                            <label for="affiliation_start_date">Affiliation Start Date: <b
+                                    style="color: red">*</b></label>
+                            <input type="date" name="affiliation_start_date" id="affiliation_start_date" class="form-control" style="display: inline-block; width: 25%;">
                         </div>
-                    </div>
-                </div>
-            </main>
+                        <!-- <div class="mb-3">
+                            <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
+                            <input type="text" name="affiliation_name" id="affiliation_name" class="form-control" style="width: 100%" required>
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
+                            <select name="affiliation_name" id="affiliation_name" class="form-control" style="display: inline-block; width: 81%;" required>
+                                <option value="">Select Affiliation</option>
+                                @foreach($affiliations as $affiliation)
+                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="job_title">Job Title: <b style="color: red">*</b></label>
+                            <input type="text" name="job_title" id="job_title" class="form-control" style="width: 100%" required>
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="job_title">Job Title: <b style="color: red">*</b></label>
+                            <select name="job_title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
+                                <option value="">Select Job Title</option>
+                                @foreach($jobTitles as $jobTitle)
+                                    <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                            <label>System Administrator Privileges: <b style="color: red">*</b></label>
+                            <div>
+                                <input type="radio" name="system_administrator_privileges" value="1" required>
+                                <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="system_administrator_privileges" value="0" required>
+                                <label class="checkbox-label">Without Permission</label>
+                            </div>
+                        </div>
+                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                            <label>Employee Registration Authority: <b style="color: red">*</b></label>
+                            <div>
+                                <input type="radio" name="employee_registration_authority" value="1" required> <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="employee_registration_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
+                            </div>
+                        </div>
+                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                            <label>Course Enrollment Privileges: <b style="color: red">*</b></label>
+                            <div>
+                                <input type="radio" name="course_enrollment_privileges" value="1" required> <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="course_enrollment_privileges" value="0" required> <label class="checkbox-label">Without Permission</label>
+                            </div>
+                        </div>
+                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                            <label>Attendance Settings Authority: <b style="color: red">*</b></label>
+                            <div>
+                                <input type="radio" name="attendance_setting_authority" value="1" required> <label class="checkbox-label">With Permission</label>
+                                <input type="radio" name="attendance_setting_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="authority_validity_scope">Authority Effective Affiliation: <b style="color: red">*</b></label>
+                            <div class="d-inline-block mb-3">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_1" name="authority_validity_scope" value="1" required>
+                                    <label class="form-check-label" for="authority_validity_scope_1">Limited to affiliation</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_2" name="authority_validity_scope" value="2" required>
+                                    <label class="form-check-label" for="authority_validity_scope_2">Below affiliation</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_3" name="authority_validity_scope" value="3" required>
+                                    <label class="form-check-label" for="authority_validity_scope_3">All affiliations</label>
+                                </div>
+                            </div>
+                            <select name="authority_validity_code" id="authority_validity_code" class="form-control" style="display: inline-block; width: 81%;" required>
+                                <option value="">Select Affiliation</option>
+                                @foreach($affiliations as $affiliation)
+                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    <!-- Informasi Dasar -->
+                    <div id="basic-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Basic information</b></div>
+                            <div class="mb-3">
+                                <label for="email_address">Email Address: <b style="color: red">*</b></label>
+                                <input type="email" name="email_address" id="email_address" class="form-control" required style="width: 100%">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email_address_confirmation">Email Address Confirmation: <b style="color: red">*</b></label>
+                                <input type="email" name="email_address_confirmation" id="email_address_confirmation" class="form-control" required style="width: 100%">
+                            </div>
+                            <div class="mb-3">
+                                <label for="contact_phonenumber">Contact Phone Number: <b style="color: red">*</b></label>
+                                <input type="text" name="contact_phonenumber" id="contact_phonenumber" class="form-control" required style="width: 100%">
+                            </div>
+                            <div class="mb-3">
+                                <label for="employee_code">Employee Code:</label>
+                                <input type="text" name="employee_code" id="employee_code" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <div style="display: flex; align-items: center;">
+                                    <label for="sex" style="margin-right: 10px;" style="width: 100%">Sex: <b style="color: red">*</b></label>
+                                    <div style="display: flex;">
+                                        <input type="radio" name="sex" id="male" value="male" required>
+                                        &nbsp;<label for="male" style="margin-right: 10px;"> Male</label>
+                                        <input type="radio" name="sex" id="female" value="female" required>
+                                        &nbsp;<label for="female" style="margin-right: 10px;"> Female</label>
+                                        <input type="radio" name="sex" id="other" value="other" required>
+                                        &nbsp;<label for="other"> Other</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="dateofbirth" style="margin-right: 10px; flex-grow: 1;">Date of Birth: <b style="color: red">*</b></label>
+                                <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                            </div>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="dateofjoining" style="margin-right: 10px; flex-grow: 1;">Date of Joining:</label>
+                                <input type="date" name="dateofjoining" id="dateofjoining" class="form-control" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                            </div>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="retirementdate" style="margin-right: 10px; flex-grow: 1;">Retirement Date:</label>
+                                <input type="date" name="retirementdate" id="retirementdate" class="form-control" min="2022-01-01" max="2050-12-31">
+                            </div>
+                            <!-- Tambahkan input untuk atribut karyawan -->
+                            <div class="mb-3">
+                                <label for="remarks">Remarks:</label>
+                                <textarea name="remarks" id="remarks" class="form-control" cols="5" rows="5"></textarea>
+                            </div>
+                            <div id="account-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
+                            <br>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="encrypted_password" style="margin-right: 10px;">Password:</label>
+                                <input type="password" name="encrypted_password" id="encrypted_password" class="form-control" style="width: 100%">
+                                <button type="button" id="togglePassword" style="border: none; background: none; outline: none; margin-left: -30px;">
+                                    <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                                </button>
+                            </div>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="account_status" style="margin-right: 10px;">Account Status:</label>
+                                <select name="account_status" id="account_status" class="form-control" style="width: 100%">
+                                    <option value="enabled" selected>Account Enabled</option>
+                                    <option value="disabled">Account Disabled</option>
+                                </select>
+                            </div>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="password_expiration" style="margin-right: 10px;">Password Expiration Date:</label>
+                                <input type="date" name="password_expiration" id="password_expiration" class="form-control">
+                            </div>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="numberofincorrect_passwords" style="margin-right: 10px;">Number of Incorrect Passwords:</label>
+                                <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords" class="form-control">
+                            </div>
+                            <div class="mb-3" style="display: flex; align-items: center;">
+                                <label for="account_lock_datetime" style="margin-right: 10px;">Account Lock Date and Time:</label>
+                                <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" class="form-control">
+                            </div>
+                        <div align="center">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Register</button>
+                            <button type="button" class="btn btn-dark"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                </form>
+            </div>
         </div>
     </div>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <!-- List of Links and Buttons -->
+    <div class="col-md-2">
+        <br><br><br><br><br>
+        <div class="mt-2">
+            <ul class="list-group rounded-6">
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('member-registration.create') }}" title="Employee registration"><b style="color:aliceblue">  社員登録トップ</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#affiliation-information" title="Affiliation information"><b style="color:aliceblue"> 所属情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#basic-information" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#account-information" title="Account information"><b style="color:aliceblue"> アカウント情報</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <!-- Footer -->
 @include('includes.footer')
 @endsection
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- Bootstrap Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Popper.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-    <!-- AdminLTE -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
-    <!-- jQuery UI -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- Select2 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Tambahkan event click pada tombol pushmenu
-            $('.nav-link[data-widget="pushmenu"]').on('click', function() {
-                // Toggle class 'sidebar-collapse' pada elemen body
-                $('body').toggleClass('sidebar-collapse');
-            });
-
-            // Tambahkan event click pada tombol toggler untuk sidebar
-            $('.navbar-toggler[aria-controls="sidebar"]').on('click', function() {
-                // Toggle class 'show' pada elemen sidebar
-                $('#sidebar').toggleClass('show');
-            });
-        });
-    </script>
 <script>
     // Mendapatkan elemen input dateofbirth
     var dateOfBirthInput = document.getElementById('dateofbirth');

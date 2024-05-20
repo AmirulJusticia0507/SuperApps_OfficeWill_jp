@@ -13,24 +13,19 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Forgot Password <h2 style="color: cornflowerblue">DEP SERVICE</h2></div>
+                    <div class="card-header">Forgot Password</div>
                     <div class="card-body">
-                        @if(session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" id="email" name="email" class="form-control" required autofocus>
                             </div>
-                            <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
+                            <div class="mt-3" align="right">
+                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Reset Password</button>
+                                <a href="{{ route('login') }}" class="btn btn-info"><i class="fa-solid fa-arrow-right-to-bracket"></i> Back to Login</a>
+                            </div>
                         </form>
-                        <div class="mt-3">
-                            <a href="{{ route('login') }}" class="btn btn-info"><i class="fa-solid fa-right-to-bracket"></i> Back to Login</a>
-                        </div>
                     </div>
                 </div>
             </div>
