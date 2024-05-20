@@ -7,7 +7,7 @@ use App\Models\EmployeeInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\EmployeeAffiliationInformation;
-use Illuminate\Support\Facades\DB; // Tambahkan ini
+use Illuminate\Support\Facades\DB;
 
 class MasterRegistrationController extends Controller
 {
@@ -27,6 +27,7 @@ class MasterRegistrationController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi data
         $validatedData = $request->validate([
             'fullname' => 'required|string|max:255',
             'kananame' => 'nullable|string|max:255',
@@ -55,15 +56,16 @@ class MasterRegistrationController extends Controller
             'authority_validity_scope' => 'required|string|max:255',
             'authority_validity_code' => 'required|string|max:255',
         ]);
-
+    
         // Gunakan DB transaction untuk memastikan kedua insert berjalan dengan baik
         DB::transaction(function () use ($validatedData) {
-            // Buat data employee information
+            // Simpan data ke EmployeeInformation
             $employeeInformation = EmployeeInformation::create($validatedData);
-
-            // Buat data employee affiliation information
+            $employeeId = $employeeInformation->employee_id;
+    
+            // Simpan data ke EmployeeAffiliationInformation dengan menggunakan employee_id yang didapat
             EmployeeAffiliationInformation::create([
-                'employee_id' => $employeeInformation->id,
+                'employee_id' => $employeeId,
                 'company_id' => $validatedData['company_id'],
                 'affiliation_code' => $validatedData['affiliation_code'],
                 'job_id' => $validatedData['job_id'],
@@ -77,10 +79,10 @@ class MasterRegistrationController extends Controller
                 'authority_validity_code' => $validatedData['authority_validity_code'],
             ]);
         });
-
+    
         return redirect()->route('member-registration')->with('success', 'Member registered successfully!');
     }
-
+    
     public function edit($id)
     {
         $member = EmployeeInformation::findOrFail($id);
@@ -93,7 +95,7 @@ class MasterRegistrationController extends Controller
             'fullname' => 'required|string|max:255',
             'kananame' => 'nullable|string|max:255',
             'email_address' => 'required|string|email|max:255|unique:employee_information,email_address,'.$id,
-            'contact_phone_number' => 'nullable|string|max:20',
+            'contact_phonenumber' => 'nullable|string|max:20',
             'employee_code' => 'required|string|max:50|unique:employee_information,employee_code,'.$id,
             'sex' => 'nullable|string|max:10',
             'dateofbirth' => 'nullable|date',
@@ -111,7 +113,7 @@ class MasterRegistrationController extends Controller
         $member = EmployeeInformation::findOrFail($id);
         $member->update($validatedData);
 
-        return redirect()->route('member-registration')->with('success', 'Member updated successfully!');
+        return redirect()->route('member-registration.index')->with('success', 'Member updated successfully!');
     }
 
     public function destroy($id)
@@ -121,3 +123,4 @@ class MasterRegistrationController extends Controller
         return redirect()->route('dashboard')->with('success', 'Member deleted successfully!');
     }
 }
+

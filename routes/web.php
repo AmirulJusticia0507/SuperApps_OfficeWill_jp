@@ -93,8 +93,13 @@ Route::get('/course-classification', [CourseClassificationInformationController:
 Route::post('/classifications', [CourseClassificationInformationController::class, 'store'])->name('classifications.store');
 Route::get('/course-classifications/{id}/edit', [CourseClassificationInformationController::class, 'edit'])->name('course-classifications.edit');
 Route::put('/course-classifications/{id}', [CourseClassificationInformationController::class, 'update'])->name('course-classifications.update');
-Route::delete('/course-classifications/{id}', [CourseClassificationInformationController::class, 'destroy'])->name('course-classifications.destroy');
-Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');
+// routes/web.php
+
+Route::delete('/course-classification/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])
+    ->name('course-classification.destroy');
+
+
+// Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');
 
 
 // Rute untuk course information

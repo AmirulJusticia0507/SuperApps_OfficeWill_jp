@@ -32,6 +32,7 @@
         <div class="card">
             <div class="card-header" style="background-color: darkblue" title="Company Information"><b style="color:aliceblue">企業情報</b></div>
             <div class="card-body">
+            @if(count($companies) > 0)
                 <table class="display table table-bordered table-striped table-hover responsive nowrap"
                     style="width:100%" id="companyTable">
                     <thead>
@@ -48,29 +49,22 @@
                         <tr>
                             <td>{{ $company->company_name }}</td>
                             <td>{{ $company->login_screen_url }}</td>
-                            <!-- <td>
-                                    <img src="{{ Storage::url($company->icon_storage_file_path) }}" alt="Company Icon" style="max-width: 100px;">
-                                </td>
-                                <td>
-                                    <img src="{{ Storage::url($company->teaching_material_storage_file_path) }}" alt="Teaching Material" style="max-width: 100px;">
-                                </td> -->
                             <td>
                                 <a data-fancybox="gallery{{ $company->id }}"
-                                    data-src="{{ Storage::url($company->icon_storage_file_path) }}"
+                                    data-src="{{ asset($company->icon_storage_file_path) }}"
                                     data-caption="Company Icon">
-                                    <img src="{{ Storage::url($company->icon_storage_file_path) }}" alt="Company Icon"
+                                    <img src="{{ asset($company->icon_storage_file_path) }}" alt="Company Icon"
                                         style="max-width: 100px;">
                                 </a>
                             </td>
                             <td>
                                 <a data-fancybox="gallery{{ $company->id }}"
-                                    data-src="{{ Storage::url($company->teaching_material_storage_file_path) }}"
+                                    data-src="{{ asset($company->teaching_material_storage_file_path) }}"
                                     data-caption="Teaching Material">
-                                    <img src="{{ Storage::url($company->teaching_material_storage_file_path) }}"
+                                    <img src="{{ asset($company->teaching_material_storage_file_path) }}"
                                         alt="Teaching Material" style="max-width: 100px;">
                                 </a>
                             </td>
-
                             <td>
                                 <!-- Tombol Edit Company Modal -->
                                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->id }}" title="Edit"><i class="fas fa-edit"></i> 編集</button>
@@ -86,6 +80,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                <p>No companies found.</p>
+                @endif
             </div>
         </div>
     </div>

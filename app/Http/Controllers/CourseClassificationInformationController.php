@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CourseClassificationInformation;
 use App\Models\CompanyInformation;
+use Illuminate\Support\Facades\Storage;
 
 class CourseClassificationInformationController extends Controller
 {
@@ -28,23 +29,23 @@ class CourseClassificationInformationController extends Controller
             'company_name' => 'required',
             'classification_name' => 'required',
             'display_order' => 'required',
-            'icon_file_path' => 'required', // Anda mungkin ingin memvalidasi bahwa file ikon telah dipilih
+            'icon_file_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi file gambar
         ]);
-
+    
         // Cari company_id berdasarkan company_name
         $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
-
+    
+        // Handling file upload for icon file path
+        $iconPath = $request->file('icon_file_path')->store('public/icon'); // Simpan gambar ke direktori public/icon
+    
         // Menambahkan data ke dalam database
         $classification = new CourseClassificationInformation();
         $classification->company_id = $company->company_id;
         $classification->course_classification_name = $request->input('classification_name');
-        // Handling file upload for icon file path
-        if ($request->hasFile('icon_file_path')) {
-            $classification->icon_file_path = $request->file('icon_file_path')->store('icon_files', 'public');
-        }
+        $classification->icon_file_path = Storage::url($iconPath); // Simpan path relatif ke database
         $classification->displayorder = $request->input('display_order');
         $classification->save();
-
+    
         return redirect()->route('course-classification.index')->with('success', 'Classification created successfully');
     }
 
@@ -71,23 +72,25 @@ class CourseClassificationInformationController extends Controller
             'classification_name' => 'required',
             'display_order' => 'required',
         ]);
-
+    
         // Temukan klasifikasi yang ingin diperbarui
         $classification = CourseClassificationInformation::findOrFail($id);
-
+    
         // Cari company_id berdasarkan company_name
         $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
-
+    
+        // Handling file upload for icon file path, if needed
+        if ($request->hasFile('icon_file_path')) {
+            $iconPath = $request->file('icon_file_path')->store('public/icon');
+            $classification->icon_file_path = Storage::url($iconPath);
+        }
+    
         // Update data klasifikasi
         $classification->company_id = $company->company_id;
         $classification->course_classification_name = $request->input('classification_name');
-        // Handling file upload for icon file path, if needed
-        if ($request->hasFile('icon_file_path')) {
-            $classification->icon_file_path = $request->file('icon_file_path')->store('icon_files', 'public');
-        }
         $classification->displayorder = $request->input('display_order');
         $classification->save();
-
+    
         return redirect()->route('course-classification.index')->with('success', 'Classification updated successfully');
     }
 

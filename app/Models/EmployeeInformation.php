@@ -42,6 +42,13 @@ class EmployeeInformation extends Model
 
     // Fungsi CRUD
 
+    // EmployeeInformation.php
+
+    public function affiliations()
+{
+    return $this->hasMany(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
+}
+
     // Create
     public static function createEmployee($data)
     {

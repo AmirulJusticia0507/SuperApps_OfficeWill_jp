@@ -26,6 +26,10 @@ class EmployeeAffiliationInformation extends Model
     ];
 
     // Fungsi CRUD
+    public function employee()
+    {
+        return $this->belongsTo(EmployeeInformation::class, 'employee_id', 'employee_id');
+    }
 
     // Create
     public static function createEmployeeAffiliation($data)

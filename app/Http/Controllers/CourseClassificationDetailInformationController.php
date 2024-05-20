@@ -114,9 +114,16 @@ class CourseClassificationDetailInformationController extends Controller
     {
         // Temukan detail kursus yang ingin dihapus
         $detail = CourseClassificationDetailInformation::find($id);
-        // Hapus data
-        $detail->delete();
-        return redirect()->route('details.index')->with('success', 'Detail deleted successfully');
+        // Pastikan detail ditemukan sebelum mencoba menghapus
+        if ($detail) {
+            // Hapus data
+            $detail->delete();
+            return redirect()->route('details.index')->with('success', 'Detail deleted successfully');
+        } else {
+            // Jika detail tidak ditemukan, kembalikan dengan pesan kesalahan
+            return redirect()->route('details.index')->with('error', 'Detail not found');
+        }
     }
+
     
 }

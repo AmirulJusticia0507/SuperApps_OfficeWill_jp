@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CompanyInformation;
 use Illuminate\Support\Facades\Storage;
+use App\Models\AffiliationInformation;
+use App\Models\JobInformation;
+use App\Models\CourseClassificationInformation;
 
 class CompanyInformationController extends Controller
 {
@@ -85,8 +88,17 @@ class CompanyInformationController extends Controller
      */
     public function destroy(string $id)
     {
+        // Hapus terlebih dahulu semua data affiliasi terkait
+        AffiliationInformation::where('company_id', $id)->delete();
+    
+        // Hapus terlebih dahulu semua data klasifikasi kursus terkait
+        CourseClassificationInformation::where('company_id', $id)->delete();
+    
+        // Setelah semua data terkait dihapus, baru hapus perusahaan
         CompanyInformation::destroy($id);
+    
         return redirect()->route('company-information.index')->with('success', 'Company deleted successfully');
     }
+    
 
 }
