@@ -14,26 +14,26 @@
         <div class="col-md-3">
             @include('includes.sidebar')
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <br><br><br>
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Course Classification Registration</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('course-classification.index') }}">Course Classification</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Course Classification Registration</li>
+                        <li class="breadcrumb-item"><a href="#" title="Course Classification Registration">コース分類登録</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('course-classification.index') }}" title="Course Classification">コース分類</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" title="Course Classification Registration">コース分類登録</li>
                     </ol>
                 </nav>
             <!-- Course Classifications Table -->
             <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classifications Registration</b></div>
+                <div class="card-header" title="Course Classifications Registration" style="background-color: darkblue"><b style="color:aliceblue">コース分類登録</b></div>
                 <div class="card-body">
                 <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="classificationTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Classification Name</th>
-                                        <th scope="col">Display Order</th>
+                                        <th scope="col" title="ID">id</th>
+                                        <th scope="col" title="Classification Name">分類名</th>
+                                        <th scope="col" title="Display Order">表示順</th>
                                         {{-- <th scope="col">Actions</th> --}}
                                     </tr>
                                 </thead>
@@ -54,11 +54,11 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <br><br><br><br><br>
             <!-- Create/Edit Classification Form -->
-            <div class="card mb-4">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Create / Edit Classification</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>
+            <div class="card mb-5">
+                <div class="card-header" style="background-color: darkblue" title="Create / Edit Classification"><b style="color:aliceblue">分類を作成 /編集します</b> <b style="color: red">*</b><p style="color: aliceblue" title="This is a required field.">これは必要項目です。</p></div>
                     <div class="card-body">
                         <!-- Form Create/Edit Classification -->
                         <form method="POST" action="{{ isset($editClassification) ? route('classifications.update', $editClassification->course_classification_id) : route('classifications.store') }}" enctype="multipart/form-data">
@@ -67,33 +67,33 @@
                                 @method('PUT')
                                 @endif
                                 <div class="mb-3">
-                                    <label for="company_name" class="form-label">Company</label>
-                                    <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
+                                    <label for="company_name" class="form-label">会社</label>
+                                    <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}" title="Company">
                                     <select class="form-select" id="company_name" name="company_name" required>
-                                        <option value="" selected disabled>Select Company</option>
+                                        <option value="" selected disabled title="Select Company">Companyを選択します</option>
                                         @foreach($companies as $company)
                                         <option value="{{ $company->company_name }}" {{ isset($editClassification) && $editClassification->company_id == $company->company_id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="classification_name" class="form-label">Classification Name <span style="color: red">*</span></label>
+                                    <label for="classification_name" class="form-label" title="Classification Name">分類名 <span style="color: red">*</span></label>
                                     <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ isset($editClassification) ? $editClassification->course_classification_name : '' }}" required style="display: inline-block; width: 79%;">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="icon_file_path" class="form-label">Icon File Path</label>
+                                    <label for="icon_file_path" class="form-label">アイコンファイルパス</label>
                                     <!-- Field untuk mengunggah file ikon -->
-                                    <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" style="display: inline-block; width: 86%;">
+                                    <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" style="display: inline-block; width: 86%;" title="Icon File Path">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="display_order" class="form-label">Display Order <span style="color: red">*</span></label>
-                                    <input type="number" class="form-control" id="display_order" name="display_order" value="{{ isset($editClassification) ? $editClassification->displayorder : '' }}" required style="display: inline-block; width: 84%;">
+                                    <label for="display_order" class="form-label">表示順 <span style="color: red">*</span></label>
+                                    <input type="number" class="form-control" id="display_order" name="display_order" value="{{ isset($editClassification) ? $editClassification->displayorder : '' }}" required style="display: inline-block; width: 84%;" title="Display Order">
                                 </div>
                                 <div align="center">
-                                    <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-send"></i> Submit</button>
+                                    <button type="reset" class="btn btn-light" title="Reset"><i class="fas fa-undo"></i> リセット</button>
+                                    <button type="submit" class="btn btn-primary" title="Submit"><i class="fas fa-send"></i> 提出する</button>
                                     @if(isset($editClassification))
-                                    <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
+                                    <button type="button" class="btn btn-dark" title="Delete" id="deleteButton"><i class="fas fa-trash"></i> 消去</button>
                                     @endif
                                 </div>
                             </form>

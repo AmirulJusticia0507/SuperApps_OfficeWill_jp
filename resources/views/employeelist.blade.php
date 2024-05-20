@@ -19,53 +19,53 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}">Employee Registration</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">Employee List</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Employee List</li>
+                        <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}" title="Employee Registration">従業員の登録</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="Employee List">従業員リスト</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" title="Employee List">従業員リスト</li>
                     </ol>
                 </nav>
                 <div class="card">
-                    <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee List</b></div>
+                    <div class="card-header" style="background-color: darkblue" title="Employee List"><b style="color:aliceblue">従業員リスト</b></div>
                         <div class="card-body">
                             <form action="" method="get">
                                 <div class="form-group">
-                                    <label for="affiliation_id">Affiliation:</label>
+                                    <label for="affiliation_id">所属:</label>
                                     <div class="d-flex align-items-center">
-                                        <select class="form-control" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
-                                            <option value="">Select Affiliation</option>
+                                        <select class="form-control" title="Affiliation" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
+                                            <option value="" title="Select Affiliation">所属を選択します</option>
                                             @foreach($affiliations as $affiliation)
                                                 <option value="{{ $affiliation->id }}">{{ $affiliation->affiliation_name }}</option>
                                             @endforeach
                                         </select>&emsp;
                                         <div>
                                             <label class="radio-inline">
-                                                <input type="radio" name="search_option" value="Display selected affiliation"> Display selected affiliation
+                                                <input type="radio" name="search_option" value="Display selected affiliation" title="Display selected affiliation"> 選択した提携を表示します
                                             </label>
                                             <label class="radio-inline ml-3">
-                                                <input type="radio" name="search_option" value="Display selected affiliation and below"> Display selected affiliation and below
+                                                <input type="radio" name="search_option" value="Display selected affiliation and below" title="Display selected affiliation and below"> 選択した所属以下を表示します
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                                    <select name="job_title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
-                                        <option value="">Select Job Title</option>
+                                    <label for="job_title">役職: <b style="color: red">*</b></label>
+                                    <select name="job_title" id="job_title" title="Job Title" class="form-control" style="display: inline-block; width: 88%;" required>
+                                        <option value="" title="Select Job Title">役職を選択します</option>
                                         @foreach($jobTitles as $jobTitle)
                                             <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fullname">&emsp;Full Name:</label>
-                                    <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
+                                    <label for="fullname">&emsp;フルネーム:</label>
+                                    <input type="text" class="form-control" title="Full Name" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
                                 </div>
                                 <div class="form-group">
-                                    <label for="employee_code">&emsp;Employee Code:</label>
-                                    <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
+                                    <label for="employee_code">&emsp;従業員コード:</label>
+                                    <input type="text" class="form-control" title="Employee Code" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
                                 </div>
                                 <div align="center">
-                                    <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block" title="Search" style="background-color: darkblue">検索</button>
                                 </div>
                             </form>
                         </div>
@@ -73,18 +73,18 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-header" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">Employee List</b></div>
+                        <div class="card-header" title="Employee List" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">従業員リスト</b></div>
                         <!-- DataTable -->
                         <table id="employeelistTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>Affiliation</th>
-                                    <th>Job Title (Pos)</th>
-                                    <th>Full Name</th>
-                                    <th>Employee Code</th>
-                                    <th>Sex</th>
-                                    <th>Age</th>
+                                    <th>#</th>
+                                    <th title="Affiliation">所属</th>
+                                    <th title="Job Title (Pos)">役職 POS</th>
+                                    <th title="Full Name">フルネーム</th>
+                                    <th title="Employee Code">従業員コード</th>
+                                    <th title="Sex">セックス</th>
+                                    <th title="Age">年</th>
                                 </tr>
                             </thead>
                             <tbody>

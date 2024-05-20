@@ -17,22 +17,22 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Job Title/Position Master Registration</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('job-titles.index') }}">Job/Position Master Registration</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Job Title/Position Master Registration</li>
+                        <li class="breadcrumb-item"><a href="#" title="Job Title/Position Master Registration">役職/ポジションマスター登録</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('job-titles.index') }}" title="Job/Position Master Registration">ジョブ/ポジションマスター登録</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" title="Job Title/Position Master Registration">役職/ポジションマスター登録</li>
                     </ol>
                 </nav>
                 <div class="card">
-                    <div class="card-header" style="background-color: darkblue">
-                        <b style="color: aliceblue">List of Job Titles</b>
+                    <div class="card-header" title="List of Job Titles" style="background-color: darkblue">
+                        <b style="color: aliceblue">ジョブタイトルのリスト</b>
                     </div>
                     <div class="card-body">
                         <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="jobTitleTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">Job ID</th>
+                                    <th scope="col" title="Job ID">ジョブID</th>
                                     {{-- <th scope="col">Company ID</th> --}}
-                                    <th scope="col">Job Title</th>
+                                    <th scope="col" title="Job Title">役職</th>
                                     {{-- <th scope="col">Display Order</th> --}}
                                     <!-- <th scope="col" nowrap>Actions</th> -->
                                 </tr>
@@ -65,25 +65,25 @@
             <div class="col-md-4">
                 <br><br><br>
                 <div class="card">
-                    <div class="card-header" style="background-color: darkblue">
-                        <b style="color: aliceblue">Job Title Information Form</b>
-                        <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p>
+                    <div class="card-header" title="Job Title Information Form" style="background-color: darkblue">
+                        <b style="color: aliceblue">役職情報フォーム</b>
+                        <b style="color: red">*</b><p style="color: aliceblue" title="This is a required field.">これは必要項目です。</p>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('job-titles.store') }}">
                             @csrf
                             <div class="form-group">
-                                <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="job_title" name="job_title" style="display: inline-block; width: 80%;" required>
+                                <label for="job_title">役職: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" id="job_title" name="job_title" title="Job Title" style="display: inline-block; width: 80%;" required>
                             </div>
                             <div class="form-group">
-                                <label for="display_order">Display Order: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="display_order" name="display_order" style="display: inline-block; width: 71%;" required>
+                                <label for="display_order">表示順: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" title="Display Order" id="display_order" name="display_order" style="display: inline-block; width: 71%;" required>
                             </div>
                             <div align="center">
-                                <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
-                                <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
+                                <button type="reset" title="Reset" class="btn btn-light"><i class="fas fa-undo"></i> リセット</button>
+                                <button type="submit" title="Submit" class="btn btn-primary"><i class="fas fa-sent"></i> 提出する</button>
+                                <button type="button" title="Delete" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> 消去</button>
                             </div>
                         </form>
                     </div>

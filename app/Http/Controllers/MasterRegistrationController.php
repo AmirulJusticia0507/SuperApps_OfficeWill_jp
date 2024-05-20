@@ -7,6 +7,7 @@ use App\Models\EmployeeInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\EmployeeAffiliationInformation;
+use Illuminate\Support\Facades\DB; // Tambahkan ini
 
 class MasterRegistrationController extends Controller
 {
@@ -42,11 +43,6 @@ class MasterRegistrationController extends Controller
             'password_expiration' => 'nullable|date',
             'numberofincorrect_passwords' => 'required|integer',
             'account_lock_datetime' => 'nullable|date',
-            'employee_attribute01' => 'nullable|string|max:255',
-            'employee_attribute02' => 'nullable|string|max:255',
-            'employee_attribute03' => 'nullable|string|max:255',
-            'employee_attribute04' => 'nullable|string|max:255',
-            'employee_attribute05' => 'nullable|string|max:255',
             'company_id' => 'required|integer',
             'affiliation_code' => 'required|integer',
             'job_id' => 'required|integer',
@@ -60,24 +56,27 @@ class MasterRegistrationController extends Controller
             'authority_validity_code' => 'required|string|max:255',
         ]);
 
-        // Create employee information
-        $employeeInformation = EmployeeInformation::create($validatedData);
+        // Gunakan DB transaction untuk memastikan kedua insert berjalan dengan baik
+        DB::transaction(function () use ($validatedData) {
+            // Buat data employee information
+            $employeeInformation = EmployeeInformation::create($validatedData);
 
-        // Create employee affiliation information
-        $affiliationInformation = EmployeeAffiliationInformation::create([
-            'employee_id' => $employeeInformation->id,
-            'company_id' => $validatedData['company_id'],
-            'affiliation_code' => $validatedData['affiliation_code'],
-            'job_id' => $validatedData['job_id'],
-            'application_startdate' => $validatedData['application_startdate'],
-            'enddate_of_application' => $validatedData['enddate_of_application'],
-            'system_administrator_privileges' => $validatedData['system_administrator_privileges'],
-            'employee_registration_authority' => $validatedData['employee_registration_authority'],
-            'course_enrollment_privileges' => $validatedData['course_enrollment_privileges'],
-            'attendance_setting_authority' => $validatedData['attendance_setting_authority'],
-            'authority_validity_scope' => $validatedData['authority_validity_scope'],
-            'authority_validity_code' => $validatedData['authority_validity_code'],
-        ]);
+            // Buat data employee affiliation information
+            EmployeeAffiliationInformation::create([
+                'employee_id' => $employeeInformation->id,
+                'company_id' => $validatedData['company_id'],
+                'affiliation_code' => $validatedData['affiliation_code'],
+                'job_id' => $validatedData['job_id'],
+                'application_startdate' => $validatedData['application_startdate'],
+                'enddate_of_application' => $validatedData['enddate_of_application'],
+                'system_administrator_privileges' => $validatedData['system_administrator_privileges'],
+                'employee_registration_authority' => $validatedData['employee_registration_authority'],
+                'course_enrollment_privileges' => $validatedData['course_enrollment_privileges'],
+                'attendance_setting_authority' => $validatedData['attendance_setting_authority'],
+                'authority_validity_scope' => $validatedData['authority_validity_scope'],
+                'authority_validity_code' => $validatedData['authority_validity_code'],
+            ]);
+        });
 
         return redirect()->route('member-registration')->with('success', 'Member registered successfully!');
     }
@@ -106,16 +105,10 @@ class MasterRegistrationController extends Controller
             'password_expiration' => 'nullable|date',
             'numberofincorrect_passwords' => 'required|integer',
             'account_lock_datetime' => 'nullable|date',
-            'employee_attribute01' => 'nullable|string|max:255',
-            'employee_attribute02' => 'nullable|string|max:255',
-            'employee_attribute03' => 'nullable|string|max:255',
-            'employee_attribute04' => 'nullable|string|max:255',
-            'employee_attribute05' => 'nullable|string|max:255',
             'company_id' => 'required|integer',
         ]);
 
         $member = EmployeeInformation::findOrFail($id);
-        
         $member->update($validatedData);
 
         return redirect()->route('member-registration')->with('success', 'Member updated successfully!');

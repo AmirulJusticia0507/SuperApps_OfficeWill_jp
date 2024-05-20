@@ -4,6 +4,13 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    .sticky-list-group {
+        position: sticky;
+        top: 10px; /* Anda dapat menyesuaikan offset atas sesuai kebutuhan */
+    }
+</style>
+
 @section('content')
 <!-- Header -->
 @include('includes.header')
@@ -20,194 +27,183 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}">Employee Registration</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">Employee List</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Employee Information Registration</li>
+                <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}" title="Employee Registration">従業員の登録</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="Employee List">従業員リスト</a></li>
+                <li class="breadcrumb-item active" aria-current="page" title="Employee Information Registration">従業員情報登録</li>
             </ol>
         </nav>
 
         <div class="card">
-            <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee Registration</b></div>
+            <div class="card-header" id="registration" style="background-color: darkblue" title="Employee Registration"><b style="color:aliceblue">従業員の登録</b></div>
             <div class="card-body">
                 <form action="{{ route('member-registration.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     {{-- <div class="row"> --}}
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="fullname" class="form-label">Full Name: <span
-                                        style="color: red">*</span></label>
-                                <input type="text" name="fullname" id="fullname" class="form-control" required style="display: inline-block; width: 72%;">
+                                <label for="fullname" class="form-label">フルネーム: <span style="color: red">*</span></label>
+                                <input type="text" name="fullname" id="fullname" title="Full Name" class="form-control" required style="display: inline-block; width: 72%;">
                             </div>
                             <div class="mb-3">
-                                <label for="kananame" class="form-label">Kana Name: <span
-                                        style="color: red">*</span></label>
-                                <input type="text" name="kananame" id="kananame" class="form-control" required style="display: inline-block; width: 70%;">
+                                <label for="kananame" class="form-label">そのルール: <span style="color: red">*</span></label>
+                                <input type="text" name="kananame" id="kananame" title="Kana Name" class="form-control" required style="display: inline-block; width: 70%;">
                             </div>
                         </div>
-                        <div id="affiliation-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Affiliation information</b></div><br>
+                        <div id="affiliation-information" class="card-header" title="Affiliation information" style="background-color: #92CDFC"><b style="color:aliceblue"> 提携情報</b></div><br>
                         <div class="mb-3">
-                            <label for="affiliation_start_date">Affiliation Start Date: <b
-                                    style="color: red">*</b></label>
-                            <input type="date" name="affiliation_start_date" id="affiliation_start_date" class="form-control" style="display: inline-block; width: 25%;">
+                            <label for="affiliation_start_date">所属開始日: <b style="color: red">*</b></label>
+                            <input type="date" name="affiliation_start_date" id="affiliation_start_date" title="Affiliation Start Date" class="form-control" style="display: inline-block; width: 25%;">
                         </div>
-                        <!-- <div class="mb-3">
-                            <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
-                            <input type="text" name="affiliation_name" id="affiliation_name" class="form-control" style="width: 100%" required>
-                        </div> -->
                         <div class="mb-3">
-                            <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
-                            <select name="affiliation_name" id="affiliation_name" class="form-control" style="display: inline-block; width: 81%;" required>
-                                <option value="">Select Affiliation</option>
+                            <label for="affiliation_name">所属名: <b style="color: red">*</b></label>
+                            <select name="affiliation_name" id="affiliation_name" class="form-control" title="Affiliation Name" style="display: inline-block; width: 81%;" required>
+                                <option value="" title="Select Affiliation<">提携を選択</option>
                                 @foreach($affiliations as $affiliation)
                                     <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <!-- <div class="mb-3">
-                            <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                            <input type="text" name="job_title" id="job_title" class="form-control" style="width: 100%" required>
-                        </div> -->
                         <div class="mb-3">
-                            <label for="job_title">Job Title: <b style="color: red">*</b></label>
-                            <select name="job_title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
-                                <option value="">Select Job Title</option>
+                            <label for="job_title">役職: <b style="color: red">*</b></label>
+                            <select name="job_title" title="Job Title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
+                                <option value="" title="Select Job Title">役職を選択します</option>
                                 @foreach($jobTitles as $jobTitle)
                                     <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label>System Administrator Privileges: <b style="color: red">*</b></label>
+                            <label title="System Administrator Privileges">システム管理者の特権: <b style="color: red">*</b></label>
                             <div>
-                                <input type="radio" name="system_administrator_privileges" value="1" required>
-                                <label class="checkbox-label">With Permission</label>
-                                <input type="radio" name="system_administrator_privileges" value="0" required>
-                                <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="system_administrator_privileges" title="With Permission" value="1" required>
+                                <label class="checkbox-label">許可を得て</label>
+                                <input type="radio" name="system_administrator_privileges" title="Without Permission" value="0" required>
+                                <label class="checkbox-label">無許可での</label>
                             </div>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label>Employee Registration Authority: <b style="color: red">*</b></label>
+                            <label title="Employee Registration Authority">従業員登録機関: <b style="color: red">*</b></label>
                             <div>
-                                <input type="radio" name="employee_registration_authority" value="1" required> <label class="checkbox-label">With Permission</label>
-                                <input type="radio" name="employee_registration_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="employee_registration_authority" value="1" required title="With Permission"><label class="checkbox-label">許可を得て</label>
+                                <input type="radio" name="employee_registration_authority" value="0" required title="Without Permission"><label class="checkbox-label">無許可での</label>
                             </div>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label>Course Enrollment Privileges: <b style="color: red">*</b></label>
+                            <label title="Course Enrollment Privileges">コース登録特権: <b style="color: red">*</b></label>
                             <div>
-                                <input type="radio" name="course_enrollment_privileges" value="1" required> <label class="checkbox-label">With Permission</label>
-                                <input type="radio" name="course_enrollment_privileges" value="0" required> <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="course_enrollment_privileges" value="1" title="With Permission" required> <label class="checkbox-label">許可を得て</label>
+                                <input type="radio" name="course_enrollment_privileges" value="0" title="Without Permission" required> <label class="checkbox-label">無許可での</label>
                             </div>
                         </div>
                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label>Attendance Settings Authority: <b style="color: red">*</b></label>
+                            <label title="Attendance Settings Authority">出席設定機関: <b style="color: red">*</b></label>
                             <div>
-                                <input type="radio" name="attendance_setting_authority" value="1" required> <label class="checkbox-label">With Permission</label>
-                                <input type="radio" name="attendance_setting_authority" value="0" required> <label class="checkbox-label">Without Permission</label>
+                                <input type="radio" name="attendance_setting_authority" title="With Permission" value="1" required> <label class="checkbox-label">許可を得て</label>
+                                <input type="radio" name="attendance_setting_authority" title="Without Permission" value="0" required> <label class="checkbox-label">無許可での</label>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="authority_validity_scope">Authority Effective Affiliation: <b style="color: red">*</b></label>
+                            <label for="authority_validity_scope" title="Authority Effective Affiliation">権限効果的な所属: <b style="color: red">*</b></label>
                             <div class="d-inline-block mb-3">
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_validity_scope_1" name="authority_validity_scope" value="1" required>
-                                    <label class="form-check-label" for="authority_validity_scope_1">Limited to affiliation</label>
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_1" name="authority_validity_scope" title="Limited to affiliation" value="1" required>
+                                    <label class="form-check-label" for="authority_validity_scope_1">所属に限定</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_validity_scope_2" name="authority_validity_scope" value="2" required>
-                                    <label class="form-check-label" for="authority_validity_scope_2">Below affiliation</label>
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_2" name="authority_validity_scope" title="Below affiliation" value="2" required>
+                                    <label class="form-check-label" for="authority_validity_scope_2">提携の下</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_validity_scope_3" name="authority_validity_scope" value="3" required>
-                                    <label class="form-check-label" for="authority_validity_scope_3">All affiliations</label>
+                                    <input type="radio" class="form-check-input" id="authority_validity_scope_3" name="authority_validity_scope" title="All affiliations" value="3" required>
+                                    <label class="form-check-label" for="authority_validity_scope_3">すべての所属
                                 </div>
                             </div>
                             <select name="authority_validity_code" id="authority_validity_code" class="form-control" style="display: inline-block; width: 81%;" required>
-                                <option value="">Select Affiliation</option>
+                                <option value="" title="Select Affiliation">所属を選択します</option>
                                 @foreach($affiliations as $affiliation)
                                     <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     <!-- Informasi Dasar -->
-                    <div id="basic-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Basic information</b></div>
+                    <div id="basic-information" class="card-header" style="background-color: #92CDFC" title="Basic information"><b style="color:aliceblue"> 基本情報</b></div>
                             <div class="mb-3">
-                                <label for="email_address">Email Address: <b style="color: red">*</b></label>
-                                <input type="email" name="email_address" id="email_address" class="form-control" required style="width: 100%">
+                                <label for="email_address">電子メールアドレス: <b style="color: red">*</b></label>
+                                <input type="email" title="Email Address" name="email_address" id="email_address" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
-                                <label for="email_address_confirmation">Email Address Confirmation: <b style="color: red">*</b></label>
-                                <input type="email" name="email_address_confirmation" id="email_address_confirmation" class="form-control" required style="width: 100%">
+                                <label for="email_address_confirmation">メールアドレスの確認: <b style="color: red">*</b></label>
+                                <input type="email" name="email_address_confirmation" id="email_address_confirmation" title="Email Address Confirmation" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
-                                <label for="contact_phonenumber">Contact Phone Number: <b style="color: red">*</b></label>
-                                <input type="text" name="contact_phonenumber" id="contact_phonenumber" class="form-control" required style="width: 100%">
+                                <label for="contact_phonenumber">連絡先の電話番号: <b style="color: red">*</b></label>
+                                <input type="text" name="contact_phonenumber" id="contact_phonenumber" title="Contact Phone Number" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
-                                <label for="employee_code">Employee Code:</label>
-                                <input type="text" name="employee_code" id="employee_code" class="form-control">
+                                <label for="employee_code">従業員コード:</label>
+                                <input type="text" name="employee_code" id="employee_code" class="form-control" title="Employee Code">
                             </div>
                             <div class="mb-3">
                                 <div style="display: flex; align-items: center;">
-                                    <label for="sex" style="margin-right: 10px;" style="width: 100%">Sex: <b style="color: red">*</b></label>
+                                    <label for="sex" style="margin-right: 10px;" style="width: 100%" title="Sex">セックス: <b style="color: red">*</b></label>
                                     <div style="display: flex;">
-                                        <input type="radio" name="sex" id="male" value="male" required>
-                                        &nbsp;<label for="male" style="margin-right: 10px;"> Male</label>
-                                        <input type="radio" name="sex" id="female" value="female" required>
-                                        &nbsp;<label for="female" style="margin-right: 10px;"> Female</label>
-                                        <input type="radio" name="sex" id="other" value="other" required>
-                                        &nbsp;<label for="other"> Other</label>
+                                        <input type="radio" name="sex" id="male" value="male" title="Male" required>
+                                        &nbsp;<label for="male" style="margin-right: 10px;"> 男</label>
+                                        <input type="radio" name="sex" id="female" value="female" title="Female" required>
+                                        &nbsp;<label for="female" style="margin-right: 10px;"> 女性</label>
+                                        <input type="radio" name="sex" id="other" title="Other" value="other" required>
+                                        &nbsp;<label for="other"> 他の</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="dateofbirth" style="margin-right: 10px; flex-grow: 1;">Date of Birth: <b style="color: red">*</b></label>
-                                <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                                <label for="dateofbirth" style="margin-right: 10px; flex-grow: 1;">生年月日: <b style="color: red">*</b></label>
+                                <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" title="Date of Birth" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="dateofjoining" style="margin-right: 10px; flex-grow: 1;">Date of Joining:</label>
-                                <input type="date" name="dateofjoining" id="dateofjoining" class="form-control" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                                <label for="dateofjoining" style="margin-right: 10px; flex-grow: 1;">入社の日:</label>
+                                <input type="date" name="dateofjoining" id="dateofjoining" class="form-control" title="Date of Joining" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="retirementdate" style="margin-right: 10px; flex-grow: 1;">Retirement Date:</label>
-                                <input type="date" name="retirementdate" id="retirementdate" class="form-control" min="2022-01-01" max="2050-12-31">
+                                <label for="retirementdate" style="margin-right: 10px; flex-grow: 1;">退職日:</label>
+                                <input type="date" name="retirementdate" id="retirementdate" class="form-control" title="Retirement Date" min="2022-01-01" max="2050-12-31">
                             </div>
                             <!-- Tambahkan input untuk atribut karyawan -->
                             <div class="mb-3">
-                                <label for="remarks">Remarks:</label>
-                                <textarea name="remarks" id="remarks" class="form-control" cols="5" rows="5"></textarea>
+                                <label for="remarks">備考:</label>
+                                <textarea name="remarks" id="remarks" title="Remarks" class="form-control" cols="5" rows="5"></textarea>
                             </div>
-                            <div id="account-information" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue"> Account information</b></div>
+                            <div id="account-information" class="card-header" style="background-color: #92CDFC" title="Account information"><b style="color:aliceblue"> 口座情報</b></div>
                             <br>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="encrypted_password" style="margin-right: 10px;">Password:</label>
-                                <input type="password" name="encrypted_password" id="encrypted_password" class="form-control" style="width: 100%">
+                                <label for="encrypted_password" style="margin-right: 10px;">パスワード:</label>
+                                <input type="password" name="encrypted_password" id="encrypted_password" class="form-control" style="width: 100%" title="Password">
                                 <button type="button" id="togglePassword" style="border: none; background: none; outline: none; margin-left: -30px;">
                                     <i class="fas fa-eye" id="passwordToggleIcon"></i>
                                 </button>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="account_status" style="margin-right: 10px;">Account Status:</label>
-                                <select name="account_status" id="account_status" class="form-control" style="width: 100%">
-                                    <option value="enabled" selected>Account Enabled</option>
-                                    <option value="disabled">Account Disabled</option>
+                                <label for="account_status" style="margin-right: 10px;">アカウントのステータス:</label>
+                                <select name="account_status" id="account_status" class="form-control" style="width: 100%" title="Account Status">
+                                    <option value="enabled" selected title="Account Enabled">アカウントが有効になっています</option>
+                                    <option value="disabled" title="Account Disabled">アカウントが無効になっています</option>
                                 </select>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="password_expiration" style="margin-right: 10px;">Password Expiration Date:</label>
-                                <input type="date" name="password_expiration" id="password_expiration" class="form-control">
+                                <label for="password_expiration" style="margin-right: 10px;">パスワードの有効期限:</label>
+                                <input type="date" name="password_expiration" id="password_expiration" class="form-control" title="Password Expiration Date">
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="numberofincorrect_passwords" style="margin-right: 10px;">Number of Incorrect Passwords:</label>
-                                <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords" class="form-control">
+                                <label for="numberofincorrect_passwords" style="margin-right: 10px;">誤ったパスワードの数:</label>
+                                <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords" title="Number of Incorrect Passwords" class="form-control">
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
-                                <label for="account_lock_datetime" style="margin-right: 10px;">Account Lock Date and Time:</label>
-                                <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" class="form-control">
+                                <label for="account_lock_datetime" style="margin-right: 10px;">アカウントロックの日付と時刻:</label>
+                                <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" title="Account Lock Date and Time" class="form-control">
                             </div>
                         <div align="center">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i> Register</button>
-                            <button type="button" class="btn btn-dark"><i class="fas fa-trash"></i> Delete</button>
+                            <button type="submit" class="btn btn-primary" title="Register"><i class="fas fa-floppy-disk"></i> 登録する</button>
+                            <button type="button" class="btn btn-dark" title="Delete"><i class="fas fa-trash"></i> 消去</button>
                         </div>
                 </form>
             </div>
@@ -216,14 +212,14 @@
     <!-- List of Links and Buttons -->
     <div class="col-md-2">
         <br><br><br><br><br>
-        <div class="mt-2">
+        <div class="mt-2 sticky-list-group">
             <ul class="list-group rounded-6">
                 <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
                 <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('member-registration.create') }}" title="Employee registration"><b style="color:aliceblue">  社員登録トップ</b></a></li>
                 <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#affiliation-information" title="Affiliation information"><b style="color:aliceblue"> 所属情報</b></a></li>
                 <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#basic-information" title="Basic information"><b style="color:aliceblue"> 基本情報</b></a></li>
                 <li class="list-group-item rounded-6" style="background-color: #92CDFC"><a href="#account-information" title="Account information"><b style="color:aliceblue"> アカウント情報</b></a></li>
-                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
+                <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="#registration" title="Registration"><b style="color:aliceblue"> 登録</b></a></li>
             </ul>
         </div>
     </div>

@@ -21,21 +21,21 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Affiliation Master Registration</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('affiliation-information.index') }}">Affiliation List</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Affiliation Information Registration</li>
+                        <li class="breadcrumb-item"><a href="#" title="Affiliation Master Registration">提携マスター登録</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('affiliation-information.index') }}" title="Affiliation List">提携リスト</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" title="Affiliation Information Registration">提携情報登録</li>
                     </ol>
                 </nav>
                 <div class="card">
-                    <div class="card-header" style="background-color: darkblue">
-                        <b style="color: aliceblue">List of Affiliation</b>
+                    <div class="card-header" title="List of Affiliation" style="background-color: darkblue">
+                        <b style="color: aliceblue">所属のリスト</b>
                     </div>
                     <div class="card-body">
                         <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="affiliationTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">Affiliation Code</th>
-                                    <th scope="col" nowrap>Affiliation Name</th>
+                                    <th scope="col" title="Affiliation Code">提携コード</th>
+                                    <th scope="col" title="Affiliation Name" nowrap>所属名</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,55 +55,55 @@
             <div class="col-md-4">
                 <br><br><br>
                 <div class="card">
-                    <div class="card-header" style="background-color: darkblue">
-                        <b style="color: aliceblue">Affiliation Information Form</b>
-                        <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p>
+                    <div class="card-header" title="Affiliation Information Form" style="background-color: darkblue">
+                        <b style="color: aliceblue">提携情報フォーム</b>
+                        <b style="color: red">*</b><p style="color: aliceblue" title="This is a required field.">これは必要項目です。</p>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('affiliation-information.store') }}">
                             @csrf
                             <div class="form-group">
-                                <label for="company_name">Company Name: <b style="color: red">*</b></label>
-                                <select class="form-select" id="company_name" name="company_name" required>
-                                    <option value="" selected disabled>Select Company</option>
+                                <label for="company_name">会社名: <b style="color: red">*</b></label>
+                                <select class="form-select" id="company_name" name="company_name" title="Company Name" required>
+                                    <option value="" selected disabled title="Select Company">Companyを選択します</option>
                                     @foreach($companies as $company)
                                         <option value="{{ $company->company_id }}">{{ $company->company_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="affiliation_code">Affiliation Code: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="affiliation_code" name="affiliation_code" style="display: inline-block; width: 81%;" required>
+                                <label for="affiliation_code">提携コード: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" title="Affiliation Code" id="affiliation_code" name="affiliation_code" style="display: inline-block; width: 81%;" required>
                             </div>
                             <!-- <div class="form-group">
                                 <label for="company_id">Company ID:</label>
                                 <input type="text" class="form-control" id="company_id" name="company_id">
                             </div> -->
                             <div class="form-group">
-                                <label for="affiliation_name">Affiliation Name: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="affiliation_name" name="affiliation_name" style="display: inline-block; width: 80%;" required>
+                                <label for="affiliation_name">所属名: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" title="Affiliation Name" id="affiliation_name" name="affiliation_name" style="display: inline-block; width: 80%;" required>
                             </div>
                             <div class="form-group">
-                                <label for="display_order">Display Order: <b style="color: red">*</b></label>
-                                <input type="text" class="form-control" id="display_order" name="display_order" style="display: inline-block; width: 83%;">
+                                <label for="display_order">表示順: <b style="color: red">*</b></label>
+                                <input type="text" class="form-control" title="Display Order" id="display_order" name="display_order" style="display: inline-block; width: 83%;">
                             </div>
                             <div class="form-group">
-                                <label for="organization_type">Organization Type: <b style="color: red">*</b></label>
+                                <label for="organization_type" title="Organization Type">組織タイプ: <b style="color: red">*</b></label>
                                 <div class="row" style="display: inline-block; width: 60%;">
                                     <div class="form-check">
-                                        &emsp;<input class="form-check-input" type="radio" name="organization_type" id="main_store_equivalent" value="Main store equivalent" required>
-                                        <label class="form-check-label" for="main_store_equivalent"> Main store equivalent</label>
+                                        &emsp;<input class="form-check-input" type="radio" name="organization_type" title="Main store equivalent" id="main_store_equivalent" value="Main store equivalent" required>
+                                        <label class="form-check-label" for="main_store_equivalent"> メインストアに相当します</label>
                                     {{-- </div>
                                     <div class="form-check"> --}}
-                                        &emsp;&emsp;<input class="form-check-input" type="radio" name="organization_type" id="fc_store" value="FC Store" required>
-                                        <label class="form-check-label" for="fc_store">FC Store</label>
+                                        &emsp;&emsp;<input class="form-check-input" type="radio" title="FC Store" name="organization_type" id="fc_store" value="FC Store" required>
+                                        <label class="form-check-label" for="fc_store">FCストア</label>
                                     </div>
                                 </div>
                             </div>
                             <div align="center">
-                                <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
-                                <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
+                                <button type="reset" title="Reset" class="btn btn-light"><i class="fas fa-undo"></i> リセット</button>
+                                <button type="submit" title="Submit" class="btn btn-primary"><i class="fas fa-sent"></i> 提出する</button>
+                                <button type="button" title="Delete" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> 消去</button>
                             </div>
                         </form>
                     </div>

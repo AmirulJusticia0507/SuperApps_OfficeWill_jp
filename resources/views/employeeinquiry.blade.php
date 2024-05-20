@@ -3,7 +3,12 @@
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
-
+<style>
+    .sticky-list-group {
+        position: sticky;
+        top: 10px; /* Anda dapat menyesuaikan offset atas sesuai kebutuhan */
+    }
+</style>
 @section('content')
     <!-- Header -->
     @include('includes.header')
@@ -20,55 +25,55 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Inquiry by employee</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('employee-list') }}">List of employees</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Attendance inquiry by employee</li>
+                    <li class="breadcrumb-item"><a href="#" title="Inquiry by employee">従業員による問い合わせ</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="List of employees">従業員のリスト</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" title="Attendance inquiry by employee">従業員による出席照会</li>
                 </ol>
             </nav>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Employee</b></div>
+                <div class="card-header" style="background-color: darkblue" title="Employee"><b style="color:aliceblue">従業員</b></div>
                     <form action="{{ route('employee.filter') }}" method="get"><br>
                         @csrf
                         <div class="form-group">
-                            <label for="affiliation_id">&emsp;Affiliation:</label>
-                            <select class="form-control" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
-                                <option value="">Select Affiliation</option>
+                            <label for="affiliation_id">&emsp;所属:</label>
+                            <select class="form-control" title="Affiliation" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
+                                <option title="Select Affiliation" value="">所属を選択します</option>
                                 @foreach($affiliations as $affiliation)
                                     <option value="{{ $affiliation->id }}">{{ $affiliation->affiliation_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="job_id">&emsp;Job Title:</label>
-                            <select class="form-control" id="job_id" name="jobId" required style="display: inline-block; width: 60%;">
-                                <option value="">Select Job Title</option>
+                            <label for="job_id">&emsp;役職:</label>
+                            <select class="form-control" title="Job Title" id="job_id" name="jobId" required style="display: inline-block; width: 60%;">
+                                <option title="Select Job Title" value="">役職を選択します</option>
                                 @foreach($jobTitles as $job)
                                     <option value="{{ $job->id }}">{{ $job->job_title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="fullname">&emsp;Full Name:</label>
-                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;">
+                            <label for="fullname">&emsp;フルネーム:</label>
+                            <input type="text" title="Full Name" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;">
                         </div>
                         <div class="form-group">
-                            <label for="employee_code">&emsp;Employee Code:</label>
-                            <input type="text" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
+                            <label for="employee_code">&emsp;従業員コード:</label>
+                            <input type="text" title="Employee Code" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
                         </div>
-                        <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Taken</b></div><br>
+                        <div class="card-header" style="background-color: darkblue" title="Course Taken"><b style="color:aliceblue">コースが取られました</b></div><br>
                         <div class="form-group">
-                            <label for="course_classification">&emsp;Course Classification:</label>
-                            <select class="form-control" id="course_classification" name="course_classification" required style="display: inline-block; width: 60%;">
-                                <option value="">Select Course Classification</option>
+                            <label for="course_classification">&emsp;コース分類:</label>
+                            <select class="form-control" id="course_classification" title="Course Classification" name="course_classification" required style="display: inline-block; width: 60%;">
+                                <option title="Select Course Classification" value="">コース分類を選択します</option>
                                 @foreach($classifications as $classification)
                                     <option value="{{ $classification->id }}">{{ $classification->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="course_classification_details">&emsp;Course Classification Details:</label>
-                            <select class="form-control" id="course_classification_details" name="course_classification_details" required style="display: inline-block; width: 60%;">
-                                <option value="">Select Course Classification Details</option>
+                            <label for="course_classification_details">&emsp;コース分類の詳細:</label>
+                            <select class="form-control" id="course_classification_details" title="Course Classification Details" name="course_classification_details" required style="display: inline-block; width: 60%;">
+                                <option title="Select Course Classification Details" value="">コース分類の詳細を選択します</option>
                                 <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification details -->
                                 @foreach($details as $detail)
                                     <option value="{{ $detail->id }}">{{ $detail->name }}</option>
@@ -86,34 +91,34 @@
                             value="{{ isset($course) ? $course->coursename : '' }}">
                     </div> -->
                     <div class="form-group">
-                        <label for="course_id">&emsp;Course Name:</label>
-                        <select name="course_id" id="course_id" class="form-control" style="display: inline-block; width: 60%;">
-                            <option value="">Select Course</option>
+                        <label for="course_id">&emsp;コース名:</label>
+                        <select name="course_id" id="course_id" title="Course Name" class="form-control" style="display: inline-block; width: 60%;">
+                            <option title="Select Course" value="">コースを選択します</option>
                             @foreach($courses as $course)
                                 <option value="{{ $course->id }}" @if(isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>{{ $course->course_name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div align="center">
-                        <button type="submit" class="btn btn-primary btn-block" style="background-color: darkblue">Search</button>
+                        <button type="submit" class="btn btn-primary btn-block" title="Search" style="background-color: darkblue">検索</button>
                     </div>
                 </form>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <div class="card-header" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">Employee List</b></div>
+                    <div class="card-header" style="background-color: #92CDFC" align="center" title="Employee List"><b style="color:aliceblue">従業員リスト</b></div>
                     <!-- DataTable -->
                     <table id="employeeinquiryTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>Affiliation</th>
-                                <th>Job Title (Pos)</th>
-                                <th>Full Name</th>
-                                <th>Employee Code</th>
-                                <th>Sex</th>
-                                <th>Age</th>
+                                <th>#</th>
+                                <th title="Affiliation">所属</th>
+                                <th title="Job Title (Pos)">役職 POS</th>
+                                <th title="Full Name">フルネーム</th>
+                                <th title="Employee Code">従業員コード</th>
+                                <th title="Sex">セックス</th>
+                                <th title="Age">年</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,7 +141,7 @@
         
             <div class="col-md-2">
             <br><br><br><br><br>
-                <div class="mt-2">
+                <div class="mt-2 sticky-list-group">
                     <ul class="list-group rounded-6" style="float: right;">
                         <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Course list"><b style="color:aliceblue"> 社員一覧</b></a></li>
                         <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-inquiry') }}" title="Attendance inquiry"><b style="color:aliceblue">  受講照会トップ</b></a></li>

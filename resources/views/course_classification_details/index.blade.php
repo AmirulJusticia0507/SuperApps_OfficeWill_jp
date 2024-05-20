@@ -19,20 +19,20 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Course Classification Details Registration</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('course-classification-details.index') }}">Course Classification Details</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Course Classification Details Registration</li>
+                        <li class="breadcrumb-item"><a href="#" title="Course Classification Details Registration">コース分類の詳細登録</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('course-classification-details.index') }}" title="Course Classification Details">コース分類の詳細</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" title="Course Classification Details Registration">コース分類の詳細登録</li>
                     </ol>
                 </nav>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classification Details</b></div>
+                <div class="card-header" title="Course Classification Details" style="background-color: darkblue"><b style="color:aliceblue">コース分類の詳細</b></div>
                 <div class="card-body">
                     <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="classificationdetailsTable">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Classification Name</th>
-                                <th scope="col">Classification Detail Name</th>
+                                <th scope="col" title="Classification Name">分類名</th>
+                                <th scope="col" title="Classification Detail Name">分類詳細名</th>
                                 {{-- <th scope="col">Icon File Path</th> --}}
                                 {{-- <th scope="col">Display Order</th> --}}
                                 {{-- <th scope="col">Actions</th> --}}
@@ -72,24 +72,24 @@
         <div class="col md-2">
             <br><br><br><br><br>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Course Classification Detail</b> <b style="color: red">*</b><p style="color: aliceblue">This is a required field.</p></div>
+                <div class="card-header" style="background-color: darkblue" title="Course Classification Detail"><b style="color:aliceblue">コース分類の詳細</b> <b style="color: red">*</b><p style="color: aliceblue" title="This is a required field.">これは必要項目です。</p></div>
                 <div class="card-body">
                     <form id="classificationDetailsForm" action="{{ route('details.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="company_name" class="form-label">Company</label>
-                            <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
+                            <label for="company_name" class="form-label">会社</label>
+                            <input type="hidden" id="selectedCompanyId" title="Company" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
                             <select class="form-select" id="company_name" name="company_id" required>
-                                <option value="" selected disabled>Select Company</option>
+                                <option value="" selected disabled title="Select Company">Companyを選択します</option>
                                 @foreach($companies as $company)
                                     <option value="{{ $company->company_id }}" @if(isset($editClassification) && $editClassification->company_id == $company->company_id) selected @endif>{{ $company->company_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="course_classification_id" class="form-label">Course Classification</label>
-                            <select class="form-select" id="course_classification_id" name="Course_classification_id" required>
-                                <option value="" selected disabled>Select Course Classification</option>
+                            <label for="course_classification_id" class="form-label" title="Course Classification">コース分類</label>
+                            <select class="form-select" id="course_classification_id" name="Course_classification_id" title="Select Course Classification" required>
+                                <option value="" selected disabled>コース分類を選択します</option>
                                 @foreach($classifications as $classification)
                                 <option value="{{ $classification->course_classification_id }}">{{ $classification->course_classification_name }}</option>
                                 @endforeach
@@ -97,21 +97,21 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="course_classification_detailsname" class="form-label">Classification Detail Name <b style="color: red">*</b></label>
-                            <input type="text" class="form-control" id="course_classification_detailsname" name="course_classification_detailsname" required style="display: inline-block; width: 75%;">
+                            <label for="course_classification_detailsname" class="form-label">分類詳細名 <b style="color: red">*</b></label>
+                            <input type="text" class="form-control" id="course_classification_detailsname" title="Classification Detail Name" name="course_classification_detailsname" required style="display: inline-block; width: 75%;">
                         </div>
                         <div class="mb-3">
-                            <label for="display_order" class="form-label">Display Ranking <b style="color: red">*</b></label>
-                            <input type="number" class="form-control" id="display_order" name="display_order" required style="display: inline-block; width: 84%;">
+                            <label for="display_order" class="form-label">ランキングを表示します <b style="color: red">*</b></label>
+                            <input type="number" class="form-control" id="display_order" name="display_order" title="Display Ranking" required style="display: inline-block; width: 84%;">
                         </div>
                         <div class="mb-3">
-                            <label for="icon_file_path" class="form-label">Course classification details icon </label>
-                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" style="display: inline-block; width: 72%;">
+                            <label for="icon_file_path" class="form-label">コース分類の詳細アイコン </label>
+                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" title="Course classification details icon" style="display: inline-block; width: 72%;">
                         </div><br><br>
                         <div align="center">
-                            <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
-                            <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i> Delete</button>
+                            <button type="reset" class="btn btn-light" title="Reset"><i class="fas fa-undo"></i> リセット</button>
+                            <button type="submit" class="btn btn-primary" title="Submit"><i class="fas fa-sent"></i> 提出する</button>
+                            <button type="button" class="btn btn-dark" id="deleteButton" title="Delete"><i class="fas fa-trash"></i> 消去</button>
                         </div>
                     </form>
                 </div>

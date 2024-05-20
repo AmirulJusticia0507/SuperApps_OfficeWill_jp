@@ -4,6 +4,7 @@
     };
 @endphp
 
+
 <style>
     /* CSS untuk spinner */
     .page-spinner {
@@ -51,56 +52,56 @@
     <nav class="text-white">
         <ul>
             <li>
-                <a href="{{ route('dashboard') }}" class="block py-2 px-4 text-sm {{ request()->routeIs('dashboard') ? 'bg-gray-900' : '' }}"><i class="fas fa-home mr-2"></i> Dashboard</a>
+                <a href="{{ route('dashboard') }}" title="Dashboard" class="block py-2 px-4 text-sm {{ request()->routeIs('dashboard') ? 'bg-gray-900' : '' }}"><i class="fas fa-home mr-2"></i> ダッシュボード</a>
             </li>
             <li>
-                <a href="{{ route('company-information.index') }}" class="block py-2 px-4 text-sm {{ request()->routeIs('company-information.index') ? 'bg-gray-900' : '' }}"><i class="fas fa-building mr-2"></i> Company Information</a>
+                <a href="{{ route('company-information.index') }}" title="Company Information" class="block py-2 px-4 text-sm {{ request()->routeIs('company-information.index') ? 'bg-gray-900' : '' }}"><i class="fas fa-building mr-2"></i> 企業情報</a>
             </li>
             <li>
-                <a href="#" class="block py-2 px-4 text-sm toggle-submenu"><i class="fas fa-book-open mr-2"></i> In-house Training</a>
+                <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="In-house Training"><i class="fas fa-book-open mr-2"></i> 社内研修</a>
                 <ul class="treeview" style="display: none;">
                     <li>
-                        <a href="{{ route('confirm-courses.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-book mr-2"></i> Confirm and attend courses</a>
+                        <a href="{{ route('confirm-courses.index') }}" title="Confirm and attend courses" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-book mr-2"></i> コースの確認と受講</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Course Registration</a>
+                        <a href="#" title="Course Registration" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;履修登録</a>
                         <ul class="treeview" style="display: none;">
                             <!-- <li><a href="{{ route('materials.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Material Registration</a></li> -->
-                            <li><a href="{{ route('course-registration.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Information Registration</a></li>
-                            <li><a href="{{ route('course-classification.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course classification registration</a></li>
-                            <li><a href="{{ route('course-classification-details.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course classification details registration</a></li>
+                            <li><a href="{{ route('course-registration.index') }}" title="Course Information Registration" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>コース情報登録</a></li>
+                            <li><a href="{{ route('course-classification.index') }}" title="Course classification registration" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>コース分類登録</a></li>
+                            <li><a href="{{ route('course-classification-details.index') }}" title="Course classification details registration" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>コース分類詳細登録</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ route('course-settings') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-cogs mr-2"></i>Course settings</a>
+                        <a href="{{ route('course-settings') }}" title="Course settings" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-cogs mr-2"></i>コース設定</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Course Inquiries</a>
+                        <a href="#" title="Course Inquiries" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;コースに関するお問い合わせ</a>
                         <ul class="treeview" style="display: none;">
-                            <li><a href="{{ route('course-inquiry') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-envelope"></i>Course Specific Inquiry</a></li>
-                            <li><a href="{{ route('employee-inquiry') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-user mr-2"></i>Employee-Specific Inquiry</a></li>
+                            <li><a href="{{ route('course-inquiry') }}" title="Course Specific Inquiry" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-envelope"></i>コース別のお問い合わせ</a></li>
+                            <li><a href="{{ route('employee-inquiry') }}" title="Employee-Specific Inquiry" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-user mr-2"></i>従業員固有のお問い合わせ</a></li>
                         </ul>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#" class="block py-2 px-4 text-sm toggle-submenu"><i class="fas fa-users-cog mr-2"></i> Employee Management</a>
+                <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="Employee Management"><i class="fas fa-users-cog mr-2"></i> 従業員管理</a>
                 <ul class="treeview" style="display: none;">
                     <li>
-                        <a href="{{ route('member-registration.create') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-book mr-2"></i>Member Registration</a>
+                        <a href="{{ route('member-registration.create') }}" title="Member Registration" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-book mr-2"></i>会員登録</a>
                     </li>
                     <li>
-                        <a href="{{ route('affiliation-information.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-handshake"></i> Affiliation Master Registration</a>
+                        <a href="{{ route('affiliation-information.index') }}" title="Affiliation Master Registration" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-handshake"></i> 所属マスター登録</a>
                     </li>
                     <li>
-                        <a href="{{ route('job-titles.index') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-user-tie"></i> Job Title Master Registration</a>
+                        <a href="{{ route('job-titles.index') }}" title="Job Title Master Registration" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-user-tie"></i> 役職マスタ登録</a>
                     </li>
                 </ul>
             </li><br><br><br><br><br><br><br>
             <li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf
-                    &emsp;&emsp;<button type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                    &emsp;&emsp;<button type="submit" title="Logout"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</button>
                 </form>
             </li>
             <li>
@@ -114,9 +115,6 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Skrip JavaScript untuk mengontrol pushmenu -->
-
-<!-- Menambahkan script untuk mengontrol submenu -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const toggleSubmenu = document.querySelectorAll('.toggle-submenu');

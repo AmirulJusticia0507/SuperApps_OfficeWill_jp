@@ -20,27 +20,27 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Company Information</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('company-information.index') }}">Create Company</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Company Information</li>
+                <li class="breadcrumb-item"><a href="#" title="Company Information">企業情報 </a></li>
+                <li class="breadcrumb-item"><a href="{{ route('company-information.index') }}" title="Create Company">会社を作成します</a></li>
+                <li class="breadcrumb-item active" aria-current="page" title="Company Information">企業情報</li>
             </ol>
         </nav>
         <!-- Tombol Create Company Modal -->
         <div align="right">
-            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createCompanyModal"><i class="fas fa-plus"></i> Create Company</button>&emsp;
+            <button class="btn btn-primary mb-3" data-bs-toggle="modal" title="Create Company" data-bs-target="#createCompanyModal"><i class="fas fa-plus"></i> 会社を作成します</button>&emsp;
         </div>
         <div class="card">
-            <div class="card-header" style="background-color: darkblue"><b style="color:aliceblue">Company Information</b></div>
+            <div class="card-header" style="background-color: darkblue" title="Company Information"><b style="color:aliceblue">企業情報</b></div>
             <div class="card-body">
                 <table class="display table table-bordered table-striped table-hover responsive nowrap"
                     style="width:100%" id="companyTable">
                     <thead>
                         <tr>
-                            <th scope="col">Company Name</th>
-                            <th scope="col">Login Screen URL</th>
-                            <th scope="col">Icon</th>
-                            <th scope="col">Teaching Material</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col" title="Company Name">会社名</th>
+                            <th scope="col" title="Login Screen URL">ログイン画面URL</th>
+                            <th scope="col" title="Icon">アイコン</th>
+                            <th scope="col" title="Teaching Material">教材</th>
+                            <th scope="col" title="Actions">行動</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,13 +73,13 @@
 
                             <td>
                                 <!-- Tombol Edit Company Modal -->
-                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->id }}"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->id }}" title="Edit"><i class="fas fa-edit"></i> 編集</button>
                                 <!-- Form Delete Company -->
                                 <form action="{{ route('company-information.destroy', $company->company_id) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-dark"><i class="fas fa-trash"></i> Delete</button>
+                                    <button type="submit" class="btn btn-dark" title="Delete"><i class="fas fa-trash"></i> 消去</button>
                                 </form>
                             </td>
                         </tr>
@@ -102,7 +102,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createCompanyModalLabel">Create Company</h5>
+                <h5 class="modal-title" id="createCompanyModalLabel" title="Create Company">会社を作成します</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -110,35 +110,33 @@
                 <form method="POST" action="{{ route('company-information.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <label for="company_name">Company Name:</label>
-                        <input type="text" class="form-control" id="company_name" name="company_name" required>
+                        <label for="company_name">会社名:</label>
+                        <input type="text" class="form-control" id="company_name" name="company_name" required title="Company Name">
                     </div>
 
                     <div class="form-group">
-                        <label for="login_screen_url">Login Screen URL:</label>
-                        <input type="text" class="form-control" id="login_screen_url" name="login_screen_url" required>
+                        <label for="login_screen_url">ログイン画面URL:</label>
+                        <input type="text" class="form-control" title="Login Screen URL" id="login_screen_url" name="login_screen_url" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="icon_storage_file_path">Icon Storage File:</label>
-                        <input type="file" class="form-control" id="icon_storage_file_path"
-                            name="icon_storage_file_path" required onchange="previewIcon(this)">
+                        <label for="icon_storage_file_path">アイコンストレージファイル:</label>
+                        <input type="file" class="form-control" id="icon_storage_file_path" title="Icon Storage File" name="icon_storage_file_path" required onchange="previewIcon(this)">
                         <!-- Tambahkan atribut 'required' untuk memastikan file dipilih -->
                         <img id="icon_preview" src="#" alt="Preview Icon" style="max-width: 100px; display: none;">
                     </div>
 
 
                     <div class="form-group">
-                        <label for="teaching_material_storage_file_path">Teaching Material Storage File:</label>
-                        <input type="file" class="form-control" id="teaching_material_storage_file_path"
-                            name="teaching_material_storage_file_path" onchange="previewMaterial(this)">
+                        <label for="teaching_material_storage_file_path">材料ストレージファイルの授業:</label>
+                        <input type="file" class="form-control" id="teaching_material_storage_file_path" title="Teaching Material Storage File" name="teaching_material_storage_file_path" onchange="previewMaterial(this)">
                         <img id="material_preview" src="#" alt="Preview Material"
                             style="max-width: 100px; display: none;">
                     </div><br><br>
                     <div align="center">
-                        <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
-                        <button type="button" class="btn btn-dark" id="deleteButton"><i class="fas fa-trash"></i>Delete</button>
+                        <button type="reset" class="btn btn-light" title="Reset"><i class="fas fa-undo"></i> リセット</button>
+                        <button type="submit" class="btn btn-primary" title="Submit"><i class="fas fa-sent"></i> 提出する</button>
+                        <button type="button" class="btn btn-dark" title="Delete" id="deleteButton"><i class="fas fa-trash"></i> 消去</button>
                     </div>
                 </form>
             </div>
@@ -164,14 +162,12 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="company_name">Company Name:</label>
-                        <input type="text" class="form-control" id="company_name" name="company_name"
-                            value="{{ $company->company_name }}" required>
+                        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $company->company_name }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="login_screen_url">Login Screen URL:</label>
-                        <input type="text" class="form-control" id="login_screen_url" name="login_screen_url"
-                            value="{{ $company->login_screen_url }}" required>
+                        <input type="text" class="form-control" id="login_screen_url" name="login_screen_url" value="{{ $company->login_screen_url }}" required>
                     </div>
 
                     <div class="form-group">
