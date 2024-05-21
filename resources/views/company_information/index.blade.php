@@ -67,7 +67,7 @@
                             </td>
                             <td>
                                 <!-- Tombol Edit Company Modal -->
-                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->id }}" title="Edit"><i class="fas fa-edit"></i> 編集</button>
+                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->company_id }}" title="Edit"><i class="fas fa-edit"></i> 編集</button>
                                 <!-- Form Delete Company -->
                                 <form action="{{ route('company-information.destroy', $company->company_id) }}"
                                     method="POST" style="display: inline;">
@@ -141,10 +141,8 @@
     </div>
 </div>
 
-<!-- Edit Company Modal -->
 @foreach($companies as $company)
-<div class="modal fade" id="editCompanyModal{{ $company->id }}" tabindex="-1"
-    aria-labelledby="editCompanyModalLabel{{ $company->id }}" aria-hidden="true">
+    <div class="modal fade" id="editCompanyModal{{ $company->company_id }}" tabindex="-1" aria-labelledby="editCompanyModalLabel{{ $company->company_id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -153,8 +151,7 @@
             </div>
             <div class="modal-body">
                 <!-- Form Edit Company -->
-                <form method="POST" action="{{ route('company-information.update', $company->company_id) }}"
-                    enctype="multipart/form-data">
+                <form method="POST" action="{{ route('company-information.update', $company->company_id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -169,18 +166,14 @@
 
                     <div class="form-group">
                         <label for="icon_storage_file_path">Icon Storage File:</label>
-                        <input type="file" class="form-control" id="icon_storage_file_path"
-                            name="icon_storage_file_path" onchange="previewIcon(this)">
-                        <img id="icon_preview" src="{{ $company->icon_storage_file_path }}" alt="Current Icon"
-                            style="max-width: 100px;">
+                        <input type="file" class="form-control" id="icon_storage_file_path" name="icon_storage_file_path" onchange="previewIcon(this)">
+                        <img id="icon_preview" src="{{ asset($company->icon_storage_file_path) }}" alt="Current Icon" style="max-width: 100px;">
                     </div>
 
                     <div class="form-group">
                         <label for="teaching_material_storage_file_path">Teaching Material Storage File:</label>
-                        <input type="file" class="form-control" id="teaching_material_storage_file_path"
-                            name="teaching_material_storage_file_path" onchange="previewMaterial(this)">
-                        <img id="material_preview" src="{{ $company->teaching_material_storage_file_path }}"
-                            alt="Current Material" style="max-width: 100px;">
+                        <input type="file" class="form-control" id="teaching_material_storage_file_path" name="teaching_material_storage_file_path" onchange="previewMaterial(this)">
+                        <img id="material_preview" src="{{ asset($company->teaching_material_storage_file_path) }}" alt="Current Material" style="max-width: 100px;">
                     </div>
                     <div align="center">
                         <button type="submit" class="btn btn-info"><i class="fas fa-pen"></i> Update</button>&emsp;

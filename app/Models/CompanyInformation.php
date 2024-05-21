@@ -9,7 +9,14 @@ class CompanyInformation extends Model
 {
     use HasFactory;
     protected $primaryKey = 'company_id';
-    protected $fillable = ['company_id', 'company_name', 'login_screen_url', 'icon_storage_file_path', 'teaching_material_storage_file_path', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'company_id', 
+        'company_name', 
+        'login_screen_url', 
+        'icon_storage_file_path', 
+        'teaching_material_storage_file_path', 
+        'created_at', 
+        'updated_at'];
 
     // Fungsi CRUD
 

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseClassificationDetailInformation;
-use App\Models\CourseClassificationInformation; // Import model
+use App\Models\CourseClassificationInformation;
 use App\Models\CompanyInformation;
+use Illuminate\Support\Facades\Storage;
 
 class CourseClassificationDetailInformationController extends Controller
 {
@@ -15,8 +16,8 @@ class CourseClassificationDetailInformationController extends Controller
     public function index()
     {
         $details = CourseClassificationDetailInformation::all();
-        $classifications = CourseClassificationInformation::all(); // Mendapatkan semua klasifikasi kursus
-        $companies = CompanyInformation::all(); // Mengambil daftar perusahaan
+        $classifications = CourseClassificationInformation::all();
+        $companies = CompanyInformation::all();
         return view('course_classification_details.index', compact('details', 'classifications', 'companies'));
     }
 
@@ -24,84 +25,82 @@ class CourseClassificationDetailInformationController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-{
-    // Fetch classifications dan companies
-    $classifications = CourseClassificationInformation::all();
-    $companies = CompanyInformation::all();
-    return view('course_classification_details.create', compact('classifications', 'companies'));
-}
-
+    {
+        $classifications = CourseClassificationInformation::all();
+        $companies = CompanyInformation::all();
+        return view('course_classification_details.create', compact('classifications', 'companies'));
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'Course_classification_id' => 'required',
-            'company_id' => 'required', // Pastikan company_id tidak boleh null
+            'company_id' => 'required',
             'course_classification_detailsname' => 'required',
-            'display_order' => 'required'
+            'display_order' => 'required',
+            'icon_file_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate file input
         ]);
 
-        // Buat data baru berdasarkan request
         $detail = new CourseClassificationDetailInformation();
         $detail->Course_classification_id = $request->input('Course_classification_id');
         $detail->company_id = $request->input('company_id');
         $detail->course_classification_detailsname = $request->input('course_classification_detailsname');
         $detail->display_order = $request->input('display_order');
 
-        // Simpan data ke database
+        // Handle file upload
+        if ($request->hasFile('icon_file_path')) {
+            $imagePath = $request->file('icon_file_path')->store('course_classification_icons', 'public');
+            $detail->icon_file_path = $imagePath;
+        }
+
         $detail->save();
 
         return redirect()->route('details.index')->with('success', 'Detail created successfully');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $detail = CourseClassificationDetailInformation::find($id);
-        return view('course_classification_details.show', compact('detail'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        // Temukan detail kursus yang ingin diedit
         $detail = CourseClassificationDetailInformation::find($id);
-        // Ambil semua klasifikasi kursus dan daftar perusahaan
         $classifications = CourseClassificationInformation::all();
         $companies = CompanyInformation::all();
         return view('course_classification_details.edit', compact('detail', 'classifications', 'companies'));
     }
-    
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
             'Course_classification_id' => 'required',
-            'company_id' => 'required', // Pastikan company_id tidak boleh null
+            'company_id' => 'required',
             'course_classification_detailsname' => 'required',
-            'display_order' => 'required'
+            'display_order' => 'required',
+            'icon_file_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate file input
         ]);
 
-        // Temukan data yang ingin diperbarui
         $detail = CourseClassificationDetailInformation::find($id);
         $detail->Course_classification_id = $request->input('Course_classification_id');
         $detail->company_id = $request->input('company_id');
         $detail->course_classification_detailsname = $request->input('course_classification_detailsname');
         $detail->display_order = $request->input('display_order');
 
-        // Simpan perubahan
+        // Handle file upload
+        if ($request->hasFile('icon_file_path')) {
+            // Delete previous file if exists
+            if ($detail->icon_file_path) {
+                Storage::disk('public')->delete($detail->icon_file_path);
+            }
+            $imagePath = $request->file('icon_file_path')->store('course_classification_icons', 'public');
+            $detail->icon_file_path = $imagePath;
+        }
+
         $detail->save();
 
         return redirect()->route('details.index')->with('success', 'Detail updated successfully');
@@ -110,20 +109,18 @@ class CourseClassificationDetailInformationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        // Temukan detail kursus yang ingin dihapus
         $detail = CourseClassificationDetailInformation::find($id);
-        // Pastikan detail ditemukan sebelum mencoba menghapus
         if ($detail) {
-            // Hapus data
+            // Delete associated file
+            if ($detail->icon_file_path) {
+                Storage::disk('public')->delete($detail->icon_file_path);
+            }
             $detail->delete();
             return redirect()->route('details.index')->with('success', 'Detail deleted successfully');
         } else {
-            // Jika detail tidak ditemukan, kembalikan dengan pesan kesalahan
             return redirect()->route('details.index')->with('error', 'Detail not found');
         }
     }
-
-    
 }

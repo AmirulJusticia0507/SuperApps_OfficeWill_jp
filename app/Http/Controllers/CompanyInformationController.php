@@ -70,7 +70,7 @@ class CompanyInformationController extends Controller
     public function edit(string $id)
     {
         $company = CompanyInformation::find($id);
-        return view('company-information.edit', compact('company'));
+        return view('company.edit', compact('company'));
     }
 
     /**
@@ -78,9 +78,36 @@ class CompanyInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'company_name' => 'required',
+            'login_screen_url' => 'required',
+        ]);
+    
         $company = CompanyInformation::find($id);
-        $company->update($request->all());
-        return redirect()->route('company-information.index')->with('success', 'Company updated successfully');
+        if ($company) {
+            // Validasi apakah file ikon telah dipilih
+            if ($request->hasFile('icon_storage_file_path')) {
+                // Simpan file ikon
+                $iconPath = $request->file('icon_storage_file_path')->store('public/icons/');
+                $company->icon_storage_file_path = Storage::url($iconPath); // Simpan path relatif ke database
+            }
+    
+            // Validasi apakah file material pengajaran telah dipilih
+            if ($request->hasFile('teaching_material_storage_file_path')) {
+                // Simpan file material pengajaran
+                $materialPath = $request->file('teaching_material_storage_file_path')->store('public/teaching/');
+                $company->teaching_material_storage_file_path = Storage::url($materialPath); // Simpan path relatif ke database
+            }
+    
+            // Update data perusahaan
+            $company->company_name = $request->input('company_name');
+            $company->login_screen_url = $request->input('login_screen_url');
+            $company->save();
+    
+            return redirect()->route('company-information.index')->with('success', 'Company updated successfully');
+        } else {
+            return back()->withErrors(['edit_error' => 'Company not found.']);
+        }
     }
 
     /**
