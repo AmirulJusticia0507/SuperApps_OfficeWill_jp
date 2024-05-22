@@ -11,7 +11,6 @@ class EmployeeAffiliationInformation extends Model
 
     protected $primaryKey = 'eai_id';
     protected $fillable = [
-        'eai_id',
         'company_id',
         'affiliation_code',
         'job_id',

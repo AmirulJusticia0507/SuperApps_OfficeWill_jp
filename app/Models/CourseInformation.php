@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CourseInformation extends Model
 {
     use HasFactory;
-
+    protected $table = 'course_information';
     protected $primaryKey = 'course_id';
 
     protected $fillable = [
@@ -71,4 +71,10 @@ class CourseInformation extends Model
         }
         return false;
     }
+
+        // Define the relationship with CourseScheduleResultsInformation
+        public function scheduleResults()
+        {
+            return $this->hasMany(CourseScheduleResultsInformation::class, 'course_id');
+        }
 }

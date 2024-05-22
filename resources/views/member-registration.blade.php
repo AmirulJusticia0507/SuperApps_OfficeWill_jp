@@ -38,95 +38,29 @@
             <div class="card-body">
                 <form action="{{ route('member-registration.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    {{-- <div class="row"> --}}
-                        <div class="col-md-6">
-                            <div class="mb-3">
+                    @method('POST')
+                    <input type="hidden" name="employee_id" value="{{ $employee_id ?? '' }}">
+                        <div class="form-group">
+                            <label for="company_id">Company:</label>
+                            <select class="form-select" id="company_id" name="company_id" required>
+                                <option value="" selected disabled>Select Company</option>
+                                @foreach($companies as $company)
+                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
                                 <label for="fullname" class="form-label">フルネーム: <span style="color: red">*</span></label>
-                                <input type="text" name="fullname" id="fullname" title="Full Name" class="form-control" required style="display: inline-block; width: 72%;">
+                                <input type="text" name="fullname" id="fullname" title="Full Name" class="form-control" required style="display: inline-block; width: 87%;">
                             </div>
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="kananame" class="form-label">そのルール: <span style="color: red">*</span></label>
-                                <input type="text" name="kananame" id="kananame" title="Kana Name" class="form-control" required style="display: inline-block; width: 70%;">
+                                <input type="text" name="kananame" id="kananame" title="Kana Name" class="form-control" required style="display: inline-block; width: 87%;">
                             </div>
                         </div>
-                        <div id="affiliation-information" class="card-header" title="Affiliation information" style="background-color: #92CDFC"><b style="color:aliceblue"> 提携情報</b></div><br>
-                        <div class="mb-3">
-                            <label for="affiliation_start_date">所属開始日: <b style="color: red">*</b></label>
-                            <input type="date" name="affiliation_start_date" id="affiliation_start_date" title="Affiliation Start Date" class="form-control" style="display: inline-block; width: 25%;">
-                        </div>
-                        <div class="mb-3">
-                            <label for="affiliation_name">所属名: <b style="color: red">*</b></label>
-                            <select name="affiliation_name" id="affiliation_name" class="form-control" title="Affiliation Name" style="display: inline-block; width: 81%;" required>
-                                <option value="" title="Select Affiliation<">提携を選択</option>
-                                @foreach($affiliations as $affiliation)
-                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="job_title">役職: <b style="color: red">*</b></label>
-                            <select name="job_title" title="Job Title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
-                                <option value="" title="Select Job Title">役職を選択します</option>
-                                @foreach($jobTitles as $jobTitle)
-                                    <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label title="System Administrator Privileges">システム管理者の特権: <b style="color: red">*</b></label>
-                            <div>
-                                <input type="radio" name="system_administrator_privileges" title="With Permission" value="1" required>
-                                <label class="checkbox-label">許可を得て</label>
-                                <input type="radio" name="system_administrator_privileges" title="Without Permission" value="0" required>
-                                <label class="checkbox-label">無許可での</label>
-                            </div>
-                        </div>
-                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label title="Employee Registration Authority">従業員登録機関: <b style="color: red">*</b></label>
-                            <div>
-                                <input type="radio" name="employee_registration_authority" value="1" required title="With Permission"><label class="checkbox-label">許可を得て</label>
-                                <input type="radio" name="employee_registration_authority" value="0" required title="Without Permission"><label class="checkbox-label">無許可での</label>
-                            </div>
-                        </div>
-                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label title="Course Enrollment Privileges">コース登録特権: <b style="color: red">*</b></label>
-                            <div>
-                                <input type="radio" name="course_enrollment_privileges" value="1" title="With Permission" required> <label class="checkbox-label">許可を得て</label>
-                                <input type="radio" name="course_enrollment_privileges" value="0" title="Without Permission" required> <label class="checkbox-label">無許可での</label>
-                            </div>
-                        </div>
-                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
-                            <label title="Attendance Settings Authority">出席設定機関: <b style="color: red">*</b></label>
-                            <div>
-                                <input type="radio" name="attendance_setting_authority" title="With Permission" value="1" required> <label class="checkbox-label">許可を得て</label>
-                                <input type="radio" name="attendance_setting_authority" title="Without Permission" value="0" required> <label class="checkbox-label">無許可での</label>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="authority_validity_scope" title="Authority Effective Affiliation">権限効果的な所属: <b style="color: red">*</b></label>
-                            <div class="d-inline-block mb-3">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_validity_scope_1" name="authority_validity_scope" title="Limited to affiliation" value="1" required>
-                                    <label class="form-check-label" for="authority_validity_scope_1">所属に限定</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_validity_scope_2" name="authority_validity_scope" title="Below affiliation" value="2" required>
-                                    <label class="form-check-label" for="authority_validity_scope_2">提携の下</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="authority_validity_scope_3" name="authority_validity_scope" title="All affiliations" value="3" required>
-                                    <label class="form-check-label" for="authority_validity_scope_3">すべての所属
-                                </div>
-                            </div>
-                            <select name="authority_validity_code" id="authority_validity_code" class="form-control" style="display: inline-block; width: 81%;" required>
-                                <option value="" title="Select Affiliation">所属を選択します</option>
-                                @foreach($affiliations as $affiliation)
-                                    <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    <!-- Informasi Dasar -->
-                    <div id="basic-information" class="card-header" style="background-color: #92CDFC" title="Basic information"><b style="color:aliceblue"> 基本情報</b></div>
+                        <!-- Informasi Dasar -->
+                        <div id="basic-information" class="card-header" style="background-color: #92CDFC" title="Basic information"><b style="color:aliceblue"> 基本情報</b></div>
                             <div class="mb-3">
                                 <label for="email_address">電子メールアドレス: <b style="color: red">*</b></label>
                                 <input type="email" title="Email Address" name="email_address" id="email_address" class="form-control" required style="width: 100%">
@@ -168,7 +102,6 @@
                                 <label for="retirementdate" style="margin-right: 10px; flex-grow: 1;">退職日:</label>
                                 <input type="date" name="retirementdate" id="retirementdate" class="form-control" title="Retirement Date" min="2022-01-01" max="2050-12-31">
                             </div>
-                            <!-- Tambahkan input untuk atribut karyawan -->
                             <div class="mb-3">
                                 <label for="remarks">備考:</label>
                                 <textarea name="remarks" id="remarks" title="Remarks" class="form-control" cols="5" rows="5"></textarea>
@@ -200,6 +133,91 @@
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="account_lock_datetime" style="margin-right: 10px;">アカウントロックの日付と時刻:</label>
                                 <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" title="Account Lock Date and Time" class="form-control">
+                            </div>
+                            <div align="center">
+                            <button type="submit" class="btn btn-primary" title="Register"><i class="fas fa-floppy-disk"></i> 登録する</button>
+                            <button type="button" class="btn btn-dark" title="Delete"><i class="fas fa-trash"></i> 消去</button>
+                        </div>
+                </form>
+                <form action="{{ route('employee-affiliation-information.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="employee_id" value="{{ $employee_id ?? '' }}">
+                        <div id="affiliation-information" class="card-header" title="Affiliation information" style="background-color: #92CDFC"><b style="color:aliceblue"> 提携情報</b></div><br>
+                            <div class="mb-3">
+                                <label for="affiliation_start_date">所属開始日: <b style="color: red">*</b></label>
+                                <input type="date" name="affiliation_start_date" id="affiliation_start_date" title="Affiliation Start Date" class="form-control" style="display: inline-block; width: 25%;">
+                            </div>
+                            <div class="mb-3">
+                                <label for="affiliation_name">所属名: <b style="color: red">*</b></label>
+                                <select name="affiliation_name" id="affiliation_name" class="form-control" title="Affiliation Name" style="display: inline-block; width: 81%;" required>
+                                    <option value="" title="Select Affiliation<">提携を選択</option>
+                                    @foreach($affiliations as $affiliation)
+                                        <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="job_title">役職: <b style="color: red">*</b></label>
+                                <select name="job_title" title="Job Title" id="job_title" class="form-control" style="display: inline-block; width: 88%;" required>
+                                    <option value="" title="Select Job Title">役職を選択します</option>
+                                    @foreach($jobTitles as $jobTitle)
+                                        <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                                <label title="System Administrator Privileges">システム管理者の特権: <b style="color: red">*</b></label>
+                                <div>
+                                    <input type="radio" name="system_administrator_privileges" title="With Permission" value="1" required>
+                                    <label class="checkbox-label">許可を得て</label>
+                                    <input type="radio" name="system_administrator_privileges" title="Without Permission" value="0" required>
+                                    <label class="checkbox-label">無許可での</label>
+                                </div>
+                            </div>
+                            <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                                <label title="Employee Registration Authority">従業員登録機関: <b style="color: red">*</b></label>
+                                <div>
+                                    <input type="radio" name="employee_registration_authority" value="1" required title="With Permission"><label class="checkbox-label">許可を得て</label>
+                                    <input type="radio" name="employee_registration_authority" value="0" required title="Without Permission"><label class="checkbox-label">無許可での</label>
+                                </div>
+                            </div>
+                            <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                                <label title="Course Enrollment Privileges">コース登録特権: <b style="color: red">*</b></label>
+                                <div>
+                                    <input type="radio" name="course_enrollment_privileges" value="1" title="With Permission" required> <label class="checkbox-label">許可を得て</label>
+                                    <input type="radio" name="course_enrollment_privileges" value="0" title="Without Permission" required> <label class="checkbox-label">無許可での</label>
+                                </div>
+                            </div>
+                            <div class="mb-3" style="display: grid; grid-template-columns: auto auto;">
+                                <label title="Attendance Settings Authority">出席設定機関: <b style="color: red">*</b></label>
+                                <div>
+                                    <input type="radio" name="attendance_setting_authority" title="With Permission" value="1" required> <label class="checkbox-label">許可を得て</label>
+                                    <input type="radio" name="attendance_setting_authority" title="Without Permission" value="0" required> <label class="checkbox-label">無許可での</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="authority_validity_scope" title="Authority Effective Affiliation">権限効果的な所属: <b style="color: red">*</b></label>
+                                <div class="d-inline-block mb-3">
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="authority_validity_scope_1" name="authority_validity_scope" title="Limited to affiliation" value="1" required>
+                                        <label class="form-check-label" for="authority_validity_scope_1">所属に限定</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="authority_validity_scope_2" name="authority_validity_scope" title="Below affiliation" value="2" required>
+                                        <label class="form-check-label" for="authority_validity_scope_2">提携の下</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class="form-check-input" id="authority_validity_scope_3" name="authority_validity_scope" title="All affiliations" value="3" required>
+                                        <label class="form-check-label" for="authority_validity_scope_3">すべての所属
+                                    </div>
+                                </div>
+                                <select name="authority_validity_code" id="authority_validity_code" class="form-control" style="display: inline-block; width: 81%;" required>
+                                    <option value="" title="Select Affiliation">所属を選択します</option>
+                                    @foreach($affiliations as $affiliation)
+                                        <option value="{{ $affiliation->affiliation_name }}">{{ $affiliation->affiliation_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         <div align="center">
                             <button type="submit" class="btn btn-primary" title="Register"><i class="fas fa-floppy-disk"></i> 登録する</button>

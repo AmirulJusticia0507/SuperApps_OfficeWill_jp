@@ -9,14 +9,11 @@ class EmployeeInformation extends Model
 {
     use HasFactory;
 
-    protected $table = 'employee_information';
-
     protected $primaryKey = 'employee_id'; // Tambahkan primary key
 
     public $timestamps = false; // Tidak ada kolom created_at dan updated_at pada tabel
 
     protected $fillable = [
-        'employee_id',
         'company_id',
         'fullname',
         'kananame',
@@ -37,7 +34,7 @@ class EmployeeInformation extends Model
         'employee_attribute02',
         'employee_attribute03',
         'employee_attribute04',
-        'employee_attribute05'
+        'employee_attribute05',
     ];
 
     // Fungsi CRUD
@@ -45,9 +42,9 @@ class EmployeeInformation extends Model
     // EmployeeInformation.php
 
     public function affiliations()
-{
-    return $this->hasMany(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
-}
+    {
+        return $this->hasMany(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
+    }
 
     // Create
     public static function createEmployee($data)
@@ -93,5 +90,11 @@ class EmployeeInformation extends Model
     {
         // Anda dapat menyesuaikan data yang ingin ditampilkan di sidebar di sini
         return self::select('fullname', 'employee_code')->get();
+    }
+
+    // Define the relationship with CourseScheduleResultsInformation
+    public function scheduleResults()
+    {
+        return $this->hasMany(CourseScheduleResultsInformation::class, 'employee_id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CourseMaterialInformation;
 use App\Models\CompanyInformation;
+use Illuminate\Support\Facades\Storage;
 
 class CourseMaterialInformationController extends Controller
 {

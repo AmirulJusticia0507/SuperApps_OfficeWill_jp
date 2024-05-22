@@ -5,6 +5,7 @@
 @endphp
 
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
     /* CSS untuk spinner */
     .page-spinner {
@@ -44,7 +45,6 @@
                 <img src="img/officewill.png" alt="DEP SERVICE" class="w-32 mx-auto">
             </a>
         </div>
-        <!-- &emsp;&emsp;&emsp;<button id="sidebarToggle" class="text-white focus:outline-none"><i class="fas fa-bars fa-lg"></i></button> -->
     </nav>
     <div class="page-spinner" id="page-spinner">
         <div class="spinner"></div>
@@ -97,7 +97,42 @@
                         <a href="{{ route('job-titles.index') }}" title="Job Title Master Registration" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-user-tie"></i> 役職マスタ登録</a>
                     </li>
                 </ul>
-            </li><br><br><br><br><br><br><br>
+            </li>
+            <li>
+                <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="Attendance"><i class="fas fa-calendar-check mr-2"></i> Attendance</a>
+                <ul class="treeview" style="display: none;">
+                    <li>
+                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Take a Course</a>
+                        <ul class="treeview" style="display: none;">
+                            <li>
+                                <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;List of Courses Taken</a>
+                            </li>
+                        </ul>
+                    <li>
+                        <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="Attendance"><i class="fas fa-calendar-check mr-2"></i> Attendance</a>
+                        <ul class="treeview" style="display: none;">
+                            <li>
+                                <a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Teaching Materials Reference</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Enter ToDo after Taking the Course</a>
+                                <ul class="treeview" style="display: none;">
+                                    <li>
+                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-poll-h mr-2"></i>Survey Responses</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard-check mr-2"></i> Test Answers, Test Marking</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard-list-check mr-2"></i> Report Input</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <br><br><br><br><br><br><br>
             <li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf

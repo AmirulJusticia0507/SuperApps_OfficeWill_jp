@@ -9,6 +9,7 @@ use App\Models\CourseInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\EmployeeInformation;
+use App\Models\CourseScheduleResultsInformation;
 
 class CourseController extends Controller
 {
@@ -207,5 +208,13 @@ class CourseController extends Controller
         $employees = EmployeeInformation::all();
         return view('courseinquiry', compact('classifications', 'details', 'jobTitles', 'courses', 'employees'));
     }
+
+// CourseController.php
+public function listCoursesTaken()
+{
+    $courseScheduleResults = CourseScheduleResultsInformation::with(['course', 'employee'])->get();
+    return view('listcoursetaken', compact('courseScheduleResults'));
+}
+
     
 }

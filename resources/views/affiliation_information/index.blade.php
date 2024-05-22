@@ -50,10 +50,10 @@
                                         <td>{{ $affiliation->affiliation_code }}</td>
                                         <td nowrap>{{ $affiliation->affiliation_name }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-warning me-2" title="Edit Affiliation" data-bs-toggle="modal" data-bs-target="#editAffiliationModal{{ $affiliation->affiliation_code }}">
+                                            <button type="button" class="btn btn-light me-2" title="Edit Affiliation" data-bs-toggle="modal" data-bs-target="#editAffiliationModal{{ $affiliation->affiliation_code }}">
                                                 <i class="fas fa-edit"></i> 編集
                                             </button>
-                                            <button type="button" class="btn btn-danger me-2" title="Delete Affiliation" data-bs-toggle="modal" data-bs-target="#deleteAffiliationModal{{ $affiliation->affiliation_code }}">
+                                            <button type="button" class="btn btn-dark me-2" title="Delete Affiliation" data-bs-toggle="modal" data-bs-target="#deleteAffiliationModal{{ $affiliation->affiliation_code }}">
                                                 <i class="fas fa-trash-alt"></i> 削除
                                             </button>
                                         </td>
@@ -98,17 +98,22 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="organization_type" title="Organization Type">組織タイプ: <b style="color: red">*</b></label>
-                                        <div class="row" style="display: inline-block; width: 60%;">
-                                            <div class="form-check">
-                                                &emsp;<input class="form-check-input" type="radio" name="organization_type" title="Main store equivalent" id="main_store_equivalent" value="Main store equivalent" required>
-                                                <label class="form-check-label" for="main_store_equivalent"> メインストアに相当します</label>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="organization_type" title="Main store equivalent" id="main_store_equivalent" value="Main store equivalent" required>
+                                                    <label class="form-check-label" for="main_store_equivalent"> メインストアに相当します</label>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                &emsp;&emsp;<input class="form-check-input" type="radio" title="FC Store" name="organization_type" id="fc_store" value="FC Store" required>
-                                                <label class="form-check-label" for="fc_store">FCストア</label>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" title="FC Store" name="organization_type" id="fc_store" value="FC Store" required>
+                                                    <label class="form-check-label" for="fc_store">FCストア</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div align="center">
                                         <button type="reset" title="Reset" class="btn btn-light"><i class="fas fa-undo"></i> リセット</button>
                                         <button type="submit" title="Submit" class="btn btn-primary"><i class="fas fa-sent"></i> 提出する</button>
@@ -156,14 +161,18 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="organization_type_{{ $affiliation->affiliation_code }}" title="Organization Type">組織タイプ: <b style="color: red">*</b></label>
-                                        <div class="row" style="display: inline-block; width: 60%;">
-                                            <div class="form-check">
-                                                &emsp;<input class="form-check-input" type="radio" name="organization_type" title="Main store equivalent" id="main_store_equivalent_{{ $affiliation->affiliation_code }}" value="Main store equivalent" {{ $affiliation->organization_type == 'Main store equivalent' ? 'checked' : '' }} required>
-                                                <label class="form-check-label" for="main_store_equivalent_{{ $affiliation->affiliation_code }}"> メインストアに相当します</label>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="organization_type" title="Main store equivalent" id="main_store_equivalent_{{ $affiliation->affiliation_code }}" value="Main store equivalent" {{ $affiliation->organization_type == 'Main store equivalent' ? 'checked' : '' }} required>
+                                                    <label class="form-check-label" for="main_store_equivalent_{{ $affiliation->affiliation_code }}"> メインストアに相当します</label>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                &emsp;&emsp;<input class="form-check-input" type="radio" title="FC Store" name="organization_type" id="fc_store_{{ $affiliation->affiliation_code }}" value="FC Store" {{ $affiliation->organization_type == 'FC Store' ? 'checked' : '' }} required>
-                                                <label class="form-check-label" for="fc_store_{{ $affiliation->affiliation_code }}">FCストア</label>
+                                            <div class="col">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" title="FC Store" name="organization_type" id="fc_store_{{ $affiliation->affiliation_code }}" value="FC Store" {{ $affiliation->organization_type == 'FC Store' ? 'checked' : '' }} required>
+                                                    <label class="form-check-label" for="fc_store_{{ $affiliation->affiliation_code }}">FCストア</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

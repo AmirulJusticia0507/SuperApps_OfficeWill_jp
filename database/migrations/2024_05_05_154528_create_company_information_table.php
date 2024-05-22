@@ -14,8 +14,7 @@ class CreateCompanyInformationTable extends Migration
     public function up()
     {
         Schema::create('company_information', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('company_id');
+            $table->id('company_id');
             $table->string('company_name', 20);
             $table->string('login_screen_url', 255);
             $table->string('icon_storage_file_path', 255);

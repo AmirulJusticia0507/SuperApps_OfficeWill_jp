@@ -49,8 +49,14 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Rute untuk member registration
-Route::resource('member-registration', MasterRegistrationController::class);
-Route::post('/member-registration', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
+Route::get('member-registration/create', [MasterRegistrationController::class, 'create'])->name('member-registration.create');
+Route::post('member-registration/store', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
+Route::get('member-registration/{id}/edit', [MasterRegistrationController::class, 'edit'])->name('member-registration.edit');
+Route::put('member-registration/{id}', [MasterRegistrationController::class, 'update'])->name('member-registration.update');
+Route::delete('member-registration/{id}', [MasterRegistrationController::class, 'destroy'])->name('member-registration.destroy');
+
+// Rute untuk informasi afiliasi karyawan
+Route::post('employee-affiliation-information', [EmployeeAffiliationInformationController::class, 'store'])->name('employee-affiliation-information.store');
 
 // Rute untuk job titles
 Route::resource('job-titles', JobTitleController::class);
@@ -152,6 +158,7 @@ Route::get('/search-courses', [CourseController::class, 'search'])->name('search
 Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
 Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
+Route::get('/list-courses-taken', [CourseController::class, 'listCoursesTaken'])->name('list-courses-taken');
 
 // Rute for questionnaire
 Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');
