@@ -112,6 +112,7 @@ Route::delete('/course-classification/{id}', [CourseClassificationDetailInformat
 Route::resource('course-information', CourseInformationController::class);
 Route::get('/course-registration', [CourseInformationController::class, 'index'])->name('course-registration.index');
 
+
 // Rute untuk course material information
 Route::resource('course-material-information', CourseMaterialInformationController::class);
 
@@ -158,7 +159,7 @@ Route::get('/search-courses', [CourseController::class, 'search'])->name('search
 Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
 Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
-Route::get('/list-courses-taken', [CourseController::class, 'listCoursesTaken'])->name('list-courses-taken');
+Route::get('/list-course-taken', [CourseController::class, 'listCoursesTaken'])->name('list-course-taken');
 
 // Rute for questionnaire
 Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');

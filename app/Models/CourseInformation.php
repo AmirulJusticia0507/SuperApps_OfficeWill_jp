@@ -32,49 +32,4 @@ class CourseInformation extends Model
     ];
 
     public $timestamps = false;
-
-    // Create
-    public function createCourse(array $courseData)
-    {
-        return $this->create($courseData);
-    }
-
-    // Read
-    public function getAllCourses()
-    {
-        return $this->all();
-    }
-
-    public function getCourseById($id)
-    {
-        return $this->find($id);
-    }
-
-    // Update
-    public function updateCourse($id, array $courseData)
-    {
-        $course = $this->find($id);
-        if ($course) {
-            $course->update($courseData);
-            return $course;
-        }
-        return null;
-    }
-
-    // Delete
-    public function deleteCourse($id)
-    {
-        $course = $this->find($id);
-        if ($course) {
-            $course->delete();
-            return true;
-        }
-        return false;
-    }
-
-        // Define the relationship with CourseScheduleResultsInformation
-        public function scheduleResults()
-        {
-            return $this->hasMany(CourseScheduleResultsInformation::class, 'course_id');
-        }
 }

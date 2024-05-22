@@ -8,12 +8,14 @@ class CreateEmployeeInformationTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('employee_information', function (Blueprint $table) {
             $table->id('employee_id');
-            $table->unsignedBigInteger('company_id');
+            $table->foreignId('company_id')->constrained('company_information')->onDelete('cascade');
             $table->string('fullname');
             $table->string('kananame')->nullable();
             $table->string('email_address')->unique();
@@ -28,20 +30,24 @@ class CreateEmployeeInformationTable extends Migration
             $table->string('account_status');
             $table->date('password_expiration')->nullable();
             $table->integer('numberofincorrect_passwords');
-            $table->dateTime('account_lock_datetime')->nullable();
+            $table->date('account_lock_datetime')->nullable();
             $table->string('employee_attribute01')->nullable();
             $table->string('employee_attribute02')->nullable();
             $table->string('employee_attribute03')->nullable();
             $table->string('employee_attribute04')->nullable();
             $table->string('employee_attribute05')->nullable();
-            $table->foreign('company_id')->references('company_id')->on('company_information');
+            // Add other fields if needed
+
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('employee_information');
     }

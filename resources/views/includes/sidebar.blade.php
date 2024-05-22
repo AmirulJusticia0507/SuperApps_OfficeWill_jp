@@ -102,29 +102,29 @@
                 <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="Attendance"><i class="fas fa-calendar-check mr-2"></i> Attendance</a>
                 <ul class="treeview" style="display: none;">
                     <li>
-                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;Take a Course</a>
+                        <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;<i class="fas fa-book"></i> Take a Course</a>
                         <ul class="treeview" style="display: none;">
                             <li>
-                                <a href="#" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;List of Courses Taken</a>
+                                <a href="{{ route('list-course-taken') }}" class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;&emsp;List of Courses Taken</a>
                             </li>
                         </ul>
                     <li>
-                        <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="Attendance"><i class="fas fa-calendar-check mr-2"></i> Attendance</a>
+                        <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="Attendance">&emsp;<i class="fas fa-calendar-check mr-2"></i> Attendance</a>
                         <ul class="treeview" style="display: none;">
                             <li>
-                                <a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Teaching Materials Reference</a>
+                                <a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book-open"></i> Teaching Materials Reference</a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;Enter ToDo after Taking the Course</a>
+                                <a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-pen"></i> Enter ToDo after Taking the Course</a>
                                 <ul class="treeview" style="display: none;">
                                     <li>
-                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-poll-h mr-2"></i>Survey Responses</a>
+                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-poll-h mr-2"></i>Survey Responses</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard-check mr-2"></i> Test Answers, Test Marking</a>
+                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard-check mr-2"></i> Test Answers, Test Marking</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard-list-check mr-2"></i> Report Input</a>
+                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard mr-2"></i> Report Input</a>
                                     </li>
                                 </ul>
                             </li>

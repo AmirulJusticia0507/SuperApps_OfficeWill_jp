@@ -8,22 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class CourseClassificationInformation extends Model
 {
     use HasFactory;
+    
+    protected $table = 'course_classification_information';
     protected $primaryKey = 'course_classification_id';
 
-    protected $fillable = ['course_classification_id', 'course_classification_name', 'icon_file_path', 'displayorder'];
+    protected $fillable = [
+        'course_classification_name',
+        'icon_file_path',
+        'displayorder'
+    ];
 
-    // Nonaktifkan timestamps
     public $timestamps = false;
 
-    // Fungsi CRUD
+    // CRUD methods
 
-    // Create
     public static function createCourseClassification($data)
     {
         return self::create($data);
     }
 
-    // Read
     public static function getAllCourseClassifications()
     {
         return self::all();
@@ -34,7 +37,6 @@ class CourseClassificationInformation extends Model
         return self::find($id);
     }
 
-    // Update
     public static function updateCourseClassification($id, $data)
     {
         $courseClassification = self::find($id);
@@ -45,7 +47,6 @@ class CourseClassificationInformation extends Model
         return null;
     }
 
-    // Delete
     public static function deleteCourseClassification($id)
     {
         $courseClassification = self::find($id);

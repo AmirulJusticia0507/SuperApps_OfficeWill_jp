@@ -9,9 +9,7 @@ class EmployeeInformation extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'employee_id'; // Tambahkan primary key
-
-    public $timestamps = false; // Tidak ada kolom created_at dan updated_at pada tabel
+    protected $primaryKey = 'employee_id';
 
     protected $fillable = [
         'company_id',
@@ -41,7 +39,14 @@ class EmployeeInformation extends Model
 
     // EmployeeInformation.php
 
+    // Define the relationship with AffiliationInformation
     public function affiliations()
+    {
+        return $this->belongsToMany(AffiliationInformation::class, 'employee_affiliation_information', 'employee_id', 'affiliation_id');
+    }
+
+    // Define the relationship with EmployeeAffiliationInformation
+    public function employeeAffiliations()
     {
         return $this->hasMany(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
     }
@@ -97,4 +102,5 @@ class EmployeeInformation extends Model
     {
         return $this->hasMany(CourseScheduleResultsInformation::class, 'employee_id');
     }
+    
 }

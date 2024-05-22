@@ -4,61 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseInformation;
+use App\Models\CompanyInformation;
 use App\Models\CourseClassificationInformation;
 use App\Models\CourseClassificationDetailInformation;
-use App\Models\CompanyInformation;
+use Illuminate\Support\Facades\Auth;
 
 class CourseInformationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $companies = CompanyInformation::all();
-        $courses = CourseInformation::all();
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
-        return view('course_information.index', compact('courses', 'classifications', 'details','companies'));
+        return view('course_information.index', compact('companies', 'classifications', 'details'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('course.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // Validasi data yang diterima dari formulir
         $request->validate([
-            'company_id' => 'required|numeric',
-            'Course_classification_id' => 'required|numeric',
+            'company_id' => 'required',
+            'course_classification_id' => 'required|exists:course_classification_information,course_classification_id',
+            'course_classification_details_id' => 'required|exists:course_classification_detail_information,course_classification_details_id',
             'coursename' => 'required|string|max:255',
-            'coursename_kana' => 'nullable|string|max:255',
             'course_description' => 'required|string',
-            'possible_retake_course_deadline' => 'nullable|date',
-            'remarks' => 'nullable|string',
-            'todo_type' => 'nullable|string|max:255',
-            'todo_description' => 'nullable|string',
-            'repeated_retest' => 'nullable|string|max:255',
-            'test_passed_score' => 'nullable|numeric',
-            'course_attributes_01' => 'nullable|string|max:255',
-            'course_attributes_02' => 'nullable|string|max:255',
-            'course_attributes_03' => 'nullable|string|max:255',
-            'course_attributes_04' => 'nullable|string|max:255',
-            'course_attributes_05' => 'nullable|string|max:255',
+            'possible_retake_course_deadline' => 'required|string',
+            'todo_type' => 'required|string',
+            'todo_description' => 'required|string',
+            'repeated_retest' => 'required|string',
         ]);
+    
+        $data = $request->all();
+        $data['company_id'] = $request->input('company_id');
 
-        // Simpan data ke dalam database menggunakan model CourseInformation
-        CourseInformation::create($request->all());
-
-        // Redirect dengan pesan sukses
-        return redirect()->route('course-registration.index')->with('success', 'Course created successfully');
+        $data['course_attributes_01'] = $request->input('course_attributes_01', null);
+        $data['course_attributes_02'] = $request->input('course_attributes_02', null);
+        $data['course_attributes_03'] = $request->input('course_attributes_03', null);
+        $data['course_attributes_04'] = $request->input('course_attributes_04', null);
+        $data['course_attributes_05'] = $request->input('course_attributes_05', null);
+    
+        CourseInformation::create($data);
+    
+        return redirect()->route('course-registration.index')->with('success', 'Course information has been saved successfully.');
     }
+    
 }

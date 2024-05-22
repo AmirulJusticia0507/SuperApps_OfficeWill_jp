@@ -56,17 +56,15 @@ class MasterRegistrationController extends Controller
             'numberofincorrect_passwords' => 'required|integer',
             'account_lock_datetime' => 'nullable|date',
         ]);
-    
-        // Dump the request data to the console
-        dd($request->all());
-    
+        
         // Create employee information
         $employeeInformation = EmployeeInformation::create($validatedData);
-    
+        
         // Redirect back with the employee_id to fill in the second form
         return redirect()->route('employee-affiliation-information.create', ['employee_id' => $employeeInformation->employee_id])
                      ->with('success', 'Employee information saved successfully.');
     }
+    
     
     public function edit($id)
     {
@@ -105,17 +103,23 @@ class MasterRegistrationController extends Controller
             'account_lock_datetime' => 'nullable|date',
             'company_id' => 'required|integer',
         ]);
-
+    
         $member = EmployeeInformation::findOrFail($id);
         $member->update($validatedData);
-
-        return redirect()->route('member-registration.index')->with('success', 'Member updated successfully!');
+    
+        // Sync affiliations
+        $affiliationIds = $request->input('affiliation_ids', []);
+        $member->affiliations()->sync($affiliationIds);
+    
+        return redirect()->route('member-registration.index')->with('success', 'Member updated successfully.')
+                        ->setStatusCode(200); // Set status code to 200
     }
 
     public function destroy($id)
     {
         $member = EmployeeInformation::findOrFail($id);
         $member->delete();
-        return redirect()->route('dashboard')->with('success', 'Member deleted successfully!');
+        return redirect()->route('dashboard')->with('success', 'Member deleted successfully.')
+                        ->setStatusCode(200); // Set status code to 200
     }
 }
