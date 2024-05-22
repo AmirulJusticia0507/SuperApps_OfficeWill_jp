@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CourseClassificationInformation;
 use App\Models\CourseClassificationDetailInformation;
 use App\Models\CourseInformation;
-use app\Models\CourseMaterialInformation;
+use App\Models\CourseMaterialInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\EmployeeInformation;
@@ -212,8 +212,12 @@ class CourseController extends Controller
     {
         $courses = CourseInformation::all();
         $courseScheduleResults = CourseScheduleResultsInformation::with(['courses', 'employee'])->get();
-        return view('listcoursetaken', compact('courseScheduleResults', 'courses'));
+        // Ambil data material
+        $materials = CourseMaterialInformation::all();
+        // Kirim data ke view
+        return view('listcoursetaken', compact('courseScheduleResults', 'courses', 'materials'));
     }
+    
 
     public function showMaterials()
     {
