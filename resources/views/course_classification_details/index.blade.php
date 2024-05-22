@@ -24,10 +24,13 @@
                         <li class="breadcrumb-item active" aria-current="page" title="Course Classification Details Registration">コース分類の詳細登録</li>
                     </ol>
                 </nav>
+                <div align="right">&emsp;
+                    <button type="button" class="btn btn-info float-end" data-bs-toggle="modal" data-bs-target="#createDetailModal" title="Create New Details"><i class="fas fa-plus"></i> 新しい詳細を作成します</button>&emsp;&emsp;<br><br>
+                </div>
                 <div class="card">
                     <div class="card-header" title="Course Classification Details" style="background-color: darkblue">
                         <b style="color:aliceblue">コース分類の詳細</b>
-                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#createDetailModal" title="Create New Details"><i class="fas fa-plus"></i> 新しい詳細を作成します</button>
+                        
                     </div>
                     <div class="card-body">
                         <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="classificationdetailsTable">

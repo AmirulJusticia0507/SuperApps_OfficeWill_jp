@@ -8,10 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class AffiliationInformation extends Model
 {
     use HasFactory;
+
+    // Menentukan affiliation_code sebagai primary key
     protected $primaryKey = 'affiliation_code';
+    public $incrementing = false; // Karena affiliation_code bukan auto increment
+    protected $keyType = 'string'; // Menentukan tipe data primary key
+
     public $timestamps = false;
 
-    protected $fillable = ['affiliation_code', 'company_id', 'affiliation_name', 'display_order', 'organization_type'];
+    protected $fillable = [
+        'affiliation_code', 
+        'company_id', 
+        'affiliation_name', 
+        'display_order', 
+        'organization_type'
+    ];
 
     // Fungsi CRUD
 

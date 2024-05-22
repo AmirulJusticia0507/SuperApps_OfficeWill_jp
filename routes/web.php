@@ -59,7 +59,7 @@ Route::resource('job-titles', JobTitleController::class);
 Route::resource('affiliation-information', AffiliationInformationController::class);
 Route::get('/coursesettings', [AffiliationInformationController::class, 'showCourseSettings']);
 Route::post('/affiliation-information/reset', [AffiliationInformationController::class, 'resetForm'])->name('affiliation-information.reset');
-Route::delete('/affiliation-information/{id}', [AffiliationInformationController::class, 'destroy'])->name('affiliation-information.destroy');
+Route::delete('/affiliation-information/{affiliation_information}', [AffiliationInformationController::class, 'destroy'])->name('affiliation-information.destroy');
 
 // Rute untuk attendance todo answer selection information
 Route::resource('attendance', AttendanceTodoAnswerSelectionInformationController::class);
