@@ -165,21 +165,10 @@
                                             <p>% 以上の正解で受講修了</p>
                                         </div>
 
-                                        <div align="center" id="save-course">
-                                            <button type="submit" class="btn btn-info" title="Save Course"><i class="fas fa-sent"></i> コースを保存する</button>
-                                            <button type="reset" class="btn btn-secondary" title="Delete a course"> コースを削除する</button>
-                                        </div>
-                                    </form>
                                         
                                     <div id="textbookinformation" class="card-header" style="background-color: #92CDFC"><b style="color:aliceblue">教材情報</b></div>
                                     <div class="card-body">
                                         <div class="card-header" style="background-color: #F7F7F7" align="center"><b style="color:black">教 材</b></div>
-                                        <!-- <div align="right"><br>
-                                            <button type="button" class="btn btn-light" onclick="addMaterial()">Addition</button>
-                                            <button type="button" class="btn btn-dark" onclick="removeMaterial()">Delete</button>
-                                        </div><br> -->
-                                        <form method="POST" action="{{ route('materials.store') }}" enctype="multipart/form-data">
-                                            @csrf
                                             <br>
                                             <div class="form-group">
                                                 <label for="Teaching Material Name" style="display: inline-block; width: 30%;">教材名 :</label><b style="color: red">*</b>

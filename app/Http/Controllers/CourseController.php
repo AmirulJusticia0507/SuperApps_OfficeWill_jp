@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CourseClassificationInformation;
 use App\Models\CourseClassificationDetailInformation;
 use App\Models\CourseInformation;
+use app\Models\CourseMaterialInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\EmployeeInformation;
@@ -75,61 +76,60 @@ class CourseController extends Controller
     }
     
     public function filterEmployee(Request $request)
-{
-    // Ambil nilai input dari permintaan filter
-    $affiliationId = $request->input('affiliationId');
-    $jobId = $request->input('jobId');
-    $fullname = $request->input('fullname');
-    $employeeCode = $request->input('employee_code');
-    $sex = $request->input('sex');
-    $dateOfBirth = $request->input('date_of_birth');
-    $dateOfJoining = $request->input('date_of_joining');
+    {
+        // Ambil nilai input dari permintaan filter
+        $affiliationId = $request->input('affiliationId');
+        $jobId = $request->input('jobId');
+        $fullname = $request->input('fullname');
+        $employeeCode = $request->input('employee_code');
+        $sex = $request->input('sex');
+        $dateOfBirth = $request->input('date_of_birth');
+        $dateOfJoining = $request->input('date_of_joining');
 
-    // Query karyawan berdasarkan kriteria filter
-    $employeesQuery = EmployeeInformation::query();
+        // Query karyawan berdasarkan kriteria filter
+        $employeesQuery = EmployeeInformation::query();
 
-    if ($affiliationId) {
-        $employeesQuery->where('affiliation_id', $affiliationId);
+        if ($affiliationId) {
+            $employeesQuery->where('affiliation_id', $affiliationId);
+        }
+
+        if ($jobId) {
+            $employeesQuery->where('job_id', $jobId);
+        }
+
+        if ($fullname) {
+            $employeesQuery->where('fullname', 'like', '%' . $fullname . '%');
+        }
+
+        if ($employeeCode) {
+            $employeesQuery->where('employee_code', 'like', '%' . $employeeCode . '%');
+        }
+
+        if ($sex) {
+            $employeesQuery->where('sex', $sex);
+        }
+
+        if ($dateOfBirth) {
+            $employeesQuery->whereDate('date_of_birth', $dateOfBirth);
+        }
+
+        if ($dateOfJoining) {
+            $employeesQuery->whereDate('date_of_joining', $dateOfJoining);
+        }
+
+        // Dapatkan karyawan yang difilter
+        $filteredEmployees = $employeesQuery->get();
+
+        // Dapatkan data afiliasi, jabatan, dan kursus dari model
+        $affiliations = AffiliationInformation::all();
+        $jobTitles = JobInformation::all();
+        $courses = CourseInformation::all();
+        $classifications = CourseClassificationInformation::all();
+        $details = CourseClassificationDetailInformation::all();
+
+        // Kembalikan karyawan yang difilter ke tampilan
+        return view('coursesettings', compact('filteredEmployees', 'affiliations', 'jobTitles', 'courses', 'classifications', 'details'));
     }
-
-    if ($jobId) {
-        $employeesQuery->where('job_id', $jobId);
-    }
-
-    if ($fullname) {
-        $employeesQuery->where('fullname', 'like', '%' . $fullname . '%');
-    }
-
-    if ($employeeCode) {
-        $employeesQuery->where('employee_code', 'like', '%' . $employeeCode . '%');
-    }
-
-    if ($sex) {
-        $employeesQuery->where('sex', $sex);
-    }
-
-    if ($dateOfBirth) {
-        $employeesQuery->whereDate('date_of_birth', $dateOfBirth);
-    }
-
-    if ($dateOfJoining) {
-        $employeesQuery->whereDate('date_of_joining', $dateOfJoining);
-    }
-
-    // Dapatkan karyawan yang difilter
-    $filteredEmployees = $employeesQuery->get();
-
-    // Dapatkan data afiliasi, jabatan, dan kursus dari model
-    $affiliations = AffiliationInformation::all();
-    $jobTitles = JobInformation::all();
-    $courses = CourseInformation::all();
-    $classifications = CourseClassificationInformation::all();
-    $details = CourseClassificationDetailInformation::all();
-
-    // Kembalikan karyawan yang difilter ke tampilan
-    return view('coursesettings', compact('filteredEmployees', 'affiliations', 'jobTitles', 'courses', 'classifications', 'details'));
-}
-
 
     public function settings()
     {
@@ -155,8 +155,6 @@ class CourseController extends Controller
         return view('coursesettings', compact('classifications', 'details', 'filteredCourses', 'filteredEmployees', 'affiliations', 'employees','jobTitles'));
     }
     
-    
-
     public function search(Request $request)
     {
         // Ambil nilai input dari permintaan pencarian
@@ -209,12 +207,20 @@ class CourseController extends Controller
         return view('courseinquiry', compact('classifications', 'details', 'jobTitles', 'courses', 'employees'));
     }
 
-// CourseController.php
-public function listCoursesTaken()
-{
-    $courseScheduleResults = CourseScheduleResultsInformation::with(['course', 'employee'])->get();
-    return view('listcoursetaken', compact('courseScheduleResults'));
-}
+    // CourseController.php
+    public function listCoursesTaken()
+    {
+        $courses = CourseInformation::all();
+        $courseScheduleResults = CourseScheduleResultsInformation::with(['courses', 'employee'])->get();
+        return view('listcoursetaken', compact('courseScheduleResults', 'courses'));
+    }
 
+    public function showMaterials()
+    {
+        // Ambil data material dari model
+        $materials = CourseMaterialInformation::all(); 
+        // Kirim data material ke view
+        return view('materials', compact('materials'));
+    }
     
 }

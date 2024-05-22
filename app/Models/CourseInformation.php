@@ -32,4 +32,9 @@ class CourseInformation extends Model
     ];
 
     public $timestamps = false;
+
+    public static function createCourse($data)
+    {
+        return self::create($data);
+    }
 }

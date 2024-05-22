@@ -107,10 +107,11 @@ Route::delete('/course-classification/{id}', [CourseClassificationDetailInformat
 
 // Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');
 
-
 // Rute untuk course information
-Route::resource('course-information', CourseInformationController::class);
 Route::get('/course-registration', [CourseInformationController::class, 'index'])->name('course-registration.index');
+// Route::post('/course-registration', [CourseInformationController::class, 'store'])->name('course-registration.store');
+// Define the route for storing course information
+Route::post('/course-information', [CourseInformationController::class, 'store'])->name('course-information.store');
 
 
 // Rute untuk course material information
@@ -160,6 +161,7 @@ Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('cours
 Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
 Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
 Route::get('/list-course-taken', [CourseController::class, 'listCoursesTaken'])->name('list-course-taken');
+Route::get('/materials', [CourseController::class, 'showMaterials']);
 
 // Rute for questionnaire
 Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');

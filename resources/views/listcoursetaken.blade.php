@@ -71,7 +71,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-header" title="Course Description" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">コースの説明:</b></div><br>
-                        <textarea name="course_description" id="course_description" cols="10" rows="10" readonly>{{ $course->course_description }}</textarea>
+                        @foreach($courses as $course)
+                            <textarea name="course_description" id="course_description" cols="10" rows="10" readonly>{{ $course->course_description }}</textarea>
+                        @endforeach
                     </div>
                 </div>
 
