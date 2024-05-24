@@ -141,6 +141,13 @@
                                 <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" title="Account Lock Date and Time" class="form-control" value="{{ isset($member->account_lock_datetime) ? date('Y-m-d\TH:i', strtotime($member->account_lock_datetime)) : '' }}">
                             </div>
                             <div id="affiliation-information" class="card-header" title="Affiliation information" style="background-color: #92CDFC"><b style="color:aliceblue"> 提携情報</b></div><br>
+                            @if(isset($member))
+                                <input type="hidden" name="employee_id" value="{{ $member->employee_id ?? '' }}">
+                            @endif
+                            <div class="mb-3">
+                                <label for="affiliation_code" title="Affiliation Code">提携コード: <span style="color: red">*</span></label>
+                                <input type="text" name="affiliation_code" id="affiliation_code" class="form-control" value="{{ $member->affiliation_code ?? '' }}" required style="display: inline-block; width: 81%;">
+                            </div>
                             <div class="mb-3">
                                 <label for="affiliation_start_date">所属開始日: <b style="color: red">*</b></label>
                                 <input type="date" name="affiliation_start_date" id="affiliation_start_date" title="Affiliation Start Date" class="form-control" style="display: inline-block; width: 25%;">
