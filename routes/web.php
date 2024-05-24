@@ -55,8 +55,12 @@ Route::get('member-registration/{id}/edit', [MasterRegistrationController::class
 Route::put('member-registration/{id}', [MasterRegistrationController::class, 'update'])->name('member-registration.update');
 Route::delete('member-registration/{id}', [MasterRegistrationController::class, 'destroy'])->name('member-registration.destroy');
 
-// Rute untuk informasi afiliasi karyawan
-Route::post('employee-affiliation-information', [EmployeeAffiliationInformationController::class, 'store'])->name('employee-affiliation-information.store');
+Route::post('employee-affiliation-information', [EmployeeAffiliationInformationController::class, 'store'])
+    ->name('employee-affiliation-information.store');
+
+Route::get('employee-affiliation-information/create', [EmployeeAffiliationInformationController::class, 'create'])
+    ->name('employee-affiliation-information.create');
+
 
 // Rute untuk job titles
 Route::resource('job-titles', JobTitleController::class);
@@ -163,8 +167,24 @@ Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
 Route::get('/list-course-taken', [CourseController::class, 'listCoursesTaken'])->name('list-course-taken');
 Route::get('/materials', [CourseController::class, 'showMaterials']);
 
-// Rute for questionnaire
-Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');
+Route::get('/survey-responses', [QuestionnaireController::class, 'showSurveyResponses'])->name('survey_responses.index');
+Route::get('/test-answers', [QuestionnaireController::class, 'showTestAnswers'])->name('test_answers.index');
+Route::get('/report-inputs', [QuestionnaireController::class, 'showReportInputs'])->name('report_inputs.index');
+
+Route::get('/survey-responses', function () {
+    return view('survey_responses.index');
+})->name('survey_responses');
+
+Route::get('/test-answers', function () {
+    return view('test_answer.index');
+})->name('test_answers');
+
+Route::get('/report-input', function () {
+    return view('report_input.index');
+})->name('report_input');
+
+
+
 
 // Rute untuk menampilkan daftar semua materials
 Route::get('/materials', [CourseMaterialInformationController::class, 'index'])->name('materials.index');
@@ -186,3 +206,5 @@ Route::delete('/materials/{id}', [CourseMaterialInformationController::class, 'd
 
 // Rute untuk menampilkan detail course material
 Route::get('/materials/{id}', [CourseMaterialInformationController::class, 'show'])->name('materials.show');
+
+

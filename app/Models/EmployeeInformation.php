@@ -42,10 +42,10 @@ class EmployeeInformation extends Model
     // Define the relationship with AffiliationInformation
     public function affiliations()
     {
-        return $this->belongsToMany(AffiliationInformation::class, 'employee_affiliation_information', 'employee_id', 'affiliation_id');
+        return $this->hasOne(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
     }
+    
 
-    // Define the relationship with EmployeeAffiliationInformation
     public function employeeAffiliations()
     {
         return $this->hasMany(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
@@ -102,5 +102,8 @@ class EmployeeInformation extends Model
     {
         return $this->hasMany(CourseScheduleResultsInformation::class, 'employee_id');
     }
-    
+    public function employee()
+    {
+        return $this->belongsTo(EmployeeInformation::class, 'employee_id', 'employee_id');
+    }
 }

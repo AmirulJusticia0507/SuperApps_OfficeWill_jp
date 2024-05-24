@@ -32,29 +32,30 @@ class EmployeeAffiliationInformationController extends Controller
     
 
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'company_id' => 'required|integer',
-            'affiliation_code' => 'required|integer',
-            'job_id' => 'required|integer',
-            'application_startdate' => 'required|date',
-            'enddate_of_application' => 'required|date',
-            'system_administrator_privileges' => 'required|boolean',
-            'employee_registration_authority' => 'required|boolean',
-            'course_enrollment_privileges' => 'required|boolean',
-            'attendance_setting_authority' => 'required|boolean',
-            'authority_validity_scope' => 'required|string|max:255',
-            'authority_validity_code' => 'required|string|max:255',
-        ]);        
+{
+    $validatedData = $request->validate([
+        'company_id' => 'required|integer',
+        'affiliation_code' => 'required|string',
+        'job_id' => 'required|integer',
+        'application_startdate' => 'required|date',
+        'enddate_of_application' => 'required|date',
+        'system_administrator_privileges' => 'required|boolean',
+        'employee_registration_authority' => 'required|boolean',
+        'course_enrollment_privileges' => 'required|boolean',
+        'attendance_setting_authority' => 'required|boolean',
+        'authority_validity_scope' => 'required|string|max:255',
+        'authority_validity_code' => 'required|string|max:255',
+    ]);        
 
-        try {
-            $validatedData['employee_id'] = $request->input('employee_id');
-            EmployeeAffiliationInformation::create($validatedData);
-            return redirect()->route('employee-affiliation-information.index')->with('success', 'Affiliation created successfully');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to create affiliation. Please try again.');
-        }
+    try {
+        $validatedData['employee_id'] = $request->input('employee_id');
+        EmployeeAffiliationInformation::create($validatedData);
+        return redirect()->route('employee-affiliation-information.index')->with('success', 'Affiliation created successfully');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Failed to create affiliation. Please try again.');
     }
+}
+
 
     public function show(string $id)
     {

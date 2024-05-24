@@ -118,13 +118,13 @@
                                 <a href="#" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-pen"></i> Enter ToDo after Taking the Course</a>
                                 <ul class="treeview" style="display: none;">
                                     <li>
-                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-poll-h mr-2"></i>Survey Responses</a>
+                                        <a href="{{ route('survey_responses') }}" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-poll-h mr-2"></i>Survey Responses</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard-check mr-2"></i> Test Answers, Test Marking</a>
+                                        <a href="{{ route('test_answers') }}" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard-check mr-2"></i> Test Answers, Test Marking</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard mr-2"></i> Report Input</a>
+                                        <a href="{{ route('report_input') }}" class="block py-2 px-4 text-sm sub-sub-submenu-item">&emsp;&emsp;&emsp;&emsp;&emsp;<i class="fas fa-clipboard mr-2"></i> Report Input</a>
                                     </li>
                                 </ul>
                             </li>

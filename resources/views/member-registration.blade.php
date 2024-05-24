@@ -36,77 +36,83 @@
         <div class="card">
             <div class="card-header" id="registration" style="background-color: darkblue" title="Employee Registration"><b style="color:aliceblue">従業員の登録</b></div>
             <div class="card-body">
-                <form action="{{ route('member-registration.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ isset($member) ? route('member-registration.update', ['id' => $member->employee_id]) : route('member-registration.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('POST')
-                    <input type="hidden" name="employee_id" value="{{ $employee_id ?? '' }}">
+                    @if(isset($member))
+                        @method('PUT')
+                    @else
+                        @method('POST')
+                    @endif
+                    <input type="hidden" name="employee_id" value="{{ $member->employee_id ?? '' }}">
                         <div class="form-group">
                             <label for="company_id">Company:</label>
                             <select class="form-select" id="company_id" name="company_id" required>
                                 <option value="" selected disabled>Select Company</option>
                                 @foreach($companies as $company)
-                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                <option value="{{ $company->id }}" {{ isset($member) && $member->company_id == $company->id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <div class="form-group">
                                 <label for="fullname" class="form-label">フルネーム: <span style="color: red">*</span></label>
-                                <input type="text" name="fullname" id="fullname" title="Full Name" class="form-control" required style="display: inline-block; width: 87%;">
+                                <input type="text" name="fullname" id="fullname" title="Full Name" value="{{ $member->fullname ?? '' }}" class="form-control" required style="display: inline-block; width: 87%;">
                             </div>
                             <div class="form-group">
                                 <label for="kananame" class="form-label">そのルール: <span style="color: red">*</span></label>
-                                <input type="text" name="kananame" id="kananame" title="Kana Name" class="form-control" required style="display: inline-block; width: 87%;">
+                                <input type="text" name="kananame" id="kananame" title="Kana Name" class="form-control" value="{{ $member->kananame ?? '' }}" required style="display: inline-block; width: 87%;">
                             </div>
                         </div>
                         <!-- Informasi Dasar -->
                         <div id="basic-information" class="card-header" style="background-color: #92CDFC" title="Basic information"><b style="color:aliceblue"> 基本情報</b></div>
                             <div class="mb-3">
                                 <label for="email_address">電子メールアドレス: <b style="color: red">*</b></label>
-                                <input type="email" title="Email Address" name="email_address" id="email_address" class="form-control" required style="width: 100%">
+                                <input type="email" title="Email Address" name="email_address" id="email_address" value="{{ $member->email_address ?? '' }}" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
                                 <label for="email_address_confirmation">メールアドレスの確認: <b style="color: red">*</b></label>
-                                <input type="email" name="email_address_confirmation" id="email_address_confirmation" title="Email Address Confirmation" class="form-control" required style="width: 100%">
+                                <input type="email" name="email_address_confirmation" id="email_address_confirmation" value="{{ $member->email_address_confirmation ?? '' }}" title="Email Address Confirmation" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
                                 <label for="contact_phonenumber">連絡先の電話番号: <b style="color: red">*</b></label>
-                                <input type="text" name="contact_phonenumber" id="contact_phonenumber" title="Contact Phone Number" class="form-control" required style="width: 100%">
+                                <input type="text" name="contact_phonenumber" id="contact_phonenumber" title="Contact Phone Number" value="{{ $member->contact_phonenumber ?? '' }}" class="form-control" required style="width: 100%">
                             </div>
                             <div class="mb-3">
                                 <label for="employee_code">従業員コード:</label>
-                                <input type="text" name="employee_code" id="employee_code" class="form-control" title="Employee Code">
+                                <input type="text" name="employee_code" id="employee_code" class="form-control" value="{{ $member->employee_code ?? '' }}" title="Employee Code">
                             </div>
                             <div class="mb-3">
                                 <div style="display: flex; align-items: center;">
                                     <label for="sex" style="margin-right: 10px;" style="width: 100%" title="Sex">セックス: <b style="color: red">*</b></label>
                                     <div style="display: flex;">
-                                        <input type="radio" name="sex" id="male" value="male" title="Male" required>
+                                        <input type="radio" name="sex" id="male" value="male" title="Male" required {{ isset($member) && $member->sex == 'male' ? 'checked' : '' }}>
                                         &nbsp;<label for="male" style="margin-right: 10px;"> 男</label>
-                                        <input type="radio" name="sex" id="female" value="female" title="Female" required>
+                                        
+                                        <input type="radio" name="sex" id="female" value="female" title="Female" required {{ isset($member) && $member->sex == 'female' ? 'checked' : '' }}>
                                         &nbsp;<label for="female" style="margin-right: 10px;"> 女性</label>
-                                        <input type="radio" name="sex" id="other" title="Other" value="other" required>
+                                        
+                                        <input type="radio" name="sex" id="other" value="other" title="Other" required {{ isset($member) && $member->sex == 'other' ? 'checked' : '' }}>
                                         &nbsp;<label for="other"> 他の</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="dateofbirth" style="margin-right: 10px; flex-grow: 1;">生年月日: <b style="color: red">*</b></label>
-                                <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" title="Date of Birth" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                                <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" title="Date of Birth" min="1970-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" value="{{ $member->dateofbirth ?? '' }}" required>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="dateofjoining" style="margin-right: 10px; flex-grow: 1;">入社の日:</label>
-                                <input type="date" name="dateofjoining" id="dateofjoining" class="form-control" title="Date of Joining" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" required>
+                                <input type="date" name="dateofjoining" id="dateofjoining" class="form-control" title="Date of Joining" min="2022-01-01" max="{{ date('Y-m-d') }}" style="width: 100%" value="{{ $member->dateofjoining ?? '' }}" required>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="retirementdate" style="margin-right: 10px; flex-grow: 1;">退職日:</label>
-                                <input type="date" name="retirementdate" id="retirementdate" class="form-control" title="Retirement Date" min="2022-01-01" max="2050-12-31">
+                                <input type="date" name="retirementdate" id="retirementdate" class="form-control" title="Retirement Date" min="2022-01-01" max="2050-12-31" value="{{ $member->retirementdate ?? '' }}">
                             </div>
                             <div class="mb-3">
                                 <label for="remarks">備考:</label>
-                                <textarea name="remarks" id="remarks" title="Remarks" class="form-control" cols="5" rows="5"></textarea>
+                                <textarea name="remarks" id="remarks" title="Remarks" class="form-control" cols="5" rows="5">{{ $member->remarks ?? '' }}</textarea>
                             </div>
-                            <div id="account-information" class="card-header" style="background-color: #92CDFC" title="Account information"><b style="color:aliceblue"> 口座情報</b></div>
+                            <div id="account-information" class="card-header" style="background-color: #92CDFC" title="Account information"><b style="color:aliceblue">口座情報</b></div>
                             <br>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="encrypted_password" style="margin-right: 10px;">パスワード:</label>
@@ -118,32 +124,23 @@
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="account_status" style="margin-right: 10px;">アカウントのステータス:</label>
                                 <select name="account_status" id="account_status" class="form-control" style="width: 100%" title="Account Status">
-                                    <option value="enabled" selected title="Account Enabled">アカウントが有効になっています</option>
-                                    <option value="disabled" title="Account Disabled">アカウントが無効になっています</option>
+                                    <option value="enabled" {{ (isset($member->account_status) && $member->account_status == 'enabled') ? 'selected' : '' }} title="Account Enabled">アカウントが有効になっています</option>
+                                    <option value="disabled" {{ (isset($member->account_status) && $member->account_status == 'disabled') ? 'selected' : '' }} title="Account Disabled">アカウントが無効になっています</option>
                                 </select>
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="password_expiration" style="margin-right: 10px;">パスワードの有効期限:</label>
-                                <input type="date" name="password_expiration" id="password_expiration" class="form-control" title="Password Expiration Date">
+                                <input type="date" name="password_expiration" id="password_expiration" class="form-control" title="Password Expiration Date" value="{{ $member->password_expiration ?? '' }}">
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="numberofincorrect_passwords" style="margin-right: 10px;">誤ったパスワードの数:</label>
-                                <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords" title="Number of Incorrect Passwords" class="form-control">
+                                <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords" title="Number of Incorrect Passwords" class="form-control" value="{{ $member->numberofincorrect_passwords ?? '' }}">
                             </div>
                             <div class="mb-3" style="display: flex; align-items: center;">
                                 <label for="account_lock_datetime" style="margin-right: 10px;">アカウントロックの日付と時刻:</label>
-                                <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" title="Account Lock Date and Time" class="form-control">
+                                <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime" title="Account Lock Date and Time" class="form-control" value="{{ isset($member->account_lock_datetime) ? date('Y-m-d\TH:i', strtotime($member->account_lock_datetime)) : '' }}">
                             </div>
-                            <div align="center">
-                            <button type="submit" class="btn btn-primary" title="Register"><i class="fas fa-floppy-disk"></i> 登録する</button>
-                            <button type="button" class="btn btn-dark" title="Delete"><i class="fas fa-trash"></i> 消去</button>
-                        </div>
-                </form>
-                <form action="{{ route('employee-affiliation-information.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="employee_id" value="{{ $employee_id ?? '' }}">
-                        <div id="affiliation-information" class="card-header" title="Affiliation information" style="background-color: #92CDFC"><b style="color:aliceblue"> 提携情報</b></div><br>
+                            <div id="affiliation-information" class="card-header" title="Affiliation information" style="background-color: #92CDFC"><b style="color:aliceblue"> 提携情報</b></div><br>
                             <div class="mb-3">
                                 <label for="affiliation_start_date">所属開始日: <b style="color: red">*</b></label>
                                 <input type="date" name="affiliation_start_date" id="affiliation_start_date" title="Affiliation Start Date" class="form-control" style="display: inline-block; width: 25%;">

@@ -203,9 +203,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                <div align="left">
-                                    <button class="btn btn-warning" title="*If ToDo type is survey response" data-toggle="modal" data-target="#questionModal">※ToDo種別がアンケート回答の場合</button>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -235,83 +233,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                        <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="questionModalLabel">Add Question</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Form untuk menambah pertanyaan -->
-                                        <form id="questionForm">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="questionText">設問:</label>
-                                                        <input type="text" class="form-control" id="questionText" name="questionText" placeholder="questionaire" required title="Question">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="answerType">答タイプ:</label>
-                                                        <select class="form-control" id="answerType" name="answerType" title="Answer Type" required>
-                                                            <option value="text">Text</option>
-                                                            <option value="radio">Radio Button</option>
-                                                            <option value="checkbox">Checkbox</option>
-                                                            <option value="select">Selectbox</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="isRequired">答入力:</label><br>
-                                                        <input type="radio" id="isRequiredYes" name="isRequired" value="yes" title="required" required>
-                                                        <label for="isRequiredYes">必須</label>
-                                                        <input type="radio" id="isRequiredNo" name="isRequired" value="no" title="Optional" required>
-                                                        <label for="isRequiredNo">任意</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Formulir untuk jawaban Text -->
-                                            <div id="textAnswerForm" class="answerForm" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="textAnswer">Text Answer:</label>
-                                                    <input type="text" class="form-control" id="textAnswer" name="textAnswer">
-                                                </div>
-                                            </div>
-
-                                            <!-- Formulir untuk jawaban Radio Button -->
-                                            <div id="radioAnswerForm" class="answerForm" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="radioOptions">Radio Options:</label>
-                                                    <input type="text" class="form-control" id="radioOptions" name="radioOptions" placeholder="Option 1, Option 2, Option 3, ...">
-                                                </div>
-                                            </div>
-
-                                            <!-- Formulir untuk jawaban Checkbox -->
-                                            <div id="checkboxAnswerForm" class="answerForm" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="checkboxOptions">Checkbox Options:</label>
-                                                    <input type="text" class="form-control" id="checkboxOptions" name="checkboxOptions" placeholder="Option 1, Option 2, Option 3, ...">
-                                                </div>
-                                            </div>
-
-                                            <!-- Formulir untuk jawaban Selectbox -->
-                                            <div id="selectAnswerForm" class="answerForm" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="selectOptions">Selectbox Options:</label>
-                                                    <input type="text" class="form-control" id="selectOptions" name="selectOptions" placeholder="Option 1, Option 2, Option 3, ...">
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Question</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    </div>          
         </div>
 
         <!-- Footer -->
@@ -339,59 +261,7 @@
     });
 </script>
 @endsection
-<!-- Script for Modals -->
-@section('scripts')
-<script>
-    $(document).ready(function () {
-        // Tampilkan modal saat tombol "Addition" diklik
-        $('#addQuestionBtn').click(function() {
-            $('#questionModal').modal('show');
-        });
 
-        // Handler untuk submit form survei
-        $('#questionForm').submit(function(event) {
-            event.preventDefault();
-
-            // Ambil nilai dari form
-            var questionText = $('#questionText').val();
-            var answerType = $('#answerType').val();
-            var isRequired = $('input[name="isRequired"]:checked').val();
-
-            // Data yang akan dikirim
-            var formData = {
-                questionText: questionText,
-                answerType: answerType,
-                isRequired: isRequired
-            };
-
-            // Kirim data ke fungsi controller store menggunakan AJAX
-            $.ajax({
-                type: "POST",
-                url: "{{ route('questionnaire.store') }}", // Ganti dengan URL yang sesuai
-                data: formData,
-                success: function(response) {
-                    // Lakukan sesuatu setelah data berhasil disimpan
-                    console.log(response);
-                    // Tutup modal
-                    $('#questionModal').modal('hide');
-                },
-                error: function(error) {
-                    // Tampilkan pesan error jika terjadi kesalahan
-                    console.log(error);
-                }
-            });
-        });
-
-        // Tampilkan atau sembunyikan formulir jawaban sesuai dengan tipe jawaban yang dipilih
-        $('#answerType').change(function() {
-            var selectedAnswerType = $(this).val();
-            $('.answerForm').hide(); // sembunyikan semua formulir jawaban
-
-            // Tampilkan formulir jawaban yang sesuai dengan tipe yang dipilih
-            $('#' + selectedAnswerType + 'AnswerForm').show();
-        });
-    });
-</script>
 <script>
     // JavaScript for handling form submission and showing/hiding fields based on Material Type
 $(document).ready(function() {

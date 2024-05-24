@@ -2,40 +2,110 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Questionnaire;
+use App\Models\TestAnswer;
+use App\Models\CourseScheduleResultsInformation;
+use Illuminate\Support\Facades\Redirect;
 
 class QuestionnaireController extends Controller
 {
-    //index
-    public function index()
+    // Metode untuk menyimpan pertanyaan baru
+    public function storeQuestion(Request $request)
     {
-        $questions = Questionnaire::all();
-        return view('questionnaire.index', compact('questions'));
-    }
-
-    public function store(Request $request)
-    {
-        // Validasi input form
+        // Validasi input jika diperlukan
         $validatedData = $request->validate([
-            'questionText' => 'required',
-            'answerType' => 'required',
-            'isRequired' => 'required',
-            // Sesuaikan validasi dengan kebutuhan Anda
+            'question_text' => 'required',
+            'answer_type' => 'required',
+            'is_required' => 'required',
         ]);
 
-        // Simpan data ke database
-        $question = new Questionnaire();
-        $question->question_text = $request->questionText;
-        $question->answer_type = $request->answerType;
-        $question->is_required = $request->isRequired;
-        // Simpan data tambahan sesuai dengan jenis jawaban (text, radio, checkbox, select)
-        // Sesuaikan dengan struktur database Anda
+        // Simpan pertanyaan ke dalam tabel questionnaire
+        Questionnaire::create([
+            'question_text' => $request->question_text,
+            'answer_type' => $request->answer_type,
+            'is_required' => $request->is_required,
+        ]);
 
-        $question->save();
-
-        // Redirect atau response sesuai kebutuhan Anda
+        // Redirect atau berikan respons sesuai kebutuhan Anda
         return redirect()->back()->with('success', 'Question saved successfully!');
+    }
+
+    // Metode untuk menyimpan tanggapan survei baru
+    public function storeSurveyResponse(Request $request)
+    {
+        // Validasi input jika diperlukan
+        $validatedData = $request->validate([
+            'question_id' => 'required',
+            'employee_id' => 'required',
+            'response_text' => 'required',
+        ]);
+
+        // Simpan tanggapan survei ke dalam tabel questionnaire
+        Questionnaire::create([
+            'question_id' => $request->question_id,
+            'employee_id' => $request->employee_id,
+            'response_text' => $request->response_text,
+        ]);
+
+        // Redirect atau berikan respons sesuai kebutuhan Anda
+        return redirect()->back()->with('success', 'Survey response saved successfully!');
+    }
+
+    // Metode untuk menyimpan jawaban dari kuesioner
+    public function saveAnswer(Request $request)
+    {
+        // Validasi input jika diperlukan
+        $validatedData = $request->validate([
+            'question_id' => 'required',
+            'employee_id' => 'required',
+            'answered' => 'required',
+        ]);
+
+        // Simpan jawaban ke dalam tabel questionnaire
+        Questionnaire::create([
+            'question_id' => $request->question_id,
+            'employee_id' => $request->employee_id,
+            'answered' => $request->answered,
+        ]);
+
+        // Redirect atau berikan respons sesuai kebutuhan Anda
+        return redirect()->back()->with('success', 'Answer saved successfully!');
+    }
+
+    // Method untuk menampilkan survei-responses
+    public function showSurveyResponses()
+    {
+        $courseScheduleResults = $this->showCourseScheduleResults();
+        // Redirect pengguna ke halaman survei-responses
+        return view('survey_responses.index', compact('courseScheduleResults'));
+        // return Redirect::route('survey-responses.index');
+    }
+
+    public function showTestAnswers()
+    {
+        // Ambil data jawaban tes dari model
+        $testAnswers = TestAnswer::all();
+
+        // Tampilkan view untuk menampilkan jawaban tes
+        return view('test_answer.index', compact('testAnswers'));
+    }
+
+    public function showReportInputs()
+    {
+        // Ambil data input laporan dari model
+        $reportInputs = Questionnaire::whereNotNull('report_input')->get();
+
+        // Tampilkan view untuk menampilkan input laporan
+        return view('reportinputs.index', compact('reportInputs'));
+    }
+
+    public function showCourseScheduleResults()
+    {
+        // Ambil data dari model CourseScheduleResultsInformation
+        $courseScheduleResults = CourseScheduleResultsInformation::all();
+        
+        // Tampilkan view untuk menampilkan data tersebut
+        return $courseScheduleResults;
     }
 }
