@@ -21,14 +21,33 @@ class EmployeeInformationController extends Controller
         $jobs = JobInformation::all(); // Ambil data job titles
         return view('employee.index', compact('employees', 'affiliations', 'jobs')); // Kirim data affiliations dan jobs ke view
     }
-    
-    public function employeelist()
+
+	public function employeelist(Request $request)
     {
-        $employees = EmployeeInformation::all();
+		$employee = EmployeeInformation::query();
+
+		if ($request->affiliation_code) {
+			$filteredEmployees = $employee->whereHas('employee_affiliation', function ($query) use ($request) {
+				$query->where('affiliation_code', $request->affiliation_code);
+
+			});
+		}
+		if ($request->job) {
+			$filteredEmployees = $employee->whereHas('job', function ($query) use ($request) {
+				$query->where('job_id', $request->job);
+
+			});
+		}
+		if ($request->employee_code) {
+			$filteredEmployees = $employee->where('employee_code', $request->employee_code);
+		}
+		if ($request->fullname) {
+			$filteredEmployees = $employee->where('fullname', $request->fullname);
+		}
+		$filteredEmployees = $employee->with('employee_affiliation')->get();
         $affiliations = AffiliationInformation::all();
         $jobs = JobInformation::all();
-        $jobTitles = JobInformation::all();
-        $filteredEmployees = $employees; // Menggunakan data $employees sebagai $filteredEmployees
+		$jobTitles = JobInformation::all();
         return view('employeelist', compact('filteredEmployees', 'affiliations', 'jobs', 'jobTitles'));
     }
     

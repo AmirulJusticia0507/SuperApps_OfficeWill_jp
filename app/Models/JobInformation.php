@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobInformation extends Model
 {
+    use HasFactory, SoftDeletes;
+
     // Sesuaikan dengan nama tabel di database
     protected $table = 'job_information';
 

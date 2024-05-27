@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CourseMaterialInformation extends Model
 {
-    use HasFactory;
-    protected $primaryKey = 'material_id';
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'material_id',
         'company_id',
         'Course_id',
         'display_order',
@@ -20,7 +21,6 @@ class CourseMaterialInformation extends Model
         'book_file_path'
     ];
 
-    public $timestamps = false;
     // Fungsi CRUD
 
     // Create

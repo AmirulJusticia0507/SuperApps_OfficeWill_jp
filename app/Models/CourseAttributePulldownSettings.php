@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CourseAttributePulldownSettings extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['capsi_id', 'company_id', 'course_attribute_number', 'pulldown_list_1', 'pulldown_list_2', 'pulldown_list_3', 'pulldown_list_4', 'pulldown_list_5', 'pulldown_list_6', 'pulldown_list_7', 'pulldown_list_8', 'pulldown_list_9', 'pulldown_list_10'];
 

@@ -4,31 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CourseClassificationDetailInformation extends Model
 {
-    use HasFactory;
-
-    protected $table = 'course_classification_detail_information';
+    use HasFactory, SoftDeletes;
     protected $primaryKey = 'course_classification_details_id';
 
-    protected $fillable = [
-        'Course_classification_id',
-        'company_id',
-        'course_classification_detailsname',
-        'icon_file_path',
-        'display_order'
-    ];
 
+    protected $fillable = ['course_classification_details_id', 'Course_classification_id', 'company_id', 'course_classification_detailsname', 'icon_file_path', 'display_order'];
     public $timestamps = false;
+    // Fungsi CRUD
 
-    // CRUD methods
-
+    // Create
     public static function createCourseClassificationDetail($data)
     {
         return self::create($data);
     }
 
+    // Read
     public static function getAllCourseClassificationDetails()
     {
         return self::all();
@@ -39,6 +33,7 @@ class CourseClassificationDetailInformation extends Model
         return self::find($id);
     }
 
+    // Update
     public static function updateCourseClassificationDetail($id, $data)
     {
         $courseClassificationDetail = self::find($id);
@@ -49,6 +44,7 @@ class CourseClassificationDetailInformation extends Model
         return null;
     }
 
+    // Delete
     public static function deleteCourseClassificationDetail($id)
     {
         $courseClassificationDetail = self::find($id);
@@ -63,4 +59,5 @@ class CourseClassificationDetailInformation extends Model
     {
         return $this->belongsTo(CourseClassificationInformation::class, 'Course_classification_id', 'course_classification_id');
     }
+
 }

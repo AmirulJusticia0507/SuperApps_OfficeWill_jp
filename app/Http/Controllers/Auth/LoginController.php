@@ -26,9 +26,9 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+		$credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+		if (Auth::attempt($credentials) || Auth::guard('employee')->attempt($credentials)) {
             // Jika otentikasi berhasil, arahkan pengguna ke dashboard
             return redirect()->route('dashboard');
         }
@@ -46,6 +46,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+		Auth::guard('employee')->logout();
 
         return redirect()->route('login');
     }

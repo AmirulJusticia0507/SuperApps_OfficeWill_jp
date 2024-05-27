@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AttendanceTodoAnswerSelectionInformation extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['atiasi_id', 'company_id', 'employee_id', 'course_id', 'attendance_setting_id', 'todo_items_id', 'todo_option_id', 'selection', 'other_text_answer'];
 

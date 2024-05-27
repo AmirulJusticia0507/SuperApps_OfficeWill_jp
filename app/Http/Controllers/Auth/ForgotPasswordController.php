@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Lang;
 
 class ForgotPasswordController extends Controller
 {
@@ -28,12 +29,16 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate(['email' => 'required|email']);
-
+        
         $status = Password::sendResetLink(
-            $request->only('email')
-        );
+			$request->only('email')
+		);
 
-        if ($status === Password::RESET_LINK_SENT) {
+		$status = Password::broker('employee')->sendResetLink(
+			$request->only('email')
+		);
+
+		if ($status === Password::RESET_LINK_SENT) {
             return back()->with('status', __($status));
         } else {
             return back()->withErrors(['email' => __($status)]);

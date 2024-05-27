@@ -42,6 +42,13 @@ class ResetPasswordController extends Controller
                 $user->save();
             }
         );
+		$status = Password::broker('employee')->reset(
+			$request->only('email', 'password', 'password_confirmation', 'token'),
+			function ($user, $password) {
+				$user->password = Hash::make($password);
+				$user->save();
+			}
+		);
 
         if ($status === Password::PASSWORD_RESET) {
             Session::flash('success', 'Your password has been reset successfully. You can now log in with your new password.');

@@ -25,26 +25,24 @@
                 </nav>
         <!-- Create Classification Form -->
         <div class="card">
-            <div class="card-header" style="background-color: darkblue" title="Course Settings -> Choose your course"><b style="color:aliceblue">コース設定 - >コースを選択します</b></div><br><br>
+            <div class="card-header" style="background-color: darkblue" title="Course Settings -> Choose your course"><b style="color:aliceblue">コースの選択 -> コースを選択してください</b></div><br><br>
             <form action="{{ route('course.filter') }}" method="get"><br>
                 @csrf
                 <div class="form-group">
-                    <label for="course_classification">&emsp;コース分類:</label>
-                    <select class="form-control" id="course_classification_id" name="Course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
+                    <label for="course_classification_id">&emsp;コース分類:</label>
+                    <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
                         @foreach($classifications as $classification)
-                        <option value="{{ $classification->id }}">{{ $classification->course_classification_name }}
-                        </option>
+                            <option value="{{ $classification->id }}">{{ $classification->course_classification_name }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <!-- Course Classification Details Filter -->
                 <div class="form-group">
-                    <label for="course_classification_details">&emsp;コース分類の詳細:</label>
+                    <label for="course_classification_details_id">&emsp;コース分類詳細:</label>
                     <select class="form-control" id="course_classification_details_id" name="course_classification_details_id" title="Course Classification Details" required style="display: inline-block; width: 60%;">
                         @foreach($details as $detail)
-                        <option value="{{ $detail->course_classification_details_id }}">
-                            {{ $detail->course_classification_detailsname }}</option>
+                            <option value="{{ $detail->id }}">{{ $detail->course_classification_detailsname }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -321,8 +319,9 @@
                         @foreach ($filteredEmployees as $employee)
                             <tr>
                                 <td><input type="checkbox" class="employee-checkbox" value="{{ $employee->id }}"></td>
-                                <td>{{ $employee->affiliation->affiliation_name }}</td>
-                                <td>{{ $employee->job->job_title }}</td>
+                                <td>{{ optional($employee->affiliation)->affiliation_name }}</td>
+                                
+                                <td>{{ optional($employee->job)->job_title }}</td>
                                 <td>{{ $employee->fullname }}</td>
                                 <td>{{ $employee->employee_code }}</td>
                                 <td>{{ $employee->sex }}</td>

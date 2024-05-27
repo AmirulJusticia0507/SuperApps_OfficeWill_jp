@@ -6,16 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\CourseClassificationInformation;
 use App\Models\CompanyInformation;
 use Illuminate\Support\Facades\Storage;
-
 class CourseClassificationInformationController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $classifications = CourseClassificationInformation::all();
-        $companies = CompanyInformation::all();
+        $companies = CompanyInformation::all(); // Mengambil daftar perusahaan
         return view('course_classification.index', compact('classifications', 'companies'));
     }
+    
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $companies = CompanyInformation::all();
+        return view('course_classification.create', compact('companies'));
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -38,6 +52,9 @@ class CourseClassificationInformationController extends Controller
         return redirect()->route('course-classification.index')->with('success', 'Classification created successfully');
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit($id)
     {
         $classification = CourseClassificationInformation::findOrFail($id);
@@ -51,7 +68,11 @@ class CourseClassificationInformationController extends Controller
             'company_name' => $company->company_name,
         ]);
     }
+    
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -76,10 +97,14 @@ class CourseClassificationInformationController extends Controller
         return redirect()->route('course-classification.index')->with('success', 'Classification updated successfully');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy($id)
     {
         $classification = CourseClassificationInformation::findOrFail($id);
         $classification->delete();
         return redirect()->route('course-classification.index')->with('success', 'Classification deleted successfully');
     }
+    
 }

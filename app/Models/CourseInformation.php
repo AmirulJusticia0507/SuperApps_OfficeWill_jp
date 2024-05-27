@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CourseInformation extends Model
 {
-    use HasFactory;
-    protected $table = 'course_information';
+    use HasFactory, SoftDeletes;
+
     protected $primaryKey = 'course_id';
 
     protected $fillable = [
@@ -31,10 +32,42 @@ class CourseInformation extends Model
         'course_attributes_05'
     ];
 
-    public $timestamps = false;
-
-    public static function createCourse($data)
+    // Create
+    public function createCourse(array $courseData)
     {
-        return self::create($data);
+        return $this->create($courseData);
+    }
+
+    // Read
+    public function getAllCourses()
+    {
+        return $this->all();
+    }
+
+    public function getCourseById($id)
+    {
+        return $this->find($id);
+    }
+
+    // Update
+    public function updateCourse($id, array $courseData)
+    {
+        $course = $this->find($id);
+        if ($course) {
+            $course->update($courseData);
+            return $course;
+        }
+        return null;
+    }
+
+    // Delete
+    public function deleteCourse($id)
+    {
+        $course = $this->find($id);
+        if ($course) {
+            $course->delete();
+            return true;
+        }
+        return false;
     }
 }

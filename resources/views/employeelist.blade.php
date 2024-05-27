@@ -10,113 +10,138 @@
 
     <!-- Main Content -->
     {{-- <div class="container"> --}}
-        <div class="row justify-content-center">
-            <div class="col-md-3">
-                @include('includes.sidebar')
-            </div>
-            <div class="col-md-8">
-                <br><br><br>
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}" title="Employee Registration">従業員の登録</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="Employee List">従業員リスト</a></li>
-                        <li class="breadcrumb-item active" aria-current="page" title="Employee List">従業員リスト</li>
-                    </ol>
-                </nav>
-                <div class="card">
-                    <div class="card-header" style="background-color: darkblue" title="Employee List"><b style="color:aliceblue">従業員リスト</b></div>
-                        <div class="card-body">
-                            <form action="" method="get">
-                                <div class="form-group">
-                                    <label for="affiliation_id">所属:</label>
-                                    <div class="d-flex align-items-center">
-                                        <select class="form-control" title="Affiliation" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
-                                            <option value="" title="Select Affiliation">所属を選択します</option>
-                                            @foreach($affiliations as $affiliation)
-                                                <option value="{{ $affiliation->id }}">{{ $affiliation->affiliation_name }}</option>
-                                            @endforeach
-                                        </select>&emsp;
-                                        <div>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="search_option" value="Display selected affiliation" title="Display selected affiliation"> 選択した提携を表示します
-                                            </label>
-                                            <label class="radio-inline ml-3">
-                                                <input type="radio" name="search_option" value="Display selected affiliation and below" title="Display selected affiliation and below"> 選択した所属以下を表示します
-                                            </label>
-                                        </div>
-                                    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            @include('includes.sidebar')
+        </div>
+        <div class="col-md-8">
+            <br><br><br>
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}" title="Employee Registration">従業員の登録</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="Employee List">社員一覧</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" title="Employee List">社員一覧</li>
+                </ol>
+            </nav>
+            <div class="card">
+                <div class="card-header" style="background-color: darkblue" title="Employee List"><b
+                        style="color:aliceblue">社員別照会 > 社員一覧</b></div>
+                <div class="card-body">
+                    <form action="{{ route('filterEmployee') }}" method="get">
+                        <div class="form-group">
+                            <label for="affiliation_code">所属名/Affiliation name:</label>
+                            <div class="d-flex align-items-center">
+                                <select class="form-control" title="Affiliation" id="affiliation_code"
+                                    name="affiliation_code" style="display: inline-block; width: 60%;">
+                                    <option value="" title="Select Affiliation">所属名</option>
+                                    @foreach ($affiliations as $affiliation)
+                                        <option value="{{ $affiliation->affiliation_code }}">
+                                            {{ $affiliation->affiliation_name }}</option>
+                                    @endforeach
+                                </select>&emsp;
+                                <div>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="search_option" value="Display selected affiliation"
+                                            title="Display selected affiliation"> 選択所属を表示
+                                    </label>
+                                    <label class="radio-inline ml-3">
+                                        <input type="radio" name="search_option"
+                                            value="Display selected affiliation and below"
+                                            title="Display selected affiliation and below"> 選択所属以下を表示
+                                    </label>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="job_title">役職: <b style="color: red">*</b></label>
-                                    <select name="job_title" id="job_title" title="Job Title" class="form-control" style="display: inline-block; width: 88%;" required>
-                                        <option value="" title="Select Job Title">役職を選択します</option>
-                                        @foreach($jobTitles as $jobTitle)
-                                            <option value="{{ $jobTitle->job_title }}">{{ $jobTitle->job_title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="fullname">&emsp;フルネーム:</label>
-                                    <input type="text" class="form-control" title="Full Name" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
-                                </div>
-                                <div class="form-group">
-                                    <label for="employee_code">&emsp;従業員コード:</label>
-                                    <input type="text" class="form-control" title="Employee Code" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
-                                </div>
-                                <div align="center">
-                                    <button type="submit" class="btn btn-primary btn-block" title="Search" style="background-color: darkblue">検索</button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                </div><br><br>
+                        <div class="mb-3">
+                            <label for="job">役職名: <b style="color: red">*</b></label>
+                            <select name="job" id="job" title="Job Title" class="form-control"
+                                style="display: inline-block; width: 88%;">
+                                <option value="" title="Select Job Title">役職名</option>
+                                @foreach ($jobTitles as $jobTitle)
+                                    <option value="{{ $jobTitle->Job_id }}">{{ $jobTitle->job_title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fullname">&emsp;氏名:</label>
+                            <input type="text" class="form-control" title="Full Name" id="fullname" name="fullname"
+                                value="{{ request()->fullname ?? '' }}" placeholder="Enter Full Name"
+                                style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
+                        </div>
+                        <div class="form-group">
+                            <label for="employee_code">&emsp;社員コード:</label>
+                            <input type="text" class="form-control" title="Employee Code" id="employee_code"
+                                name="employee_code" placeholder="Enter Employee Code"
+                                value="{{ request()->employee_code ?? '' }}" style="display: inline-block; width: 60%;">
+                        </div>
+                        <div align="center">
+                            <button type="submit" class="btn btn-primary btn-block" title="Search"
+                                style="background-color: darkblue">検索</button>
+                        </div>
+                    </form>
+                </div>
+            </div><br><br>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-header" title="Employee List" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">従業員リスト</b></div>
-                        <!-- DataTable -->
-                        <table id="employeelistTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th title="Affiliation">所属</th>
-                                    <th title="Job Title (Pos)">役職 POS</th>
-                                    <th title="Full Name">フルネーム</th>
-                                    <th title="Employee Code">従業員コード</th>
-                                    <th title="Sex">セックス</th>
-                                    <th title="Age">年</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+            <div class="card">
+                <div class="card-header" title="Employee List" style="background-color: darkblue">
+                    <div class="row">
+                        <div class="col d-flex justify-content-center"><b style="color:aliceblue;">社員一覧/Employee list</b></div>
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <a class="btn btn-light" href="{{route('member-registration.create')}}">Sign up</a>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-body">
+
+                    <!-- DataTable -->
+                    <table id="employeelistTable"
+                        class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th title="Affiliation">所属</th>
+                                <th title="Job Title (Pos)">役職 POS</th>
+                                <th title="Full Name">氏名</th>
+                                <th title="Employee Code">社員コード</th>
+                                <th title="Sex">性別</th>
+                                <th title="Age">年齢</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach ($filteredEmployees as $employee)
                                 <tr>
-                                    <td><input type="checkbox" class="employee-checkbox" value="{{ $employee->id }}"></td>
-                                    <td>{{ $employee->affiliation->affiliation_name }}</td>
-                                    <td>{{ $employee->job->job_title }}</td>
+                                    <td><input type="checkbox" class="employee-checkbox" value="{{ $employee->id }}">
+                                    </td>
+                                    <td>{{ $employee->employee_affiliation->affiliation->affiliation_name }}</td>
+                                    <td>{{ $employee->employee_affiliation->job->job_title }}</td>
                                     <td>{{ $employee->fullname }}</td>
                                     <td>{{ $employee->employee_code }}</td>
                                     <td>{{ $employee->sex }}</td>
                                     <td>{{ \Carbon\Carbon::parse($employee->dateofbirth)->age }}</td>
                                 </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+    </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-        <!-- Footer -->
+    <!-- Footer -->
     @include('includes.footer')
-    @endsection
+@endsection
 
-    @section('scripts')
+@section('scripts')
     <!-- Script DataTables -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var table = $('#employeelistTable').DataTable({
                 responsive: true,
                 scrollX: true,
@@ -143,5 +168,4 @@
             return initials;
         }
     </script>
-
-    @endsection
+@endsection

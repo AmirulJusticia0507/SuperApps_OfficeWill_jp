@@ -30,7 +30,7 @@
                     <form action="{{ route('course.filter') }}" method="GET">
                         <!-- Course Classification Filter -->
                         <div class="form-group">
-                            <label for="course_classification_id">コース分類:</label>
+                            <label for="course_classification_id">コース分類/Course classification:</label>
                             <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
                                 @foreach($classifications as $classification)
                                 <option value="{{ $classification->id }}">{{ $classification->course_classification_name }}</option>
@@ -40,7 +40,7 @@
 
                         <!-- Course Classification Details Filter -->
                         <div class="form-group">
-                            <label for="course_classification_details_id">コース分類の詳細:</label>
+                            <label for="course_classification_details_id">コース分類詳細/Course classification details:</label>
                             <select class="form-control" id="course_classification_details_id" name="course_classification_details_id" title="Course Classification Details" required style="display: inline-block; width: 60%;">
                                 @foreach($details as $detail)
                                 <option value="{{ $detail->id }}">{{ $detail->course_classification_detailsname }}</option>
@@ -71,7 +71,7 @@
                         <thead>
                             <tr>
                                 <th title="Course Classification">コース分類</th>
-                                <th title="Course Classification Details">コース分類の詳細</th>
+                                <th title="Course Classification Details">コース分類詳細</th>
                                 <th title="Course Name">コース名</th>
                             </tr>
                         </thead>

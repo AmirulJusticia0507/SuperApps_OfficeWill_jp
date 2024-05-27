@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EmployeeAffiliationInformation extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'eai_id';
     protected $fillable = [
+        'eai_id',
         'company_id',
+		'employee_id',
         'affiliation_code',
         'job_id',
         'application_startdate',
@@ -24,11 +28,24 @@ class EmployeeAffiliationInformation extends Model
         'authority_validity_code'
     ];
 
-    // Fungsi CRUD
-    public function employee()
-    {
-        return $this->belongsTo(EmployeeInformation::class, 'employee_id', 'employee_id');
-    }
+	protected $casts = ['affiliation_code' => 'string'];
+
+
+	protected function getAffiliationCodeAttribute($value)
+	{
+		return str_pad($value, 3, '0', STR_PAD_LEFT);
+	}
+
+	public function affiliation()
+	{
+		return $this->hasOne(AffiliationInformation::class, 'affiliation_code', 'affiliation_code');
+	}
+
+	public function job()
+	{
+		return $this->hasOne(JobInformation::class, 'job_id', 'job_id');
+	}
+	// Fungsi CRUD
 
     // Create
     public static function createEmployeeAffiliation($data)

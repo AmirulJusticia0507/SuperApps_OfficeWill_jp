@@ -31,6 +31,7 @@ use App\Http\Controllers\QuestionnaireController;
 
 // Rute untuk menampilkan halaman login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/login/{company_id}', [LoginController::class, 'showLoginForm'])->name('login.employee');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -49,18 +50,8 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Rute untuk member registration
-Route::get('member-registration/create', [MasterRegistrationController::class, 'create'])->name('member-registration.create');
-Route::post('member-registration/store', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
-Route::get('member-registration/{id}/edit', [MasterRegistrationController::class, 'edit'])->name('member-registration.edit');
-Route::put('member-registration/{id}', [MasterRegistrationController::class, 'update'])->name('member-registration.update');
-Route::delete('member-registration/{id}', [MasterRegistrationController::class, 'destroy'])->name('member-registration.destroy');
-
-Route::post('employee-affiliation-information', [EmployeeAffiliationInformationController::class, 'store'])
-    ->name('employee-affiliation-information.store');
-
-Route::get('employee-affiliation-information/create', [EmployeeAffiliationInformationController::class, 'create'])
-    ->name('employee-affiliation-information.create');
-
+Route::resource('member-registration', MasterRegistrationController::class);
+// Route::post('/member-registration', [MasterRegistrationController::class, 'store'])->name('member-registration.store');
 
 // Rute untuk job titles
 Route::resource('job-titles', JobTitleController::class);
@@ -69,7 +60,7 @@ Route::resource('job-titles', JobTitleController::class);
 Route::resource('affiliation-information', AffiliationInformationController::class);
 Route::get('/coursesettings', [AffiliationInformationController::class, 'showCourseSettings']);
 Route::post('/affiliation-information/reset', [AffiliationInformationController::class, 'resetForm'])->name('affiliation-information.reset');
-Route::delete('/affiliation-information/{affiliation_information}', [AffiliationInformationController::class, 'destroy'])->name('affiliation-information.destroy');
+Route::delete('/affiliation-information/{id}', [AffiliationInformationController::class, 'destroy'])->name('affiliation-information.destroy');
 
 // Rute untuk attendance todo answer selection information
 Route::resource('attendance', AttendanceTodoAnswerSelectionInformationController::class);
@@ -79,7 +70,6 @@ Route::resource('attendance-item', AttendanceTodoItemAnswerInformationController
 
 // Rute untuk company information
 Route::resource('company-information', CompanyInformationController::class);
-Route::get('/company-information', [CompanyInformationController::class, 'index'])->name('company-information.index');
 
 // Rute untuk course attribute pulldown settings
 Route::resource('course-attribute-pulldown', CourseAttributePulldownSettingsController::class);
@@ -103,20 +93,13 @@ Route::get('/course-classification', [CourseClassificationInformationController:
 Route::post('/classifications', [CourseClassificationInformationController::class, 'store'])->name('classifications.store');
 Route::get('/course-classifications/{id}/edit', [CourseClassificationInformationController::class, 'edit'])->name('course-classifications.edit');
 Route::put('/course-classifications/{id}', [CourseClassificationInformationController::class, 'update'])->name('course-classifications.update');
-// routes/web.php
+Route::delete('/course-classifications/{id}', [CourseClassificationInformationController::class, 'destroy'])->name('course-classifications.destroy');
+Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');
 
-Route::delete('/course-classification/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])
-    ->name('course-classification.destroy');
-
-
-// Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');
 
 // Rute untuk course information
+Route::resource('course-information', CourseInformationController::class);
 Route::get('/course-registration', [CourseInformationController::class, 'index'])->name('course-registration.index');
-// Route::post('/course-registration', [CourseInformationController::class, 'store'])->name('course-registration.store');
-// Define the route for storing course information
-Route::post('/course-information', [CourseInformationController::class, 'store'])->name('course-information.store');
-
 
 // Rute untuk course material information
 Route::resource('course-material-information', CourseMaterialInformationController::class);
@@ -164,27 +147,9 @@ Route::get('/search-courses', [CourseController::class, 'search'])->name('search
 Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
 Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
-Route::get('/list-course-taken', [CourseController::class, 'listCoursesTaken'])->name('list-course-taken');
-Route::get('/materials', [CourseController::class, 'showMaterials']);
 
-Route::get('/survey-responses', [QuestionnaireController::class, 'showSurveyResponses'])->name('survey_responses.index');
-Route::get('/test-answers', [QuestionnaireController::class, 'showTestAnswers'])->name('test_answers.index');
-Route::get('/report-inputs', [QuestionnaireController::class, 'showReportInputs'])->name('report_inputs.index');
-
-Route::get('/survey-responses', function () {
-    return view('survey_responses.index');
-})->name('survey_responses');
-
-Route::get('/test-answers', function () {
-    return view('test_answer.index');
-})->name('test_answers');
-
-Route::get('/report-input', function () {
-    return view('report_input.index');
-})->name('report_input');
-
-
-
+// Rute for questionnaire
+Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');
 
 // Rute untuk menampilkan daftar semua materials
 Route::get('/materials', [CourseMaterialInformationController::class, 'index'])->name('materials.index');
@@ -206,5 +171,3 @@ Route::delete('/materials/{id}', [CourseMaterialInformationController::class, 'd
 
 // Rute untuk menampilkan detail course material
 Route::get('/materials/{id}', [CourseMaterialInformationController::class, 'show'])->name('materials.show');
-
-
