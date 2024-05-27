@@ -26,8 +26,8 @@
             </ol>
         </nav>
         <!-- Tombol Create Company Modal -->
-        <div align="right">
-            <button class="btn btn-primary mb-3" data-bs-toggle="modal" title="Create Company" data-bs-target="#createCompanyModal"><i class="fas fa-plus"></i> 会社を作成します</button>&emsp;
+        <div class="text-right">
+            <button class="btn btn-primary mb-3 open-modal" data-url="{{route('company-information.create')}}"><i class="fas fa-plus"></i> 会社を作成します</button>&emsp;
         </div>
         <div class="card">
             <div class="card-header" style="background-color: darkblue" title="Company Information"><b style="color:aliceblue">企業情報</b></div>
@@ -57,14 +57,7 @@
                                         style="max-width: 100px;">
                                 </a>
                             </td>
-                            <td>
-                                <a data-fancybox="gallery{{ $company->id }}"
-                                    data-src="{{ asset($company->teaching_material_storage_file_path) }}"
-                                    data-caption="Teaching Material">
-                                    <img src="{{ asset($company->teaching_material_storage_file_path) }}"
-                                        alt="Teaching Material" style="max-width: 100px;">
-                                </a>
-                            </td>
+                            <td>{{ $company->teaching_material_storage_file_path }}</td>
                             <td>
                                 <!-- Tombol Edit Company Modal -->
                                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->company_id }}" title="Edit"><i class="fas fa-edit"></i> 編集</button>
@@ -93,53 +86,7 @@
 <!-- Footer -->
 @include('includes.footer')
 
-<!-- Create Company Modal -->
-<div class="modal fade" id="createCompanyModal" tabindex="-1" aria-labelledby="createCompanyModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createCompanyModalLabel" title="Create Company">会社を作成します</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Form Create Company -->
-                <form method="POST" action="{{ route('company-information.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label for="company_name">会社名:</label>
-                        <input type="text" class="form-control" id="company_name" name="company_name" required title="Company Name">
-                    </div>
 
-                    <div class="form-group">
-                        <label for="login_screen_url">ログイン画面URL:</label>
-                        <input type="text" class="form-control" title="Login Screen URL" id="login_screen_url" name="login_screen_url" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="icon_storage_file_path">アイコンストレージファイル:</label>
-                        <input type="file" class="form-control" id="icon_storage_file_path" title="Icon Storage File" name="icon_storage_file_path" required onchange="previewIcon(this)">
-                        <!-- Tambahkan atribut 'required' untuk memastikan file dipilih -->
-                        <img id="icon_preview" src="#" alt="Preview Icon" style="max-width: 100px; display: none;">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="teaching_material_storage_file_path">材料ストレージファイルの授業:</label>
-                        <input type="file" class="form-control" id="teaching_material_storage_file_path" title="Teaching Material Storage File" name="teaching_material_storage_file_path" onchange="previewMaterial(this)">
-                        <img id="material_preview" src="#" alt="Preview Material"
-                            style="max-width: 100px; display: none;">
-                    </div><br><br>
-                    <div align="center">
-                        <button type="reset" class="btn btn-light" title="Reset"><i class="fas fa-undo"></i> リセット</button>
-                        <button type="submit" class="btn btn-primary" title="Submit"><i class="fas fa-sent"></i> 提出する</button>
-                        <button type="button" class="btn btn-dark" title="Delete" id="deleteButton"><i class="fas fa-trash"></i> 消去</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 @foreach($companies as $company)
     <div class="modal fade" id="editCompanyModal{{ $company->company_id }}" tabindex="-1" aria-labelledby="editCompanyModalLabel{{ $company->company_id }}" aria-hidden="true">
@@ -161,7 +108,7 @@
 
                     <div class="form-group">
                         <label for="login_screen_url">Login Screen URL:</label>
-                        <input type="text" class="form-control" id="login_screen_url" name="login_screen_url" value="{{ $company->login_screen_url }}" required>
+                        <input type="text" class="form-control" id="login_screen_url" value="{{ asset($company->login_screen_url) }}"  readonly>
                     </div>
 
                     <div class="form-group">
@@ -172,8 +119,7 @@
 
                     <div class="form-group">
                         <label for="teaching_material_storage_file_path">Teaching Material Storage File:</label>
-                        <input type="file" class="form-control" id="teaching_material_storage_file_path" name="teaching_material_storage_file_path" onchange="previewMaterial(this)">
-                        <img id="material_preview" src="{{ asset($company->teaching_material_storage_file_path) }}" alt="Current Material" style="max-width: 100px;">
+                        <input type="text" class="form-control" id="teaching_material_storage_file_path" value="{{ asset($company->teaching_material_storage_file_path) }}" readonly>
                     </div>
                     <div align="center">
                         <button type="submit" class="btn btn-info"><i class="fas fa-pen"></i> Update</button>&emsp;
