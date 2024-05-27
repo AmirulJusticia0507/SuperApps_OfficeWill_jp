@@ -101,11 +101,11 @@
                         </div>
                         <div class="form-group">
                             <label for="fullname">&emsp;氏名/Full name:</label>
-                            <input type="text" class="form-control" title="Full Name" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
+                            <input type="text" class="form-control" title="Employee Name" id="employee_name" name="employeeName" placeholder="Enter Full Name" style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
                         </div>
                         <div class="form-group">
                             <label for="employee_code">&emsp;社員コード/Employee Code:</label>
-                            <input type="text" class="form-control" title="Employee Code" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
+                            <input type="text" class="form-control" title="Employee Code" id="employee_code" name="employeeCode" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
                         </div>
                         <div class="form-group">
                             <label for="course_deadline">&emsp;受講期限/Course Deadline :</label>
@@ -206,7 +206,7 @@
     </script>
     <script>
         function updateEmployeeCode() {
-            var fullname = document.getElementById('fullname').value;
+            var fullname = document.getElementById('employee_name').value;
             // Logika untuk menghasilkan kode karyawan berdasarkan nama lengkap
             // Misalnya, Anda dapat menggunakan inisial atau bagian dari nama sebagai kode karyawan
             var employeeCode = generateEmployeeCode(fullname);

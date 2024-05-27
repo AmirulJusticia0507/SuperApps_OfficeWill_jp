@@ -164,6 +164,8 @@ public function settings()
         $classificationId = $request->input('classificationId');
         $detailId = $request->input('detailId');
         $courseName = $request->input('courseName');
+        $employeeName = $request->input('employeeName');
+        $employeeCode = $request->input('employeeCode');
     
         // Lakukan pencarian berdasarkan kriteria yang diberikan
         $courses = CourseInformation::query();
@@ -178,6 +180,20 @@ public function settings()
     
         if ($courseName) {
             $courses->where('coursename', 'like', '%' . $courseName . '%');
+        }
+
+        // Masukkan kondisi pencarian nama karyawan
+        if ($employeeName) {
+            $courses->whereHas('employee', function ($query) use ($employeeName) {
+                $query->where('fullname', 'like', '%' . $employeeName . '%');
+            });
+        }
+
+        // Masukkan kondisi pencarian kode karyawan
+        if ($employeeCode) {
+            $courses->whereHas('employee', function ($query) use ($employeeCode) {
+                $query->where('employee_code', 'like', '%' . $employeeCode . '%');
+            });
         }
     
         // Ambil hasil pencarian
