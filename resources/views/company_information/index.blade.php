@@ -29,6 +29,9 @@
         <div class="text-right">
             <button class="btn btn-primary mb-3 open-modal" data-url="{{route('company-information.create')}}"><i class="fas fa-plus"></i> 会社を作成します</button>&emsp;
         </div>
+        <div class="text-left mb-3">
+            <input type="text" id="customSearchBox" class="form-control" placeholder="search in the table...">
+        </div>
         <div class="card">
             <div class="card-header" style="background-color: darkblue" title="Company Information"><b style="color:aliceblue">企業情報</b></div>
             <div class="card-body">
@@ -155,8 +158,12 @@
             dom: 'lBfrtip',
             buttons: ['copy', 'excel', 'pdf']
         });
-    });
 
+        // Custom search box
+        $('#customSearchBox').on('keyup', function () {
+            table.search(this.value).draw();
+        });
+    });
 </script>
 <script>
     $(document).ready(function () {
