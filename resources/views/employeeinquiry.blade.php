@@ -63,8 +63,8 @@
                         <div class="card-header" style="background-color: darkblue" title="Course Taken"><b style="color:aliceblue">コースが取られました</b></div><br>
                         <div class="form-group">
                             <label for="course_classification">&emsp;コース分類:</label>
-                            <select class="form-control" id="course_classification" title="Course Classification" name="course_classification" required style="display: inline-block; width: 60%;">
-                                <option title="Select Course Classification" value="">コース分類を選択します</option>
+                            <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
+                            <option title="Select Course Classification" value="">コース分類を選択します</option>
                                 @foreach($classifications as $classification)
                                     <option value="{{ $classification->id }}">{{ $classification->name }}</option>
                                 @endforeach
@@ -72,9 +72,8 @@
                         </div>
                         <div class="form-group">
                             <label for="course_classification_details">&emsp;コース分類の詳細:</label>
-                            <select class="form-control" id="course_classification_details" title="Course Classification Details" name="course_classification_details" required style="display: inline-block; width: 60%;">
+                            <select class="form-control" id="course_classification_details_id" title="Course Classification Details" name="course_classification_details_id" required style="display: inline-block; width: 60%;">
                                 <option title="Select Course Classification Details" value="">コース分類の詳細を選択します</option>
-                                <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification details -->
                                 @foreach($details as $detail)
                                     <option value="{{ $detail->id }}">{{ $detail->name }}</option>
                                 @endforeach
@@ -95,7 +94,7 @@
                         <select name="course_id" id="course_id" title="Course Name" class="form-control" style="display: inline-block; width: 60%;">
                             <option title="Select Course" value="">コースを選択します</option>
                             @foreach($courses as $course)
-                                <option value="{{ $course->id }}" @if(isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>{{ $course->course_name }}</option>
+                                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
                             @endforeach
                         </select>
                     </div>

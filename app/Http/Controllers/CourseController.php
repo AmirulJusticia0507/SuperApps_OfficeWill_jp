@@ -38,6 +38,51 @@ class CourseController extends Controller
 		return view('courselist', compact('classifications', 'details', 'courses', 'employees', 'filteredEmployees', 'affiliations', 'jobTitles'));
 	}
 
+	public function filter(Request $request)
+    {
+        $affiliationId = $request->input('affiliationId');
+        $jobId = $request->input('jobId');
+        $fullname = $request->input('fullname');
+        $employeeCode = $request->input('employee_code');
+        $courseClassificationId = $request->input('course_classification_id');
+        $courseClassificationDetailsId = $request->input('course_classification_details_id');
+        $courseId = $request->input('course_id');
+
+        // Query the filtered employees
+        $employeesQuery = EmployeeInformation::query();
+
+        if ($affiliationId) {
+            $employeesQuery->whereHas('employee_affiliation', function ($query) use ($affiliationId) {
+                $query->where('affiliation_id', $affiliationId);
+            });
+        }
+
+        if ($jobId) {
+            $employeesQuery->whereHas('employee_affiliation', function ($query) use ($jobId) {
+                $query->where('job_id', $jobId);
+            });
+        }
+
+        if ($fullname) {
+            $employeesQuery->where('fullname', 'LIKE', '%' . $fullname . '%');
+        }
+
+        if ($employeeCode) {
+            $employeesQuery->where('employee_code', 'LIKE', '%' . $employeeCode . '%');
+        }
+
+        $filteredEmployees = $employeesQuery->get();
+
+        // Fetch the necessary data
+        $classifications = CourseClassificationInformation::all();
+        $details = CourseClassificationDetailInformation::all();
+        $courses = CourseInformation::all();
+        $affiliations = AffiliationInformation::all();
+        $jobTitles = JobInformation::all();
+
+        // Return the view with the required data
+        return view('employeeinquiry', compact('classifications', 'details', 'courses', 'affiliations', 'jobTitles', 'filteredEmployees'));
+    }
 
 	public function settings(Request $request)
 	{

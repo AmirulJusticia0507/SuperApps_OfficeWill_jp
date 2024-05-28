@@ -78,11 +78,9 @@
                                 <tr>
                                     <td width="80%">{{ $material->teaching_material_name }}</td>
                                     <td width="20%" class="text-right"><a class="btn btn-info btn-sm" target="_blank"
-                                            href="{{ $material->material_type == '1' ? $material->youtube_video_url : asset($material->book_file_path) }}">View
-                                            materials</a></td>
+                                            href="{{ $material->material_type == '1' ? $material->youtube_video_url : asset($material->book_file_path) }}" title="View materials">教材を見る</a></td>
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
 
