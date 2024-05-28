@@ -37,7 +37,9 @@
                             <tbody>
                                 @foreach($courses as $course)
                                     <tr>
-                                        <td><a href="#" data-toggle="modal" data-target="#exampleModal"></a>{{ $course->Course_Name }}</td>
+                                        <td>
+                                            <a href="#" data-toggle="modal" data-target="#exampleModal"></a>
+                                            {{ $course->Course_Name }}</td>
                                         <td>{{ $course->Deadline_for_Enrollment }}</td>
                                         <td>{{ $course->ToDo }}</td>
                                     </tr>

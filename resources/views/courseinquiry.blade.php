@@ -41,8 +41,7 @@
                 <!-- <br><br> -->
                 <div class="form-group">
                     <label for="course_classification">&emsp;コース分類:</label>
-                    <select class="form-control" id="course_classification" name="course_classification"
-                        title="Course Classification" required style="display: inline-block; width: 60%;">
+                    <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
                         <option value="" title="Select Course Classification">コース分類を選択します</option>
                         @foreach ($classifications as $classification)
                             <option value="{{ $classification->id }}">{{ $classification->name }}</option>
@@ -51,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label for="course_classification_details">&emsp;コース分類の詳細:</label>
-                    <select class="form-control" id="course_classification_details" name="course_classification_details"
+                    <select class="form-control" id="course_classification_details_id" name="course_classification_details_id"
                         title="Course Classification Details" required style="display: inline-block; width: 60%;">
                         <option value="" title="Select Course Classification Details">コース分類の詳細を選択します</option>
                         <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification details -->
@@ -69,10 +68,13 @@
                     <select name="course_id" title="Course Name" id="course_id" class="form-control"
                         style="display: inline-block; width: 60%;">
                         <option value="" title="Select Course">コースを選択します</option>
-                        @foreach ($courses as $course)
+                        <!-- @foreach ($courses as $course)
                             <option value="{{ $course->id }}" @if (isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>
                                 {{ $course->course_name }}</option>
-                        @endforeach
+                        @endforeach -->
+                        @foreach($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                            @endforeach
                     </select>
                 </div>
                 <div class="card-header" style="background-color: darkblue" title="Employees attending the course"><b

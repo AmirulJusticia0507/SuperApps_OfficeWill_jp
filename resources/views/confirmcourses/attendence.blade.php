@@ -20,7 +20,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a title="Confirm and take courses" href="{{ route('confirm-courses.index') }}">コースを確認して撮影します</a></li>
                     <li class="breadcrumb-item" title="List of courses taken" aria-current="page">撮影したコースのリスト</li>
-                    <li class="breadcrumb-item active" title="Attendance" aria-current="page">Attendance</li>
+                    <li class="breadcrumb-item active" title="Attendance" aria-current="page">出席</li>
                 </ol>
             </nav>
             <!-- Create Classification Form -->
@@ -65,7 +65,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="m-1">
-                        <h3 class="py-2"><b>Course Description:</b></h3>
+                        <h3 class="py-2"><b title="Course Description:">コース説明:</b></h3>
                         <div class="course-desc mb-2">
                             <p>{{ $scheduleResultCourse->course->course_description }}</p>
                         </div>

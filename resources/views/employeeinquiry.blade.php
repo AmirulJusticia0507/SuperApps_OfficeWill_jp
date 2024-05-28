@@ -142,8 +142,8 @@
             <br><br><br><br><br>
                 <div class="mt-2 sticky-list-group">
                     <ul class="list-group rounded-6" style="float: right;">
-                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Course list"><b style="color:aliceblue"> 社員一覧</b></a></li>
-                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-inquiry') }}" title="Attendance inquiry"><b style="color:aliceblue">  受講照会トップ</b></a></li>
+                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
+                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-inquiry') }}" title="Attendance employee inquiry"><b style="color:aliceblue">  受講照会トップ</b></a></li>
                     </ul>
                 </div>
             </div>

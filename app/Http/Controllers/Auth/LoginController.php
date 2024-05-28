@@ -3,31 +3,32 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\EmployeeInformation;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
-use App\Models\EmployeeInformation;
 
 class LoginController extends Controller
 {
-    /**
-     * Menampilkan formulir login.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showLoginForm()
-    {
-        return view('auth.login');
-    }
+	protected $throttleKey;
+	/**
+	 * Menampilkan formulir login.
+	 *
+	 * @return \Illuminate\View\View
+	 */
+	public function showLoginForm()
+	{
+		return view('auth.login');
+	}
 
-    /**
-     * Menangani permintaan login.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+	/**
+	 * Menangani permintaan login.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function login(Request $request)
 	{
 		$errorMsg = 'Invalid credentials';
@@ -61,17 +62,17 @@ class LoginController extends Controller
 		return redirect()->route('login')->with('error', $errorMsg);
 	}
 
-    /**
-     * Menangani permintaan logout.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        Auth::logout();
+	/**
+	 * Menangani permintaan logout.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function logout(Request $request)
+	{
+		Auth::logout();
 		Auth::guard('employee')->logout();
 
-        return redirect()->route('login');
-    }
+		return redirect()->route('login');
+	}
 }

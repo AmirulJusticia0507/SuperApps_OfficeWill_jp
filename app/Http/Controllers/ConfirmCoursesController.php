@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AttendanceTodoAnswerSelectionInformation;
 use App\Models\AttendanceTodoItemAnswerInformation;
 use App\Models\CourseInformation;
+use App\Models\CourseClassificationDetailInformation;
 use Illuminate\Http\Request;
 use App\Models\CourseScheduleResultsInformation;
 use App\Models\CourseTodoItemsChoiceInformation;
@@ -15,6 +16,8 @@ class ConfirmCoursesController extends Controller
 {
 	public function index()
 	{
+		$details = CourseClassificationDetailInformation::all();
+
 		$user = auth()->guard('employee')->user();
 		if ($user) {
 			$user_id = $user->employee_id;
@@ -25,7 +28,7 @@ class ConfirmCoursesController extends Controller
 		// Ambil data kursus yang perlu dikonfirmasi
 		$scheduleResultCourses = CourseScheduleResultsInformation::where('employee_id', $user_id)->get();
 		// Kirim data ke view confirmcourses.blade.php
-		return view('confirmcourses.index', compact('scheduleResultCourses'));
+		return view('confirmcourses.index', compact('scheduleResultCourses','details'));
 	}
 
 	public function attendence(Request $request, $course_id)
@@ -38,11 +41,12 @@ class ConfirmCoursesController extends Controller
 			$user_id = $user->id;
 		}
 
+		$details = CourseClassificationDetailInformation::all();
 		$scheduleResultCourse = CourseScheduleResultsInformation::where('employee_id', $user_id)->whereHas('course', function ($query) use ($course_id) {
 			$query->where('course_id', $course_id);
 		})->first();
 
-		return view('confirmcourses.attendence', compact('scheduleResultCourse'));
+		return view('confirmcourses.attendence', compact('scheduleResultCourse','details'));
 	}
 
 	public function todoAnswerForm(Request $request, $course_id)
