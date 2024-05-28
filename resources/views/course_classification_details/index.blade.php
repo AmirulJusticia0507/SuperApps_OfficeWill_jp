@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="course_classification_id" class="form-label" title="Course Classification">コース分類</label>
-                                        <select class="form-select" id="course_classification_id" name="Course_classification_id" title="Select Course Classification" required>
+                                        <select class="form-select" id="course_classification_id" name="course_classification_id" title="Select Course Classification" required>
                                             <option value="" selected disabled>コース分類を選択します</option>
                                             @foreach($classifications as $classification)
                                             <option value="{{ $classification->course_classification_id }}">
@@ -170,10 +170,10 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="course_classification_id" class="form-label" title="Course Classification">コース分類</label>
-                                        <select class="form-select" id="course_classification_id" name="Course_classification_id" title="Select Course Classification" required>
+                                        <select class="form-select" id="course_classification_id" name="course_classification_id" title="Select Course Classification" required>
                                             <option value="" selected disabled>コース分類を選択します</option>
                                             @foreach($classifications as $classification)
-                                            <option value="{{ $classification->course_classification_id }}" {{ $detail->Course_classification_id == $classification->course_classification_id ? 'selected' : '' }}>
+                                            <option value="{{ $classification->course_classification_id }}" {{ $detail->course_classification_id == $classification->course_classification_id ? 'selected' : '' }}>
                                                 {{ $classification->course_classification_name }}
                                             </option>
                                             @endforeach

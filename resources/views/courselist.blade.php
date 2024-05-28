@@ -18,48 +18,65 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('course-settings') }}" title="Course Settings">コース設定</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('course-settings') }}" title="Course Settings">コース設定</a>
+                    </li>
                     <li class="breadcrumb-item"><a href="{{ route('course-list') }}" title="Course List">コースリスト</a></li>
                     <li class="breadcrumb-item active" aria-current="page" title="Course List">コースリスト</li>
                 </ol>
             </nav>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue" title="Course Registration"><b style="color:aliceblue">コース登録</b></div>
+                <div class="card-header" style="background-color: darkblue" title="Course Registration">
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center"><b style="color:aliceblue">コース登録</b></div>
+                        </div>
+                        <div class="col-auto"> <a class="btn btn-light btn-sm"
+                                href="{{ route('course-registration.index') }}">sign up</a></div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <!-- Form Filter -->
                     <form action="{{ route('course.filter') }}" method="GET">
                         <!-- Course Classification Filter -->
                         <div class="form-group">
-                            <label for="course_classification_id">コース分類/Course classification:</label>
-                            <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
-                                @foreach($classifications as $classification)
-                                <option value="{{ $classification->id }}">{{ $classification->course_classification_name }}</option>
+                            <label for="course_classification_id">コース分類:</label>
+                            <select class="form-control" id="course_classification_id" name="course_classification_id"
+                                title="Course Classification" required style="display: inline-block; width: 60%;">
+                                @foreach ($classifications as $classification)
+                                    <option value="{{ $classification->id }}">
+                                        {{ $classification->course_classification_name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <!-- Course Classification Details Filter -->
                         <div class="form-group">
-                            <label for="course_classification_details_id">コース分類詳細/Course classification details:</label>
-                            <select class="form-control" id="course_classification_details_id" name="course_classification_details_id" title="Course Classification Details" required style="display: inline-block; width: 60%;">
-                                @foreach($details as $detail)
-                                <option value="{{ $detail->id }}">{{ $detail->course_classification_detailsname }}</option>
+                            <label for="course_classification_details_id">コース分類の詳細:</label>
+                            <select class="form-control" id="course_classification_details_id"
+                                name="course_classification_details_id" title="Course Classification Details" required
+                                style="display: inline-block; width: 60%;">
+                                @foreach ($details as $detail)
+                                    <option value="{{ $detail->id }}">{{ $detail->course_classification_detailsname }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <!-- Course Name Filter -->
                         <!-- <div class="form-group">
-                            <label for="course_name">Course Name:</label>
-                            <input type="text" name="course_name" id="course_name" class="form-control" value="{{ isset($course) ? $course->coursename : '' }}" style="display: inline-block; width: 60%;">
-                        </div> -->
+                                                        <label for="course_name">Course Name:</label>
+                                                        <input type="text" name="course_name" id="course_name" class="form-control" value="{{ isset($course) ? $course->coursename : '' }}" style="display: inline-block; width: 60%;">
+                                                    </div> -->
                         <div class="form-group">
                             <label for="course_name">&emsp;コース名:</label>
-                            &emsp;<input type="text" name="course_name" id="course_name" class="form-control" style="display: inline-block; width: 60%;" title="Course Name" value="{{ isset($course) ? $course->coursename : '' }}">
+                            &emsp;<input type="text" name="course_name" id="course_name" class="form-control"
+                                style="display: inline-block; width: 60%;" title="Course Name"
+                                value="{{ isset($course) ? $course->coursename : '' }}">
                         </div>
                         <!-- Search Button -->
                         <div align="center">
-                            <button type="submit" class="btn btn-primary btn-block" title="Search" style="background-color: darkblue">検索</button>
+                            <button type="submit" class="btn btn-primary btn-block" title="Search"
+                                style="background-color: darkblue">検索</button>
                         </div>
                     </form>
                 </div>
@@ -67,21 +84,22 @@
             <div class="card">
                 <div class="card-body">
                     <!-- DataTable -->
-                    <table id="courseTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" >
+                    <table id="courseTable" class="display table table-bordered table-striped table-hover responsive nowrap"
+                        style="width:100%">
                         <thead>
                             <tr>
                                 <th title="Course Classification">コース分類</th>
-                                <th title="Course Classification Details">コース分類詳細</th>
+                                <th title="Course Classification Details">コース分類の詳細</th>
                                 <th title="Course Name">コース名</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if(isset($filteredCourses))
-                                @foreach($filteredCourses as $course)
+                            @if (isset($courses))
+                                @foreach ($courses as $course)
                                     <tr>
-                                        <td>{{ $course->course_classification_id }}</td>
-                                        <td>{{ $course->course_classification_details_id }}</td>
-                                        <td>{{ $course->coursename }}</td>
+                                        <td>{{ $course->classification->course_classification_name }}</td>
+                                        <td>{{ $course->classification_detail->course_classification_detailsname }}</td>
+                                        <td><a href="#">{{ $course->coursename }}</a></td>
                                     </tr>
                                 @endforeach
                             @else
@@ -101,13 +119,13 @@
 @endsection
 
 @section('scripts')
-<!-- Script DataTables -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<!-- Script for Modals -->
-<script>
-    $(document).ready(function () {
+    <!-- Script DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <!-- Script for Modals -->
+    <script>
+        $(document).ready(function() {
             var table = $('#courseTable').DataTable({
                 responsive: true,
                 scrollX: true,
@@ -118,5 +136,5 @@
                 buttons: ['copy', 'excel', 'pdf']
             });
         });
-</script>
+    </script>
 @endsection

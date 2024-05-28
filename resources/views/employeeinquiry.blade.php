@@ -70,27 +70,35 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="course_classification_details">&emsp;コース分類の詳細:</label>
                             <select class="form-control" id="course_classification_details" title="Course Classification Details" name="course_classification_details" required style="display: inline-block; width: 60%;">
                                 <option title="Select Course Classification Details" value="">コース分類の詳細を選択します</option>
+                                <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification details -->
                                 @foreach($details as $detail)
                                     <option value="{{ $detail->id }}">{{ $detail->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="course_id">&emsp;コース名:</label>
-                            <select name="course_id" id="course_id" title="Course Name" class="form-control" style="display: inline-block; width: 60%;">
-                                <option title="Select Course" value="">コースを選択します</option>
-                                @foreach($courses as $course)
-                                    <option value="{{ $course->id }}">{{ $course->course_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
+                    <!-- <div class="form-group">
+                        <label for="course_name">&emsp;Course Name:</label>
+                        <input type="text" class="form-control" id="course_name" name="course_name" placeholder="Enter Course Name" required style="display: inline-block; width: 60%;">
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label for="course_name">&emsp;Course Name:</label>
+                        &emsp;<input type="text" name="course_name" id="course_name" class="form-control"
+                            style="display: inline-block; width: 60%;"
+                            value="{{ isset($course) ? $course->coursename : '' }}">
+                    </div> -->
+                    <div class="form-group">
+                        <label for="course_id">&emsp;コース名:</label>
+                        <select name="course_id" id="course_id" title="Course Name" class="form-control" style="display: inline-block; width: 60%;">
+                            <option title="Select Course" value="">コースを選択します</option>
+                            @foreach($courses as $course)
+                                <option value="{{ $course->id }}" @if(isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>{{ $course->course_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div align="center">
                         <button type="submit" class="btn btn-primary btn-block" title="Search" style="background-color: darkblue">検索</button>
                     </div>
@@ -117,8 +125,8 @@
                         @foreach ($filteredEmployees as $employee)
                             <tr>
                                 <td><input type="checkbox" class="employee-checkbox" value="{{ $employee->id }}"></td>
-                                <td>{{ $employee->affiliation ? $employee->affiliation->affiliation_name : 'No Affiliation' }}</td>
-                                <td>{{ $employee->job ? $employee->job->job_title : 'No Job Title' }}</td>
+                     <td>{{ $employee->employee_affiliation->affiliation->affiliation_name }}</td>
+                                    <td>{{ $employee->employee_affiliation->job->job_title }}</td>
                                 <td>{{ $employee->fullname }}</td>
                                 <td>{{ $employee->employee_code }}</td>
                                 <td>{{ $employee->sex }}</td>

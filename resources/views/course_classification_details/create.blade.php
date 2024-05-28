@@ -13,7 +13,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="course_classification_id">Classification ID</label>
-                            <select class="form-control" id="course_classification_id" name="Course_classification_id" required>
+                            <select class="form-control" id="course_classification_id" name="course_classification_id" required>
                                 <option value="">Select Classification ID</option>
                                 @foreach ($classifications as $classification)
                                     <option value="{{ $classification->course_classification_id }}">{{ $classification->course_classification_name }}</option>

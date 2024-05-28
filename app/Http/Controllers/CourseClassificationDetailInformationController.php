@@ -37,7 +37,7 @@ class CourseClassificationDetailInformationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Course_classification_id' => 'required',
+			'course_classification_id' => 'required',
             'company_id' => 'required',
             'course_classification_detailsname' => 'required',
             'display_order' => 'required',
@@ -45,7 +45,7 @@ class CourseClassificationDetailInformationController extends Controller
         ]);
 
         $detail = new CourseClassificationDetailInformation();
-        $detail->Course_classification_id = $request->input('Course_classification_id');
+		$detail->course_classification_id = $request->input('course_classification_id');
         $detail->company_id = $request->input('company_id');
         $detail->course_classification_detailsname = $request->input('course_classification_detailsname');
         $detail->display_order = $request->input('display_order');
@@ -78,7 +78,7 @@ class CourseClassificationDetailInformationController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'Course_classification_id' => 'required',
+			'course_classification_id' => 'required',
             'company_id' => 'required',
             'course_classification_detailsname' => 'required',
             'display_order' => 'required',
@@ -86,7 +86,7 @@ class CourseClassificationDetailInformationController extends Controller
         ]);
 
         $detail = CourseClassificationDetailInformation::find($id);
-        $detail->Course_classification_id = $request->input('Course_classification_id');
+		$detail->course_classification_id = $request->input('course_classification_id');
         $detail->company_id = $request->input('company_id');
         $detail->course_classification_detailsname = $request->input('course_classification_detailsname');
         $detail->display_order = $request->input('display_order');

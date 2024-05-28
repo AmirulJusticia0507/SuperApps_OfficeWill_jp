@@ -42,13 +42,13 @@
                             <tbody>
                                 @foreach($jobTitles as $jobTitle)
                                     <tr>
-                                        <td>{{ $jobTitle->Job_id }}</td>
+                                        <td>{{ $jobTitle->job_id }}</td>
                                         <td>{{ $jobTitle->job_title }}</td>
                                         <td nowrap>
-                                            <button type="button" class="btn btn-light me-2" title="Edit Job Title" data-bs-toggle="modal" data-bs-target="#editJobTitleModal{{ $jobTitle->Job_id }}">
+                                            <button type="button" class="btn btn-light me-2" title="Edit Job Title" data-bs-toggle="modal" data-bs-target="#editJobTitleModal{{ $jobTitle->job_id }}">
                                                 <i class="fas fa-edit"></i> 編集
                                             </button>
-                                            <button type="button" class="btn btn-dark me-2" title="Delete Job Title" data-bs-toggle="modal" data-bs-target="#deleteJobTitleModal{{ $jobTitle->Job_id }}">
+                                            <button type="button" class="btn btn-dark me-2" title="Delete Job Title" data-bs-toggle="modal" data-bs-target="#deleteJobTitleModal{{ $jobTitle->job_id }}">
                                                 <i class="fas fa-trash"></i> 削除
                                             </button>
                                         </td>
@@ -91,24 +91,24 @@
 
             @foreach($jobTitles as $jobTitle)
             <!-- Modal for Edit Job Title -->
-            <div class="modal fade" id="editJobTitleModal{{ $jobTitle->Job_id }}" tabindex="-1" aria-labelledby="editJobTitleModalLabel{{ $jobTitle->Job_id }}" aria-hidden="true">
+            <div class="modal fade" id="editJobTitleModal{{ $jobTitle->job_id }}" tabindex="-1" aria-labelledby="editJobTitleModalLabel{{ $jobTitle->job_id }}" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editJobTitleModalLabel{{ $jobTitle->Job_id }}">役職情報の編集</h5>
+                            <h5 class="modal-title" id="editJobTitleModalLabel{{ $jobTitle->job_id }}">役職情報の編集</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="{{ route('job-titles.update', $jobTitle->Job_id) }}">
+                            <form method="POST" action="{{ route('job-titles.update', $jobTitle->job_id) }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
-                                    <label for="job_title_{{ $jobTitle->Job_id }}">役職: <b style="color: red">*</b></label>
-                                    <input type="text" class="form-control" id="job_title_{{ $jobTitle->Job_id }}" name="job_title" title="Job Title" value="{{ $jobTitle->job_title }}" required>
+                                    <label for="job_title_{{ $jobTitle->job_id }}">役職: <b style="color: red">*</b></label>
+                                    <input type="text" class="form-control" id="job_title_{{ $jobTitle->job_id }}" name="job_title" title="Job Title" value="{{ $jobTitle->job_title }}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="display_order_{{ $jobTitle->Job_id }}">表示順: <b style="color: red">*</b></label>
-                                    <input type="text" class="form-control" id="display_order_{{ $jobTitle->Job_id }}" name="display_order" title="Display Order" value="{{ $jobTitle->display_order }}" required>
+                                    <label for="display_order_{{ $jobTitle->job_id }}">表示順: <b style="color: red">*</b></label>
+                                    <input type="text" class="form-control" id="display_order_{{ $jobTitle->job_id }}" name="display_order" title="Display Order" value="{{ $jobTitle->display_order }}" required>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
@@ -121,18 +121,18 @@
             </div>
 
             <!-- Modal for Delete Job Title -->
-            <div class="modal fade" id="deleteJobTitleModal{{ $jobTitle->Job_id }}" tabindex="-1" aria-labelledby="deleteJobTitleModalLabel{{ $jobTitle->Job_id }}" aria-hidden="true">
+            <div class="modal fade" id="deleteJobTitleModal{{ $jobTitle->job_id }}" tabindex="-1" aria-labelledby="deleteJobTitleModalLabel{{ $jobTitle->job_id }}" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteJobTitleModalLabel{{ $jobTitle->Job_id }}">役職情報の削除</h5>
+                            <h5 class="modal-title" id="deleteJobTitleModalLabel{{ $jobTitle->job_id }}">役職情報の削除</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <p>本当にこの役職情報を削除しますか？</p>
                         </div>
                         <div class="modal-footer">
-                            <form method="POST" action="{{ route('job-titles.destroy', $jobTitle->Job_id) }}">
+                            <form method="POST" action="{{ route('job-titles.destroy', $jobTitle->job_id) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>

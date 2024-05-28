@@ -16,9 +16,9 @@
 
                         <div class="form-group">
                             <label for="course_classification_id">Classification</label>
-                            <select class="form-control" id="course_classification_id" name="Course_classification_id" required>
+                            <select class="form-control" id="course_classification_id" name="course_classification_id" required>
                                 @foreach($classifications as $classification)
-                                <option value="{{ $classification->id }}" {{ $course->Course_classification_id == $classification->id ? 'selected' : '' }}>{{ $classification->course_classification_name }}</option>
+                                <option value="{{ $classification->id }}" {{ $course->course_classification_id == $classification->id ? 'selected' : '' }}>{{ $classification->course_classification_name }}</option>
                                 @endforeach
                             </select>
                         </div>

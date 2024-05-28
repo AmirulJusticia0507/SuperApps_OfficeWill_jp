@@ -89,8 +89,7 @@
                                 <ul class="treeview" style="display: none;">
                                     <!-- <li><a href="{{ route('materials.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Material Registration</a></li> -->
                                     @if ($isSysAdmin || $isCourseEnroll)
-                                        <li><a href="{{ route('course-list') }}"
-                                                title="Course Information "
+                                        <li><a href="{{ route('course-list') }}" title="Course Information "
                                                 class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i
                                                     class="fas fa-book mr-2"></i>コースリスト</a></li>
                                         <li><a href="{{ route('course-registration.index') }}"
@@ -237,10 +236,13 @@
 
         // Add event listener to the sidebar button
         const sidebarButton = document.querySelector(".nav-link[data-widget='pushmenu']");
-        sidebarButton.addEventListener("click", function(e) {
-            e.preventDefault();
-            toggleSidebar();
-        });
+        if (sidebarButton) {
+            sidebarButton.addEventListener("click", function(e) {
+                e.preventDefault();
+                toggleSidebar();
+            });
+        }
+
 
         // Fungsi untuk menampilkan spinner
         function showSpinner() {
@@ -287,10 +289,13 @@
 
         // Tambahkan event listener ke tautan "Logout"
         const logoutLink = document.querySelector(".logout-link");
-        logoutLink.addEventListener("click", function(e) {
-            e.preventDefault();
-            confirmLogout();
-        });
+        if (logoutLink) {
+            logoutLink.addEventListener("click", function(e) {
+                e.preventDefault();
+                confirmLogout();
+            });
+        }
+
     });
 </script>
 
@@ -298,19 +303,16 @@
     document.addEventListener("DOMContentLoaded", function() {
         const sidebarToggle = document.getElementById("sidebarToggle");
         const sidebar = document.querySelector(".sidebar");
+        if (sidebar) {
+            sidebar.classList.add("hidden");
+        }
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener("click", function() {
+                sidebar.classList.toggle("hidden");
+            });
+        }
 
-        // Sembunyikan sidebar secara default
-        sidebar.classList.add("hidden");
-
-        // Tambahkan event listener untuk menangani klik pada tombol sidebar toggle
-        sidebarToggle.addEventListener("click", function() {
-            // Toggle class 'hidden' pada sidebar untuk menampilkan/menyembunyikan sidebar
-            sidebar.classList.toggle("hidden");
-        });
-
-        // Tambahkan event listener untuk menangani klik pada tombol toggler untuk sidebar
         $('.navbar-toggler[aria-controls="sidebar"]').on('click', function() {
-            // Toggle class 'show' pada elemen sidebar
             $('#sidebar').toggleClass('show');
         });
     });

@@ -16,18 +16,23 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header" align="center">Login <h2 style="color: cornflowerblue">DEP SERVICE</h2>
+                    <div class="card-header" align="center" title="Login">ログイン <h2 style="color: cornflowerblue" title="DEP SERVICE">DEPサービス</h2>
                     </div>
                     <div class="card-body">
+                        @session('error')
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endsession
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" name="email" class="form-control"
-                                    required autofocus>
+                                <label for="email" class="form-label" title="Email">ログイン名</label>
+                                <input type="email" id="email" name="email" class="form-control" required
+                                    autofocus>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="password" class="form-label" title="Password">パスワード</label>
                                 <div class="input-group">
                                     <input type="password" id="password" name="password" class="form-control" required>
                                     <button class="btn btn-outline-secondary" type="button" id="togglePassword">
@@ -40,15 +45,15 @@
                                 <label class="form-check-label" for="remember">Remember Me</label>
                             </div> --}}
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-signin"></i>
-                                    Login</button>
+                                <button type="submit" class="btn btn-primary" title="Login"><i class="fa fa-signin"></i>
+                                    ログインする</button>
+
                             </div>
                         </form>
                         <div class="mt-3 text-center">
                             {{-- <a href="{{ route('register') }}" class="btn btn-info"><i class="fa fa-edit"></i> Register</a> --}}
-                            <a href="{{ route('password.request') }}" class="btn btn-default"><i class="fa fa-key"></i>
-                                Click
-                                here to change your password</a>
+                            <a href="{{ route('password.request') }}" title="Click here to change your password" class="btn btn-default"><i class="fa fa-key"></i>
+                                パスワードの変更はこちら</a>
                         </div>
                     </div>
                 </div>

@@ -24,31 +24,31 @@ class EmployeeInformationController extends Controller
 
 	public function employeelist(Request $request)
     {
-		$employee = EmployeeInformation::query();
+		$employees = EmployeeInformation::query();
 
 		if ($request->affiliation_code) {
-			$filteredEmployees = $employee->whereHas('employee_affiliation', function ($query) use ($request) {
+			$employees = $employees->whereHas('employee_affiliation', function ($query) use ($request) {
 				$query->where('affiliation_code', $request->affiliation_code);
 
 			});
 		}
 		if ($request->job) {
-			$filteredEmployees = $employee->whereHas('job', function ($query) use ($request) {
+			$employees = $employees->whereHas('job', function ($query) use ($request) {
 				$query->where('job_id', $request->job);
 
 			});
 		}
 		if ($request->employee_code) {
-			$filteredEmployees = $employee->where('employee_code', $request->employee_code);
+			$employees = $employees->where('employee_code', $request->employee_code);
 		}
 		if ($request->fullname) {
-			$filteredEmployees = $employee->where('fullname', $request->fullname);
+			$employees = $employees->where('fullname', $request->fullname);
 		}
-		$filteredEmployees = $employee->with('employee_affiliation')->get();
+		$employees = $employees->with('employee_affiliation')->get();
         $affiliations = AffiliationInformation::all();
         $jobs = JobInformation::all();
 		$jobTitles = JobInformation::all();
-        return view('employeelist', compact('filteredEmployees', 'affiliations', 'jobs', 'jobTitles'));
+		return view('employeelist', compact('employees', 'affiliations', 'jobs', 'jobTitles'));
     }
     
     
