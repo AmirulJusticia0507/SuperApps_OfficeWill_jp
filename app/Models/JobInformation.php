@@ -14,7 +14,7 @@ class JobInformation extends Model
     protected $table = 'job_information';
 
     // Sesuaikan dengan primary key di tabel
-    protected $primaryKey = 'Job_id';
+	protected $primaryKey = 'job_id';
 
     // Kolom yang dapat diisi (fillable) saat membuat atau memperbarui model
     protected $fillable = [

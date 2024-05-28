@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class CourseTodoItemInformation extends Model
 {
@@ -21,7 +23,21 @@ class CourseTodoItemInformation extends Model
         'test_explained'
     ];
 
-    // Fungsi CRUD
+	protected static function boot()
+	{
+		parent::boot();
+
+		static::addGlobalScope('display_order', function (Builder $builder) {
+			$builder->orderBy('display_order');
+		});
+	}
+
+	public function choices()
+	{
+		return $this->hasMany(CourseTodoItemsChoiceInformation::class, 'todo_items_id', 'todo_item_id');
+	}
+
+	// Fungsi CRUD
 
     // Create
     public static function createCourseTodoItem($data)

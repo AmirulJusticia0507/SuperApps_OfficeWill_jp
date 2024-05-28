@@ -18,7 +18,7 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a title="Confirm and take courses" href="#">コースを確認して撮影します</a></li>
+                    <li class="breadcrumb-item"><a title="Confirm and take courses" href="{{ route('confirm-courses.index') }}">コースを確認して撮影します</a></li>
                     <li class="breadcrumb-item active" title="List of courses taken" aria-current="page">撮影したコースのリスト</li>
                 </ol>
             </nav>
@@ -41,14 +41,19 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <div class="col">
-                                                {{ $scheduleResultCourse->course->classification->course_classification_name }}
+                                            <div class="col-auto">
+                                                @if($scheduleResultCourse->course->classification_detail->icon_file_path)
+                                                    <img src="{{ asset('storage/' . $scheduleResultCourse->course->classification_detail->icon_file_path) }}" alt="Icon" style="max-width: 100px;">
+                                                @else
+                                                    <span class="text-muted">No Image</span>
+                                                @endif
                                             </div>
                                             <div class="col">
-                                                {{ $scheduleResultCourse->course->classification_detail->course_classification_detailsname }}
+                                                <div>{{ $scheduleResultCourse->course->classification->course_classification_name }}</div>
+                                                <div>{{ $scheduleResultCourse->course->classification_detail->course_classification_detailsname }}</div>
+                                                <div><a href="{{ route('confirm-courses.attendence', $scheduleResultCourse->course->course_id) }}">{{ $scheduleResultCourse->course->coursename }}</a></div>
                                             </div>
                                         </div>
-                                        <a href="{{route('confirm-courses.attendence', $scheduleResultCourse->course->course_id)}}">{{ $scheduleResultCourse->course->coursename }}</a>
                                     </td>
                                     <td>{{ $scheduleResultCourse->deadline_enrollment }}</td>
                                     <td>{{ $scheduleResultCourse->todo_progress_text }}</td>

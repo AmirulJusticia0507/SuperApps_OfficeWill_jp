@@ -4,19 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompanyInformation extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $primaryKey = 'company_id';
-    protected $fillable = [
-        'company_id', 
-        'company_name', 
-        'login_screen_url', 
-        'icon_storage_file_path', 
-        'teaching_material_storage_file_path', 
-        'created_at', 
-        'updated_at'];
+    protected $fillable = ['company_id', 'company_name', 'login_screen_url', 'icon_storage_file_path', 'teaching_material_storage_file_path', 'created_at', 'updated_at'];
 
     // Fungsi CRUD
 
@@ -57,10 +51,5 @@ class CompanyInformation extends Model
             return true;
         }
         return false;
-    }
-
-    public function classifications()
-    {
-        return $this->hasMany(CourseClassificationInformation::class, 'company_id', 'company_id');
     }
 }

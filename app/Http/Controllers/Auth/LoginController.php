@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\RateLimiter;
+use App\Models\EmployeeInformation;
 
 class LoginController extends Controller
 {
@@ -24,18 +28,38 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
-    {
+	public function login(Request $request)
+	{
+		$errorMsg = 'Invalid credentials';
 		$credentials = $request->only('email', 'password');
+		$this->throttleKey = $credentials['email'];
+		$superuser = User::where('email', $credentials['email'])->first();
+		$user = EmployeeInformation::where('email', $credentials['email'])->first();
+		if (!$user && !$superuser) {
+			return redirect()->route('login')->with('error', 'User not found');
+		}
 
-		if (Auth::attempt($credentials) || Auth::guard('employee')->attempt($credentials)) {
-            // Jika otentikasi berhasil, arahkan pengguna ke dashboard
-            return redirect()->route('dashboard');
-        }
+		if ($user && RateLimiter::tooManyAttempts($this->throttleKey, $user->numberofincorrect_passwords)) {
+			$errorMsg = 'Too many failed login attempts.';
+		} elseif ($user && Auth::guard('employee')->attempt($credentials)) {
+			if ($user && $user->account_status == 'disabled') {
+				$errorMsg = 'Your account has been disabled.';
+			} elseif ($user && now()->diffInSeconds(Carbon::parse($user->account_lock_datetime)) > 0) {
+				$errorMsg = 'Your account is locked.';
+			} else {
+				RateLimiter::cleanRateLimiterKey($this->throttleKey);
+				return redirect()->route('dashboard');
+			}
+		} elseif ($superuser && Auth::attempt($credentials)) {
+			RateLimiter::cleanRateLimiterKey($this->throttleKey);
+			return redirect()->route('dashboard');
+		}
 
-        // Jika otentikasi gagal, kembali ke halaman login dengan pesan kesalahan
-        return redirect()->route('login')->with('error', 'Invalid credentials');
-    }
+		RateLimiter::hit($this->throttleKey, 60);
+
+		// Jika otentikasi gagal, kembali ke halaman login dengan pesan kesalahan
+		return redirect()->route('login')->with('error', $errorMsg);
+	}
 
     /**
      * Menangani permintaan logout.

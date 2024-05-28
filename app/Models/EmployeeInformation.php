@@ -3,19 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
-class EmployeeInformation extends Model
+class EmployeeInformation extends Authenticatable
 {
-    use HasFactory;
+	use HasFactory, Notifiable, SoftDeletes;
 
-    protected $primaryKey = 'employee_id';
+    protected $table = 'employee_information';
+
+    protected $primaryKey = 'employee_id'; // Tambahkan primary key
+
+    public $timestamps = false; // Tidak ada kolom created_at dan updated_at pada tabel
 
     protected $fillable = [
+        'employee_id',
         'company_id',
         'fullname',
         'kananame',
-        'email_address',
+		'email',
         'contact_phonenumber',
         'employee_code',
         'sex',
@@ -23,7 +30,7 @@ class EmployeeInformation extends Model
         'dateofjoining',
         'retirementdate',
         'remarks',
-        'encrypted_password',
+		'password',
         'account_status',
         'password_expiration',
         'numberofincorrect_passwords',
@@ -32,24 +39,25 @@ class EmployeeInformation extends Model
         'employee_attribute02',
         'employee_attribute03',
         'employee_attribute04',
-        'employee_attribute05',
+        'employee_attribute05'
     ];
 
-    // Fungsi CRUD
+	protected $hidden = [
+		'password',
+	];
 
-    // EmployeeInformation.php
 
-    // Define the relationship with AffiliationInformation
-    public function affiliations()
-    {
-        return $this->hasOne(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
-    }
-    
+	protected $casts = [
+		'password' => 'hashed',
+	];
 
-    public function employeeAffiliations()
-    {
-        return $this->hasMany(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
-    }
+
+	public function employee_affiliation()
+	{
+		return $this->hasOne(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
+	}
+
+	// Fungsi CRUD
 
     // Create
     public static function createEmployee($data)
@@ -95,15 +103,5 @@ class EmployeeInformation extends Model
     {
         // Anda dapat menyesuaikan data yang ingin ditampilkan di sidebar di sini
         return self::select('fullname', 'employee_code')->get();
-    }
-
-    // Define the relationship with CourseScheduleResultsInformation
-    public function scheduleResults()
-    {
-        return $this->hasMany(CourseScheduleResultsInformation::class, 'employee_id');
-    }
-    public function employee()
-    {
-        return $this->belongsTo(EmployeeInformation::class, 'employee_id', 'employee_id');
     }
 }

@@ -12,7 +12,7 @@ class CourseClassificationDetailInformation extends Model
     protected $primaryKey = 'course_classification_details_id';
 
 
-    protected $fillable = ['course_classification_details_id', 'Course_classification_id', 'company_id', 'course_classification_detailsname', 'icon_file_path', 'display_order'];
+	protected $fillable = ['course_classification_details_id', 'course_classification_id', 'company_id', 'course_classification_detailsname', 'icon_file_path', 'display_order'];
     public $timestamps = false;
     // Fungsi CRUD
 
@@ -57,7 +57,7 @@ class CourseClassificationDetailInformation extends Model
 
     public function classification()
     {
-        return $this->belongsTo(CourseClassificationInformation::class, 'Course_classification_id', 'course_classification_id');
+		return $this->belongsTo(CourseClassificationInformation::class, 'course_classification_id', 'course_classification_id');
     }
 
 }

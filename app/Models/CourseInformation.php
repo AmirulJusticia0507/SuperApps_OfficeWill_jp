@@ -32,7 +32,25 @@ class CourseInformation extends Model
         'course_attributes_05'
     ];
 
-    // Create
+	public function classification()
+	{
+		return $this->belongsTo(CourseClassificationInformation::class, 'course_classification_id', 'course_classification_id');
+	}
+
+	public function classification_detail()
+	{
+		return $this->belongsTo(CourseClassificationDetailInformation::class, 'course_classification_details_id', 'course_classification_details_id');
+	}
+	public function material()
+	{
+		return $this->hasMany(CourseMaterialInformation::class, 'course_id', 'course_id');
+	}
+	public function todo()
+	{
+		return $this->hasMany(CourseTodoItemInformation::class, 'course_id', 'course_id');
+	}
+
+	// Create
     public function createCourse(array $courseData)
     {
         return $this->create($courseData);

@@ -25,7 +25,7 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#" title="Inquiry by employee">従業員による問い合わせ</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('employee-inquiry') }}" title="Inquiry by employee">従業員による問い合わせ</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="List of employees">従業員のリスト</a></li>
                     <li class="breadcrumb-item active" aria-current="page" title="Attendance inquiry by employee">従業員による出席照会</li>
                 </ol>

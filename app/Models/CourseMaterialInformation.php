@@ -13,7 +13,7 @@ class CourseMaterialInformation extends Model
     protected $fillable = [
         'material_id',
         'company_id',
-        'Course_id',
+		'course_id',
         'display_order',
         'teaching_material_name',
         'material_type',

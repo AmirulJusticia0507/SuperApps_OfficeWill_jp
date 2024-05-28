@@ -18,7 +18,7 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a title="Confirm and take courses" href="#">コースを確認して撮影します</a></li>
+                    <li class="breadcrumb-item"><a title="Confirm and take courses" href="{{ route('confirm-courses.index') }}">コースを確認して撮影します</a></li>
                     <li class="breadcrumb-item" title="List of courses taken" aria-current="page">撮影したコースのリスト</li>
                     <li class="breadcrumb-item active" title="Attendance" aria-current="page">Attendance</li>
                 </ol>
@@ -41,15 +41,19 @@
                             <tr>
                                 <td>
                                     <div class="row">
-                                        <div class="col">
-                                            {{ $scheduleResultCourse->course->classification->course_classification_name }}
+                                        <div class="col-auto">
+                                            @if($scheduleResultCourse->course->classification_detail->icon_file_path)
+                                            <img src="{{ asset('storage/' . $scheduleResultCourse->course->classification_detail->icon_file_path) }}" alt="Icon" style="max-width: 100px;">
+                                            @else
+                                                <span class="text-muted">No Image</span>
+                                            @endif
                                         </div>
                                         <div class="col">
-                                            {{ $scheduleResultCourse->course->classification_detail->course_classification_detailsname }}
+                                            <div>{{ $scheduleResultCourse->course->classification->course_classification_name }}</di>
+                                            <div>{{ $scheduleResultCourse->course->classification_detail->course_classification_detailsname }}</div>
+                                            <div><a href="{{ route('confirm-courses.attendence', $scheduleResultCourse->course->course_id) }}">{{ $scheduleResultCourse->course->coursename }}</a></div>
                                         </div>
                                     </div>
-                                    <a
-                                        href="{{ route('confirm-courses.attendence', $scheduleResultCourse->course->course_id) }}">{{ $scheduleResultCourse->course->coursename }}</a>
                                 </td>
                                 <td>{{ $scheduleResultCourse->deadline_enrollment }}</td>
                                 <td>{{ $scheduleResultCourse->todo_progress_text }}</td>
@@ -97,8 +101,7 @@
             </div>
             <div class="card">
                 <div class="card-body"><a class="btn btn-info save-confirm" data-confirm-title="Go to ToDo" data-confirm-html="The test results from the previous completion will be initialized. <br />(If there is a passing setting, it is necessary to clear the passing score) is this good?"
-                        href="{{ route('confirm-courses.todo-answer.index', $scheduleResultCourse->course->course_id) }}">Go
-                        Todo</a></div>
+                        href="{{ route('confirm-courses.todo-answer.index', $scheduleResultCourse->course->course_id) }}" title="Go Todo">ToDoに進む</a></div>
             </div>
 
         </div>

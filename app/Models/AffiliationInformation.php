@@ -2,29 +2,21 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AffiliationInformation extends Model
 {
-    use HasFactory;
-
-    // Menentukan affiliation_code sebagai primary key
+    use HasFactory, SoftDeletes;
     protected $primaryKey = 'affiliation_code';
-    public $incrementing = false; // Karena affiliation_code bukan auto increment
-    protected $keyType = 'string'; // Menentukan tipe data primary key
-
     public $timestamps = false;
+	protected $keyType = 'string';
 
-    protected $fillable = [
-        'affiliation_code', 
-        'company_id', 
-        'affiliation_name', 
-        'display_order', 
-        'organization_type'
-    ];
+    protected $fillable = ['affiliation_code', 'company_id', 'affiliation_name', 'display_order', 'organization_type'];
 
-    // Fungsi CRUD
+	// Fungsi CRUD
 
     // Create
     public static function createAffiliation($data)
