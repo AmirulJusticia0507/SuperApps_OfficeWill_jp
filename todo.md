@@ -22,8 +22,8 @@ Daftar ini disusun dari peninjauan kode dan skema database yang ada. Periksa ula
 
 - [ ] **Tinjau skema dan migrasi database.** Pastikan migrasi berurutan dan dapat dijalankan pada database kosong; bandingkan nama kolom, foreign key, soft delete, dan timestamps dengan dump yang disertakan.
 - [x] **Perbaiki dokumentasi proyek.** Ganti README bawaan Laravel dengan panduan instalasi, konfigurasi, migrasi/import SQL, akun awal, build aset, dan deployment.
-- [ ] **Tambahkan cakupan tes aplikasi.** Buat tes autentikasi/otorisasi, isolasi tenant, CRUD tervalidasi, reset password, dan transaksi/upload kursus. Atur database testing yang terisolasi.
-- [ ] **Tinjau konfigurasi deployment.** Pastikan `APP_DEBUG=false`, kredensial database non-default, HTTPS/session aman, dan file `.env` tidak masuk version control.
+- [x] **Tambahkan cakupan tes aplikasi.** Buat tes autentikasi/otorisasi, isolasi tenant, CRUD tervalidasi, reset password, dan transaksi/upload kursus. Atur database testing yang terisolasi.
+- [x] **Tinjau konfigurasi deployment.** Pastikan `APP_DEBUG=false`, kredensial database non-default, HTTPS/session aman, dan file `.env` tidak masuk version control.
 
 ## Urutan yang disarankan
 
