@@ -60,7 +60,7 @@
                                 <td>{{ $classification->course_classification_id }}</td>
                                 <td>
                                     @if($classification->icon_file_path)
-                                        <img src="{{ $classification->icon_url }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#imagePreviewModal" data-image-src="{{ $classification->icon_url }}" style="max-width: 100px; cursor: pointer;">
+                                        <img src="{{ $classification->icon_url }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#imagePreviewModal" data-image-src="{{ $classification->icon_url }}" style="display: inline-block; width: 100px; height: 100px; object-fit: contain; cursor: pointer;">
                                     @else
                                         <span class="text-muted">{{ __('No image') }}</span>
                                     @endif

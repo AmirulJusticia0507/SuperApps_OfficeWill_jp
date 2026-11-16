@@ -32,7 +32,7 @@ class CourseClassificationInformation extends Model
             return asset($path);
         }
 
-        return Storage::disk('public')->url($path);
+        return url('/storage/' . ltrim($path, '/'));
     }
 
     // Fungsi CRUD

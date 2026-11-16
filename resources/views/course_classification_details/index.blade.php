@@ -63,8 +63,9 @@
                                             <td>
                                                 @if($detail->icon_url)
                                                      <img src="{{ $detail->icon_url }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#detailImagePreviewModal" data-image-src="{{ $detail->icon_url }}" style="display: inline-block; width: 100px; height: 100px; object-fit: contain; cursor: pointer;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                                                @else
                                                      <span style="display: none;">{{ __('No Image') }}</span>
+                                                @else
+                                                     <span>{{ __('No Image') }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -174,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => Swal.fire({
                                         <select class="form-select" id="course_classification_id" name="course_classification_id" title="Select Course Classification" required>
                                             <option value="" selected disabled>{{ __('Select Course Classification') }}</option>
                                             @foreach($classifications as $classification)
-                                            <option value="{{ $classification->course_classification_id }}" {{ $detail->course_classification_id == $classification->course_classification_id ? 'selected' : '' }}>
+                                             <option value="{{ $classification->course_classification_id }}" {{ $detail->Course_classification_id == $classification->course_classification_id ? 'selected' : '' }}>
                                                 {{ $classification->course_classification_name }}
                                             </option>
                                             @endforeach
@@ -192,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => Swal.fire({
                                     <div class="mb-3">
                                         <label for="icon_file_path" class="form-label">{{ __('Course Classification Detail Icon') }}</label>
                                         <input type="file" class="form-control" title="Course Classification Detail Icon" id="icon_file_path" name="icon_file_path" onchange="previewIcon(this)">
-                                        <img id="icon_preview" src="{{ $detail->icon_file_path ? asset('storage/' . $detail->icon_file_path) : '' }}" alt="Current Icon" style="max-width: 100px;">
+                                         <img id="icon_preview" src="{{ $detail->icon_url ?? '' }}" alt="Current Icon" style="max-width: 100px;">
                                     </div><br><br>
                                     <div align="center">
                                         <button type="submit" class="btn btn-info" title="{{ __('Update') }}"><i class="fas fa-pen"></i> {{ __('Update') }}</button>&emsp;
