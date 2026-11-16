@@ -58,7 +58,7 @@ class EmployeeInformationController extends Controller
 			});
 		}
 		if ($request->job) {
-			$employees = $employees->whereHas('job', function ($query) use ($request) {
+			$employees = $employees->whereHas('employee_affiliation.job', function ($query) use ($request) {
 				$query->where('job_id', $request->job);
 
 			});
