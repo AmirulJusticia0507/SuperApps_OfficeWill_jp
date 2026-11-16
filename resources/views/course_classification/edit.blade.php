@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label for="icon_file_path">Icon File Path</label>
                             <input type="file" accept="image/*" class="form-control" id="icon_file_path" name="icon_file_path">
-                            <img src="{{ $classification->icon_file_path }}" alt="Current icon" style="max-width: 100px;">
+                            <img src="{{ $classification->icon_url ?? '' }}" alt="Current icon" style="max-width: 100px;">
                         </div>
                         <div class="form-group">
                             <label for="displayorder">Display Order</label>
