@@ -16,9 +16,13 @@
                 <div class="card">
                     <div class="card-header">Reset Password</div>
                     <div class="card-body">
-                        <p>Please enter your service user ID, login name, current password, and new password below and
-                            press the password change button.</p>
-                        <p>(If you do not want to change your password, please press the login button)</p>
+                        @if (session('success'))
+                            <div class="alert alert-success">{{ session('success') }}</div>
+                        @endif
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        <p>Enter your email address and choose a new password.</p>
                         <form method="POST" action="{{ route('password.update') }}">
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">

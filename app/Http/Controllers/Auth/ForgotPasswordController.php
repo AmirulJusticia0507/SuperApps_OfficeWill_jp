@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmployeeInformation;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Str;
 
 class ForgotPasswordController extends Controller
 {
@@ -28,15 +29,17 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
-        
-        $status = Password::sendResetLink(
-			$request->only('email')
-		);
+		$validated = $request->validate(['email' => ['required', 'email']]);
+		$email = Str::lower($validated['email']);
+		$broker = EmployeeInformation::where('email', $email)->exists()
+			? 'employee'
+			: 'users';
 
-		$status = Password::broker('employee')->sendResetLink(
-			$request->only('email')
-		);
+		if ($broker === 'users' && !User::where('email', $email)->exists()) {
+			return back()->with('status', __('passwords.sent'));
+		}
+
+		$status = Password::broker($broker)->sendResetLink(['email' => $email]);
 
 		if ($status === Password::RESET_LINK_SENT) {
             return back()->with('status', __($status));

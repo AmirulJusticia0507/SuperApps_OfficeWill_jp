@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmployeeInformation;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
@@ -29,26 +31,39 @@ class ResetPasswordController extends Controller
      */
     public function reset(Request $request)
     {
-        $request->validate([
+		$validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:8|confirmed',
             'token' => 'required|string',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = Hash::make($password);
-                $user->save();
-            }
-        );
-		$status = Password::broker('employee')->reset(
-			$request->only('email', 'password', 'password_confirmation', 'token'),
-			function ($user, $password) {
-				$user->password = Hash::make($password);
-				$user->save();
-			}
-		);
+		$email = Str::lower($validated['email']);
+		$credentials = [
+			'email' => $email,
+			'password' => $validated['password'],
+			'password_confirmation' => $validated['password_confirmation'],
+			'token' => $validated['token'],
+		];
+
+		if (EmployeeInformation::where('email', $email)->exists()) {
+			$status = Password::broker('employee')->reset(
+				$credentials,
+				function (EmployeeInformation $employee, string $password): void {
+					$employee->forceFill([
+						'password' => $password,
+						'numberofincorrect_passwords' => 0,
+						'account_lock_datetime' => null,
+					])->save();
+				},
+			);
+		} else {
+			$status = Password::broker('users')->reset(
+				$credentials,
+				function (User $user, string $password): void {
+					$user->forceFill(['password' => $password])->save();
+				},
+			);
+		}
 
         if ($status === Password::PASSWORD_RESET) {
             Session::flash('success', 'Your password has been reset successfully. You can now log in with your new password.');

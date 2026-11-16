@@ -11,7 +11,7 @@ Daftar ini disusun dari peninjauan kode dan skema database yang ada. Periksa ula
 
 ## Prioritas tinggi
 
-- [ ] **Benahi alur lupa dan reset password untuk kedua jenis akun.** Pilih broker yang benar berdasarkan akun, jangan menimpa status hasil broker, dan pastikan token reset tidak ambigu untuk email yang sama di kedua tabel.
+- [ ] **Benahi alur lupa dan reset password untuk kedua jenis akun.** Pilih broker yang benar berdasarkan akun, jangan menimpa status hasil broker, dan pastikan token reset tidak ambigu untuk email yang sama di kedua tabel. _(Broker dipilih berdasarkan akun dan token karyawan dipisah ke tabel sendiri; runtime verification menunggu dependency.)_
 - [ ] **Aktifkan validasi request dan gunakan data tervalidasi.** Mulai dari karyawan, perusahaan, kursus, klasifikasi, afiliasi, materi, dan jawaban; hindari `$request->all()` untuk mass assignment.
 - [ ] **Hapus kebocoran exception produksi.** Ganti `dd($th)` pada pembuatan kursus dengan logging server dan respons error yang aman; pastikan transaksi di-rollback saat gagal.
 - [ ] **Perbaiki pembuatan kursus dan upload materi.** Validasi keberadaan/format input `teaching_material`, `todo`, dan file; simpan file terkait materi yang benar; tangani jalur penyimpanan perusahaan yang kosong/tidak valid.

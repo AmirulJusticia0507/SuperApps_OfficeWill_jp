@@ -108,7 +108,7 @@ return [
         ],
         'employee' => [
 			'provider' => 'employee',
-			'table' => 'password_reset_tokens',
+			'table' => 'employee_password_reset_tokens',
 			'expire' => 60,
 			'throttle' => 60,
 		],

@@ -15,6 +15,12 @@
                 <div class="card">
                     <div class="card-header">Forgot Password</div>
                     <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success">{{ session('status') }}</div>
+                        @endif
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
                             <div class="mb-3">
