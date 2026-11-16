@@ -63,7 +63,7 @@ class CourseClassificationDetailInformationController extends Controller
      */
     public function edit($id)
     {
-        $detail = CourseClassificationDetailInformation::find($id);
+        $detail = CourseClassificationDetailInformation::findOrFail($id);
         $classifications = CourseClassificationInformation::all();
         return view('course_classification_details.edit', compact('detail', 'classifications'));
     }

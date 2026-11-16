@@ -50,7 +50,11 @@
                             <tr>
                                 <td>{{ $classification->course_classification_id }}</td>
                                 <td>
-                                    <img src="{{ asset($classification->icon_file_path) }}" alt="Icon" style="max-width: 100px;">
+                                    @if($classification->icon_file_path)
+                                        <img src="{{ asset(str_starts_with($classification->icon_file_path, '/storage/') ? ltrim($classification->icon_file_path, '/') : 'storage/' . ltrim($classification->icon_file_path, '/')) }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#imagePreviewModal" data-image-src="{{ asset(str_starts_with($classification->icon_file_path, '/storage/') ? ltrim($classification->icon_file_path, '/') : 'storage/' . ltrim($classification->icon_file_path, '/')) }}" style="max-width: 100px; cursor: pointer;">
+                                    @else
+                                        <span class="text-muted">{{ __('No image') }}</span>
+                                    @endif
                                 </td>
                                 <td>{{ $classification->course_classification_name }}</td>
                                 <td>{{ $classification->displayorder }}</td>
@@ -96,8 +100,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="icon_file_path">{{ __('Company Icon File') }}:</label>
-                                                    <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" onchange="previewIcon(this)">
-                                                    <img id="icon_preview" src="{{ $classification->icon_file_path }}" alt="{{ __('Current Icon') }}" style="max-width: 100px;">
+                                                     <input type="file" class="form-control" name="icon_file_path" onchange="previewIcon(this)">
+                                                     <img src="{{ $classification->icon_file_path ? asset(str_starts_with($classification->icon_file_path, '/storage/') ? ltrim($classification->icon_file_path, '/') : 'storage/' . ltrim($classification->icon_file_path, '/')) : '' }}" alt="{{ __('Current Icon') }}" style="max-width: 100px;">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="display_order">{{ __('Display Order') }}:</label>
@@ -161,6 +165,9 @@
                     </div>
                 </div>
 
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">{{ __('Image Preview') }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body text-center"><img id="imagePreviewTarget" src="" alt="{{ __('Image Preview') }}" class="img-fluid"></div></div></div>
+</div>
 <!-- Footer -->
 @include('includes.footer')
 
@@ -172,6 +179,10 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script>
+    document.addEventListener('click', function (event) {
+        const image = event.target.closest('.table-image-preview');
+        if (image) document.getElementById('imagePreviewTarget').src = image.dataset.imageSrc;
+    });
     $(document).ready(function () {
         var table = $('#classificationTable').DataTable({
             responsive: true,

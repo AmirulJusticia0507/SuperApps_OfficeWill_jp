@@ -80,8 +80,11 @@ class CourseClassificationInformationController extends Controller
         abort_unless((int) $company->company_id === (int) $classification->company_id, 403);
 
         if ($request->hasFile('icon_file_path')) {
-            $iconPath = $request->file('icon_file_path')->store('public/icon');
-            $classification->icon_file_path = Storage::url($iconPath);
+            if ($classification->icon_file_path) {
+                Storage::disk('public')->delete(ltrim(str_replace('/storage/', '', $classification->icon_file_path), '/'));
+            }
+            $iconPath = $request->file('icon_file_path')->store('icons', 'public');
+            $classification->icon_file_path = $iconPath;
         }
 
         $classification->company_id = $company->company_id;

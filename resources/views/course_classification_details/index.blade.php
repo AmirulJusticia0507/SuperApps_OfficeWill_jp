@@ -53,7 +53,7 @@
                                             <td>{{ $detail->course_classification_detailsname }}</td>
                                             <td>
                                                 @if($detail->icon_file_path)
-                                                    <img src="{{ asset('storage/' . $detail->icon_file_path) }}" alt="Icon" style="max-width: 100px;">
+                                                     <img src="{{ asset('storage/' . ltrim($detail->icon_file_path, '/')) }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#detailImagePreviewModal" data-image-src="{{ asset('storage/' . ltrim($detail->icon_file_path, '/')) }}" style="max-width: 100px; cursor: pointer;">
                                                 @else
                                                     No Image
                                                 @endif
@@ -72,7 +72,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="4">No data found</td>
+                                        <td colspan="5">{{ __('No data found') }}</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -184,6 +184,10 @@
                 </div>
                 @endforeach
 
+<div class="modal fade" id="detailImagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">{{ __('Image Preview') }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body text-center"><img id="detailImagePreviewTarget" src="" alt="{{ __('Image Preview') }}" class="img-fluid"></div></div></div>
+</div>
+
 
 @section('scripts')
 <!-- Script DataTables -->
@@ -191,6 +195,10 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script>
+    document.addEventListener('click', function (event) {
+        const image = event.target.closest('.table-image-preview');
+        if (image) document.getElementById('detailImagePreviewTarget').src = image.dataset.imageSrc;
+    });
     $(document).ready(function () {
         var table = $('#classificationdetailsTable').DataTable({
             responsive: true,
