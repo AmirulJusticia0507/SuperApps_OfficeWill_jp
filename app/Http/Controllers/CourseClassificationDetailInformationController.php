@@ -36,19 +36,19 @@ class CourseClassificationDetailInformationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-			'course_classification_id' => 'required',
-            'company_id' => 'required',
-            'course_classification_detailsname' => 'required',
-            'display_order' => 'required',
-            'icon_file_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate file input
+        $data = $request->validate([
+			'course_classification_id' => ['required', 'integer'],
+            'course_classification_detailsname' => ['required', 'string', 'max:255'],
+            'display_order' => ['required', 'integer', 'between:0,999'],
+            'icon_file_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
+        $classification = CourseClassificationInformation::findOrFail($data['course_classification_id']);
         $detail = new CourseClassificationDetailInformation();
-		$detail->course_classification_id = $request->input('course_classification_id');
-        $detail->company_id = $request->input('company_id');
-        $detail->course_classification_detailsname = $request->input('course_classification_detailsname');
-        $detail->display_order = $request->input('display_order');
+		$detail->course_classification_id = $classification->course_classification_id;
+        $detail->company_id = $classification->company_id;
+        $detail->course_classification_detailsname = $data['course_classification_detailsname'];
+        $detail->display_order = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
 
         // Handle file upload
         if ($request->hasFile('icon_file_path')) {
@@ -77,19 +77,19 @@ class CourseClassificationDetailInformationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-			'course_classification_id' => 'required',
-            'company_id' => 'required',
-            'course_classification_detailsname' => 'required',
-            'display_order' => 'required',
-            'icon_file_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate file input
+        $data = $request->validate([
+			'course_classification_id' => ['required', 'integer'],
+            'course_classification_detailsname' => ['required', 'string', 'max:255'],
+            'display_order' => ['required', 'integer', 'between:0,999'],
+            'icon_file_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
-        $detail = CourseClassificationDetailInformation::find($id);
-		$detail->course_classification_id = $request->input('course_classification_id');
-        $detail->company_id = $request->input('company_id');
-        $detail->course_classification_detailsname = $request->input('course_classification_detailsname');
-        $detail->display_order = $request->input('display_order');
+        $detail = CourseClassificationDetailInformation::findOrFail($id);
+        $classification = CourseClassificationInformation::findOrFail($data['course_classification_id']);
+        abort_unless((int) $classification->company_id === (int) $detail->company_id, 403);
+		$detail->course_classification_id = $classification->course_classification_id;
+        $detail->course_classification_detailsname = $data['course_classification_detailsname'];
+        $detail->display_order = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
 
         // Handle file upload
         if ($request->hasFile('icon_file_path')) {

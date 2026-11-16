@@ -23,31 +23,24 @@ class AffiliationInformationController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'company_name' => 'required',
-            'affiliation_code' => 'required',
-            'affiliation_name' => 'required',
-            'display_order' => 'required',
-            'organization_type' => 'required',
+        $data = $request->validate([
+            'company_name' => ['required', 'integer'],
+            'affiliation_code' => ['required', 'integer', 'unique:affiliation_information,affiliation_code'],
+            'affiliation_name' => ['required', 'string', 'max:255'],
+            'display_order' => ['required', 'integer', 'between:0,999'],
+            'organization_type' => ['required', 'string', 'max:255'],
         ]);
 
-        $company = CompanyInformation::find($request->input('company_name'));
+        $company = CompanyInformation::findOrFail($data['company_name']);
+        AffiliationInformation::createAffiliation([
+            'company_id' => $company->company_id,
+            'affiliation_code' => $data['affiliation_code'],
+            'affiliation_name' => $data['affiliation_name'],
+            'display_order' => str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT),
+            'organization_type' => $data['organization_type'],
+        ]);
 
-        if ($company) {
-            $affiliationData = [
-                'company_id' => $company->company_id,
-                'affiliation_code' => $request->input('affiliation_code'),
-                'affiliation_name' => $request->input('affiliation_name'),
-                'display_order' => $request->input('display_order'),
-                'organization_type' => $request->input('organization_type'),
-            ];
-
-            AffiliationInformation::createAffiliation($affiliationData);
-
-            return redirect()->route('affiliation-information.index')->with('success', 'Affiliation created successfully');
-        } else {
-            return back()->withErrors(['company_name' => 'Company not found.'])->withInput();
-        }
+        return redirect()->route('affiliation-information.index')->with('success', 'Affiliation created successfully');
     }
 
     public function show($id)
@@ -65,29 +58,25 @@ class AffiliationInformationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'company_name' => 'required',
-            'affiliation_code' => 'required',
-            'affiliation_name' => 'required',
-            'display_order' => 'required',
-            'organization_type' => 'required',
+        $affiliation = AffiliationInformation::findOrFail($id);
+        $data = $request->validate([
+            'company_name' => ['required', 'integer'],
+            'affiliation_code' => ['required', 'integer', 'unique:affiliation_information,affiliation_code,' . $affiliation->affiliation_code . ',affiliation_code'],
+            'affiliation_name' => ['required', 'string', 'max:255'],
+            'display_order' => ['required', 'integer', 'between:0,999'],
+            'organization_type' => ['required', 'string', 'max:255'],
         ]);
 
-        $affiliationData = [
-            'company_id' => $request->input('company_name'),
-            'affiliation_code' => $request->input('affiliation_code'),
-            'affiliation_name' => $request->input('affiliation_name'),
-            'display_order' => $request->input('display_order'),
-            'organization_type' => $request->input('organization_type'),
-        ];
+		$company = CompanyInformation::findOrFail($data['company_name']);
+		$affiliation->update([
+			'company_id' => $company->company_id,
+			'affiliation_code' => $data['affiliation_code'],
+			'affiliation_name' => $data['affiliation_name'],
+			'display_order' => str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT),
+			'organization_type' => $data['organization_type'],
+		]);
 
-        $affiliation = AffiliationInformation::updateAffiliation($id, $affiliationData);
-
-        if ($affiliation) {
-            return redirect()->route('affiliation-information.index')->with('success', 'Affiliation updated successfully');
-        } else {
-            return back()->withErrors(['affiliation_code' => 'Affiliation not found.'])->withInput();
-        }
+		return redirect()->route('affiliation-information.index')->with('success', 'Affiliation updated successfully');
     }
 
     public function destroy($id)

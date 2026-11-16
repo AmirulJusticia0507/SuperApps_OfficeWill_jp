@@ -10,6 +10,8 @@ use App\Models\JobInformation;
 use App\Models\EmployeeAffiliationInformation;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class MasterRegistrationController extends Controller
 {
@@ -30,87 +32,80 @@ class MasterRegistrationController extends Controller
 
 	public function store(Request $request)
 	{
-		// dd($request->all());
-		// // Validasi data dari formulir
-		// $validatedData = $request->validate([
-		// 	// Validasi untuk field-field dari employee_information
-		// 	'fullname' => 'required|string|max:255',
-		// 	'kananame' => 'nullable|string|max:255',
-		// 	'email' => 'required|string|email|max:255|unique:employee_information',
-		// 	'contact_phonenumber' => 'nullable|string|max:20',
-		// 	'employee_code' => 'required|string|max:50|unique:employee_information',
-		// 	'sex' => 'nullable|string|max:10',
-		// 	'dateofbirth' => 'nullable|date',
-		// 	'dateofjoining' => 'nullable|date',
-		// 	'retirementdate' => 'nullable|date',
-		// 	'remarks' => 'nullable|string|max:255',
-		// 	'password' => 'required|string|max:255',
-		// 	'account_status' => 'required|string|max:20',
-		// 	'password_expiration' => 'nullable|date',
-		// 	'numberofincorrect_passwords' => 'required|integer',
-		// 	'account_lock_datetime' => 'nullable|date',
-		// 	'employee_attribute01' => 'nullable|string|max:255',
-		// 	'employee_attribute02' => 'nullable|string|max:255',
-		// 	'employee_attribute03' => 'nullable|string|max:255',
-		// 	'employee_attribute04' => 'nullable|string|max:255',
-		// 	'employee_attribute05' => 'nullable|string|max:255',
-		// 	// 'company_id' => 'required',
-
-		// 	// Validasi untuk field-field dari employee_affiliation_information
-		// 	'affiliation_code' => 'required',
-		// 	'job_title' => 'required',
-		// 	'application_startdate' => 'required|date',
-		// 	// 'enddate_of_application' => 'required|date',
-		// 	'system_administrator_privileges' => 'required|boolean',
-		// 	'employee_registration_authority' => 'required|boolean',
-		// 	'course_enrollment_privileges' => 'required|boolean',
-		// 	'attendance_setting_authority' => 'required|boolean',
-		// 	'authority_validity_scope' => 'required|string|max:255',
-		// 	'authority_validity_code' => 'required|string|max:255',
-		// ]);
-
-		$affiliation = AffiliationInformation::where('affiliation_code', str_pad($request->affiliation, 3, '0', STR_PAD_LEFT))->first();
-
-		// Membuat entri baru dalam tabel employee_information
-		$employeeInformation = EmployeeInformation::create([
-			'company_id' => $affiliation->company_id,
-			'fullname' => $request->fullname,
-			'kananame' => $request->kananame,
-			'email' => $request->email,
-			'contact_phonenumber' => $request->contact_phonenumber,
-			'employee_code' => $request->employee_code,
-			'sex' => $request->sex,
-			'dateofbirth' => $request->dateofbirth,
-			'dateofjoining' => $request->dateofjoining,
-			'retirementdate' => $request->retirementdate,
-			'remarks' => $request->remarks,
-			'password' => Hash::make($request->password),
-			'account_status' => $request->account_status,
-			'password_expiration' => $request->password_expiration,
-			'numberofincorrect_passwords' => $request->numberofincorrect_passwords,
-			'account_lock_datetime' => $request->account_lock_datetime,
-			'employee_attribute01' => $request->employee_attribute01,
-			'employee_attribute02' => $request->employee_attribute02,
-			'employee_attribute03' => $request->employee_attribute03,
-			'employee_attribute04' => $request->employee_attribute04,
-			'employee_attribute05' => $request->employee_attribute05,
+		$data = $request->validate([
+			'fullname' => ['required', 'string', 'max:20'],
+			'kananame' => ['nullable', 'string', 'max:20'],
+			'email' => ['required', 'email', 'max:255', 'unique:employee_information,email'],
+			'email_confirmation' => ['required', 'same:email'],
+			'contact_phonenumber' => ['nullable', 'string', 'max:13'],
+			'employee_code' => ['required', 'string', 'max:10', 'unique:employee_information,employee_code'],
+			'sex' => ['nullable', Rule::in(['male', 'female', 'other'])],
+			'dateofbirth' => ['nullable', 'date'],
+			'dateofjoining' => ['nullable', 'date'],
+			'retirementdate' => ['nullable', 'date', 'after_or_equal:dateofjoining'],
+			'remarks' => ['nullable', 'string', 'max:255'],
+			'password' => ['required', 'string', 'min:8'],
+			'account_status' => ['required', Rule::in(['enabled', 'disabled'])],
+			'password_expiration' => ['nullable', 'date'],
+			'affiliation' => ['required', 'integer'],
+			'job' => ['required', 'integer'],
+			'application_startdate' => ['required', 'date'],
+			'system_administrator_privileges' => ['required', 'boolean'],
+			'employee_registration_authority' => ['required', 'boolean'],
+			'course_enrollment_privileges' => ['required', 'boolean'],
+			'attendance_setting_authority' => ['required', 'boolean'],
+			'authority_validity_scope' => ['required', Rule::in(['1', '2', '3'])],
+			'authority_validity_code' => ['required', 'string', 'max:255'],
+			'employee_attribute01' => ['nullable', 'string', 'max:255'],
+			'employee_attribute02' => ['nullable', 'string', 'max:255'],
+			'employee_attribute03' => ['nullable', 'string', 'max:255'],
+			'employee_attribute04' => ['nullable', 'string', 'max:255'],
+			'employee_attribute05' => ['nullable', 'string', 'max:255'],
 		]);
 
+		$affiliation = AffiliationInformation::findOrFail(str_pad((string) $data['affiliation'], 3, '0', STR_PAD_LEFT));
+		$job = JobInformation::findOrFail($data['job']);
+		abort_unless((int) $job->company_id === 0 || (int) $job->company_id === (int) $affiliation->company_id, 422);
 
-		// Membuat entri baru dalam tabel employee_affiliation_information
-		$affiliationInformation = EmployeeAffiliationInformation::create([
-			'company_id' => $affiliation->company_id,
-			'employee_id' => $employeeInformation->employee_id,
-			'affiliation_code' => $affiliation->affiliation_code,
-			'job_id' => $request->job,
-			'application_startdate' => $request->application_startdate,
-			'system_administrator_privileges' => $request->system_administrator_privileges,
-			'employee_registration_authority' => $request->employee_registration_authority,
-			'course_enrollment_privileges' => $request->course_enrollment_privileges,
-			'attendance_setting_authority' => $request->attendance_setting_authority,
-			'authority_validity_scope' => $request->authority_validity_scope,
-			'authority_validity_code' => $request->authority_validity_code,
-		]);
+		DB::transaction(function () use ($data, $affiliation) {
+			$employeeInformation = EmployeeInformation::create([
+				'company_id' => $affiliation->company_id,
+				'fullname' => $data['fullname'],
+				'kananame' => $data['kananame'] ?? null,
+				'email' => $data['email'],
+				'contact_phonenumber' => $data['contact_phonenumber'] ?? null,
+				'employee_code' => $data['employee_code'],
+				'sex' => $data['sex'] ?? null,
+				'dateofbirth' => $data['dateofbirth'] ?? null,
+				'dateofjoining' => $data['dateofjoining'] ?? null,
+				'retirementdate' => $data['retirementdate'] ?? null,
+				'remarks' => $data['remarks'] ?? null,
+				'password' => Hash::make($data['password']),
+				'account_status' => $data['account_status'],
+				'password_expiration' => $data['password_expiration'] ?? null,
+				'numberofincorrect_passwords' => 0,
+				'account_lock_datetime' => null,
+				'employee_attribute01' => $data['employee_attribute01'] ?? null,
+				'employee_attribute02' => $data['employee_attribute02'] ?? null,
+				'employee_attribute03' => $data['employee_attribute03'] ?? null,
+				'employee_attribute04' => $data['employee_attribute04'] ?? null,
+				'employee_attribute05' => $data['employee_attribute05'] ?? null,
+			]);
+
+			EmployeeAffiliationInformation::create([
+				'company_id' => $affiliation->company_id,
+				'employee_id' => $employeeInformation->employee_id,
+				'affiliation_code' => $affiliation->affiliation_code,
+				'job_id' => $data['job'],
+				'application_startdate' => $data['application_startdate'],
+				'system_administrator_privileges' => $data['system_administrator_privileges'],
+				'employee_registration_authority' => $data['employee_registration_authority'],
+				'course_enrollment_privileges' => $data['course_enrollment_privileges'],
+				'attendance_setting_authority' => $data['attendance_setting_authority'],
+				'authority_validity_scope' => $data['authority_validity_scope'],
+				'authority_validity_code' => $data['authority_validity_code'],
+			]);
+		});
 
 		// Redirect dengan pesan sukses jika berhasil disimpan
 		return redirect()->route('member-registration.index')->with('success', 'Member registered successfully!');
@@ -125,35 +120,34 @@ class MasterRegistrationController extends Controller
 
 	public function update(Request $request, $id)
 	{
-		$validatedData = $request->validate([
-			'fullname' => 'required|string|max:255',
-			'kananame' => 'nullable|string|max:255',
-			'email' => 'required|string|email|max:255|unique:employee_information,email,' . $id,
-			'contact_phone_number' => 'nullable|string|max:20',
-			'employee_code' => 'required|string|max:50|unique:employee_information,employee_code,' . $id,
-			'sex' => 'nullable|string|max:10',
-			'dateofbirth' => 'nullable|date',
-			'dateofjoining' => 'nullable|date',
-			'retirementdate' => 'nullable|date',
-			'remarks' => 'nullable|string|max:255',
-			'password' => 'required|string|max:255',
-			'account_status' => 'required|string|max:20',
-			'password_expiration' => 'nullable|date',
-			'numberofincorrect_passwords' => 'required|integer',
-			'account_lock_datetime' => 'nullable|date',
-			'employee_attribute01' => 'nullable|string|max:255',
-			'employee_attribute02' => 'nullable|string|max:255',
-			'employee_attribute03' => 'nullable|string|max:255',
-			'employee_attribute04' => 'nullable|string|max:255',
-			'employee_attribute05' => 'nullable|string|max:255',
-			'company_id' => 'required',
+		$member = EmployeeInformation::findOrFail($id);
+		$data = $request->validate([
+			'fullname' => ['required', 'string', 'max:20'],
+			'kananame' => ['nullable', 'string', 'max:20'],
+			'email' => ['required', 'email', 'max:255', Rule::unique('employee_information', 'email')->ignore($member->employee_id, 'employee_id')],
+			'contact_phonenumber' => ['nullable', 'string', 'max:13'],
+			'employee_code' => ['required', 'string', 'max:10', Rule::unique('employee_information', 'employee_code')->ignore($member->employee_id, 'employee_id')],
+			'sex' => ['nullable', Rule::in(['male', 'female', 'other'])],
+			'dateofbirth' => ['nullable', 'date'],
+			'dateofjoining' => ['nullable', 'date'],
+			'retirementdate' => ['nullable', 'date', 'after_or_equal:dateofjoining'],
+			'remarks' => ['nullable', 'string', 'max:255'],
+			'password' => ['sometimes', 'nullable', 'string', 'min:8'],
+			'account_status' => ['required', Rule::in(['enabled', 'disabled'])],
+			'password_expiration' => ['nullable', 'date'],
+			'employee_attribute01' => ['nullable', 'string', 'max:255'],
+			'employee_attribute02' => ['nullable', 'string', 'max:255'],
+			'employee_attribute03' => ['nullable', 'string', 'max:255'],
+			'employee_attribute04' => ['nullable', 'string', 'max:255'],
+			'employee_attribute05' => ['nullable', 'string', 'max:255'],
 		]);
 
-		$member = EmployeeInformation::findOrFail($id);
+		if (empty($data['password'])) {
+			unset($data['password']);
+		}
+		$member->update($data);
 
-		$member->update($validatedData);
-
-		return redirect()->route('member-registration')->with('success', 'Member updated successfully!');
+		return redirect()->route('member-registration.index')->with('success', 'Member updated successfully!');
 	}
 
 	public function destroy($id)

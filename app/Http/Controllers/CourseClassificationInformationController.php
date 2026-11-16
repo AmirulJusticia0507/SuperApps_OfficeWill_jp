@@ -32,21 +32,21 @@ class CourseClassificationInformationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'company_name' => 'required',
-            'classification_name' => 'required',
-            'display_order' => 'required',
-            'icon_file_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        $data = $request->validate([
+            'company_name' => ['required', 'string', 'max:20'],
+            'classification_name' => ['required', 'string', 'max:10'],
+            'display_order' => ['required', 'integer', 'between:0,999'],
+            'icon_file_path' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
-        $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
-        $iconPath = $request->file('icon_file_path')->store('public/icon');
+        $company = CompanyInformation::where('company_name', $data['company_name'])->firstOrFail();
+        $iconPath = $request->file('icon_file_path')->store('public/icons');
         
         $classification = new CourseClassificationInformation();
         $classification->company_id = $company->company_id;
-        $classification->course_classification_name = $request->input('classification_name');
+        $classification->course_classification_name = $data['classification_name'];
         $classification->icon_file_path = Storage::url($iconPath);
-        $classification->displayorder = $request->input('display_order');
+        $classification->displayorder = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
         $classification->save();
 
         return redirect()->route('course-classification.index')->with('success', 'Classification created successfully');
@@ -75,14 +75,16 @@ class CourseClassificationInformationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'company_name' => 'required',
-            'classification_name' => 'required',
-            'display_order' => 'required',
+        $data = $request->validate([
+            'company_name' => ['required', 'string', 'max:20'],
+            'classification_name' => ['required', 'string', 'max:10'],
+            'display_order' => ['required', 'integer', 'between:0,999'],
+            'icon_file_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
         $classification = CourseClassificationInformation::findOrFail($id);
-        $company = CompanyInformation::where('company_name', $request->input('company_name'))->firstOrFail();
+        $company = CompanyInformation::where('company_name', $data['company_name'])->firstOrFail();
+        abort_unless((int) $company->company_id === (int) $classification->company_id, 403);
 
         if ($request->hasFile('icon_file_path')) {
             $iconPath = $request->file('icon_file_path')->store('public/icon');
@@ -90,8 +92,8 @@ class CourseClassificationInformationController extends Controller
         }
 
         $classification->company_id = $company->company_id;
-        $classification->course_classification_name = $request->input('classification_name');
-        $classification->displayorder = $request->input('display_order');
+        $classification->course_classification_name = $data['classification_name'];
+        $classification->displayorder = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
         $classification->save();
 
         return redirect()->route('course-classification.index')->with('success', 'Classification updated successfully');
