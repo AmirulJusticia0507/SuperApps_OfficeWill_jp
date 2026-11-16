@@ -21,8 +21,6 @@ class CreateCompanyInformationTable extends Migration
             $table->string('teaching_material_storage_file_path', 255);
             $table->timestamps();
 
-            // Define foreign key constraint
-            $table->foreign('company_id')->references('id')->on('company_information')->onDelete('cascade');
         });
     }
 

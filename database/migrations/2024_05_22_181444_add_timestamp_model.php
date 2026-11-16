@@ -32,6 +32,10 @@ return new class extends Migration {
 	{
 
 		foreach ($this->tables as $tableName) {
+			if (!Schema::hasTable($tableName) || Schema::hasColumn($tableName, 'created_at')) {
+				continue;
+			}
+
 			Schema::table($tableName, function (Blueprint $table) {
 				$table->timestamps();
 			});
@@ -45,6 +49,10 @@ return new class extends Migration {
 	public function down(): void
 	{
 		foreach ($this->tables as $tableName) {
+			if (!Schema::hasTable($tableName) || !Schema::hasColumn($tableName, 'created_at')) {
+				continue;
+			}
+
 			Schema::table($tableName, function (Blueprint $table) {
 				$table->dropTimestamps();
 			});

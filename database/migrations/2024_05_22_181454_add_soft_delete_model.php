@@ -34,6 +34,10 @@ return new class extends Migration {
 	{
 
 		foreach ($this->tables as $tableName) {
+			if (!Schema::hasTable($tableName) || Schema::hasColumn($tableName, 'deleted_at')) {
+				continue;
+			}
+
 			Schema::table($tableName, function (Blueprint $table) {
 				$table->softDeletes();
 			});
@@ -47,6 +51,10 @@ return new class extends Migration {
 	public function down(): void
 	{
 		foreach ($this->tables as $tableName) {
+			if (!Schema::hasTable($tableName) || !Schema::hasColumn($tableName, 'deleted_at')) {
+				continue;
+			}
+
 			Schema::table($tableName, function (Blueprint $table) {
 				$table->dropSoftDeletes();
 			});
