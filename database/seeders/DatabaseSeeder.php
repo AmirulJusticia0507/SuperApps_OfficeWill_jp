@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(DemoEducationDataSeeder::class);
+        $this->call(LegacyCourseClassificationSeeder::class);
     }
 }
