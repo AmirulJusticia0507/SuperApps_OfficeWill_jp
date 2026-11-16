@@ -35,7 +35,7 @@ class CourseInformation extends Model
 
 	public function classification()
 	{
-		return $this->belongsTo(CourseClassificationInformation::class, 'course_classification_id', 'course_classification_id');
+		return $this->belongsTo(CourseClassificationInformation::class, 'Course_classification_id', 'course_classification_id');
 	}
 
 	public function classification_detail()

@@ -18,20 +18,20 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('course-settings') }}" title="Course Settings">コース設定</a>
+                    <li class="breadcrumb-item"><a href="{{ route('course-settings') }}" title="{{ __('Course Settings') }}">{{ __('Course Settings') }}</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('course-list') }}" title="Course List">コースリスト</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" title="Course List">コースリスト</li>
+                    <li class="breadcrumb-item"><a href="{{ route('course-list') }}" title="{{ __('Course List') }}">{{ __('Course List') }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" title="{{ __('Course List') }}">{{ __('Course List') }}</li>
                 </ol>
             </nav>
             <div class="card">
                 <div class="card-header" style="background-color: darkblue" title="Course Registration">
                     <div class="row">
                         <div class="col">
-                            <div class="text-center"><b style="color:aliceblue">コース登録</b></div>
+                            <div class="text-center"><b style="color:aliceblue">{{ __('Course Registration') }}</b></div>
                         </div>
                         <div class="col-auto"> <a class="btn btn-light btn-sm"
-                                href="{{ route('course-registration.index') }}">sign up</a></div>
+                                href="{{ route('course-registration.index') }}">{{ __('Register a course') }}</a></div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -39,9 +39,10 @@
                     <form action="{{ route('course.filter') }}" method="GET">
                         <!-- Course Classification Filter -->
                         <div class="form-group">
-                            <label for="course_classification_id">コース分類:</label>
+                            <label for="course_classification_id">{{ __('Course Classification') }}:</label>
                             <select class="form-control" id="course_classification_id" name="course_classification_id"
-                                title="Course Classification" required style="display: inline-block; width: 60%;">
+                                title="{{ __('Course Classification') }}" required style="display: inline-block; width: 60%;">
+                                <option value="">{{ __('Select Course Classification') }}</option>
                                 @foreach ($classifications as $classification)
                                     <option value="{{ $classification->id }}">
                                         {{ $classification->course_classification_name }}</option>
@@ -51,10 +52,11 @@
 
                         <!-- Course Classification Details Filter -->
                         <div class="form-group">
-                            <label for="course_classification_details_id">コース分類の詳細:</label>
+                            <label for="course_classification_details_id">{{ __('Course Classification Details') }}:</label>
                             <select class="form-control" id="course_classification_details_id"
                                 name="course_classification_details_id" title="Course Classification Details" required
                                 style="display: inline-block; width: 60%;">
+                                <option value="">{{ __('Select Course Classification Details') }}</option>
                                 @foreach ($details as $detail)
                                     <option value="{{ $detail->id }}">{{ $detail->course_classification_detailsname }}
                                     </option>
@@ -68,7 +70,7 @@
                                                         <input type="text" name="course_name" id="course_name" class="form-control" value="{{ isset($course) ? $course->coursename : '' }}" style="display: inline-block; width: 60%;">
                                                     </div> -->
                         <div class="form-group">
-                            <label for="course_name">&emsp;コース名:</label>
+                            <label for="course_name">{{ __('Course Name') }}:</label>
                             &emsp;<input type="text" name="course_name" id="course_name" class="form-control"
                                 style="display: inline-block; width: 60%;" title="Course Name"
                                 value="{{ isset($course) ? $course->coursename : '' }}">
@@ -76,7 +78,7 @@
                         <!-- Search Button -->
                         <div align="center">
                             <button type="submit" class="btn btn-primary btn-block" title="Search"
-                                style="background-color: darkblue">検索</button>
+                                style="background-color: darkblue">{{ __('Search') }}</button>
                         </div>
                     </form>
                 </div>
@@ -88,24 +90,22 @@
                         style="width:100%">
                         <thead>
                             <tr>
-                                <th title="Course Classification">コース分類</th>
-                                <th title="Course Classification Details">コース分類の詳細</th>
-                                <th title="Course Name">コース名</th>
+                                <th title="{{ __('Course Classification') }}">{{ __('Course Classification') }}</th>
+                                <th title="{{ __('Course Classification Details') }}">{{ __('Course Classification Details') }}</th>
+                                <th title="{{ __('Course Name') }}">{{ __('Course Name') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (isset($courses))
                                 @foreach ($courses as $course)
                                     <tr>
-                                        <td>{{ $course->classification->course_classification_name }}</td>
-                                        <td>{{ $course->classification_detail->course_classification_detailsname }}</td>
+                                        <td>{{ $course->classification?->course_classification_name ?? __('Not available') }}</td>
+                                        <td>{{ $course->classification_detail?->course_classification_detailsname ?? __('Not available') }}</td>
                                         <td><a href="#">{{ $course->coursename }}</a></td>
                                     </tr>
                                 @endforeach
                             @else
-                                <tr>
-                                    <td colspan="3">No courses found</td>
-                                </tr>
+                                <tr><td colspan="3">{{ __('No courses found.') }}</td></tr>
                             @endif
                         </tbody>
                     </table>
