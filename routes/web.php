@@ -32,6 +32,7 @@ Route::redirect('/', '/login');
 Route::get('/locale/{locale}', function (string $locale) {
     abort_unless(in_array($locale, ['ja', 'en'], true), 404);
     session(['locale' => $locale]);
+    app()->setLocale($locale);
     return redirect()->back();
 })->name('locale.switch');
 

@@ -31,29 +31,29 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" title="Company Information">企業情報 </a></li>
-                <li class="breadcrumb-item"><a href="{{ route('company-information.index') }}" title="Create Company">会社を作成します</a></li>
-                <li class="breadcrumb-item active" aria-current="page" title="Company Information">企業情報</li>
+                <li class="breadcrumb-item"><a href="#" title="{{ __('Company Information') }}">{{ __('Company Information') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('company-information.index') }}" title="{{ __('Company Registration') }}">{{ __('Company Registration') }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page" title="{{ __('Company Information') }}">{{ __('Company Information') }}</li>
             </ol>
         </nav>
         <!-- Tombol Create Company Modal -->
         <div class="company-page__toolbar">
-            <input type="text" id="customSearchBox" class="form-control" placeholder="search in the table...">
-            <button class="btn btn-primary open-modal" data-url="{{ route('company-information.create') }}"><i class="fas fa-plus"></i> 会社を作成します</button>
+            <input type="text" id="customSearchBox" class="form-control company-page__search" placeholder="{{ __('Search table...') }}">
+            <button class="btn btn-primary open-modal" data-url="{{ route('company-information.create') }}"><i class="fas fa-plus"></i> {{ __('Add Company') }}</button>
         </div>
         <div class="card">
-            <div class="card-header" style="background-color: darkblue" title="Company Information"><b style="color:aliceblue">企業情報</b></div>
+            <div class="card-header" style="background-color: darkblue" title="{{ __('Company Information') }}"><b style="color:aliceblue">{{ __('Company Information') }}</b></div>
             <div class="card-body">
             @if(count($companies) > 0)
                 <table class="display table table-bordered table-striped table-hover responsive nowrap"
                     style="width:100%" id="companyTable">
                     <thead>
                         <tr>
-                            <th scope="col" title="Company Name">会社名</th>
-                            <th scope="col" title="Login Screen URL">ログイン画面URL</th>
-                            <th scope="col" title="Icon">アイコン</th>
-                            <th scope="col" title="Teaching Material">教材</th>
-                            <th scope="col" title="Actions">行動</th>
+                            <th scope="col" title="{{ __('Company Name') }}">{{ __('Company Name') }}</th>
+                            <th scope="col" title="{{ __('Login Screen URL') }}">{{ __('Login Screen URL') }}</th>
+                            <th scope="col" title="{{ __('Icon') }}">{{ __('Icon') }}</th>
+                            <th scope="col" title="{{ __('Teaching Materials') }}">{{ __('Teaching Materials') }}</th>
+                            <th scope="col" title="{{ __('Actions') }}">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,13 +72,13 @@
                             <td>{{ $company->teaching_material_storage_file_path }}</td>
                             <td>
                                 <!-- Tombol Edit Company Modal -->
-                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->company_id }}" title="Edit"><i class="fas fa-edit"></i> 編集</button>
+                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->company_id }}" title="{{ __('Edit') }}"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
                                 <!-- Form Delete Company -->
                                 <form action="{{ route('company-information.destroy', $company->company_id) }}"
                                     method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-dark" title="Delete"><i class="fas fa-trash"></i> 消去</button>
+                                    <button type="submit" class="btn btn-dark" title="{{ __('Delete') }}"><i class="fas fa-trash"></i> {{ __('Delete') }}</button>
                                 </form>
                             </td>
                         </tr>
@@ -86,7 +86,7 @@
                     </tbody>
                 </table>
                 @else
-                <p>No companies found.</p>
+                <p>{{ __('No companies found.') }}</p>
                 @endif
             </div>
         </div>
