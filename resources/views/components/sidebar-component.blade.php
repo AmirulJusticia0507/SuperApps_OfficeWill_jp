@@ -7,13 +7,13 @@
 
 <style>
     aside.app-sidebar { z-index: 1030; }
-    body.sidebar-collapsed aside.app-sidebar { transform: translateX(-100%); }
+    body.sidebar-collapsed aside.app-sidebar { transform: translateX(-100%) !important; }
     body.sidebar-collapsed aside.app-sidebar .sidebar-label,
     body.sidebar-collapsed aside.app-sidebar .sidebar-logo { display: none; }
     body.sidebar-collapsed aside.app-sidebar .sidebar-link { justify-content: center; padding-left: .75rem; padding-right: .75rem; }
     body.sidebar-collapsed main.content-with-sidebar { margin-left: 4.5rem; }
     aside.app-sidebar { transition: transform .2s ease; }
-    .sidebar-toggle-outside { position: fixed; top: 1rem; left: 16.5rem; z-index: 1051; width: 2.5rem; height: 2.5rem; border: 0; border-radius: .375rem; background: #1e3a8a; color: #fff; box-shadow: 0 .125rem .25rem rgba(0,0,0,.2); transition: left .2s ease, background-color .2s ease; }
+    .sidebar-toggle-outside { position: fixed; top: 1rem; left: 16.5rem; z-index: 99999; width: 2.5rem; height: 2.5rem; border: 0; border-radius: .375rem; background: #1e3a8a; color: #fff; box-shadow: 0 .125rem .25rem rgba(0,0,0,.2); cursor: pointer; transition: left .2s ease, background-color .2s ease; }
     .sidebar-toggle-outside:hover { background: #172554; }
     body.sidebar-collapsed .sidebar-toggle-outside { left: 1rem; }
     .sidebar-link { display: flex; align-items: center; }
@@ -85,7 +85,7 @@
                 <li>
                     <a href="{{ route('company-information.index') }}" title="Company Information"
                         class="block py-2 px-4 text-sm {{ request()->routeIs('company-information.index') ? 'bg-gray-900' : '' }}"><i
-                            class="fas fa-building mr-2"></i> 企業情報</a>
+                            class="fas fa-building mr-2"></i> <span class="sidebar-label">{{ __('Company Information') }}</span></a>
                 </li>
             @endif
             @if ($isSysAdmin || $isEmployeeRegis || $isCourseEnroll || $isAttendenceSetting)
@@ -97,32 +97,32 @@
                             <a href="{{ route('confirm-courses.index') }}" title="Confirm and attend courses"
                                 class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i
                                     class="fas fa-book mr-2"></i>
-                                コースの確認と受講</a>
+                                <span class="sidebar-label">{{ __('Confirm and attend courses') }}</span></a>
                         </li>
                         @if ($isSysAdmin || $isCourseEnroll || $isEmployeeRegis)
                             <li>
                                 <a href="#" title="Course Registration"
-                                    class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;履修登録</a>
+                                    class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;{{ __('Course Registration') }}</a>
                                 <ul class="treeview" style="display: none;">
                                     <!-- <li><a href="{{ route('materials.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Material Registration</a></li> -->
                                     @if ($isSysAdmin || $isCourseEnroll)
                                         <li><a href="{{ route('course-list') }}" title="Course Information "
                                                 class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i
-                                                    class="fas fa-book mr-2"></i>コースリスト</a></li>
+                                                    class="fas fa-book mr-2"></i>{{ __('Course List') }}</a></li>
                                         <li><a href="{{ route('course-registration.index') }}"
                                                 title="Course Information Registration"
                                                 class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i
-                                                    class="fas fa-book mr-2"></i>コース情報登録</a></li>
+                                                    class="fas fa-book mr-2"></i>{{ __('Course Information Registration') }}</a></li>
                                     @endif
                                     @if ($isSysAdmin || $isEmployeeRegis)
                                         <li><a href="{{ route('course-classification.index') }}"
                                                 title="Course classification registration"
                                                 class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i
-                                                    class="fas fa-book mr-2"></i>コース分類登録</a></li>
+                                                    class="fas fa-book mr-2"></i>{{ __('Course Classification Registration') }}</a></li>
                                         <li><a href="{{ route('course-classification-details.index') }}"
                                                 title="Course classification details registration"
                                                 class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i
-                                                    class="fas fa-book mr-2"></i>コース分類詳細登録</a></li>
+                                                    class="fas fa-book mr-2"></i>{{ __('Course Classification Details Registration') }}</a></li>
                                     @endif
 
                                 </ul>
@@ -133,20 +133,20 @@
                             <li>
                                 <a href="{{ route('course-settings') }}" title="Course settings"
                                     class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i
-                                        class="fas fa-cogs mr-2"></i>コース設定</a>
+                                        class="fas fa-cogs mr-2"></i>{{ __('Course Settings') }}</a>
                             </li>
                         @endif
                         @if ($isSysAdmin || $isAttendenceSetting)
                             <li>
                                 <a href="#" title="Course Inquiries"
-                                    class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;コースに関するお問い合わせ</a>
+                                    class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;{{ __('Course Inquiries') }}</a>
                                 <ul class="treeview" style="display: none;">
                                     <li><a href="{{ route('course-inquiry') }}" title="Course Specific Inquiry"
                                             class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i
-                                                class="fas fa-envelope"></i>コース別のお問い合わせ</a></li>
+                                                class="fas fa-envelope"></i>{{ __('Course-specific Inquiry') }}</a></li>
                                     <li><a href="{{ route('employee-inquiry') }}" title="Employee-Specific Inquiry"
                                             class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i
-                                                class="fas fa-user mr-2"></i>従業員固有のお問い合わせ</a></li>
+                                                class="fas fa-user mr-2"></i>{{ __('Employee-specific Inquiry') }}</a></li>
                                 </ul>
                             </li>
                         @endif
@@ -157,30 +157,30 @@
             @if ($isSysAdmin)
                 <li>
                     <a href="#" class="block py-2 px-4 text-sm toggle-submenu" title="Employee Management"><i
-                            class="fas fa-users-cog mr-2"></i> 従業員管理</a>
+                            class="fas fa-users-cog mr-2"></i> {{ __('Employee Management') }}</a>
                     <ul class="treeview" style="display: none;">
                         <li>
                             <a href="{{ route('affiliation-information.index') }}"
                                 title="Affiliation Master Registration"
                                 class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i
                                     class="fas fa-handshake"></i>
-                                所属マスター登録</a>
+                                {{ __('Affiliation Master Registration') }}</a>
                         </li>
                         <li>
                             <a href="{{ route('job-titles.index') }}" title="Job Title Master Registration"
                                 class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i class="fas fa-user-tie"></i>
-                                役職マスタ登録</a>
+                                {{ __('Job Title Master Registration') }}</a>
                         </li>
                         <li>
                             <a href="{{ route('employee-list') }}" title="Employee list screen"
                                 class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i
-                                    class="fas fa-book mr-2"></i>従業員リスト</a>
+                                    class="fas fa-book mr-2"></i>{{ __('Employee List') }}</a>
                         </li>
                         <li>
                             <a href="{{ route('member-registration.create') }}"
                                 title="Employee information registration screen"
                                 class="block py-2 px-4 text-sm submenu-item">&emsp;&emsp;<i
-                                    class="fas fa-book mr-2"></i>会員登録</a>
+                                    class="fas fa-book mr-2"></i>{{ __('Member Registration') }}</a>
                         </li>
 
 
@@ -194,7 +194,7 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf
                     &emsp;&emsp;<button type="submit" title="Logout"><i class="fa-solid fa-right-from-bracket"></i>
-                        ログアウト</button>
+                        {{ __('Logout') }}</button>
                 </form>
             </li>
             <li>
