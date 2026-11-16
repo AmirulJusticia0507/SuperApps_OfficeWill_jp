@@ -28,6 +28,8 @@ use App\Http\Controllers\ConfirmCoursesController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\QuestionnaireController;
 
+Route::redirect('/', '/login');
+
 // Rute untuk menampilkan halaman login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::get('/login/{company_id}', [LoginController::class, 'showLoginForm'])->name('login.employee');
