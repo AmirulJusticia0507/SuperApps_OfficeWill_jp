@@ -10,9 +10,7 @@ return new class extends Migration {
 	 */
 	public function up(): void
 	{
-		Schema::table('employee_information', function (Blueprint $table) {
-			$table->renameColumn('password', 'password');
-		});
+		$this->normalizePasswordColumn();
 	}
 
 	/**
@@ -20,8 +18,32 @@ return new class extends Migration {
 	 */
 	public function down(): void
 	{
-		Schema::table('employee_information', function (Blueprint $table) {
-			$table->renameColumn('password', 'password');
-		});
+		if (Schema::hasTable('employee_information')
+			&& Schema::hasColumn('employee_information', 'password')
+			&& !Schema::hasColumn('employee_information', 'encrypted_password')) {
+			Schema::table('employee_information', function (Blueprint $table) {
+				$table->renameColumn('password', 'encrypted_password');
+			});
+		}
+	}
+
+	private function normalizePasswordColumn(): void
+	{
+		if (!Schema::hasTable('employee_information')) {
+			return;
+		}
+
+		$hasPassword = Schema::hasColumn('employee_information', 'password');
+		$hasEncryptedPassword = Schema::hasColumn('employee_information', 'encrypted_password');
+
+		if ($hasEncryptedPassword && !$hasPassword) {
+			Schema::table('employee_information', function (Blueprint $table) {
+				$table->renameColumn('encrypted_password', 'password');
+			});
+		} elseif (!$hasPassword) {
+			Schema::table('employee_information', function (Blueprint $table) {
+				$table->string('password')->nullable();
+			});
+		}
 	}
 };
