@@ -220,5 +220,13 @@
     "Enter Employee Code": "Enter Employee Code",
     "Set up attendance": "Set up attendance",
     "Toggle course search conditions": "Toggle course search conditions",
-    "Toggle employee search conditions": "Toggle employee search conditions"
+    "Toggle employee search conditions": "Toggle employee search conditions",
+    "Courses": "Courses",
+    "Course Enrollments": "Course Enrollments",
+    "Completed": "Completed",
+    "In Progress or Not Started": "In Progress or Not Started",
+    "Course Enrollments - Last 6 Months": "Course Enrollments - Last 6 Months",
+    "In Progress": "In Progress",
+    "Not Started": "Not Started",
+    "Chart library unavailable": "Charts are temporarily unavailable."
 }

@@ -220,5 +220,13 @@
     "Enter Employee Code": "従業員コードを入力",
     "Set up attendance": "受講設定",
     "Toggle course search conditions": "コース検索条件を切り替え",
-    "Toggle employee search conditions": "従業員検索条件を切り替え"
+    "Toggle employee search conditions": "従業員検索条件を切り替え",
+    "Courses": "コース数",
+    "Course Enrollments": "コース受講数",
+    "Completed": "完了",
+    "In Progress or Not Started": "進行中または未開始",
+    "Course Enrollments - Last 6 Months": "過去6か月のコース受講数",
+    "In Progress": "進行中",
+    "Not Started": "未開始",
+    "Chart library unavailable": "グラフを一時的に利用できません。"
 }
