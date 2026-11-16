@@ -1,11 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        .access-settings-page { min-height: 100vh; background: #f4f6f9; }
+        .access-settings-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+        body.sidebar-collapsed .access-settings-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
+        .access-settings-page .card { border: 0; border-radius: .75rem; box-shadow: 0 .125rem .75rem rgba(0,0,0,.08); }
+        .access-settings-page .card-body { overflow-x: auto; }
+        .access-settings-page table { min-width: 980px; }
+        @media (max-width: 767.98px) {
+            .access-settings-page__content, body.sidebar-collapsed .access-settings-page__content { margin-left: 0; width: 100%; padding: 1rem; }
+        }
+    </style>
+    <div class="access-settings-page">
     @include('includes.header')
-    <div class="row member-registration-page">
-        <div class="col-md-3">@include('includes.sidebar')</div>
-        <main class="col-md-6">
-            <br><br><br>
+    @include('includes.sidebar')
+        <main class="access-settings-page__content">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
@@ -80,6 +90,7 @@
                 </div>
             </div>
         </main>
+    </div>
     </div>
     @include('includes.footer')
 @endsection
