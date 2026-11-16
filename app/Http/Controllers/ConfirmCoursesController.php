@@ -10,6 +10,7 @@ use App\Models\CourseScheduleResultsInformation;
 use App\Models\CourseTodoItemsChoiceInformation;
 use App\Models\EmployeeInformation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ConfirmCoursesController extends Controller
 {
@@ -22,8 +23,11 @@ class ConfirmCoursesController extends Controller
 			$user = auth()->user();
 			$user_id = $user->id;
 		}
-		// Ambil data kursus yang perlu dikonfirmasi
-		$scheduleResultCourses = CourseScheduleResultsInformation::where('employee_id', $user_id)->get();
+		// Database lama menyediakan tabel ini melalui dump SQL, bukan migration.
+		// Tampilkan daftar kosong sampai dump/migration kursus tersedia.
+		$scheduleResultCourses = Schema::hasTable('course_schedule_results_information')
+			? CourseScheduleResultsInformation::where('employee_id', $user_id)->get()
+			: collect();
 		// Kirim data ke view confirmcourses.blade.php
 		return view('confirmcourses.index', compact('scheduleResultCourses'));
 	}
