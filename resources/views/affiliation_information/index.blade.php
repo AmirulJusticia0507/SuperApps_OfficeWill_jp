@@ -187,6 +187,7 @@
                 </div>
             @endforeach
 
+            @foreach($affiliations as $affiliation)
             <!-- Modal for Delete Confirmation -->
             <div class="modal fade" id="deleteAffiliationModal{{ $affiliation->affiliation_code }}" tabindex="-1" aria-labelledby="deleteAffiliationModalLabel{{ $affiliation->affiliation_code }}" aria-hidden="true">
                     <div class="modal-dialog">
@@ -209,6 +210,7 @@
                         </div>
                     </div>
             </div>
+            @endforeach
 
 
             </div>
