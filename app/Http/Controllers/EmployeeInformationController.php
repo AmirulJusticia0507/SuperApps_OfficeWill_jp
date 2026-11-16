@@ -10,6 +10,7 @@ use App\Models\JobInformation;
 use App\Models\CourseInformation;
 use App\Models\CourseClassificationInformation;
 use App\Models\CourseClassificationDetailInformation;
+use App\Models\CourseScheduleResultsInformation;
 use Illuminate\Validation\Rule;
 class EmployeeInformationController extends Controller
 {
@@ -215,34 +216,48 @@ class EmployeeInformationController extends Controller
         $jobs = JobInformation::all();
         $jobTitles = JobInformation::all();
         $courses = CourseInformation::all();
-        $filteredEmployees = EmployeeInformation::all();
+        $filteredEmployees = EmployeeInformation::with(['employee_affiliation.affiliation', 'employee_affiliation.job'])->get();
         return view('employeeinquiry', compact('affiliations', 'jobs', 'jobTitles', 'filteredEmployees','courses', 'classifications', 'details'));
     }
     
     public function filter(Request $request)
 {
-    // Ambil nilai pencarian dari request
     $fullname = $request->input('fullname');
     $employeeCode = $request->input('employee_code');
-
-    // Lakukan query berdasarkan kriteria pencarian
     $employees = EmployeeInformation::query();
-
-    // Filter berdasarkan fullname jika ada
     if ($fullname) {
         $employees->where('fullname', 'like', '%' . $fullname . '%');
     }
-
-    // Filter berdasarkan employee_code jika ada
     if ($employeeCode) {
         $employees->where('employee_code', $employeeCode);
     }
+    if ($request->filled('affiliationId')) {
+        $employees->whereHas('employee_affiliation', fn ($query) => $query->where('affiliation_code', $request->input('affiliationId')));
+    }
+    if ($request->filled('jobId')) {
+        $employees->whereHas('employee_affiliation', fn ($query) => $query->where('job_id', $request->input('jobId')));
+    }
 
-    // Eksekusi query dan ambil hasilnya
-    $filteredEmployees = $employees->get();
+    $courseId = $request->input('course_id');
+    $classificationId = $request->input('course_classification_id');
+    $detailId = $request->input('course_classification_details_id');
+    if ($courseId || $classificationId || $detailId) {
+        $employees->whereHas('courseEnrollments.course', function ($query) use ($courseId, $classificationId, $detailId) {
+            if ($courseId) $query->where('course_id', $courseId);
+            if ($classificationId) $query->where('Course_classification_id', $classificationId);
+            if ($detailId) $query->where('course_classification_details_id', $detailId);
+        });
+    }
 
-    // Kembalikan hasil pencarian ke view
-    return view('coursesettings', compact('filteredEmployees'));
+    $filteredEmployees = $employees->with(['employee_affiliation.affiliation', 'employee_affiliation.job'])->get();
+    $affiliations = AffiliationInformation::all();
+    $jobs = JobInformation::all();
+    $jobTitles = $jobs;
+    $courses = CourseInformation::all();
+    $classifications = CourseClassificationInformation::all();
+    $details = CourseClassificationDetailInformation::all();
+
+    return view('employeeinquiry', compact('filteredEmployees', 'affiliations', 'jobs', 'jobTitles', 'courses', 'classifications', 'details'));
 }
 
 }

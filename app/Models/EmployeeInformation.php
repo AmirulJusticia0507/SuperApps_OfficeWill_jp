@@ -60,6 +60,11 @@ class EmployeeInformation extends Authenticatable
 		return $this->hasOne(EmployeeAffiliationInformation::class, 'employee_id', 'employee_id');
 	}
 
+	public function courseEnrollments()
+	{
+		return $this->hasMany(CourseScheduleResultsInformation::class, 'employee_id', 'employee_id');
+	}
+
 	// Fungsi CRUD
 
     // Create
