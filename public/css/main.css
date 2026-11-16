@@ -2,6 +2,12 @@
     content:"*\00a0";
     color:red;
 }
+.master-page__toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.master-page__search { max-width: 24rem; }
+@media (max-width: 767.98px) {
+    .master-page__toolbar { align-items: stretch; flex-direction: column; }
+    .master-page__search { max-width: none; }
+}
 
 /* Application pages use a fixed sidebar, so the content should occupy the
    complete viewport instead of reserving Bootstrap columns for the sidebar. */
