@@ -43,7 +43,8 @@ class CourseClassificationDetailInformationController extends Controller
 
         $classification = CourseClassificationInformation::findOrFail($data['course_classification_id']);
         $detail = new CourseClassificationDetailInformation();
-		$detail->course_classification_id = $classification->course_classification_id;
+        // Keep compatibility with the existing PostgreSQL legacy column name.
+        $detail->Course_classification_id = $classification->course_classification_id;
         $detail->company_id = $classification->company_id;
         $detail->course_classification_detailsname = $data['course_classification_detailsname'];
         $detail->display_order = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
@@ -84,7 +85,8 @@ class CourseClassificationDetailInformationController extends Controller
         $detail = CourseClassificationDetailInformation::findOrFail($id);
         $classification = CourseClassificationInformation::findOrFail($data['course_classification_id']);
         abort_unless((int) $classification->company_id === (int) $detail->company_id, 403);
-		$detail->course_classification_id = $classification->course_classification_id;
+        // Keep compatibility with the existing PostgreSQL legacy column name.
+        $detail->Course_classification_id = $classification->course_classification_id;
         $detail->course_classification_detailsname = $data['course_classification_detailsname'];
         $detail->display_order = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
 
