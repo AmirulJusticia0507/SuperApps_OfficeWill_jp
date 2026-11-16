@@ -46,6 +46,44 @@ body.sidebar-collapsed .row.justify-content-center:has(> .col-md-3 > aside.app-s
     }
 }
 
+/* Course inquiry uses an additional right-hand shortcut column in its legacy
+   markup. The fixed floating menu replaces that column, matching the company
+   information page layout. */
+.course-inquiry-page {
+    width: calc(100% - 16rem);
+    max-width: none;
+    margin-left: 16rem;
+    margin-right: 0;
+    padding: 1.5rem 2rem;
+    transition: margin-left .2s ease, width .2s ease;
+}
+.course-inquiry-page > .col-md-3 {
+    flex: 0 0 0;
+    width: 0;
+    max-width: 0;
+    padding: 0;
+    overflow: visible;
+}
+.course-inquiry-page > .col-md-7 {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+}
+.course-inquiry-page > .col-md-2 { display: none; }
+body.sidebar-collapsed .course-inquiry-page {
+    width: calc(100% - 4.5rem);
+    margin-left: 4.5rem;
+}
+@media (max-width: 767.98px) {
+    .course-inquiry-page,
+    body.sidebar-collapsed .course-inquiry-page {
+        width: 100%;
+        margin-left: 0;
+        padding: 1rem;
+    }
+}
+
 body:has(aside.app-sidebar) .content-wrapper,
 body:has(aside.app-sidebar) main.content,
 body:has(aside.app-sidebar) .app-page-content {
