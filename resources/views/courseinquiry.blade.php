@@ -27,32 +27,32 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('course-inquiry') }}"
-                            title="Course-specific Inquiry">コース固有の問い合わせ</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('course-list') }}" title="Course List">コースリスト</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" title="Course-specific inquiry">コース固有の問い合わせ</li>
+                            title="{{ __('Course-specific Inquiry') }}">{{ __('Course-specific Inquiry') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('course-list') }}" title="{{ __('Course List') }}">{{ __('Course List') }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" title="{{ __('Course-specific Inquiry') }}">{{ __('Course-specific Inquiry') }}</li>
                 </ol>
             </nav>
             <div class="card">
                 <div class="card-header" style="background-color: darkblue" title="Course Specific Inquiry"><b
-                        style="color:aliceblue">コース固有の問い合わせ</b></div>
+                        style="color:aliceblue">{{ __('Course-specific Inquiry') }}</b></div>
                 <!-- <h3>Course Classification: </h3> -->
                 <!-- <h3>Course Classification Details: </h3> -->
                 <!-- <h3>Course Name: </h3> -->
                 <!-- <br><br> -->
                 <div class="form-group">
-                    <label for="course_classification">&emsp;コース分類:</label>
+                    <label for="course_classification">{{ __('Course Classification') }}:</label>
                     <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
-                        <option value="" title="Select Course Classification">コース分類を選択します</option>
+                        <option value="" title="{{ __('Select Course Classification') }}">{{ __('Select Course Classification') }}</option>
                         @foreach ($classifications as $classification)
                             <option value="{{ $classification->id }}">{{ $classification->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="course_classification_details">&emsp;コース分類の詳細:</label>
+                    <label for="course_classification_details">{{ __('Course Classification Details') }}:</label>
                     <select class="form-control" id="course_classification_details_id" name="course_classification_details_id"
                         title="Course Classification Details" required style="display: inline-block; width: 60%;">
-                        <option value="" title="Select Course Classification Details">コース分類の詳細を選択します</option>
+                        <option value="" title="{{ __('Select Course Classification Details') }}">{{ __('Select Course Classification Details') }}</option>
                         <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification details -->
                         @foreach ($details as $detail)
                             <option value="{{ $detail->id }}">{{ $detail->name }}</option>
@@ -64,10 +64,10 @@
                         <input type="text" class="form-control" id="course_name" name="course_name" placeholder="Enter Course Name" required style="display: inline-block; width: 60%;">
                     </div> -->
                 <div class="form-group">
-                    <label for="course_id">&emsp;コース名:</label>
+                    <label for="course_id">{{ __('Course Name') }}:</label>
                     <select name="course_id" title="Course Name" id="course_id" class="form-control"
                         style="display: inline-block; width: 60%;">
-                        <option value="" title="Select Course">コースを選択します</option>
+                        <option value="" title="{{ __('Select Course') }}">{{ __('Select Course') }}</option>
                         <!-- @foreach ($courses as $course)
                             <option value="{{ $course->id }}" @if (isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>
                                 {{ $course->course_name }}</option>
@@ -78,15 +78,15 @@
                     </select>
                 </div>
                 <div class="card-header" style="background-color: darkblue" title="Employees attending the course"><b
-                        style="color:aliceblue"> コースに参加している従業員</b></div>
+                        style="color:aliceblue">{{ __('Employees Enrolled in Course') }}</b></div>
                 <div class="card-body">
                     <form action="{{ route('course-inquiry-search') }}" method="get">
                         <div class="form-group">
-                            <label for="affiliation_id">所属:</label>
+                            <label for="affiliation_id">{{ __('Affiliation') }}:</label>
                             <div class="d-flex align-items-center">
                                 <select class="form-control" id="affiliation_id" title="Affiliation" name="affiliationId"
                                     required style="display: inline-block; width: 60%;">
-                                    <option value="" title="Select Affiliation">所属を選択します</option>
+                                    <option value="" title="{{ __('Select Affiliation') }}">{{ __('Select Affiliation') }}</option>
                                     @foreach ($affiliations as $affiliation)
                                         <option value="{{ $affiliation->id }}">{{ $affiliation->affiliation_name }}
                                         </option>
@@ -95,58 +95,58 @@
                                 <div>
                                     <label class="radio-inline">
                                         <input type="radio" name="search_option" value="Display selected affiliation"
-                                            title="Display selected affiliation"> 選択した提携を表示します
+                                            title="{{ __('Display selected affiliation') }}"> {{ __('Display selected affiliation') }}
                                     </label>
                                     <label class="radio-inline ml-3">
                                         <input type="radio" name="search_option"
                                             value="Display selected affiliation and below"
-                                            title="Display selected affiliation and below"> 選択した所属以下を表示します
+                                            title="{{ __('Display selected affiliation and below') }}"> {{ __('Display selected affiliation and below') }}
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="job_id">役職:</label>
+                            <label for="job_id">{{ __('Job Title') }}:</label>
                             <select class="form-control" title="Job Title" id="job_id" name="jobId" required
                                 style="display: inline-block; width: 50%;">
-                                <option value="" title="Select Job Title">役職を選択します</option>
+                                <option value="" title="{{ __('Select Job Title') }}">{{ __('Select Job Title') }}</option>
                                 @foreach ($jobTitles as $job)
                                     <option value="{{ $job->id }}">{{ $job->job_title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="fullname">&emsp;フルネーム:</label>
+                            <label for="fullname">{{ __('Full Name') }}:</label>
                             <input type="text" class="form-control" title="Full Name" id="fullname" name="fullname"
                                 placeholder="Enter Full Name" style="display: inline-block; width: 60%;"
                                 onkeyup="updateEmployeeCode()">
                         </div>
                         <div class="form-group">
-                            <label for="employee_code">&emsp;従業員コード:</label>
+                            <label for="employee_code">{{ __('Employee Code') }}:</label>
                             <input type="text" class="form-control" title="Employee Code" id="employee_code"
                                 name="employee_code" placeholder="Enter Employee Code"
                                 style="display: inline-block; width: 60%;">
                         </div>
                         <div class="form-group">
-                            <label for="course_deadline">&emsp;コースの締め切り :</label>
+                            <label for="course_deadline">{{ __('Course Deadline') }}:</label>
                             <div class="d-flex align-items-center">
                                 <input type="date" title="Course Deadline" name="course_deadline"
                                     id="course_deadline" class="form-control mr-3" style="width: 20%;">
                                 <div>
                                     <label class="radio-inline">
                                         <input type="radio" name="search_option" value="Designated date"
-                                            title="Designated date"> 指定日
+                                            title="{{ __('Specified Date') }}"> {{ __('Specified Date') }}
                                     </label>
                                     <label class="radio-inline ml-3">
                                         <input type="radio" name="search_option" value="After the designated date"
-                                            title="After the designated date"> 指定日の後
+                                            title="{{ __('After Specified Date') }}"> {{ __('After Specified Date') }}
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div align="center">
                             <button type="submit" class="btn btn-primary btn-block" title="Search"
-                                style="background-color: darkblue">検索</button>
+                                style="background-color: darkblue">{{ __('Search') }}</button>
                         </div>
                     </form>
                 </div><br>
@@ -155,8 +155,8 @@
                     <div class="card-body">
                         <div class="card-header" title="List of employees attending the course"
                             style="background-color: #92CDFC; display: flex; justify-content: space-between; align-items: center;">
-                            <b style="color: aliceblue; margin: 0;">コースに参加する従業員のリスト</b>
-                            <a href="#" class="btn btn-info" title="ToDo Inquiry">すべての問い合わせ</a>
+                            <b style="color: aliceblue; margin: 0;">{{ __('Employees Enrolled in Course') }}</b>
+                            <a href="#" class="btn btn-info" title="{{ __('ToDo Inquiry') }}">{{ __('All Inquiries') }}</a>
                         </div>
                         <!-- DataTable -->
                         <table id="courseinquiryTable"
@@ -164,15 +164,15 @@
                             style="width:100%">
                             <thead>
                                 <tr>
-                                    <th title="Affiliation">所属</th>
-                                    <th title="Job Title(Pos)">役職 POS</th>
-                                    <th title="Full Name">フルネーム</th>
-                                    <th title="Employee Codes">従業員コード</th>
-                                    <th title="Sex">セックス</th>
-                                    <th title="Age">年</th>
-                                    <th title="Information day">情報の日</th>
-                                    <th title="Course deadline">コースの締め切り</th>
-                                    <th title="ToDo progress">Todaの進歩</th>
+                                    <th title="{{ __('Affiliation') }}">{{ __('Affiliation') }}</th>
+                                    <th title="{{ __('Job Title (Pos)') }}">{{ __('Job Title (Pos)') }}</th>
+                                    <th title="{{ __('Full Name') }}">{{ __('Full Name') }}</th>
+                                    <th title="{{ __('Employee Code') }}">{{ __('Employee Code') }}</th>
+                                    <th title="{{ __('Sex') }}">{{ __('Sex') }}</th>
+                                    <th title="{{ __('Age') }}">{{ __('Age') }}</th>
+                                    <th title="{{ __('Information Date') }}">{{ __('Information Date') }}</th>
+                                    <th title="{{ __('Course Deadline') }}">{{ __('Course Deadline') }}</th>
+                                    <th title="{{ __('ToDo Progress') }}">{{ __('ToDo Progress') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

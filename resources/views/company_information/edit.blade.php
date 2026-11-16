@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit Company Information</div>
+                <div class="card-header">{{ __('Edit Company Information') }}</div>
 
                 <div class="card-body">
                     <!-- Form Edit Company -->
@@ -16,28 +16,28 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="company_name">Company Name:</label>
+                            <label for="company_name">{{ __('Company Name') }}:</label>
                             <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $company->company_name }}" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="login_screen_url">Login Screen URL:</label>
+                            <label for="login_screen_url">{{ __('Login Screen URL') }}:</label>
                         <input type="text" class="form-control" id="login_screen_url" value="{{ $company->login_screen_url }}" readonly>
                         </div>
 
                         <div class="form-group">
-                            <label for="icon_storage_file_path">Icon Storage File:</label>
+                            <label for="icon_storage_file_path">{{ __('Company Icon File') }}:</label>
                             <input type="file" class="form-control" id="icon_storage_file_path" name="icon_storage_file_path" onchange="previewIcon(this)">
-                            <img id="icon_preview" src="{{ $company->icon_storage_file_path }}" alt="Current Icon" style="max-width: 100px;">
+                            <img id="icon_preview" src="{{ $company->icon_storage_file_path }}" alt="{{ __('Current Icon') }}" style="max-width: 100px;">
                         </div>
 
                         <div class="form-group">
-                            <label for="teaching_material_storage_file_path">Teaching Material Storage File:</label>
-                            <img id="material_preview" src="{{ $company->teaching_material_storage_file_path }}" alt="Current Material" style="max-width: 100px;">
+                            <label for="teaching_material_storage_file_path">{{ __('Teaching Materials Storage') }}:</label>
+                            <img id="material_preview" src="{{ $company->teaching_material_storage_file_path }}" alt="{{ __('Current Material') }}" style="max-width: 100px;">
                         </div>
                         <div class="row">
-                            <button type="submit" class="btn btn-info"><i class="fas fa-pen"></i> Update</button>
-                            <button type="reset" class="btn btn-danger"><i class="fas fa-reset"></i> Reset</button>
+                            <button type="submit" class="btn btn-info"><i class="fas fa-pen"></i> {{ __('Update') }}</button>
+                            <button type="reset" class="btn btn-danger"><i class="fas fa-reset"></i> {{ __('Reset') }}</button>
                         </div>
                     </form>
                 </div>

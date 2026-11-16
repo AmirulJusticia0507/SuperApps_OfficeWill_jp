@@ -33,55 +33,55 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('employee-inquiry') }}" title="Inquiry by employee">従業員による問い合わせ</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="List of employees">従業員のリスト</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" title="Attendance inquiry by employee">従業員による出席照会</li>
+                    <li class="breadcrumb-item"><a href="{{ route('employee-inquiry') }}" title="{{ __('Employee Inquiry') }}">{{ __('Employee Inquiry') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="{{ __('Employee List') }}">{{ __('Employee List') }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" title="{{ __('Employee Attendance Inquiry') }}">{{ __('Employee Attendance Inquiry') }}</li>
                 </ol>
             </nav>
             <div class="card">
-                <div class="card-header" style="background-color: darkblue" title="Employee"><b style="color:aliceblue">従業員</b></div>
+                <div class="card-header" style="background-color: darkblue" title="{{ __('Employee') }}"><b style="color:aliceblue">{{ __('Employee') }}</b></div>
                     <form action="{{ route('employee.filter') }}" method="get"><br>
                         @csrf
                         <div class="form-group">
-                            <label for="affiliation_id">&emsp;所属:</label>
+                            <label for="affiliation_id">{{ __('Affiliation') }}:</label>
                             <select class="form-control" title="Affiliation" id="affiliation_id" name="affiliationId" required style="display: inline-block; width: 60%;">
-                                <option title="Select Affiliation" value="">所属を選択します</option>
+                                <option title="{{ __('Select Affiliation') }}" value="">{{ __('Select Affiliation') }}</option>
                                 @foreach($affiliations as $affiliation)
                                     <option value="{{ $affiliation->id }}">{{ $affiliation->affiliation_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="job_id">&emsp;役職:</label>
+                            <label for="job_id">{{ __('Job Title') }}:</label>
                             <select class="form-control" title="Job Title" id="job_id" name="jobId" required style="display: inline-block; width: 60%;">
-                                <option title="Select Job Title" value="">役職を選択します</option>
+                                <option title="{{ __('Select Job Title') }}" value="">{{ __('Select Job Title') }}</option>
                                 @foreach($jobTitles as $job)
                                     <option value="{{ $job->id }}">{{ $job->job_title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="fullname">&emsp;フルネーム:</label>
+                            <label for="fullname">{{ __('Full Name') }}:</label>
                             <input type="text" title="Full Name" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" style="display: inline-block; width: 60%;">
                         </div>
                         <div class="form-group">
-                            <label for="employee_code">&emsp;従業員コード:</label>
+                            <label for="employee_code">{{ __('Employee Code') }}:</label>
                             <input type="text" title="Employee Code" class="form-control" id="employee_code" name="employee_code" placeholder="Enter Employee Code" style="display: inline-block; width: 60%;">
                         </div>
-                        <div class="card-header" style="background-color: darkblue" title="Course Taken"><b style="color:aliceblue">コースが取られました</b></div><br>
+                        <div class="card-header" style="background-color: darkblue" title="{{ __('Courses Taken') }}"><b style="color:aliceblue">{{ __('Courses Taken') }}</b></div><br>
                         <div class="form-group">
-                            <label for="course_classification">&emsp;コース分類:</label>
+                            <label for="course_classification">{{ __('Course Classification') }}:</label>
                             <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
-                            <option title="Select Course Classification" value="">コース分類を選択します</option>
+                            <option title="{{ __('Select Course Classification') }}" value="">{{ __('Select Course Classification') }}</option>
                                 @foreach($classifications as $classification)
                                     <option value="{{ $classification->id }}">{{ $classification->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="course_classification_details">&emsp;コース分類の詳細:</label>
+                            <label for="course_classification_details">{{ __('Course Classification Details') }}:</label>
                             <select class="form-control" id="course_classification_details_id" title="Course Classification Details" name="course_classification_details_id" required style="display: inline-block; width: 60%;">
-                                <option title="Select Course Classification Details" value="">コース分類の詳細を選択します</option>
+                                <option title="{{ __('Select Course Classification Details') }}" value="">{{ __('Select Course Classification Details') }}</option>
                                 @foreach($details as $detail)
                                     <option value="{{ $detail->id }}">{{ $detail->name }}</option>
                                 @endforeach
@@ -98,34 +98,34 @@
                             value="{{ isset($course) ? $course->coursename : '' }}">
                     </div> -->
                     <div class="form-group">
-                        <label for="course_id">&emsp;コース名:</label>
+                        <label for="course_id">{{ __('Course Name') }}:</label>
                         <select name="course_id" id="course_id" title="Course Name" class="form-control" style="display: inline-block; width: 60%;">
-                            <option title="Select Course" value="">コースを選択します</option>
+                            <option title="{{ __('Select Course') }}" value="">{{ __('Select Course') }}</option>
                             @foreach($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->course_name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div align="center">
-                        <button type="submit" class="btn btn-primary btn-block" title="Search" style="background-color: darkblue">検索</button>
+                        <button type="submit" class="btn btn-primary btn-block" title="{{ __('Search') }}" style="background-color: darkblue">{{ __('Search') }}</button>
                     </div>
                 </form>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <div class="card-header" style="background-color: #92CDFC" align="center" title="Employee List"><b style="color:aliceblue">従業員リスト</b></div>
+                    <div class="card-header" style="background-color: #92CDFC" align="center" title="{{ __('Employee List') }}"><b style="color:aliceblue">{{ __('Employee List') }}</b></div>
                     <!-- DataTable -->
                     <table id="employeeinquiryTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th title="Affiliation">所属</th>
-                                <th title="Job Title (Pos)">役職 POS</th>
-                                <th title="Full Name">フルネーム</th>
-                                <th title="Employee Code">従業員コード</th>
-                                <th title="Sex">セックス</th>
-                                <th title="Age">年</th>
+                                <th title="{{ __('Affiliation') }}">{{ __('Affiliation') }}</th>
+                                <th title="{{ __('Job Title (Pos)') }}">{{ __('Job Title (Pos)') }}</th>
+                                <th title="{{ __('Full Name') }}">{{ __('Full Name') }}</th>
+                                <th title="{{ __('Employee Code') }}">{{ __('Employee Code') }}</th>
+                                <th title="{{ __('Sex') }}">{{ __('Sex') }}</th>
+                                <th title="{{ __('Age') }}">{{ __('Age') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -150,8 +150,8 @@
             <br><br><br><br><br>
                 <div class="mt-2 sticky-list-group">
                     <ul class="list-group rounded-6" style="float: right;">
-                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Employee list"><b style="color:aliceblue"> 社員一覧</b></a></li>
-                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-inquiry') }}" title="Attendance employee inquiry"><b style="color:aliceblue">  受講照会トップ</b></a></li>
+                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="{{ __('Employee List') }}"><b style="color:aliceblue">{{ __('Employee List') }}</b></a></li>
+                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-inquiry') }}" title="{{ __('Employee Attendance Inquiry') }}"><b style="color:aliceblue">{{ __('Employee Attendance Inquiry') }}</b></a></li>
                     </ul>
                 </div>
             </div>

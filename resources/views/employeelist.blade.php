@@ -20,22 +20,22 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('member-registration.create') }}"
-                            title="Employee Registration">従業員の登録</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="Employee List">従業員リスト</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" title="Employee List">従業員リスト</li>
+                            title="{{ __('Employee Registration') }}">{{ __('Employee Registration') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="{{ __('Employee List') }}">{{ __('Employee List') }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" title="{{ __('Employee List') }}">{{ __('Employee List') }}</li>
                 </ol>
             </nav>
             <div class="card">
                 <div class="card-header" style="background-color: darkblue" title="Employee List"><b
-                        style="color:aliceblue">従業員リスト</b></div>
+                        style="color:aliceblue">{{ __('Employee List') }}</b></div>
                 <div class="card-body">
                     <form action="" method="get">
                         <div class="form-group">
-                            <label for="affiliation_code">所属:</label>
+                            <label for="affiliation_code">{{ __('Affiliation') }}:</label>
                             <div class="d-flex align-items-center">
                                 <select class="form-control" title="Affiliation" id="affiliation_code"
                                     name="affiliation_code" style="display: inline-block; width: 60%;">
-                                    <option value="" title="Select Affiliation">所属を選択します</option>
+                                    <option value="" title="{{ __('Select Affiliation') }}">{{ __('Select Affiliation') }}</option>
                                     @foreach ($affiliations as $affiliation)
                                         <option value="{{ $affiliation->affiliation_code }}">
                                             {{ $affiliation->affiliation_name }}</option>
@@ -44,41 +44,41 @@
                                 <div>
                                     <label class="radio-inline">
                                         <input type="radio" name="search_option" value="Display selected affiliation"
-                                            title="Display selected affiliation"> 選択した提携を表示します
+                                            title="{{ __('Display selected affiliation') }}"> {{ __('Display selected affiliation') }}
                                     </label>
                                     <label class="radio-inline ml-3">
                                         <input type="radio" name="search_option"
                                             value="Display selected affiliation and below"
-                                            title="Display selected affiliation and below"> 選択した所属以下を表示します
+                                            title="{{ __('Display selected affiliation and below') }}"> {{ __('Display selected affiliation and below') }}
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="job">役職: <b style="color: red">*</b></label>
+                            <label for="job">{{ __('Job Title') }}: <b style="color: red">*</b></label>
                             <select name="job" id="job" title="Job Title" class="form-control"
                                 style="display: inline-block; width: 88%;">
-                                <option value="" title="Select Job Title">役職を選択します</option>
+                                <option value="" title="{{ __('Select Job Title') }}">{{ __('Select Job Title') }}</option>
                                 @foreach ($jobTitles as $jobTitle)
                                     <option value="{{ $jobTitle->job_id }}">{{ $jobTitle->job_title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="fullname">&emsp;フルネーム:</label>
+                            <label for="fullname">{{ __('Full Name') }}:</label>
                             <input type="text" class="form-control" title="Full Name" id="fullname" name="fullname"
                                 value="{{ request()->fullname ?? '' }}" placeholder="Enter Full Name"
                                 style="display: inline-block; width: 60%;" onkeyup="updateEmployeeCode()">
                         </div>
                         <div class="form-group">
-                            <label for="employee_code">&emsp;従業員コード:</label>
+                            <label for="employee_code">{{ __('Employee Code') }}:</label>
                             <input type="text" class="form-control" title="Employee Code" id="employee_code"
                                 name="employee_code" placeholder="Enter Employee Code"
                                 value="{{ request()->employee_code ?? '' }}" style="display: inline-block; width: 60%;">
                         </div>
                         <div align="center">
                             <button type="submit" class="btn btn-primary btn-block" title="Search"
-                                style="background-color: darkblue">検索</button>
+                                style="background-color: darkblue">{{ __('Search') }}</button>
                         </div>
                     </form>
                 </div>
@@ -87,7 +87,7 @@
             <div class="card">
                 <div class="card-header" title="Employee List" style="background-color: darkblue">
                     <div class="row">
-                        <div class="col d-flex justify-content-center"><b style="color:aliceblue;">従業員リスト</b></div>
+                        <div class="col d-flex justify-content-center"><b style="color:aliceblue;">{{ __('Employee List') }}</b></div>
                         <div class="col-md-2 d-flex justify-content-end">
                             <a class="btn btn-light" href="{{route('member-registration.create')}}">Sign up</a>
                         </div>
@@ -104,12 +104,12 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th title="Affiliation">所属</th>
-                                <th title="Job Title (Pos)">役職 POS</th>
-                                <th title="Full Name">フルネーム</th>
-                                <th title="Employee Code">従業員コード</th>
-                                <th title="Sex">セックス</th>
-                                <th title="Age">年</th>
+                                <th title="{{ __('Affiliation') }}">{{ __('Affiliation') }}</th>
+                                <th title="{{ __('Job Title (Pos)') }}">{{ __('Job Title (Pos)') }}</th>
+                                <th title="{{ __('Full Name') }}">{{ __('Full Name') }}</th>
+                                <th title="{{ __('Employee Code') }}">{{ __('Employee Code') }}</th>
+                                <th title="{{ __('Sex') }}">{{ __('Sex') }}</th>
+                                <th title="{{ __('Age') }}">{{ __('Age') }}</th>
                             </tr>
                         </thead>
                         <tbody>

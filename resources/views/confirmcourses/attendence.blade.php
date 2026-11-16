@@ -18,9 +18,9 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a title="Confirm and take courses" href="{{ route('confirm-courses.index') }}">コースを確認して撮影します</a></li>
-                    <li class="breadcrumb-item" title="List of courses taken" aria-current="page">撮影したコースのリスト</li>
-                    <li class="breadcrumb-item active" title="Attendance" aria-current="page">出席</li>
+                    <li class="breadcrumb-item"><a title="{{ __('Confirm and attend courses') }}" href="{{ route('confirm-courses.index') }}">{{ __('Confirm and attend courses') }}</a></li>
+                    <li class="breadcrumb-item" title="{{ __('List of courses taken') }}" aria-current="page">{{ __('List of courses taken') }}</li>
+                    <li class="breadcrumb-item active" title="{{ __('Attendance') }}" aria-current="page">{{ __('Attendance') }}</li>
                 </ol>
             </nav>
             <!-- Create Classification Form -->
@@ -32,8 +32,8 @@
                         style="width:100%" id="confirmcoursesTable">
                         <thead>
                             <tr>
-                                <th title="Course Name">コース名</th>
-                                <th title="Deadline for enrollment">登録の締め切り</th>
+                                <th title="{{ __('Course Name') }}">{{ __('Course Name') }}</th>
+                                <th title="{{ __('Deadline for enrollment') }}">{{ __('Deadline for enrollment') }}</th>
                                 <th title="ToDo">ToDo</th>
                             </tr>
                         </thead>
@@ -65,7 +65,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="m-1">
-                        <h3 class="py-2"><b title="Course Description:">コース説明:</b></h3>
+                        <h3 class="py-2"><b title="{{ __('Course Description') }}:">{{ __('Course Description') }}:</b></h3>
                         <div class="course-desc mb-2">
                             <p>{{ $scheduleResultCourse->course->course_description }}</p>
                         </div>
@@ -82,7 +82,7 @@
                                 <tr>
                                     <td width="80%">{{ $material->teaching_material_name }}</td>
                                     <td width="20%" class="text-right"><a class="btn btn-info btn-sm" target="_blank"
-                                            href="{{ $material->material_type == '1' ? $material->youtube_video_url : asset($material->book_file_path) }}" title="View materials">教材を見る</a></td>
+                                            href="{{ $material->material_type == '1' ? $material->youtube_video_url : asset($material->book_file_path) }}" title="{{ __('View materials') }}">{{ __('View materials') }}</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -93,15 +93,15 @@
             <div class="card">
                 <div class="card-body">
                     <div class="text-danger">
-                        <p title="Once you have completed the course using the learning materials, please proceed to ToDo.">教材による受講終了後は、ToDoに進んでください。
+                        <p title="{{ __('Once you have completed the course using the learning materials, please proceed to ToDo.') }}">{{ __('Once you have completed the course using the learning materials, please proceed to ToDo.') }}
                         </p>
-                        <p title="(You will not be able to complete the course unless you complete the ToDo.)">(ToDoが完了しないと受講が修了になりません)</p>
+                        <p title="{{ __('You will not be able to complete the course unless you complete the ToDo.') }}">({{ __('You will not be able to complete the course unless you complete the ToDo.') }})</p>
                     </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body"><a class="btn btn-info save-confirm" data-confirm-title="Go to ToDo" data-confirm-html="The test results from the previous completion will be initialized. <br />(If there is a passing setting, it is necessary to clear the passing score) is this good?"
-                        href="{{ route('confirm-courses.todo-answer.index', $scheduleResultCourse->course->course_id) }}" title="Go Todo">ToDoに進む</a></div>
+                        href="{{ route('confirm-courses.todo-answer.index', $scheduleResultCourse->course->course_id) }}" title="{{ __('Go to ToDo') }}">{{ __('Go to ToDo') }}</a></div>
             </div>
 
         </div>

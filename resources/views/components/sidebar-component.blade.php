@@ -242,6 +242,10 @@
                                 class="sidebar-link sidebar-sub-link {{ $isActiveRoute('employee-list') ? 'is-active' : '' }}"><i class="fas fa-users"></i><span class="sidebar-label">{{ __('Employee List') }}</span></a>
                         </li>
                         <li>
+                            <a href="{{ route('employee-access-settings.index') }}" title="{{ __('Access Rights Settings') }}"
+                                class="sidebar-link sidebar-sub-link {{ $isActiveRoute('employee-access-settings.*') ? 'is-active' : '' }}"><i class="fas fa-user-shield"></i><span class="sidebar-label">{{ __('Access Rights Settings') }}</span></a>
+                        </li>
+                        <li>
                             <a href="{{ route('member-registration.create') }}"
                                 title="Employee information registration screen"
                                 class="sidebar-link sidebar-sub-link {{ $isActiveRoute('member-registration.*') ? 'is-active' : '' }}"><i class="fas fa-user-plus"></i><span class="sidebar-label">{{ __('Member Registration') }}</span></a>

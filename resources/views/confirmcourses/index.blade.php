@@ -18,22 +18,22 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a title="Confirm and take courses" href="{{ route('confirm-courses.index') }}">コースを確認して撮影します</a></li>
-                    <li class="breadcrumb-item active" title="List of courses taken" aria-current="page">撮影したコースのリスト</li>
+                    <li class="breadcrumb-item"><a title="{{ __('Confirm and attend courses') }}" href="{{ route('confirm-courses.index') }}">{{ __('Confirm and attend courses') }}</a></li>
+                    <li class="breadcrumb-item active" title="{{ __('List of courses taken') }}" aria-current="page">{{ __('List of courses taken') }}</li>
                 </ol>
             </nav>
             <!-- Create Classification Form -->
             <div class="card">
                 <div class="card-header" style="background-color: darkblue" title="List of courses taken"><b
-                        style="color:aliceblue">撮影したコースのリスト</b></div>
+                        style="color:aliceblue">{{ __('List of courses taken') }}</b></div>
                 <div class="card-body">
                     <table class="display table table-bordered table-striped table-hover responsive nowrap"
                         style="width:100%" id="confirmcoursesTable">
                         <thead>
                             <tr>
-                                <th title="Course Name">コース名</th>
-                                <th title="Deadline for enrollment">登録の締め切り</th>
-                                <th title="ToDo">全て</th>
+                                <th title="{{ __('Course Name') }}">{{ __('Course Name') }}</th>
+                                <th title="{{ __('Deadline for enrollment') }}">{{ __('Deadline for enrollment') }}</th>
+                                <th title="ToDo">ToDo</th>
                             </tr>
                         </thead>
                         <tbody>
