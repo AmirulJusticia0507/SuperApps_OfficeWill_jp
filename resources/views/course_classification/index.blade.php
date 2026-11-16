@@ -51,7 +51,7 @@
                                 <td>{{ $classification->course_classification_id }}</td>
                                 <td>
                                     @if($classification->icon_file_path)
-                                        <img src="{{ asset(str_starts_with($classification->icon_file_path, '/storage/') ? ltrim($classification->icon_file_path, '/') : 'storage/' . ltrim($classification->icon_file_path, '/')) }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#imagePreviewModal" data-image-src="{{ asset(str_starts_with($classification->icon_file_path, '/storage/') ? ltrim($classification->icon_file_path, '/') : 'storage/' . ltrim($classification->icon_file_path, '/')) }}" style="max-width: 100px; cursor: pointer;">
+                                        <img src="{{ $classification->icon_url }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#imagePreviewModal" data-image-src="{{ $classification->icon_url }}" style="max-width: 100px; cursor: pointer;">
                                     @else
                                         <span class="text-muted">{{ __('No image') }}</span>
                                     @endif
@@ -101,7 +101,7 @@
                                                 <div class="form-group">
                                                     <label for="icon_file_path">{{ __('Company Icon File') }}:</label>
                                                      <input type="file" class="form-control" name="icon_file_path" onchange="previewIcon(this)">
-                                                     <img src="{{ $classification->icon_file_path ? asset(str_starts_with($classification->icon_file_path, '/storage/') ? ltrim($classification->icon_file_path, '/') : 'storage/' . ltrim($classification->icon_file_path, '/')) : '' }}" alt="{{ __('Current Icon') }}" style="max-width: 100px;">
+                                                     <img src="{{ $classification->icon_url ?? '' }}" alt="{{ __('Current Icon') }}" style="max-width: 100px;">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="display_order">{{ __('Display Order') }}:</label>

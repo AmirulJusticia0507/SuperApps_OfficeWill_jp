@@ -45,7 +45,7 @@ class CourseClassificationInformationController extends Controller
         $classification = new CourseClassificationInformation();
         $classification->company_id = $company->company_id;
         $classification->course_classification_name = $data['classification_name'];
-        $classification->icon_file_path = Storage::url($iconPath);
+         $classification->icon_file_path = $iconPath;
         $classification->displayorder = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
         $classification->save();
 
