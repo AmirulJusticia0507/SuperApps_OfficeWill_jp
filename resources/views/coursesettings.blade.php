@@ -185,8 +185,8 @@
                                         <td>
                                             <span class="course-name-label">{{ $course->coursename }}</span>
                                             <a href="{{ route('course-information.edit', $course->course_id) }}"
-                                                class="course-details-link d-none" data-course-details-link>
-                                                {{ __('View details') }}
+                                                class="course-name-link d-none" data-course-details-link>
+                                                {{ $course->coursename }}
                                             </a>
                                         </td>
                                     </tr>
@@ -410,8 +410,9 @@
             });
 
             $('.course-checkbox').on('change', function() {
-                const link = $(this).closest('tr').find('[data-course-details-link]');
-                link.toggleClass('d-none', !this.checked);
+                const row = $(this).closest('tr');
+                row.find('[data-course-details-link]').toggleClass('d-none', !this.checked);
+                row.find('.course-name-label').toggleClass('d-none', this.checked);
             });
         });
     </script>
