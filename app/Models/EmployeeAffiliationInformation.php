@@ -37,9 +37,14 @@ class EmployeeAffiliationInformation extends Model
 		return str_pad($value, 3, '0', STR_PAD_LEFT);
 	}
 
-	public function affiliation()
+    public function affiliation()
 	{
 		return $this->hasOne(AffiliationInformation::class, 'affiliation_code', 'affiliation_code');
+	}
+
+	public function employee()
+	{
+		return $this->belongsTo(EmployeeInformation::class, 'employee_id', 'employee_id');
 	}
 
 	public function job()

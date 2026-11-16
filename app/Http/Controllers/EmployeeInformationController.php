@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmployeeInformation;
+use App\Models\EmployeeAffiliationInformation;
 use App\Models\AffiliationInformation;
 use App\Models\JobInformation;
 use App\Models\CourseInformation;
@@ -12,6 +13,29 @@ use App\Models\CourseClassificationDetailInformation;
 use Illuminate\Validation\Rule;
 class EmployeeInformationController extends Controller
 {
+    public function accessSettings()
+    {
+        $employeeAffiliations = EmployeeAffiliationInformation::with(['employee', 'affiliation', 'job'])->get();
+
+        return view('employee.access-settings', compact('employeeAffiliations'));
+    }
+
+    public function updateAccessSettings(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'system_administrator_privileges' => ['required', 'boolean'],
+            'employee_registration_authority' => ['required', 'boolean'],
+            'course_enrollment_privileges' => ['required', 'boolean'],
+            'attendance_setting_authority' => ['required', 'boolean'],
+            'authority_validity_scope' => ['required', Rule::in(['1', '2', '3'])],
+            'authority_validity_code' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        EmployeeAffiliationInformation::findOrFail($id)->update($validated);
+
+        return redirect()->route('employee-access-settings.index')->with('success', __('Access settings updated successfully.'));
+    }
+
     /**
      * Display a listing of the resource.
      */

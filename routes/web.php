@@ -89,6 +89,8 @@ Route::middleware('auth.any')->group(function () {
 
 	// Rute untuk job titles
 	Route::middleware('authority:system_administrator_privileges')->group(function () {
+		Route::get('/employee-access-settings', [EmployeeInformationController::class, 'accessSettings'])->name('employee-access-settings.index');
+		Route::put('/employee-access-settings/{id}', [EmployeeInformationController::class, 'updateAccessSettings'])->name('employee-access-settings.update');
 		Route::resource('job-titles', JobTitleController::class);
 		Route::resource('affiliation-information', AffiliationInformationController::class)->except(['destroy']);
 		Route::post('/affiliation-information/reset', [AffiliationInformationController::class, 'resetForm'])->name('affiliation-information.reset');
