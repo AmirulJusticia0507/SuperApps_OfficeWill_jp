@@ -44,7 +44,7 @@
                                 title="{{ __('Course Classification') }}" required style="display: inline-block; width: 60%;">
                                 <option value="">{{ __('Select Course Classification') }}</option>
                                 @foreach ($classifications as $classification)
-                                    <option value="{{ $classification->id }}">
+                                    <option value="{{ $classification->course_classification_id }}">
                                         {{ $classification->course_classification_name }}</option>
                                 @endforeach
                             </select>
@@ -58,7 +58,7 @@
                                 style="display: inline-block; width: 60%;">
                                 <option value="">{{ __('Select Course Classification Details') }}</option>
                                 @foreach ($details as $detail)
-                                    <option value="{{ $detail->id }}">{{ $detail->course_classification_detailsname }}
+                                    <option value="{{ $detail->course_classification_details_id }}">{{ $detail->course_classification_detailsname }}
                                     </option>
                                 @endforeach
                             </select>

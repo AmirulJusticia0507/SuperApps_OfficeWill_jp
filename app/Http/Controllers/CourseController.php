@@ -41,48 +41,30 @@ class CourseController extends Controller
 
 	public function filter(Request $request)
     {
-        $affiliationId = $request->input('affiliationId');
-        $jobId = $request->input('jobId');
-        $fullname = $request->input('fullname');
-        $employeeCode = $request->input('employee_code');
         $courseClassificationId = $request->input('course_classification_id');
         $courseClassificationDetailsId = $request->input('course_classification_details_id');
-        $courseId = $request->input('course_id');
 
-        // Query the filtered employees
-        $employeesQuery = EmployeeInformation::query();
-
-        if ($affiliationId) {
-            $employeesQuery->whereHas('employee_affiliation', function ($query) use ($affiliationId) {
-                $query->where('affiliation_id', $affiliationId);
-            });
+        $coursesQuery = CourseInformation::query();
+        if ($courseClassificationId) {
+            $coursesQuery->where('course_classification_id', $courseClassificationId);
         }
-
-        if ($jobId) {
-            $employeesQuery->whereHas('employee_affiliation', function ($query) use ($jobId) {
-                $query->where('job_id', $jobId);
-            });
+        if ($courseClassificationDetailsId) {
+            $coursesQuery->where('course_classification_details_id', $courseClassificationDetailsId);
         }
-
-        if ($fullname) {
-            $employeesQuery->where('fullname', 'LIKE', '%' . $fullname . '%');
+        if ($request->filled('course_name')) {
+            $coursesQuery->where('coursename', 'LIKE', '%' . $request->input('course_name') . '%');
         }
-
-        if ($employeeCode) {
-            $employeesQuery->where('employee_code', 'LIKE', '%' . $employeeCode . '%');
-        }
-
-        $filteredEmployees = $employeesQuery->get();
+        $courses = $coursesQuery->get();
 
         // Fetch the necessary data
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
         $courses = CourseInformation::all();
         $affiliations = AffiliationInformation::all();
+        $employees = EmployeeInformation::all();
         $jobTitles = JobInformation::all();
 
-        // Return the view with the required data
-        return view('employeeinquiry', compact('classifications', 'details', 'courses', 'affiliations', 'jobTitles', 'filteredEmployees'));
+        return view('courselist', compact('classifications', 'details', 'courses', 'employees', 'affiliations', 'jobTitles'));
     }
 
 	public function settings(Request $request)
