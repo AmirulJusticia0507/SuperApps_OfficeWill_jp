@@ -46,7 +46,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($classifications as $classification)
+                            @forelse ($classifications as $classification)
                             <tr>
                                 <td>{{ $classification->course_classification_id }}</td>
                                 <td>
@@ -116,7 +116,9 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
+                            @empty
+                                <tr><td colspan="5" class="text-center">{{ __('No classifications found.') }}</td></tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

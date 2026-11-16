@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Concerns\BelongsToCompany;
+use Illuminate\Support\Facades\Storage;
 
 class CourseClassificationDetailInformation extends Model
 {
@@ -15,6 +16,23 @@ class CourseClassificationDetailInformation extends Model
 
 	protected $fillable = ['course_classification_details_id', 'course_classification_id', 'company_id', 'course_classification_detailsname', 'icon_file_path', 'display_order'];
     public $timestamps = false;
+
+    public function getIconUrlAttribute(): ?string
+    {
+        if (!$this->icon_file_path) {
+            return null;
+        }
+
+        $path = ltrim($this->icon_file_path, '/');
+        if (str_starts_with($path, 'public/')) {
+            $path = substr($path, 7);
+        }
+        if (str_starts_with($path, 'storage/')) {
+            return asset($path);
+        }
+
+        return Storage::disk('public')->url($path);
+    }
     // Fungsi CRUD
 
     // Create

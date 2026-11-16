@@ -52,8 +52,8 @@
                                             <td>{{ $detail->classification->course_classification_name ?? '' }}</td>
                                             <td>{{ $detail->course_classification_detailsname }}</td>
                                             <td>
-                                                @if($detail->icon_file_path)
-                                                     <img src="{{ asset('storage/' . ltrim($detail->icon_file_path, '/')) }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#detailImagePreviewModal" data-image-src="{{ asset('storage/' . ltrim($detail->icon_file_path, '/')) }}" style="max-width: 100px; cursor: pointer;">
+                                                @if($detail->icon_url)
+                                                     <img src="{{ $detail->icon_url }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#detailImagePreviewModal" data-image-src="{{ $detail->icon_url }}" style="max-width: 100px; cursor: pointer;">
                                                 @else
                                                     No Image
                                                 @endif

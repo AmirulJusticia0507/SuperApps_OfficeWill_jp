@@ -25,6 +25,9 @@ class CourseClassificationInformation extends Model
         }
 
         $path = ltrim($this->icon_file_path, '/');
+        if (str_starts_with($path, 'public/')) {
+            $path = substr($path, 7);
+        }
         if (str_starts_with($path, 'storage/')) {
             return asset($path);
         }
