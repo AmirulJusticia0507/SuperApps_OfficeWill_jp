@@ -7,16 +7,27 @@
 
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 @section('content')
+<style>
+    .company-page { min-height: 100vh; background: #f4f6f9; }
+    .company-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+    body.sidebar-collapsed .company-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
+    .company-page__toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+    .company-page__search { max-width: 24rem; }
+    .company-page .card { border: 0; border-radius: .75rem; box-shadow: 0 .125rem .75rem rgba(0,0,0,.08); }
+    .company-page .card-body { overflow-x: auto; }
+    .company-page table { min-width: 760px; }
+    .company-page .company-icon { width: 5rem; height: 4rem; object-fit: contain; }
+    @media (max-width: 767.98px) {
+        .company-page__content, body.sidebar-collapsed .company-page__content { margin-left: 0; width: 100%; padding: 1rem; }
+        .company-page__toolbar { align-items: stretch; flex-direction: column; }
+        .company-page__search { max-width: none; }
+    }
+</style>
+<div class="company-page">
 <!-- Header -->
 @include('includes.header')
-{{-- <div class="container"> --}}
-<div class="row justify-content-center">
-    <!-- Sidebar -->
-    <div class="col-md-3">
-        @include('includes.sidebar')
-    </div>
-    <div class="col-md-8">
-    <br><br><br>
+@include('includes.sidebar')
+<main class="company-page__content">
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -26,11 +37,9 @@
             </ol>
         </nav>
         <!-- Tombol Create Company Modal -->
-        <div class="text-right">
-            <button class="btn btn-primary mb-3 open-modal" data-url="{{route('company-information.create')}}"><i class="fas fa-plus"></i> 会社を作成します</button>&emsp;
-        </div>
-        <div class="text-left mb-3">
+        <div class="company-page__toolbar">
             <input type="text" id="customSearchBox" class="form-control" placeholder="search in the table...">
+            <button class="btn btn-primary open-modal" data-url="{{ route('company-information.create') }}"><i class="fas fa-plus"></i> 会社を作成します</button>
         </div>
         <div class="card">
             <div class="card-header" style="background-color: darkblue" title="Company Information"><b style="color:aliceblue">企業情報</b></div>
@@ -57,7 +66,7 @@
                                     data-src="{{ asset($company->icon_storage_file_path) }}"
                                     data-caption="Company Icon">
                                     <img src="{{ asset($company->icon_storage_file_path) }}" alt="Company Icon"
-                                        style="max-width: 100px;">
+                                    class="company-icon">
                                 </a>
                             </td>
                             <td>{{ $company->teaching_material_storage_file_path }}</td>
@@ -81,9 +90,7 @@
                 @endif
             </div>
         </div>
-    </div>
-</div>
-{{-- </div> --}}
+</main>
 
 
 <!-- Footer -->
@@ -134,6 +141,7 @@
     </div>
 </div>
 @endforeach
+</div>
 
 @endsection
 

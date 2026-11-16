@@ -6,7 +6,8 @@
 
 
 <style>
-    body.sidebar-collapsed aside.app-sidebar { width: 4.5rem; }
+    aside.app-sidebar { z-index: 1030; }
+    body.sidebar-collapsed aside.app-sidebar { width: 4.5rem !important; }
     body.sidebar-collapsed aside.app-sidebar .sidebar-label,
     body.sidebar-collapsed aside.app-sidebar .sidebar-logo { display: none; }
     body.sidebar-collapsed aside.app-sidebar .sidebar-link { justify-content: center; padding-left: .75rem; padding-right: .75rem; }
