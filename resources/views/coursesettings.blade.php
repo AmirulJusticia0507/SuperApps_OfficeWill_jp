@@ -162,6 +162,11 @@
                     <div class="card-body">
                         <div class="card-header" style="background-color: #92CDFC" title="Course List" align="center"><b
                                 style="color:aliceblue">{{ __('Course List') }}</b></div>
+                        <div class="text-end mb-3" data-course-details-action>
+                            <a href="#" class="btn btn-primary d-none" data-course-details-button>
+                                <i class="fas fa-eye"></i> {{ __('Check course details') }}
+                            </a>
+                        </div>
                         <!-- DataTable -->
                         <table id="courseTable"
                             class="display table table-bordered table-striped table-hover responsive nowrap"
@@ -182,13 +187,7 @@
                                         </td>
                                         <td>{{ $course->classification?->course_classification_name ?? __('Not available') }}</td>
                                         <td>{{ $course->classification_detail?->course_classification_detailsname ?? __('Not available') }}</td>
-                                        <td>
-                                            <span class="course-name-label">{{ $course->coursename }}</span>
-                                            <a href="{{ route('course-information.edit', $course->course_id) }}"
-                                                class="course-name-link d-none" data-course-details-link>
-                                                {{ $course->coursename }}
-                                            </a>
-                                        </td>
+                                        <td>{{ $course->coursename }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -410,9 +409,15 @@
             });
 
             $('.course-checkbox').on('change', function() {
-                const row = $(this).closest('tr');
-                row.find('[data-course-details-link]').toggleClass('d-none', !this.checked);
-                row.find('.course-name-label').toggleClass('d-none', this.checked);
+                const selected = $('.course-checkbox:checked').first();
+                const detailsButton = $('[data-course-details-button]');
+
+                if (selected.length) {
+                    detailsButton.attr('href', '{{ url('/course-information') }}/' + selected.val() + '/edit');
+                    detailsButton.removeClass('d-none');
+                } else {
+                    detailsButton.addClass('d-none').attr('href', '#');
+                }
             });
         });
     </script>
