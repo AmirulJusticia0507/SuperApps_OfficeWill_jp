@@ -44,7 +44,7 @@
                     <select class="form-control" id="course_classification_id" name="course_classification_id" title="Course Classification" required style="display: inline-block; width: 60%;">
                         <option value="" title="{{ __('Select Course Classification') }}">{{ __('Select Course Classification') }}</option>
                         @foreach ($classifications as $classification)
-                            <option value="{{ $classification->id }}">{{ $classification->name }}</option>
+                            <option value="{{ $classification->course_classification_id }}">{{ $classification->course_classification_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -55,7 +55,7 @@
                         <option value="" title="{{ __('Select Course Classification Details') }}">{{ __('Select Course Classification Details') }}</option>
                         <!-- Tambahkan foreach loop untuk menampilkan pilihan course classification details -->
                         @foreach ($details as $detail)
-                            <option value="{{ $detail->id }}">{{ $detail->name }}</option>
+                            <option value="{{ $detail->course_classification_details_id }}" data-classification-id="{{ $detail->Course_classification_id }}">{{ $detail->course_classification_detailsname }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -68,12 +68,8 @@
                     <select name="course_id" title="Course Name" id="course_id" class="form-control"
                         style="display: inline-block; width: 60%;">
                         <option value="" title="{{ __('Select Course') }}">{{ __('Select Course') }}</option>
-                        <!-- @foreach ($courses as $course)
-                            <option value="{{ $course->id }}" @if (isset($selectedCourse) && $selectedCourse->id == $course->id) selected @endif>
-                                {{ $course->course_name }}</option>
-                        @endforeach -->
                         @foreach($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                <option value="{{ $course->course_id }}" data-classification-id="{{ $course->Course_classification_id }}" data-detail-id="{{ $course->course_classification_details_id }}">{{ $course->coursename }}</option>
                             @endforeach
                     </select>
                 </div>
@@ -233,6 +229,41 @@
                 dom: 'lBfrtip',
                 buttons: ['copy', 'excel', 'pdf']
             });
+
+            const classificationSelect = document.getElementById('course_classification_id');
+            const detailSelect = document.getElementById('course_classification_details_id');
+            const courseSelect = document.getElementById('course_id');
+            const allDetails = Array.from(detailSelect.options).slice(1);
+            const allCourses = Array.from(courseSelect.options).slice(1);
+
+            function updateInquiryOptions() {
+                const classificationId = classificationSelect.value;
+                const detailId = detailSelect.value;
+
+                detailSelect.replaceChildren(new Option(@json(__('Select Course Classification Details')), ''));
+                allDetails.forEach(function(option) {
+                    if (!classificationId || option.dataset.classificationId === classificationId) {
+                        detailSelect.add(option.cloneNode(true));
+                    }
+                });
+                if (detailId && Array.from(detailSelect.options).some(option => option.value === detailId)) {
+                    detailSelect.value = detailId;
+                }
+
+                courseSelect.replaceChildren(new Option(@json(__('Select Course')), ''));
+                allCourses.forEach(function(option) {
+                    const classificationMatches = !classificationId || option.dataset.classificationId === classificationId;
+                    const detailMatches = !detailSelect.value || option.dataset.detailId === detailSelect.value;
+                    if (classificationMatches && detailMatches) courseSelect.add(option.cloneNode(true));
+                });
+            }
+
+            classificationSelect.addEventListener('change', function() {
+                detailSelect.value = '';
+                updateInquiryOptions();
+            });
+            detailSelect.addEventListener('change', updateInquiryOptions);
+            updateInquiryOptions();
         });
     </script>
     <script>
