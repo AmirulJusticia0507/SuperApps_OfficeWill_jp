@@ -104,11 +104,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     <script>
         const enrollmentTrend = @json($enrollmentTrend);
-        const todoProgress = @json([
+        const todoProgress = {!! json_encode([
             ['label' => __('Completed'), 'total' => $completedCount],
             ['label' => __('In Progress'), 'total' => $inProgressCount],
             ['label' => __('Not Started'), 'total' => $notStartedCount],
-        ]);
+        ]) !!};
 
         $(document).ready(function() {
             // Tambahkan event click pada tombol pushmenu
