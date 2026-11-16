@@ -12,4 +12,45 @@
     .tw-card-header {
         @apply rounded-t-xl border-b border-slate-200 px-5 py-4 text-base font-semibold text-slate-800;
     }
+
+    .dashboard-stat-card {
+        position: relative;
+        min-height: 156px;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, .22);
+        border-radius: 1rem;
+        background: #fff;
+        box-shadow: 0 10px 25px rgba(15, 23, 42, .08);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .dashboard-stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px rgba(15, 23, 42, .14);
+    }
+
+    .dashboard-stat-card::after {
+        position: absolute;
+        right: -2rem;
+        bottom: -3rem;
+        width: 9rem;
+        height: 9rem;
+        border-radius: 50%;
+        background: currentColor;
+        content: '';
+        opacity: .08;
+    }
+
+    .dashboard-stat-card__body { position: relative; z-index: 1; padding: 1.25rem; }
+    .dashboard-stat-card__label { margin: 1rem 0 .35rem; color: #64748b; font-size: .85rem; font-weight: 600; }
+    .dashboard-stat-card__value { margin: 0; color: #0f172a; font-size: 2rem; font-weight: 800; line-height: 1; }
+    .dashboard-stat-card__icon { display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border-radius: .85rem; color: #fff; font-size: 1.15rem; box-shadow: 0 6px 14px rgba(15, 23, 42, .14); }
+    .dashboard-stat-card--cyan { color: #0891b2; }
+    .dashboard-stat-card--cyan .dashboard-stat-card__icon { background: linear-gradient(135deg, #06b6d4, #2563eb); }
+    .dashboard-stat-card--blue { color: #2563eb; }
+    .dashboard-stat-card--blue .dashboard-stat-card__icon { background: linear-gradient(135deg, #2563eb, #4f46e5); }
+    .dashboard-stat-card--green { color: #16a34a; }
+    .dashboard-stat-card--green .dashboard-stat-card__icon { background: linear-gradient(135deg, #22c55e, #059669); }
+    .dashboard-stat-card--amber { color: #d97706; }
+    .dashboard-stat-card--amber .dashboard-stat-card__icon { background: linear-gradient(135deg, #f59e0b, #ea580c); }
 }

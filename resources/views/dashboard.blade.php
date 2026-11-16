@@ -60,27 +60,23 @@
                 <div class="container-fluid px-0">
                     <div class="row">
                         <div class="col-12 col-sm-6 col-xl-3 mb-3">
-                            <div class="small-box bg-info mb-0">
-                                <div class="inner"><h3>{{ number_format($courseCount) }}</h3><p>{{ __('Courses') }}</p></div>
-                                <div class="icon"><i class="fas fa-book"></i></div>
+                            <div class="dashboard-stat-card dashboard-stat-card--cyan">
+                                <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-book"></i></div><p class="dashboard-stat-card__label">{{ __('Courses') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($courseCount) }}</h3></div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-xl-3 mb-3">
-                            <div class="small-box bg-primary mb-0">
-                                <div class="inner"><h3>{{ number_format($enrollmentCount) }}</h3><p>{{ __('Course Enrollments') }}</p></div>
-                                <div class="icon"><i class="fas fa-users"></i></div>
+                            <div class="dashboard-stat-card dashboard-stat-card--blue">
+                                <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-users"></i></div><p class="dashboard-stat-card__label">{{ __('Course Enrollments') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($enrollmentCount) }}</h3></div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-xl-3 mb-3">
-                            <div class="small-box bg-success mb-0">
-                                <div class="inner"><h3>{{ number_format($completedCount) }}</h3><p>{{ __('Completed') }}</p></div>
-                                <div class="icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="dashboard-stat-card dashboard-stat-card--green">
+                                <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-check-circle"></i></div><p class="dashboard-stat-card__label">{{ __('Completed') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($completedCount) }}</h3></div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-xl-3 mb-3">
-                            <div class="small-box bg-warning mb-0">
-                                <div class="inner"><h3>{{ number_format($inProgressCount + $notStartedCount) }}</h3><p>{{ __('In Progress or Not Started') }}</p></div>
-                                <div class="icon"><i class="fas fa-clock"></i></div>
+                            <div class="dashboard-stat-card dashboard-stat-card--amber">
+                                <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-clock"></i></div><p class="dashboard-stat-card__label">{{ __('In Progress or Not Started') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($inProgressCount + $notStartedCount) }}</h3></div>
                             </div>
                         </div>
                     </div>
