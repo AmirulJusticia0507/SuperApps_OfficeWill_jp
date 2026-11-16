@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Concerns\BelongsToCompany;
 
 class CompanyInformation extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToCompany;
     protected $primaryKey = 'company_id';
     protected $fillable = ['company_id', 'company_name', 'login_screen_url', 'icon_storage_file_path', 'teaching_material_storage_file_path', 'created_at', 'updated_at'];
 

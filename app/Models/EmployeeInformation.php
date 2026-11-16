@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Concerns\BelongsToCompany;
 
 class EmployeeInformation extends Authenticatable
 {
-	use HasFactory, Notifiable, SoftDeletes;
+	use HasFactory, Notifiable, SoftDeletes, BelongsToCompany;
 
     protected $table = 'employee_information';
 

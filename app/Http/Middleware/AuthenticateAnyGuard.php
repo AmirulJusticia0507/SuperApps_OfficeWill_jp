@@ -10,7 +10,13 @@ class AuthenticateAnyGuard
 {
 	public function handle(Request $request, Closure $next): Response
 	{
-		if (auth()->guard('employee')->check() || auth()->guard('web')->check()) {
+		$employeeGuard = auth()->guard('employee');
+		if ($employeeGuard->check()) {
+			$request->attributes->set('tenant.company_id', $employeeGuard->user()->company_id);
+			return $next($request);
+		}
+
+		if (auth()->guard('web')->check()) {
 			return $next($request);
 		}
 

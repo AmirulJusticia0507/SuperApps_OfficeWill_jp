@@ -5,10 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Concerns\BelongsToCompany;
 
 class JobInformation extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToCompany;
+
+    public function includesSharedCompanyRecords(): bool
+    {
+        return true;
+    }
 
     // Sesuaikan dengan nama tabel di database
     protected $table = 'job_information';

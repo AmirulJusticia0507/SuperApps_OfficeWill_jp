@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Concerns\BelongsToCompany;
 
 class CourseClassificationInformation extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToCompany;
     protected $primaryKey = 'course_classification_id';
 
     protected $fillable = ['course_classification_id', 'course_classification_name', 'icon_file_path', 'displayorder'];

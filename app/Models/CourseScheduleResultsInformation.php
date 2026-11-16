@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Concerns\BelongsToCompany;
 
 class CourseScheduleResultsInformation extends Model
 {
-	use HasFactory, SoftDeletes;
+	use HasFactory, SoftDeletes, BelongsToCompany;
 
 	protected $fillable = [
 		'attendance_setting_id',
