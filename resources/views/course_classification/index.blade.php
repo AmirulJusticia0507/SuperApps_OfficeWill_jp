@@ -19,27 +19,30 @@
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#" title="Course Classification Registration">コース分類登録</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('course-classification.index') }}" title="Course Classification">コース分類</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" title="Course Classification Registration">コース分類登録</li>
+                    <li class="breadcrumb-item"><a href="#" title="{{ __('Course Classification Registration') }}">{{ __('Course Classification Registration') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('course-classification.index') }}" title="{{ __('Course Classification') }}">{{ __('Course Classification') }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" title="{{ __('Course Classification Registration') }}">{{ __('Course Classification Registration') }}</li>
                 </ol>
             </nav>
             <!-- Button to Open Modal -->
-            <button type="button" class="btn btn-dark mb-3" data-bs-toggle="modal" data-bs-target="#createClassificationModal">新しい分類を作成</button>
+            <div class="master-page__toolbar">
+                <input type="text" id="classificationSearchBox" class="form-control master-page__search" placeholder="{{ __('Search table...') }}">
+                <button type="button" class="btn btn-dark mb-3" data-bs-toggle="modal" data-bs-target="#createClassificationModal">{{ __('Create New Classification') }}</button>
+            </div>
             <!-- Course Classifications Table -->
             <div class="card">
                 <div class="card-header" title="Course Classifications Registration" style="background-color: darkblue">
-                    <b style="color:aliceblue">コース分類登録</b>
+                    <b style="color:aliceblue">{{ __('Course Classification Registration') }}</b>
                 </div>
                 <div class="card-body">
                     <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="classificationTable">
                         <thead>
                             <tr>
                                 <th scope="col" title="ID">id</th>
-                                <th scope="col" title="Icon">アイコン</th>
-                                <th scope="col" title="Classification Name">分類名</th>
-                                <th scope="col" title="Display Order">表示順</th>
-                                <th scope="col" title="Actions">行動</th>
+                                <th scope="col" title="{{ __('Icon') }}">{{ __('Icon') }}</th>
+                                <th scope="col" title="{{ __('Classification Name') }}">{{ __('Classification Name') }}</th>
+                                <th scope="col" title="{{ __('Display Order') }}">{{ __('Display Order') }}</th>
+                                <th scope="col" title="{{ __('Actions') }}">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,13 +56,13 @@
                                 <td>{{ $classification->displayorder }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-light edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal{{ $classification->course_classification_id }}" title="Edit">
-                                        <i class="fas fa-edit"></i> 編集
+                                        <i class="fas fa-edit"></i> {{ __('Edit') }}
                                     </button>
                                     <form action="{{ route('course-classifications.destroy', $classification->course_classification_id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-dark" onclick="return confirm('Are you sure?')" title="Delete">
-                                            <i class="fas fa-trash"></i> 消去
+                                        <button type="submit" class="btn btn-sm btn-dark" onclick="return confirm(@json(__('Are you sure?')) )" title="{{ __('Delete') }}">
+                                            <i class="fas fa-trash"></i> {{ __('Delete') }}
                                         </button>
                                     </form>
                                 </td>
@@ -70,7 +73,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editClassificationModalLabel{{ $classification->course_classification_id }}">Edit Classification</h5>
+                                            <h5 class="modal-title" id="editClassificationModalLabel{{ $classification->course_classification_id }}">{{ __('Edit Classification') }}</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -79,30 +82,30 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="form-group">
-                                                    <label for="company_name">Company:</label>
+                                                    <label for="company_name">{{ __('Company Name') }}:</label>
                                                     <select class="form-select" id="company_name" name="company_name" required>
-                                                        <option value="" selected disabled>Select Company</option>
+                                                        <option value="" selected disabled>{{ __('Select Company') }}</option>
                                                         @foreach($companies as $company)
                                                         <option value="{{ $company->company_name }}" {{ $company->company_id == $classification->company_id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="classification_name">Classification Name:</label>
+                                                    <label for="classification_name">{{ __('Classification Name') }}:</label>
                                                     <input type="text" class="form-control" id="classification_name" name="classification_name" value="{{ $classification->course_classification_name }}" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="icon_file_path">Icon Storage File:</label>
+                                                    <label for="icon_file_path">{{ __('Company Icon File') }}:</label>
                                                     <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" onchange="previewIcon(this)">
-                                                    <img id="icon_preview" src="{{ $classification->icon_file_path }}" alt="Current Icon" style="max-width: 100px;">
+                                                    <img id="icon_preview" src="{{ $classification->icon_file_path }}" alt="{{ __('Current Icon') }}" style="max-width: 100px;">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="display_order">Display Order:</label>
+                                                    <label for="display_order">{{ __('Display Order') }}:</label>
                                                     <input type="number" class="form-control" id="display_order" name="display_order" value="{{ $classification->displayorder }}" required>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="reset" class="btn btn-dark"><i class="fas fa-power-off"></i> Reset</button>
-                                                    <button type="submit" class="btn btn-info"><i class="fas fa-pen"></i> Update</button>
+                                                        <button type="reset" class="btn btn-dark"><i class="fas fa-power-off"></i> {{ __('Reset') }}</button>
+                                                        <button type="submit" class="btn btn-info"><i class="fas fa-pen"></i> {{ __('Update') }}</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -119,7 +122,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header" style="background-color: darkblue">
-                                <h5 class="modal-title" id="createClassificationModalLabel" style="color:aliceblue">分類を作成します</h5>
+                                <h5 class="modal-title" id="createClassificationModalLabel" style="color:aliceblue">{{ __('Create Classification') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -127,30 +130,30 @@
                                 <form method="POST" action="{{ route('classifications.store') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="company_name" class="form-label">会社</label>
+                                        <label for="company_name" class="form-label">{{ __('Company Name') }}</label>
                                         <select class="form-select" id="company_name" name="company_name" required>
-                                            <option value="" selected disabled>Companyを選択します</option>
+                                            <option value="" selected disabled>{{ __('Select Company') }}</option>
                                             @foreach($companies as $company)
                                             <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="classification_name" class="form-label" title="Classification Name">分類名 <span style="color: red">*</span></label>
+                                        <label for="classification_name" class="form-label" title="{{ __('Classification Name') }}">{{ __('Classification Name') }} <span style="color: red">*</span></label>
                                         <input type="text" class="form-control" id="classification_name" name="classification_name" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="icon_file_path" class="form-label">アイコンファイルパス</label>
+                                        <label for="icon_file_path" class="form-label">{{ __('Icon File Path') }}</label>
                                         <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" title="Icon File Path" required onchange="previewIcon(this)">
                                         <img id="icon_preview" src="#" alt="Preview Icon" style="max-width: 100px; display: none;">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="display_order" class="form-label">表示順 <span style="color: red">*</span></label>
+                                        <label for="display_order" class="form-label">{{ __('Display Order') }} <span style="color: red">*</span></label>
                                         <input type="number" class="form-control" id="display_order" name="display_order" required>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="reset" class="btn btn-light" title="Reset"><i class="fas fa-undo"></i> リセット</button>
-                                        <button type="submit" class="btn btn-primary" title="Submit"><i class="fas fa-send"></i> 提出する</button>
+                                        <button type="reset" class="btn btn-light" title="{{ __('Reset') }}"><i class="fas fa-undo"></i> {{ __('Reset') }}</button>
+                                        <button type="submit" class="btn btn-primary" title="{{ __('Submit') }}"><i class="fas fa-send"></i> {{ __('Submit') }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -170,7 +173,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#classificationTable').DataTable({
+        var table = $('#classificationTable').DataTable({
             responsive: true,
             scrollX: true,
             searching: true,
@@ -179,6 +182,7 @@
             dom: 'lBfrtip',
             buttons: ['copy', 'excel', 'pdf']
         });
+        $('#classificationSearchBox').on('keyup', function () { table.search(this.value).draw(); });
     });
 </script>
 <script>

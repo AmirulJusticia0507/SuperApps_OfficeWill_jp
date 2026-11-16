@@ -19,17 +19,18 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#" title="Course Classification Details Registration">コース分類の詳細登録</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('course-classification-details.index') }}" title="Course Classification Details">コース分類の詳細</a></li>
-                        <li class="breadcrumb-item active" aria-current="page" title="Course Classification Details Registration">コース分類の詳細登録</li>
+                        <li class="breadcrumb-item"><a href="#" title="{{ __('Course Classification Details Registration') }}">{{ __('Course Classification Details Registration') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('course-classification-details.index') }}" title="{{ __('Course Classification Details') }}">{{ __('Course Classification Details') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" title="{{ __('Course Classification Details Registration') }}">{{ __('Course Classification Details Registration') }}</li>
                     </ol>
                 </nav>
-                <div align="right">&emsp;
-                    <button type="button" class="btn btn-info float-end" data-bs-toggle="modal" data-bs-target="#createDetailModal" title="Create New Details"><i class="fas fa-plus"></i> 新しい詳細を作成します</button>&emsp;&emsp;<br><br>
+                <div class="master-page__toolbar">
+                    <input type="text" id="classificationDetailsSearchBox" class="form-control master-page__search" placeholder="{{ __('Search table...') }}">
+                    <button type="button" class="btn btn-info float-end" data-bs-toggle="modal" data-bs-target="#createDetailModal" title="{{ __('Create New Details') }}"><i class="fas fa-plus"></i> {{ __('Create New Details') }}</button>
                 </div>
                 <div class="card">
                     <div class="card-header" title="Course Classification Details" style="background-color: darkblue">
-                        <b style="color:aliceblue">コース分類の詳細</b>
+                        <b style="color:aliceblue">{{ __('Course Classification Details') }}</b>
 
                     </div>
                     <div class="card-body">
@@ -37,9 +38,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col" title="Classification Name">分類名</th>
-                                    <th scope="col" title="Classification Detail Name">分類詳細名</th>
-                                    <th scope="col" title="Icon">アイコン</th>
+                                    <th scope="col" title="{{ __('Classification Name') }}">{{ __('Classification Name') }}</th>
+                                    <th scope="col" title="{{ __('Classification Detail Name') }}">{{ __('Classification Detail Name') }}</th>
+                                    <th scope="col" title="{{ __('Icon') }}">{{ __('Icon') }}</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -59,12 +60,12 @@
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-info edit-btn" title="Edit" data-bs-toggle="modal" data-bs-target="#editDetailModal{{ $detail->course_classification_details_id }}">
-                                                    <i class="fas fa-edit"></i> 編集
+                                                    <i class="fas fa-edit"></i> {{ __('Edit') }}
                                                 </button>
                                                 <form action="{{ route('details.destroy', $detail->course_classification_details_id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-dark" title="Delete" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> 消去</button>
+                                                    <button type="submit" class="btn btn-sm btn-dark" title="{{ __('Delete') }}" onclick="return confirm(@json(__('Are you sure?')))" ><i class="fas fa-trash"></i> {{ __('Delete') }}</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -89,7 +90,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="createDetailModalLabel" title="Create Course Classification Detail">コース分類の詳細を作成します</h5>
+                                <h5 class="modal-title" id="createDetailModalLabel" title="{{ __('Create Course Classification Detail') }}">{{ __('Create Course Classification Detail') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -97,9 +98,9 @@
                                     @csrf
 
                                     <div class="mb-3">
-                                        <label for="course_classification_id" class="form-label" title="Course Classification">コース分類</label>
+                                        <label for="course_classification_id" class="form-label" title="{{ __('Course Classification') }}">{{ __('Course Classification') }}</label>
                                         <select class="form-select" id="course_classification_id" name="course_classification_id" title="Select Course Classification" required>
-                                            <option value="" selected disabled>コース分類を選択します</option>
+                                            <option value="" selected disabled>{{ __('Select Course Classification') }}</option>
                                             @foreach($classifications as $classification)
                                             <option value="{{ $classification->course_classification_id }}">
                                                 {{ $classification->course_classification_name }}</option>
@@ -107,25 +108,25 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="course_classification_detailsname" class="form-label" title="Classification Detail Name">分類詳細名
+                                        <label for="course_classification_detailsname" class="form-label" title="{{ __('Classification Detail Name') }}">{{ __('Classification Detail Name') }}
                                             <span style="color: red">*</span></label>
                                         <input type="text" class="form-control" id="course_classification_detailsname"
                                             name="course_classification_detailsname" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="display_order" class="form-label" title="Display Order">表示順 <span
+                                        <label for="display_order" class="form-label" title="{{ __('Display Order') }}">{{ __('Display Order') }} <span
                                                 style="color: red">*</span></label>
                                         <input type="number" class="form-control" id="display_order" name="display_order" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="icon_file_path" class="form-label" title="Course Classification Detail Icon">コース分類の詳細アイコン</label>
+                                        <label for="icon_file_path" class="form-label" title="{{ __('Course Classification Detail Icon') }}">{{ __('Course Classification Detail Icon') }}</label>
                                         <input type="file" class="form-control" id="icon_file_path" name="icon_file_path" required onchange="previewIcon(this)">
                                         <img id="icon_preview" src="#" alt="Preview Icon" style="max-width: 100px; display: none;">
                                     </div><br><br>
                                     <div align="center">
                                         <button type="reset" class="btn btn-light" title="Reset" data-bs-dismiss="modal"><i
-                                                class="fas fa-undo"></i> リセット</button>
-                                        <button type="submit" class="btn btn-primary" title="Submit"><i class="fas fa-send"></i> 提出する</button>
+                                                class="fas fa-undo"></i> {{ __('Reset') }}</button>
+                                        <button type="submit" class="btn btn-primary" title="{{ __('Submit') }}"><i class="fas fa-send"></i> {{ __('Submit') }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -139,7 +140,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="editDetailModalLabel{{ $detail->course_classification_details_id }}" title="Edit Course Classification Detail">コース分類の詳細を編集します</h5>
+                                <h5 class="modal-title" id="editDetailModalLabel{{ $detail->course_classification_details_id }}" title="{{ __('Edit Course Classification Detail') }}">{{ __('Edit Course Classification Detail') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -148,9 +149,9 @@
                                     @method('PUT')
 
                                     <div class="mb-3">
-                                        <label for="course_classification_id" class="form-label" title="Course Classification">コース分類</label>
+                                        <label for="course_classification_id" class="form-label" title="{{ __('Course Classification') }}">{{ __('Course Classification') }}</label>
                                         <select class="form-select" id="course_classification_id" name="course_classification_id" title="Select Course Classification" required>
-                                            <option value="" selected disabled>コース分類を選択します</option>
+                                            <option value="" selected disabled>{{ __('Select Course Classification') }}</option>
                                             @foreach($classifications as $classification)
                                             <option value="{{ $classification->course_classification_id }}" {{ $detail->course_classification_id == $classification->course_classification_id ? 'selected' : '' }}>
                                                 {{ $classification->course_classification_name }}
@@ -159,22 +160,22 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="course_classification_detailsname" class="form-label">分類詳細名
+                                        <label for="course_classification_detailsname" class="form-label">{{ __('Classification Detail Name') }}
                                             <span style="color: red">*</span></label>
                                         <input type="text" class="form-control" id="course_classification_detailsname" name="course_classification_detailsname" title="Classification Detail Name" value="{{ $detail->course_classification_detailsname }}" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="display_order" class="form-label">表示順 <span style="color: red">*</span></label>
+                                        <label for="display_order" class="form-label">{{ __('Display Order') }} <span style="color: red">*</span></label>
                                         <input type="number" class="form-control" id="display_order" name="display_order" title="Display Order" value="{{ $detail->display_order }}" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="icon_file_path" class="form-label">コース分類の詳細アイコン</label>
+                                        <label for="icon_file_path" class="form-label">{{ __('Course Classification Detail Icon') }}</label>
                                         <input type="file" class="form-control" title="Course Classification Detail Icon" id="icon_file_path" name="icon_file_path" onchange="previewIcon(this)">
                                         <img id="icon_preview" src="{{ $detail->icon_file_path ? asset('storage/' . $detail->icon_file_path) : '' }}" alt="Current Icon" style="max-width: 100px;">
                                     </div><br><br>
                                     <div align="center">
-                                        <button type="submit" class="btn btn-info" title="Update"><i class="fas fa-pen"></i> アップデート</button>&emsp;
-                                        <button type="reset" class="btn btn-dark" title="Reset"><i class="fas fa-power-off"></i> リセット</button>
+                                        <button type="submit" class="btn btn-info" title="{{ __('Update') }}"><i class="fas fa-pen"></i> {{ __('Update') }}</button>&emsp;
+                                        <button type="reset" class="btn btn-dark" title="{{ __('Reset') }}"><i class="fas fa-power-off"></i> {{ __('Reset') }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -200,6 +201,7 @@
             dom: 'lBfrtip',
             buttons: ['copy', 'excel', 'pdf']
         });
+        $('#classificationDetailsSearchBox').on('keyup', function () { table.search(this.value).draw(); });
     });
 </script>
 <script>
