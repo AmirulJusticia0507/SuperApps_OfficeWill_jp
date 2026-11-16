@@ -238,5 +238,8 @@
     "Not Started": "Not Started",
     "Chart library unavailable": "Charts are temporarily unavailable.",
     "Image Lightbox": "Image Lightbox",
-    "Success": "Success"
+    "Success": "Success",
+    "Last :months Months": "Last :months Months",
+    "Number of months": "Number of months",
+    "Months": "Months"
 }

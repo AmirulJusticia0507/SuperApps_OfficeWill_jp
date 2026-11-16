@@ -84,8 +84,8 @@
                     <div class="row">
                         <div class="col-12 col-lg-8 mb-3">
                             <div class="card h-100">
-                                <div class="card-header"><h3 class="card-title">{{ __('Course Enrollments - Last 6 Months') }}</h3></div>
-                                 <div class="card-body"><div class="dashboard-chart"><canvas id="enrollmentTrendChart" role="img" aria-label="{{ __('Course Enrollments - Last 6 Months') }}"></canvas><p id="enrollmentChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
+                                <div class="card-header d-flex align-items-center justify-content-between gap-2"><h3 class="card-title mb-0">{{ __('Course Enrollments') }} - {{ __('Last :months Months', ['months' => $months]) }}</h3><form method="GET" action="{{ route('dashboard') }}" class="mb-0"><label for="dashboardMonths" class="visually-hidden">{{ __('Number of months') }}</label><select id="dashboardMonths" name="months" class="form-select form-select-sm" onchange="this.form.submit()" aria-label="{{ __('Number of months') }}">@foreach(range(1, 12) as $option)<option value="{{ $option }}" @selected($months === $option)>{{ $option }} {{ __('Months') }}</option>@endforeach</select></form></div>
+                                 <div class="card-body"><div class="dashboard-chart"><canvas id="enrollmentTrendChart" role="img" aria-label="{{ __('Course Enrollments') }} - {{ __('Last :months Months', ['months' => $months]) }}"></canvas><p id="enrollmentChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4 mb-3">

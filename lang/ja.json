@@ -238,5 +238,8 @@
     "Not Started": "未開始",
     "Chart library unavailable": "グラフを一時的に利用できません。",
     "Image Lightbox": "画像ライトボックス",
-    "Success": "成功"
+    "Success": "成功",
+    "Last :months Months": "過去 :months か月",
+    "Number of months": "月数",
+    "Months": "か月"
 }

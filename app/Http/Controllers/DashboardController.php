@@ -15,6 +15,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $months = min(12, max(1, (int) request()->input('months', 6)));
         $companyId = request()->attributes->get('tenant.company_id');
         $hasCourses = Schema::hasTable('course_information');
         $hasEnrollments = Schema::hasTable('course_schedule_results_information');
@@ -36,12 +37,12 @@ class DashboardController extends Controller
         $monthlyEnrollments = $enrollments ? (clone $enrollments)
             ->selectRaw("EXTRACT(YEAR FROM schedule_course)::int as year, EXTRACT(MONTH FROM schedule_course)::int as month, COUNT(*) as total")
             ->whereNotNull('schedule_course')
-            ->where('schedule_course', '>=', now()->subMonths(5)->startOfMonth())
+            ->where('schedule_course', '>=', now()->subMonths($months - 1)->startOfMonth())
             ->groupByRaw('EXTRACT(YEAR FROM schedule_course), EXTRACT(MONTH FROM schedule_course)')
             ->get()
             ->keyBy(fn ($row) => sprintf('%04d-%02d', $row->year, $row->month)) : collect();
 
-        $enrollmentTrend = collect(range(5, 0))->map(function ($monthsAgo) use ($monthlyEnrollments) {
+        $enrollmentTrend = collect(range($months - 1, 0))->map(function ($monthsAgo) use ($monthlyEnrollments) {
             $date = now()->startOfMonth()->subMonths($monthsAgo);
             $key = $date->format('Y-m');
 
@@ -58,6 +59,7 @@ class DashboardController extends Controller
             'inProgressCount',
             'notStartedCount',
             'enrollmentTrend',
+            'months',
         ));
     }
 }
