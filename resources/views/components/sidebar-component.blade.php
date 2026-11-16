@@ -143,7 +143,7 @@
     <nav class="p-4 flex justify-between items-center">
         <div>
             <a href="{{ route('dashboard') }}" class="sidebar-logo text-white text-lg font-semibold">
-                <img src="{{ isset($yourCompany->icon_storage_file_path) ? asset($yourCompany->icon_storage_file_path) : asset('img/dep-service-logo.svg') }}"
+                <img src="{{ asset('img/dep-service-logo.svg') }}"
                     alt="DEP Service" class="w-32 mx-auto">
             </a>
         </div>
