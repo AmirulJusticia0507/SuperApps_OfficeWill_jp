@@ -216,7 +216,7 @@
                                     <li><a href="{{ route('course-inquiry') }}" title="Course Specific Inquiry"
                                             class="sidebar-link sidebar-sub-link {{ $isActiveRoute('course-inquiry') ? 'is-active' : '' }}"><i class="fas fa-envelope"></i><span class="sidebar-label">{{ __('Course-specific Inquiry') }}</span></a></li>
                                     <li><a href="{{ route('employee-inquiry') }}" title="Employee-Specific Inquiry"
-                                            class="sidebar-link sidebar-sub-link {{ $isActiveRoute('employee-inquiry') ? 'is-active' : '' }}"><i class="fas fa-user-question"></i><span class="sidebar-label">{{ __('Employee-specific Inquiry') }}</span></a></li>
+                                            class="sidebar-link sidebar-sub-link {{ $isActiveRoute('employee-inquiry') ? 'is-active' : '' }}"><i class="fas fa-user"></i><span class="sidebar-label">{{ __('Employee-specific Inquiry') }}</span></a></li>
                                 </ul>
                             </li>
                         @endif
