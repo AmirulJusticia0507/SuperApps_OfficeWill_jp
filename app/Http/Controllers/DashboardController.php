@@ -34,10 +34,10 @@ class DashboardController extends Controller
         $notStartedCount = $enrollments ? (clone $enrollments)->whereNull('todo_progress')->count() : 0;
 
         $monthlyEnrollments = $enrollments ? (clone $enrollments)
-            ->selectRaw('YEAR(schedule_course) as year, MONTH(schedule_course) as month, COUNT(*) as total')
+            ->selectRaw("EXTRACT(YEAR FROM schedule_course)::int as year, EXTRACT(MONTH FROM schedule_course)::int as month, COUNT(*) as total")
             ->whereNotNull('schedule_course')
             ->where('schedule_course', '>=', now()->subMonths(5)->startOfMonth())
-            ->groupByRaw('YEAR(schedule_course), MONTH(schedule_course)')
+            ->groupByRaw('EXTRACT(YEAR FROM schedule_course), EXTRACT(MONTH FROM schedule_course)')
             ->get()
             ->keyBy(fn ($row) => sprintf('%04d-%02d', $row->year, $row->month)) : collect();
 
