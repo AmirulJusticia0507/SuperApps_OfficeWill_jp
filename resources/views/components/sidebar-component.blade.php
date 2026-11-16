@@ -16,6 +16,42 @@
     .sidebar-toggle-outside { position: fixed; top: 1rem; left: 16.5rem; z-index: 99999; width: 2.5rem; height: 2.5rem; border: 0; border-radius: .375rem; background: #1e3a8a; color: #fff; box-shadow: 0 .125rem .25rem rgba(0,0,0,.2); cursor: pointer; transition: left .2s ease, background-color .2s ease; }
     .sidebar-toggle-outside:hover { background: #172554; }
     body.sidebar-collapsed .sidebar-toggle-outside { left: 1rem; }
+    .floating-menu {
+        position: fixed;
+        top: 50%;
+        right: .75rem;
+        z-index: 1040;
+        display: flex;
+        width: 6.5rem;
+        flex-direction: column;
+        transform: translateY(-50%);
+        border: 2px solid #6b7280;
+        border-radius: .5rem;
+        background: #fff;
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .25);
+        overflow: hidden;
+    }
+    .floating-menu a {
+        display: block;
+        padding: .3rem .2rem;
+        border-bottom: 1px solid #fff;
+        background: #b8cbea;
+        color: #fff;
+        font-size: .85rem;
+        font-weight: 600;
+        line-height: 1.15;
+        text-align: center;
+        text-decoration: none;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, .35);
+    }
+    .floating-menu a:first-child,
+    .floating-menu a:last-child { background: #17345f; }
+    .floating-menu a:hover { filter: brightness(.92); }
+    .floating-menu-label { display: none; }
+    @media (max-width: 575.98px) {
+        .floating-menu { right: .35rem; width: 5.5rem; }
+        .floating-menu a { font-size: .72rem; }
+    }
     .sidebar-link { display: flex; align-items: center; }
     /* CSS untuk spinner */
     .page-spinner {
@@ -55,6 +91,22 @@
 
 <!-- resources/views/includes/sidebar.blade.php -->
 {{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
+<nav class="floating-menu" aria-label="Floating shortcut menu">
+    @if ($isSysAdmin || $isEmployeeRegis)
+        <a href="{{ route('employee-list') }}">社員一覧</a>
+    @endif
+    @if ($isSysAdmin || $isEmployeeRegis || $isCourseEnroll || $isAttendenceSetting)
+        <a href="{{ route('course-list') }}">社員登録トップ</a>
+    @endif
+    @if ($isSysAdmin)
+        <a href="{{ route('affiliation-information.index') }}">所属情報</a>
+        <a href="{{ route('company-information.index') }}">基本情報</a>
+    @endif
+    @if ($isSysAdmin || $isEmployeeRegis)
+        <a href="{{ route('member-registration.create') }}">アカウント情報</a>
+        <a href="{{ route('member-registration.create') }}">登録</a>
+    @endif
+</nav>
 <button id="sidebarToggle" type="button" class="sidebar-toggle-outside" aria-label="Toggle sidebar" aria-expanded="true" title="Toggle sidebar"><i class="fas fa-bars"></i></button>
 
 <aside class="app-sidebar bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
