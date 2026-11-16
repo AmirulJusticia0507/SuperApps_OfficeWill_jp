@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 
 class LoginController extends Controller
 {
@@ -38,7 +39,9 @@ class LoginController extends Controller
 		$email = Str::lower($validated['email']);
 		$credentials = ['email' => $email, 'password' => $validated['password']];
 		$throttleKey = 'login:' . $email . '|' . $request->ip();
-		$employee = EmployeeInformation::where('email', $email)->first();
+		$employee = Schema::hasTable('employee_information')
+			? EmployeeInformation::where('email', $email)->first()
+			: null;
 
 		if ($employee) {
 			if ($employee->account_status === 'disabled') {
@@ -109,7 +112,9 @@ class LoginController extends Controller
 	public function logout(Request $request)
 	{
 		Auth::logout();
-		Auth::guard('employee')->logout();
+		if (Schema::hasTable('employee_information')) {
+			Auth::guard('employee')->logout();
+		}
 
 		return redirect()->route('login');
 	}
