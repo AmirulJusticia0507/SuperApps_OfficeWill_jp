@@ -11,9 +11,28 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .dashboard-page { min-height: 100vh; background: #f4f6f9; }
+        .dashboard-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+        body.sidebar-collapsed .dashboard-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
+        .dashboard-page .breadcrumb { margin-bottom: 1.25rem; }
+        .dashboard-page .small-box { min-height: 128px; border-radius: .75rem; box-shadow: 0 .125rem .75rem rgba(0,0,0,.08); overflow: hidden; }
+        .dashboard-page .small-box h3 { font-size: 2rem; font-weight: 700; }
+        .dashboard-page .small-box p { font-size: .95rem; }
+        .dashboard-page .card { border: 0; border-radius: .75rem; box-shadow: 0 .125rem .75rem rgba(0,0,0,.08); }
+        .dashboard-page .card-header { border-bottom: 1px solid rgba(0,0,0,.08); background: #fff; padding: 1rem 1.25rem; }
+        .dashboard-page .card-title { margin: 0; font-size: 1rem; font-weight: 600; }
+        .dashboard-page .card-body { padding: 1.25rem; }
+        .dashboard-chart { position: relative; height: 300px; }
+        .dashboard-chart--donut { height: 280px; }
+        @media (max-width: 767.98px) {
+            .dashboard-page__content, body.sidebar-collapsed .dashboard-page__content { margin-left: 0; width: 100%; padding: 1rem; }
+            .dashboard-chart, .dashboard-chart--donut { height: 250px; }
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper dashboard-page">
         <nav class="main-header navbar navbar-expand navbar-white navbar-light shadow">
             <!-- Tambahkan tombol hamburger di sini -->
             <ul class="navbar-nav">
@@ -28,7 +47,7 @@
         <!-- Include Sidebar -->
         @include('includes.sidebar')
 
-        <div class="content-wrapper">
+        <div class="content-wrapper dashboard-page__content">
             <!-- Konten Utama -->
             <main class="content">
                 <nav aria-label="breadcrumb">
@@ -69,13 +88,13 @@
                         <div class="col-12 col-lg-8 mb-3">
                             <div class="card h-100">
                                 <div class="card-header"><h3 class="card-title">{{ __('Course Enrollments - Last 6 Months') }}</h3></div>
-                                <div class="card-body"><div style="height: 300px"><canvas id="enrollmentTrendChart" role="img" aria-label="{{ __('Course Enrollments - Last 6 Months') }}"></canvas><p id="enrollmentChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
+                                 <div class="card-body"><div class="dashboard-chart"><canvas id="enrollmentTrendChart" role="img" aria-label="{{ __('Course Enrollments - Last 6 Months') }}"></canvas><p id="enrollmentChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4 mb-3">
                             <div class="card h-100">
                                 <div class="card-header"><h3 class="card-title">{{ __('ToDo Progress') }}</h3></div>
-                                <div class="card-body d-flex align-items-center justify-content-center"><div style="height: 280px; width: 100%"><canvas id="todoProgressChart" role="img" aria-label="{{ __('ToDo Progress') }}"></canvas><p id="todoChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
+                                 <div class="card-body d-flex align-items-center justify-content-center"><div class="dashboard-chart dashboard-chart--donut w-100"><canvas id="todoProgressChart" role="img" aria-label="{{ __('ToDo Progress') }}"></canvas><p id="todoChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
                             </div>
                         </div>
                     </div>
