@@ -62,9 +62,9 @@
                                             <td>{{ $detail->course_classification_detailsname }}</td>
                                             <td>
                                                 @if($detail->icon_url)
-                                                     <img src="{{ $detail->icon_url }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#detailImagePreviewModal" data-image-src="{{ $detail->icon_url }}" style="max-width: 100px; cursor: pointer;">
+                                                     <img src="{{ $detail->icon_url }}" alt="Icon" class="table-image-preview" data-bs-toggle="modal" data-bs-target="#detailImagePreviewModal" data-image-src="{{ $detail->icon_url }}" style="display: inline-block; width: 100px; height: 100px; object-fit: contain; cursor: pointer;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
                                                 @else
-                                                    No Image
+                                                     <span style="display: none;">{{ __('No Image') }}</span>
                                                 @endif
                                             </td>
                                             <td>
