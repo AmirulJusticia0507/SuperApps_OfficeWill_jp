@@ -1,7 +1,7 @@
 <?php
 
-it('returns a successful response', function () {
-    $response = $this->get('/');
+it('shows the login page to unauthenticated visitors', function () {
+    $response = $this->get(route('login'));
 
     $response->assertStatus(200);
 });

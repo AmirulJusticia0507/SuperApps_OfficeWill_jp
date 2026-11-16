@@ -16,6 +16,7 @@ beforeEach(function () {
 	Schema::connection('sqlite')->create('course_information', function (Blueprint $table): void {
 		$table->increments('course_id');
 		$table->unsignedInteger('company_id');
+		$table->string('coursename')->nullable();
 		$table->softDeletes();
 		$table->timestamps();
 	});
