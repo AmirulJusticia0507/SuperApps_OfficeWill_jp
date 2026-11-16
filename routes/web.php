@@ -70,7 +70,7 @@ Route::middleware('auth.any')->group(function () {
 
 	// Rute untuk member registration
 	Route::middleware('authority:employee_registration_authority')->group(function () {
-		Route::resource('member-registration', MasterRegistrationController::class);
+		Route::resource('member-registration', MasterRegistrationController::class)->except(['show', 'edit']);
 		Route::resource('employee-information', EmployeeInformationController::class);
 		Route::get('/employees/search', [EmployeeInformationController::class, 'search'])->name('employees.search');
 		Route::get('/employee-index', [EmployeeInformationController::class, 'index'])->name('employee.index');
@@ -110,7 +110,7 @@ Route::middleware('auth.any')->group(function () {
 	Route::middleware('authority:course_enrollment_privileges')->group(function () {
 		Route::resource('course-attribute-pulldown', CourseAttributePulldownSettingsController::class);
 		Route::resource('course-attribute-setting', CourseAttributeSettingInformationController::class);
-		Route::resource('course-information', CourseInformationController::class);
+		Route::resource('course-information', CourseInformationController::class)->except(['show']);
 		Route::resource('course-material-information', CourseMaterialInformationController::class);
 		Route::resource('course-todo-item-information', CourseTodoItemInformationController::class);
 		Route::resource('course-todo-items-choice', CourseTodoItemsChoiceInformationController::class);
@@ -120,12 +120,11 @@ Route::middleware('auth.any')->group(function () {
 		Route::get('/course/filter', [CourseController::class, 'filter'])->name('course.filter');
 		Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
 		Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
-		Route::get('/job/{id}', [CourseController::class, 'show'])->name('job.show');
 		Route::get('/search-courses', [CourseController::class, 'search'])->name('search.courses');
 		Route::get('/employee/filter', [CourseController::class, 'filter'])->name('employee.filter');
 	});
 	Route::middleware('authority:employee_registration_authority,course_enrollment_privileges')->group(function () {
-		Route::resource('course-classifications', CourseClassificationInformationController::class)->except(['destroy']);
+		Route::resource('course-classifications', CourseClassificationInformationController::class)->except(['show', 'destroy']);
 		Route::get('/course-classification', [CourseClassificationInformationController::class, 'index'])->name('course-classification.index');
 		Route::post('/classifications', [CourseClassificationInformationController::class, 'store'])->name('classifications.store');
 		Route::delete('/course-classifications/{id}', [CourseClassificationInformationController::class, 'destroy'])->name('course-classifications.destroy');
@@ -134,7 +133,7 @@ Route::middleware('auth.any')->group(function () {
 	// Rute untuk course attribute setting information
 
 	Route::middleware('authority:employee_registration_authority,course_enrollment_privileges')->group(function () {
-		Route::resource('course-classification-details', CourseClassificationDetailInformationController::class)->except(['store', 'update', 'destroy']);
+		Route::resource('course-classification-details', CourseClassificationDetailInformationController::class)->except(['show', 'store', 'update', 'destroy']);
 		Route::post('/course-classification-details', [CourseClassificationDetailInformationController::class, 'store'])->name('details.store');
 		Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('course-classification-details.update');
 		Route::delete('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('course-classification-details.destroy');
