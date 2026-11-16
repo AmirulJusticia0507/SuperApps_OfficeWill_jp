@@ -127,6 +127,16 @@
 
 <!-- resources/views/includes/sidebar.blade.php -->
 {{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
+<nav class="floating-menu" aria-label="Floating shortcut menu">
+    @if ($isSysAdmin || $isEmployeeRegis)
+        <a href="{{ route('employee-list') }}">社員一覧</a>
+        <a href="{{ route('member-registration.create') }}">社員登録トップ</a>
+        <a href="{{ route('member-registration.create') }}#affiliation-information">所属情報</a>
+        <a href="{{ route('member-registration.create') }}#basic-information">基本情報</a>
+        <a href="{{ route('member-registration.create') }}#account-information">アカウント情報</a>
+        <a href="{{ route('member-registration.create') }}#registration">登録</a>
+    @endif
+</nav>
 <button id="sidebarToggle" type="button" class="sidebar-toggle-outside" aria-label="Toggle sidebar" aria-expanded="true" title="Toggle sidebar"><i class="fas fa-bars"></i></button>
 
 <aside class="app-sidebar bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
