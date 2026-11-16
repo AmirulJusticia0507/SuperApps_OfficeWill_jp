@@ -7,12 +7,15 @@
 
 <style>
     aside.app-sidebar { z-index: 1030; }
-    body.sidebar-collapsed aside.app-sidebar { width: 4.5rem !important; }
+    body.sidebar-collapsed aside.app-sidebar { transform: translateX(-100%); }
     body.sidebar-collapsed aside.app-sidebar .sidebar-label,
     body.sidebar-collapsed aside.app-sidebar .sidebar-logo { display: none; }
     body.sidebar-collapsed aside.app-sidebar .sidebar-link { justify-content: center; padding-left: .75rem; padding-right: .75rem; }
     body.sidebar-collapsed main.content-with-sidebar { margin-left: 4.5rem; }
-    aside.app-sidebar { transition: width .2s ease; }
+    aside.app-sidebar { transition: transform .2s ease; }
+    .sidebar-toggle-outside { position: fixed; top: 1rem; left: 16.5rem; z-index: 1051; width: 2.5rem; height: 2.5rem; border: 0; border-radius: .375rem; background: #1e3a8a; color: #fff; box-shadow: 0 .125rem .25rem rgba(0,0,0,.2); transition: left .2s ease, background-color .2s ease; }
+    .sidebar-toggle-outside:hover { background: #172554; }
+    body.sidebar-collapsed .sidebar-toggle-outside { left: 1rem; }
     .sidebar-link { display: flex; align-items: center; }
     /* CSS untuk spinner */
     .page-spinner {
@@ -52,10 +55,11 @@
 
 <!-- resources/views/includes/sidebar.blade.php -->
 {{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
+<button id="sidebarToggle" type="button" class="sidebar-toggle-outside" aria-label="Toggle sidebar" aria-expanded="true" title="Toggle sidebar"><i class="fas fa-bars"></i></button>
+
 <aside class="app-sidebar bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
     <nav class="p-4 flex justify-between items-center">
         <div>
-            <button id="sidebarToggle" type="button" class="text-white mr-2" aria-label="Toggle sidebar"><i class="fas fa-bars"></i></button>
             <a href="{{ route('dashboard') }}" class="sidebar-logo text-white text-lg font-semibold">
                 <img src="{{ isset($yourCompany->icon_storage_file_path) ? asset($yourCompany->icon_storage_file_path) : 'img/officewill.png' }}"
                     alt="DEP SERVICE" class="w-32 mx-auto">
@@ -218,8 +222,9 @@
             document.body.classList.add('sidebar-collapsed');
         }
         sidebarToggle?.addEventListener('click', function() {
-            document.body.classList.toggle('sidebar-collapsed');
-            localStorage.setItem(collapsedKey, document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+            const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
+            sidebarToggle.setAttribute('aria-expanded', String(!isCollapsed));
+            localStorage.setItem(collapsedKey, isCollapsed ? '1' : '0');
         });
 
         const toggleSubmenu = document.querySelectorAll('.toggle-submenu');
@@ -330,3 +335,5 @@
         });
     });
 </script>
+
+
