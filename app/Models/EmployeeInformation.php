@@ -50,6 +50,8 @@ class EmployeeInformation extends Authenticatable
 
 	protected $casts = [
 		'password' => 'hashed',
+		'numberofincorrect_passwords' => 'integer',
+		'account_lock_datetime' => 'datetime',
 	];
 
 

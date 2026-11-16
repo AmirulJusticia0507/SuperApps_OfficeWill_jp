@@ -7,7 +7,7 @@ Daftar ini disusun dari peninjauan kode dan skema database yang ada. Periksa ula
 - [x] **Lindungi semua halaman dan aksi aplikasi.** Terapkan middleware autentikasi pada dashboard, CRUD perusahaan/karyawan/kursus, materi, kehadiran, dan kuesioner. Tetapkan akses berdasarkan guard dan hak pengguna; jangan mengandalkan penyembunyian menu.
 - [ ] **Pastikan isolasi data perusahaan.** Batasi query dan perubahan data sesuai perusahaan pengguna; uji akses silang dengan ID perusahaan/karyawan/kursus yang dimanipulasi. _(Scope tenant dan feature test sudah ditambahkan; jalankan tes setelah dependency tersedia.)_
 - [ ] **Selaraskan autentikasi karyawan dengan skema aktif.** Verifikasi apakah database menggunakan `encrypted_password` atau `password`, lalu samakan migrasi, model, login, registrasi, dan reset password. Periksa juga skema produksi, bukan hanya dump SQL. _(Migrasi koreksi sudah ditambahkan; belum dapat dijalankan tanpa dependency Laravel.)_
-- [ ] **Perbaiki pemeriksaan akun saat login.** Validasi status disabled dan waktu penguncian sebelum autentikasi dianggap sukses; rapikan penghitung percobaan gagal dan pastikan mekanisme throttle berfungsi.
+- [ ] **Perbaiki pemeriksaan akun saat login.** Validasi status disabled dan waktu penguncian sebelum autentikasi dianggap sukses; rapikan penghitung percobaan gagal dan pastikan mekanisme throttle berfungsi. _(Implementasi dan feature test ditambahkan; eksekusi menunggu dependency Laravel.)_
 
 ## Prioritas tinggi
 

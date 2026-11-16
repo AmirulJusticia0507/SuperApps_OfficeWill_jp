@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\EmployeeInformation;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
-	protected $throttleKey;
 	/**
 	 * Menampilkan formulir login.
 	 *
@@ -31,35 +30,74 @@ class LoginController extends Controller
 	 */
 	public function login(Request $request)
 	{
-		$errorMsg = 'Invalid credentials';
-		$credentials = $request->only('email', 'password');
-		$this->throttleKey = $credentials['email'];
-		$superuser = User::where('email', $credentials['email'])->first();
-		$user = EmployeeInformation::where('email', $credentials['email'])->first();
-		if (!$user && !$superuser) {
-			return redirect()->route('login')->with('error', 'User not found');
-		}
+		$validated = $request->validate([
+			'email' => ['required', 'string', 'email'],
+			'password' => ['required', 'string'],
+		]);
 
-		if ($user && RateLimiter::tooManyAttempts($this->throttleKey, $user->numberofincorrect_passwords)) {
-			$errorMsg = 'Too many failed login attempts.';
-		} elseif ($user && Auth::guard('employee')->attempt($credentials)) {
-			if ($user && $user->account_status == 'disabled') {
-				$errorMsg = 'Your account has been disabled.';
-			} elseif ($user && now()->diffInSeconds(Carbon::parse($user->account_lock_datetime)) > 0) {
-				$errorMsg = 'Your account is locked.';
-			} else {
-				RateLimiter::cleanRateLimiterKey($this->throttleKey);
+		$email = Str::lower($validated['email']);
+		$credentials = ['email' => $email, 'password' => $validated['password']];
+		$throttleKey = 'login:' . $email . '|' . $request->ip();
+		$employee = EmployeeInformation::where('email', $email)->first();
+
+		if ($employee) {
+			if ($employee->account_status === 'disabled') {
+				return $this->loginError('Your account has been disabled.');
+			}
+
+			if ($employee->account_lock_datetime && now()->lt($employee->account_lock_datetime)) {
+				return $this->loginError('Your account is locked.');
+			}
+
+			if ($employee->account_lock_datetime) {
+				$employee->numberofincorrect_passwords = 0;
+				$employee->account_lock_datetime = null;
+				$employee->save();
+			}
+
+			if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+				return $this->loginError('Too many failed login attempts. Please try again later.');
+			}
+
+			if (Auth::guard('employee')->attempt($credentials)) {
+				$employee->numberofincorrect_passwords = 0;
+				$employee->account_lock_datetime = null;
+				$employee->save();
+				RateLimiter::clear($throttleKey);
+				$request->session()->regenerate();
+
 				return redirect()->route('dashboard');
 			}
-		} elseif ($superuser && Auth::attempt($credentials)) {
-			RateLimiter::cleanRateLimiterKey($this->throttleKey);
+
+			$employee->numberofincorrect_passwords = (int) $employee->numberofincorrect_passwords + 1;
+			if ($employee->numberofincorrect_passwords >= 5) {
+				$employee->account_lock_datetime = now()->addMinutes(15);
+			}
+			$employee->save();
+			RateLimiter::hit($throttleKey, 900);
+
+			return $this->loginError(
+				$employee->account_lock_datetime
+					? 'Your account is locked. Please try again in 15 minutes.'
+					: 'Invalid credentials',
+			);
+		}
+
+		if (User::where('email', $email)->exists() && Auth::guard('web')->attempt($credentials)) {
+			RateLimiter::clear($throttleKey);
+			$request->session()->regenerate();
+
 			return redirect()->route('dashboard');
 		}
 
-		RateLimiter::hit($this->throttleKey, 60);
+		RateLimiter::hit($throttleKey, 60);
 
-		// Jika otentikasi gagal, kembali ke halaman login dengan pesan kesalahan
-		return redirect()->route('login')->with('error', $errorMsg);
+		return $this->loginError('Invalid credentials');
+	}
+
+	private function loginError(string $message)
+	{
+		return redirect()->route('login')->with('error', $message);
 	}
 
 	/**
