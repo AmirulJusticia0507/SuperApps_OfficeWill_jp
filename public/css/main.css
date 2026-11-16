@@ -2,3 +2,94 @@
     content:"*\00a0";
     color:red;
 }
+
+/* Application pages use a fixed sidebar, so the content should occupy the
+   complete viewport instead of reserving Bootstrap columns for the sidebar. */
+body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) > .col-md-3 {
+    flex: 0 0 0;
+    width: 0;
+    max-width: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) > .col-md-8,
+body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) > .col-md-9,
+body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) > main {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+}
+
+body:has(aside.app-sidebar) .content-wrapper,
+body:has(aside.app-sidebar) main.content,
+body:has(aside.app-sidebar) .app-page-content {
+    width: 100%;
+    max-width: none;
+}
+/* Course registration stepper */
+.course-stepper__header { padding: 1.25rem 1.5rem; }
+.course-stepper__progress {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .5rem;
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    list-style: none;
+    border-bottom: 1px solid #dee2e6;
+}
+.course-stepper__progress button {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    width: 100%;
+    padding: .5rem;
+    border: 0;
+    border-radius: .375rem;
+    background: transparent;
+    color: #6c757d;
+    text-align: left;
+}
+.course-stepper__number {
+    display: inline-grid;
+    flex: 0 0 2rem;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid #adb5bd;
+    border-radius: 50%;
+    font-weight: 600;
+}
+.course-stepper__progress button.is-current { color: #0d6efd; font-weight: 600; }
+.course-stepper__progress button.is-current .course-stepper__number { border-color: #0d6efd; background: #0d6efd; color: #fff; }
+.course-stepper__progress button.is-complete { color: #198754; }
+.course-stepper__progress button.is-complete .course-stepper__number { border-color: #198754; background: #198754; color: #fff; }
+.course-stepper__panel { padding: 1.5rem; }
+.course-stepper__title { margin-bottom: .25rem; }
+.course-stepper__navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #dee2e6;
+}
+.course-stepper__step-count { margin-right: auto; color: #6c757d; font-size: .9rem; }
+.course-stepper [data-step-panel][hidden] { display: none !important; }
+
+@media (max-width: 575.98px) {
+    .course-stepper__progress { gap: .125rem; padding: 1rem .75rem; }
+    .course-stepper__progress button { justify-content: center; padding: .375rem .125rem; font-size: .75rem; text-align: center; }
+    .course-stepper__number { flex-basis: 1.75rem; width: 1.75rem; height: 1.75rem; }
+    .course-stepper__panel { padding: 1rem; }
+    .course-stepper__navigation { padding: .75rem 1rem; }
+}
