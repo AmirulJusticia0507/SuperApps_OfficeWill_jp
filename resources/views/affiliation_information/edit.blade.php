@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">Edit Affiliation Information</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('affiliation-information.update', $affiliation->id) }}">
+                    <form method="POST" action="{{ route('affiliation-information.update', $affiliation->affiliation_code) }}">
                         @csrf
                         @method('PUT')
                         <div class="form-group">

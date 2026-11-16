@@ -28,7 +28,7 @@
                 </ol>
             </nav>
             <div id="courseRegistrationWrap" class="card" x-data={}>
-                <form action="{{ route('course-todo-answer.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('confirm-courses.todo-answer.store', $course->course_id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="course_id" value="{{ $course->course_id }}">
                     <div id="curse" class="card-header" style="background-color: darkblue">

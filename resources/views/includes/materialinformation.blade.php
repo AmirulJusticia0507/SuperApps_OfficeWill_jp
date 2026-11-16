@@ -21,7 +21,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Teaching Material Information</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('material-list') }}">Material List</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('materials.index') }}">Material List</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Teaching Material Information</li>
             </ol>
         </nav>

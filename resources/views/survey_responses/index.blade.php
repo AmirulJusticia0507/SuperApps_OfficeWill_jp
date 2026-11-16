@@ -75,7 +75,7 @@
                         </div>
                         <div class="modal-body">
                             <!-- Form for Creating Question -->
-                            <form method="POST" action="{{ route('questions.store') }}">
+                        <form method="POST" action="{{ route('questionnaire.store') }}">
                                 @csrf
                                 <div class="form-group">
                                     <label for="questionText">質問を書き留める:</label>

@@ -12,7 +12,7 @@
 
                 <div class="card-body">
                     <!-- Form Edit Company -->
-                    <form method="POST" action="{{ route('company-information.update', $company->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('company-information.update', $company->company_id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -22,7 +22,7 @@
 
                         <div class="form-group">
                             <label for="login_screen_url">Login Screen URL:</label>
-                            <input type="text" class="form-control" id="login_screen_url" name="login_screen_url" value="{{ $company->login_screen_url }}" required>
+                        <input type="text" class="form-control" id="login_screen_url" value="{{ $company->login_screen_url }}" readonly>
                         </div>
 
                         <div class="form-group">
@@ -33,7 +33,6 @@
 
                         <div class="form-group">
                             <label for="teaching_material_storage_file_path">Teaching Material Storage File:</label>
-                            <input type="file" class="form-control" id="teaching_material_storage_file_path" name="teaching_material_storage_file_path" onchange="previewMaterial(this)">
                             <img id="material_preview" src="{{ $company->teaching_material_storage_file_path }}" alt="Current Material" style="max-width: 100px;">
                         </div>
                         <div class="row">
