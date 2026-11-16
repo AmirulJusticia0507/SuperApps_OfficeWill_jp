@@ -43,9 +43,6 @@
                                 </ul>
                             </div>
                         @endif
-                        @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
                         <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="classificationdetailsTable">
                             <thead>
                                 <tr>
@@ -96,6 +93,18 @@
 <!-- Footer -->
 @include('includes.footer')
 @endsection
+
+@push('scripts')
+@if (session('success'))
+<script>
+document.addEventListener('DOMContentLoaded', () => Swal.fire({
+    icon: 'success', title: @json(__('Success')), text: @json(session('success')),
+    toast: true, position: 'top-end', showConfirmButton: false, timer: 3000,
+    timerProgressBar: true
+}));
+</script>
+@endif
+@endpush
 
                 <!-- Create Detail Modal -->
                 <div class="modal fade" id="createDetailModal" tabindex="-1" aria-labelledby="createDetailModalLabel" aria-hidden="true">

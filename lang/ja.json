@@ -237,5 +237,6 @@
     "In Progress": "進行中",
     "Not Started": "未開始",
     "Chart library unavailable": "グラフを一時的に利用できません。",
-    "Image Lightbox": "画像ライトボックス"
+    "Image Lightbox": "画像ライトボックス",
+    "Success": "成功"
 }
