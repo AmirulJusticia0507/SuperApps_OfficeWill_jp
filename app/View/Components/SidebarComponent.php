@@ -30,10 +30,11 @@ class SidebarComponent extends Component
 				'company_id',
 				$user->company_id,
 			)->first();
-			$isSysAdmin = $user->employee_affiliation->system_administrator_privileges == 1;
-			$isEmployeeRegis = $user->employee_affiliation->employee_registration_authority == 1;
-			$isCourseEnroll = $user->employee_affiliation->course_enrollment_privileges == 1;
-			$isAttendenceSetting = $user->employee_affiliation->attendance_setting_authority == 1;
+			$affiliation = $user->employee_affiliation;
+			$isSysAdmin = $affiliation?->system_administrator_privileges == 1;
+			$isEmployeeRegis = $affiliation?->employee_registration_authority == 1;
+			$isCourseEnroll = $affiliation?->course_enrollment_privileges == 1;
+			$isAttendenceSetting = $affiliation?->attendance_setting_authority == 1;
 		}
 
 		return view('components.sidebar-component', compact('yourCompany', 'isSysAdmin', 'isEmployeeRegis', 'isCourseEnroll', 'isAttendenceSetting'));
