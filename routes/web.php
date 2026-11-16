@@ -29,6 +29,11 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\QuestionnaireController;
 
 Route::redirect('/', '/login');
+Route::get('/locale/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['ja', 'en'], true), 404);
+    session(['locale' => $locale]);
+    return redirect()->back();
+})->name('locale.switch');
 
 // Rute untuk menampilkan halaman login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

@@ -6,6 +6,13 @@
 
 
 <style>
+    body.sidebar-collapsed aside.app-sidebar { width: 4.5rem; }
+    body.sidebar-collapsed aside.app-sidebar .sidebar-label,
+    body.sidebar-collapsed aside.app-sidebar .sidebar-logo { display: none; }
+    body.sidebar-collapsed aside.app-sidebar .sidebar-link { justify-content: center; padding-left: .75rem; padding-right: .75rem; }
+    body.sidebar-collapsed main.content-with-sidebar { margin-left: 4.5rem; }
+    aside.app-sidebar { transition: width .2s ease; }
+    .sidebar-link { display: flex; align-items: center; }
     /* CSS untuk spinner */
     .page-spinner {
         position: fixed;
@@ -44,10 +51,11 @@
 
 <!-- resources/views/includes/sidebar.blade.php -->
 {{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
-<aside class="bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
+<aside class="app-sidebar bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
     <nav class="p-4 flex justify-between items-center">
         <div>
-            <a href="{{ route('dashboard') }}" class="text-white text-lg font-semibold">
+            <button id="sidebarToggle" type="button" class="text-white mr-2" aria-label="Toggle sidebar"><i class="fas fa-bars"></i></button>
+            <a href="{{ route('dashboard') }}" class="sidebar-logo text-white text-lg font-semibold">
                 <img src="{{ isset($yourCompany->icon_storage_file_path) ? asset($yourCompany->icon_storage_file_path) : 'img/officewill.png' }}"
                     alt="DEP SERVICE" class="w-32 mx-auto">
             </a>
@@ -58,11 +66,15 @@
         <div class="spinner"></div>
     </div>
     <nav class="text-white">
+        <div class="d-flex justify-content-end gap-1 px-3 py-2 border-bottom border-primary">
+            <a class="text-white small" href="{{ route('locale.switch', 'ja') }}">日本語</a>
+            <span class="text-white-50">|</span>
+            <a class="text-white small" href="{{ route('locale.switch', 'en') }}">English</a>
+        </div>
         <ul>
             <li>
                 <a href="{{ route('dashboard') }}" title="Dashboard"
-                    class="block py-2 px-4 text-sm {{ request()->routeIs('dashboard') ? 'bg-gray-900' : '' }}"><i
-                        class="fas fa-home mr-2"></i> ダッシュボード</a>
+                    class="sidebar-link block py-2 px-4 text-sm {{ request()->routeIs('dashboard') ? 'bg-gray-900' : '' }}"><i class="fas fa-home mr-2"></i><span class="sidebar-label">{{ app()->getLocale() === 'en' ? 'Dashboard' : 'ダッシュボード' }}</span></a>
             </li>
             @if ($isSysAdmin)
                 <li>
@@ -198,6 +210,17 @@
 <!-- Menambahkan script untuk mengontrol submenu -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        const sidebar = document.querySelector('.app-sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const collapsedKey = 'officewill.sidebar.collapsed';
+        if (localStorage.getItem(collapsedKey) === '1') {
+            document.body.classList.add('sidebar-collapsed');
+        }
+        sidebarToggle?.addEventListener('click', function() {
+            document.body.classList.toggle('sidebar-collapsed');
+            localStorage.setItem(collapsedKey, document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+        });
+
         const toggleSubmenu = document.querySelectorAll('.toggle-submenu');
         const toggleSubSubmenu = document.querySelectorAll('.submenu-item, .sub-submenu-item');
 
@@ -301,17 +324,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const sidebarToggle = document.getElementById("sidebarToggle");
-        const sidebar = document.querySelector(".sidebar");
-        if (sidebar) {
-            sidebar.classList.add("hidden");
-        }
-        if (sidebarToggle) {
-            sidebarToggle.addEventListener("click", function() {
-                sidebar.classList.toggle("hidden");
-            });
-        }
-
         $('.navbar-toggler[aria-controls="sidebar"]').on('click', function() {
             $('#sidebar').toggleClass('show');
         });
