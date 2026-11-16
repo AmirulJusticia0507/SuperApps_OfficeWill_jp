@@ -128,7 +128,7 @@
                                     <div class="mb-3">
                                         <label for="display_order" class="form-label" title="{{ __('Display Order') }}">{{ __('Display Order') }} <span
                                                 style="color: red">*</span></label>
-                                        <input type="number" class="form-control" id="display_order" name="display_order" required>
+                                        <input type="text" class="form-control" id="display_order" name="display_order" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="icon_file_path" class="form-label" title="{{ __('Course Classification Detail Icon') }}">{{ __('Course Classification Detail Icon') }}</label>
@@ -178,7 +178,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="display_order" class="form-label">{{ __('Display Order') }} <span style="color: red">*</span></label>
-                                        <input type="number" class="form-control" id="display_order" name="display_order" title="Display Order" value="{{ $detail->display_order }}" required>
+                                         <input type="text" class="form-control" id="display_order" name="display_order" title="Display Order" value="{{ $detail->display_order }}" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="icon_file_path" class="form-label">{{ __('Course Classification Detail Icon') }}</label>

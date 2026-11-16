@@ -37,7 +37,7 @@ class CourseClassificationDetailInformationController extends Controller
         $data = $request->validate([
 			'course_classification_id' => ['required', 'integer'],
             'course_classification_detailsname' => ['required', 'string', 'max:255'],
-            'display_order' => ['required', 'integer', 'between:0,999'],
+            'display_order' => ['required', 'string'],
             'icon_file_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 
@@ -77,7 +77,7 @@ class CourseClassificationDetailInformationController extends Controller
         $data = $request->validate([
 			'course_classification_id' => ['required', 'integer'],
             'course_classification_detailsname' => ['required', 'string', 'max:255'],
-            'display_order' => ['required', 'integer', 'between:0,999'],
+            'display_order' => ['required', 'string'],
             'icon_file_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
 

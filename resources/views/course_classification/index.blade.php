@@ -117,7 +117,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="display_order">{{ __('Display Order') }}:</label>
-                                                    <input type="number" class="form-control" id="display_order" name="display_order" value="{{ $classification->displayorder }}" required>
+                                                     <input type="text" class="form-control" id="display_order" name="display_order" value="{{ $classification->displayorder }}" required>
                                                 </div>
                                                 <div class="modal-footer">
                                                         <button type="reset" class="btn btn-dark"><i class="fas fa-power-off"></i> {{ __('Reset') }}</button>
