@@ -9,6 +9,7 @@ use App\Models\JobInformation;
 use App\Models\CourseInformation;
 use App\Models\CourseClassificationInformation;
 use App\Models\CourseClassificationDetailInformation;
+use Illuminate\Validation\Rule;
 class EmployeeInformationController extends Controller
 {
     /**
@@ -68,28 +69,32 @@ class EmployeeInformationController extends Controller
      */
     public function store(Request $request)
     {
-        // Ambil nama lengkap dari input
-        $fullname = $request->input('fullname');
+        $validated = $request->validate([
+            'fullname' => ['required', 'string', 'max:20'],
+            'kananame' => ['nullable', 'string', 'max:20'],
+            'email' => ['required', 'email', 'max:255', 'unique:employee_information,email'],
+            'contact_phonenumber' => ['nullable', 'string', 'max:13'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'sex' => ['nullable', 'string', 'max:10'],
+            'dateofbirth' => ['nullable', 'date'],
+            'dateofjoining' => ['nullable', 'date'],
+            'retirementdate' => ['nullable', 'date', 'after_or_equal:dateofjoining'],
+            'remarks' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $validated['employee_code'] = $this->generateEmployeeCode($validated['fullname']);
+        $validated['account_status'] = 'enabled';
+        $validated['numberofincorrect_passwords'] = 0;
+        EmployeeInformation::create($validated);
         
-        // Hasilkan kode karyawan dari nama lengkap
-        $employeeCode = $this->generateEmployeeCode($fullname);
-    
-        // Tambahkan kode karyawan ke dalam request sebelum menyimpan data
-        $request->merge(['employee_code' => $employeeCode]);
-    
-        // Simpan data karyawan ke dalam database
-        EmployeeInformation::create($request->all());
-        
-        return redirect()->route('employees.index')->with('success', 'Employee created successfully');
+        return redirect()->route('employee-information.index')->with('success', 'Employee created successfully');
     }
 
     private function generateEmployeeCode($fullname)
     {
-        // Misalnya, menggunakan inisial dari setiap kata dalam nama lengkap
-        $initials = implode('', array_map('ucfirst', array_map('substr', explode(' ', $fullname), array_fill(0, count(explode(' ', $fullname)), 0, 1))));
-        
-        // Anda dapat menambahkan logika lain sesuai kebutuhan
-        return $initials;
+        preg_match_all('/[\p{L}\p{N}]/u', $fullname, $matches);
+
+        return mb_strtoupper(implode('', array_slice($matches[0], 0, 3)));
     }
 
     /**
@@ -115,9 +120,22 @@ class EmployeeInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $employee = EmployeeInformation::find($id);
-        $employee->update($request->all());
-        return redirect()->route('employees.index')->with('success', 'Employee updated successfully');
+        $employee = EmployeeInformation::findOrFail($id);
+        $validated = $request->validate([
+            'fullname' => ['sometimes', 'required', 'string', 'max:20'],
+            'kananame' => ['sometimes', 'nullable', 'string', 'max:20'],
+            'email' => ['sometimes', 'required', 'email', 'max:255', Rule::unique('employee_information', 'email')->ignore($employee->employee_id, 'employee_id')],
+            'contact_phonenumber' => ['sometimes', 'nullable', 'string', 'max:13'],
+            'password' => ['sometimes', 'nullable', 'string', 'min:8', 'confirmed'],
+            'sex' => ['sometimes', 'nullable', 'string', 'max:10'],
+            'dateofbirth' => ['sometimes', 'nullable', 'date'],
+            'dateofjoining' => ['sometimes', 'nullable', 'date'],
+            'retirementdate' => ['sometimes', 'nullable', 'date'],
+            'remarks' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'account_status' => ['sometimes', 'required', Rule::in(['enabled', 'disabled'])],
+        ]);
+        $employee->update($validated);
+        return redirect()->route('employee-information.index')->with('success', 'Employee updated successfully');
     }
 
     /**
@@ -125,8 +143,8 @@ class EmployeeInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        EmployeeInformation::destroy($id);
-        return redirect()->route('employees.index')->with('success', 'Employee deleted successfully');
+        EmployeeInformation::findOrFail($id)->delete();
+        return redirect()->route('employee-information.index')->with('success', 'Employee deleted successfully');
     }
 
     public function search(Request $request)

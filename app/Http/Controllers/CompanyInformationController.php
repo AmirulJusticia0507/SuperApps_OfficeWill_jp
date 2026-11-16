@@ -37,23 +37,23 @@ class CompanyInformationController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		// Validasi apakah file ikon telah dipilih
-		if ($request->hasFile('icon_storage_file_path')) {
-			$iconPath = $request->file('icon_storage_file_path')->store('public/icons/');
+		$validated = $request->validate([
+			'company_name' => ['required', 'string', 'max:20'],
+			'company_username' => ['required', 'string', 'alpha_dash', 'max:150'],
+			'icon_storage_file_path' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+		]);
 
-			$companyData = $request->all();
-			$companyData['login_screen_url'] = '/login/' . $companyData['company_username'];
-			$companyData['icon_storage_file_path'] = Storage::url($iconPath);
-			$companyData['teaching_material_storage_file_path'] = '/storage/' . $companyData['company_username'];
+		$iconPath = $request->file('icon_storage_file_path')->store('public/icons');
+		$companyName = $validated['company_username'];
 
-			// Buat perusahaan baru
-			CompanyInformation::create($companyData);
+		CompanyInformation::create([
+			'company_name' => $validated['company_name'],
+			'login_screen_url' => '/login/' . $companyName,
+			'icon_storage_file_path' => Storage::url($iconPath),
+			'teaching_material_storage_file_path' => '/storage/' . $companyName,
+		]);
 
-			return redirect()->route('company-information.index')->with('success', 'Company created successfully');
-		} else {
-			// Jika file tidak dipilih, kembalikan ke formulir pembuatan perusahaan dengan pesan kesalahan
-			return back()->withInput()->withErrors(['icon_storage_file_path' => 'Please select an icon file.', 'teaching_material_storage_file_path' => 'Please select a teaching material file.']);
-		}
+		return redirect()->route('company-information.index')->with('success', 'Company created successfully');
 	}
 
 	/**
@@ -83,23 +83,21 @@ class CompanyInformationController extends Controller
 			'company_name' => 'required',
 		]);
 
-		$company = CompanyInformation::find($id);
-		if ($company) {
-			// Validasi apakah file ikon telah dipilih
-			if ($request->hasFile('icon_storage_file_path')) {
-				// Simpan file ikon
-				$iconPath = $request->file('icon_storage_file_path')->store('public/icons/');
-				$company->icon_storage_file_path = Storage::url($iconPath); // Simpan path relatif ke database
-			}
+		$validated = $request->validate([
+			'company_name' => ['required', 'string', 'max:20'],
+			'icon_storage_file_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+		]);
 
-			// Update data perusahaan
-			$company->company_name = $request->input('company_name');
-			$company->save();
-
-			return redirect()->route('company-information.index')->with('success', 'Company updated successfully');
-		} else {
-			return back()->withErrors(['edit_error' => 'Company not found.']);
+		$company = CompanyInformation::findOrFail($id);
+		if ($request->hasFile('icon_storage_file_path')) {
+			$iconPath = $request->file('icon_storage_file_path')->store('public/icons');
+			$company->icon_storage_file_path = Storage::url($iconPath);
 		}
+
+		$company->company_name = $validated['company_name'];
+		$company->save();
+
+		return redirect()->route('company-information.index')->with('success', 'Company updated successfully');
 	}
 
 	/**
