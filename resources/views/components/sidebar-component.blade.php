@@ -143,8 +143,8 @@
     <nav class="p-4 flex justify-between items-center">
         <div>
             <a href="{{ route('dashboard') }}" class="sidebar-logo text-white text-lg font-semibold">
-                <img src="{{ isset($yourCompany->icon_storage_file_path) ? asset($yourCompany->icon_storage_file_path) : 'img/officewill.png' }}"
-                    alt="DEP SERVICE" class="w-32 mx-auto">
+                <img src="{{ isset($yourCompany->icon_storage_file_path) ? asset($yourCompany->icon_storage_file_path) : asset('img/dep-service-logo.svg') }}"
+                    alt="DEP Service" class="w-32 mx-auto">
             </a>
         </div>
         <!-- &emsp;&emsp;&emsp;<button id="sidebarToggle" class="text-white focus:outline-none"><i class="fas fa-bars fa-lg"></i></button> -->

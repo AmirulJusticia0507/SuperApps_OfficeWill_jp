@@ -1,9 +1,6 @@
-const CACHE_NAME = 'dep-service-static-v1';
+const CACHE_NAME = 'dep-service-static-v2';
 const STATIC_ASSETS = [
-    '/favicon.ico',
-    '/img/officewill.png',
-    '/img/pwa-icon-192.png',
-    '/img/pwa-icon-512.png',
+    '/img/dep-service-logo.svg',
 ];
 
 self.addEventListener('install', (event) => {

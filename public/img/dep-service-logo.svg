@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" role="img" aria-labelledby="title desc">
+  <title id="title">DEP Service</title>
+  <desc id="desc">DEP Service logo</desc>
+  <rect width="640" height="180" rx="18" fill="#102a56"/>
+  <path d="M42 42h74c30 0 52 19 52 48s-22 48-52 48H42V42Zm31 25v46h40c14 0 24-9 24-23s-10-23-24-23H73Z" fill="#fff"/>
+  <path d="M188 42h85c26 0 43 15 43 37s-17 37-43 37h-54v22h-31V42Zm31 25v24h48c11 0 17-5 17-12s-6-12-17-12h-48Z" fill="#4da3ff"/>
+  <path d="M337 42h113v26h-82v14h70v24h-70v6h82v26H337V42Z" fill="#fff"/>
+  <circle cx="503" cy="91" r="48" fill="#4da3ff"/>
+  <path d="M478 91c0-17 11-29 29-29 12 0 22 6 27 16l-22 10c-2-4-4-6-8-6-5 0-8 4-8 9s3 9 8 9c4 0 6-2 8-6l22 10c-5 10-15 16-27 16-18 0-29-12-29-29Z" fill="#102a56"/>
+  <text x="320" y="162" text-anchor="middle" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="5">SERVICE</text>
+</svg>

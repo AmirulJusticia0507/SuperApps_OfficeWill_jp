@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#102a56">
     <link rel="manifest" href="{{ route('pwa.manifest') }}">
-    <link rel="apple-touch-icon" href="{{ asset('img/pwa-icon-192.png') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('img/dep-service-logo.svg') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/dep-service-logo.svg') }}">
     <title>{{ __('DEP SERVICE - OFFICE WILL - JAPAN') }}</title>
     <!-- Tailwind CSS -->
     {{-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> --}}
