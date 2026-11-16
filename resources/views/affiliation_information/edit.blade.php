@@ -13,12 +13,16 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="affiliation_code">Affiliation Code:</label>
-                            <input type="text" class="form-control" id="affiliation_code" name="affiliation_code" value="{{ $affiliation->affiliation_code }}">
+                            <label for="company_name">Company:</label>
+                            <select class="form-control" id="company_name" name="company_name" required>
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company->company_id }}" @selected((int) $company->company_id === (int) $affiliation->company_id)>{{ $company->company_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="company_id">Company ID:</label>
-                            <input type="text" class="form-control" id="company_id" name="company_id" value="{{ $affiliation->company_id }}">
+                            <label for="affiliation_code">Affiliation Code:</label>
+                            <input type="number" min="0" max="999" class="form-control" id="affiliation_code" name="affiliation_code" value="{{ $affiliation->affiliation_code }}" required>
                         </div>
                         <div class="form-group">
                             <label for="affiliation_name">Affiliation Name:</label>
@@ -26,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <label for="display_order">Display Order:</label>
-                            <input type="text" class="form-control" id="display_order" name="display_order" value="{{ $affiliation->display_order }}">
+                            <input type="number" min="0" max="999" class="form-control" id="display_order" name="display_order" value="{{ (int) $affiliation->display_order }}" required>
                         </div>
                         <div class="form-group">
                             <label for="organization_type">Organization Type:</label>

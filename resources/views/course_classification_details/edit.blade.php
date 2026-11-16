@@ -10,7 +10,7 @@
                 <div class="card-header">Edit Course Classification Detail</div>
                 <div class="card-body">
                     @if($detail)
-                    <form method="POST" action="{{ route('details.update', $detail->course_classification_details_id) }}">
+                    <form method="POST" action="{{ route('course-classification-details.update', $detail->course_classification_details_id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <label for="icon_file_path">Icon File Path</label>
-                            <input type="text" class="form-control" id="icon_file_path" name="icon_file_path" value="{{ $detail->icon_file_path }}">
+                            <input type="file" accept="image/*" class="form-control" id="icon_file_path" name="icon_file_path">
                         </div>
                         <div class="form-group">
                             <label for="display_order">Display Order</label>

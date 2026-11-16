@@ -86,12 +86,9 @@
                                     <select class="form-control" id="answerType" name="answerType" required>
                                         <option value="radio" title="radio button">ラジオボタン</option>
                                         <option value="checkbox" title="checkbox">チェックボックス</option>
-                                        <option value="select" title="selectbox">セレクトボックス</option>
+                                        <option value="selectbox" title="selectbox">セレクトボックス</option>
                                         <option value="text" title="text">テキスト</option>
                                     </select>
-                                </div>
-                                <div class="form-group" id="answerOptions">
-                                    <!-- Option fields will be appended here based on answerType selection -->
                                 </div>
                                 <div class="form-group">
                                     <label for="isRequired">が必要です:</label>
@@ -141,18 +138,6 @@
             dom: 'lBfrtip',
             buttons: ['copy', 'excel', 'pdf']
         });
-    });
-    $('#answerType').change(function() {
-            var answerType = $(this).val();
-            $('#answerOptions').empty();
-
-            if (answerType === 'radio' || answerType === 'checkbox') {
-                $('#answerOptions').append('<label for="options">Jawaban:</label>');
-                $('#answerOptions').append('<input type="text" class="form-control" id="options" name="options" required>');
-            } else if (answerType === 'select') {
-                $('#answerOptions').append('<label for="options">Jawaban:</label>');
-                $('#answerOptions').append('<select class="form-control" id="options" name="options" required><option value="Option 1">Option 1</option><option value="Option 2">Option 2</option><option value="Option 3">Option 3</option></select>');
-            }
     });
 </script>
 @endsection

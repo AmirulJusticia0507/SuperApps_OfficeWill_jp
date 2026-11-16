@@ -15,7 +15,7 @@ Daftar ini disusun dari peninjauan kode dan skema database yang ada. Periksa ula
 - [x] **Aktifkan validasi request dan gunakan data tervalidasi.** Mulai dari karyawan, perusahaan, kursus, klasifikasi, afiliasi, materi, dan jawaban; hindari `$request->all()` untuk mass assignment. _(Endpoint CRUD legacy juga memakai whitelist fillable tervalidasi; jawaban peserta dibatasi ke kursus/jadwal/pertanyaan miliknya.)_
 - [x] **Hapus kebocoran exception produksi.** Ganti `dd($th)` pada pembuatan kursus dengan logging server dan respons error yang aman; pastikan transaksi di-rollback saat gagal.
 - [x] **Perbaiki pembuatan kursus dan upload materi.** Validasi keberadaan/format input `teaching_material`, `todo`, dan file; simpan file terkait materi yang benar; tangani jalur penyimpanan perusahaan yang kosong/tidak valid.
-- [x] **Audit semua rute duplikat dan nama rute.** Hilangkan deklarasi resource/aksi yang tumpang tindih dan betulkan redirect ke nama rute yang benar, termasuk CRUD karyawan dan kursus.
+- [x] **Audit semua rute duplikat dan nama rute.** Hilangkan deklarasi resource/aksi yang tumpang tindih dan betulkan redirect ke nama rute yang benar, termasuk CRUD karyawan dan kursus. _(Resource `classifications` yang bertabrakan sudah dihapus; route update detail klasifikasi ditetapkan eksplisit.)_
 - [x] **Periksa registrasi publik.** Tentukan apakah pembuatan akun admin memang boleh terbuka; jika tidak, lindungi endpoint register atau nonaktifkan setelah bootstrap.
 
 ## Prioritas menengah

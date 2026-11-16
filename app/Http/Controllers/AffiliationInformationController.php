@@ -45,8 +45,7 @@ class AffiliationInformationController extends Controller
 
     public function show($id)
     {
-        $affiliation = AffiliationInformation::getAffiliationById($id);
-        return view('affiliation_information.show', compact('affiliation'));
+        return redirect()->route('affiliation-information.edit', $id);
     }
 
     public function edit($id)

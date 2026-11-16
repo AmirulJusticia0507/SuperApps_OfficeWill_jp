@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CourseClassificationDetailInformation;
 use App\Models\CourseClassificationInformation;
-use App\Models\CompanyInformation;
 use Illuminate\Support\Facades\Storage;
 
 class CourseClassificationDetailInformationController extends Controller
@@ -17,8 +16,7 @@ class CourseClassificationDetailInformationController extends Controller
     {
         $details = CourseClassificationDetailInformation::all();
         $classifications = CourseClassificationInformation::all();
-        $companies = CompanyInformation::all();
-        return view('course_classification_details.index', compact('details', 'classifications', 'companies'));
+        return view('course_classification_details.index', compact('details', 'classifications'));
     }
 
     /**
@@ -27,8 +25,7 @@ class CourseClassificationDetailInformationController extends Controller
     public function create()
     {
         $classifications = CourseClassificationInformation::all();
-        $companies = CompanyInformation::all();
-        return view('course_classification_details.create', compact('classifications', 'companies'));
+        return view('course_classification_details.create', compact('classifications'));
     }
 
     /**
@@ -68,8 +65,7 @@ class CourseClassificationDetailInformationController extends Controller
     {
         $detail = CourseClassificationDetailInformation::find($id);
         $classifications = CourseClassificationInformation::all();
-        $companies = CompanyInformation::all();
-        return view('course_classification_details.edit', compact('detail', 'classifications', 'companies'));
+        return view('course_classification_details.edit', compact('detail', 'classifications'));
     }
 
     /**

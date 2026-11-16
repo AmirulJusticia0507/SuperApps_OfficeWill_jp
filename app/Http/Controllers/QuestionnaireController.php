@@ -17,23 +17,17 @@ class QuestionnaireController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input form
-        $validatedData = $request->validate([
-            'questionText' => 'required',
-            'answerType' => 'required',
-            'isRequired' => 'required',
-            // Sesuaikan validasi dengan kebutuhan Anda
+        $data = $request->validate([
+            'questionText' => ['required', 'string', 'max:255'],
+            'answerType' => ['required', 'in:text,radio,checkbox,selectbox'],
+            'isRequired' => ['sometimes', 'boolean'],
         ]);
 
-        // Simpan data ke database
-        $question = new Questionnaire();
-        $question->question_text = $request->questionText;
-        $question->answer_type = $request->answerType;
-        $question->is_required = $request->isRequired;
-        // Simpan data tambahan sesuai dengan jenis jawaban (text, radio, checkbox, select)
-        // Sesuaikan dengan struktur database Anda
-
-        $question->save();
+        Questionnaire::create([
+            'question_text' => $data['questionText'],
+            'answer_type' => $data['answerType'],
+            'is_required' => $data['isRequired'] ?? false,
+        ]);
 
         // Redirect atau response sesuai kebutuhan Anda
         return redirect()->back()->with('success', 'Question saved successfully!');

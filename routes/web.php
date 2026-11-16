@@ -113,7 +113,7 @@ Route::middleware('auth.any')->group(function () {
 	Route::middleware('authority:employee_registration_authority,course_enrollment_privileges')->group(function () {
 		Route::resource('course-classification-details', CourseClassificationDetailInformationController::class)->except(['store', 'update', 'destroy']);
 		Route::post('/course-classification-details', [CourseClassificationDetailInformationController::class, 'store'])->name('details.store');
-		Route::resource('classifications', CourseClassificationDetailInformationController::class);
+		Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('course-classification-details.update');
 		Route::delete('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('course-classification-details.destroy');
 		Route::get('/details', [CourseClassificationDetailInformationController::class, 'index'])->name('details.index');
 		Route::delete('/details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('details.destroy');

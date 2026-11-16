@@ -9,19 +9,28 @@
             <div class="card">
                 <div class="card-header">Create Course Classification</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('classifications.store') }}">
+                    <form method="POST" action="{{ route('classifications.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="course_classification_name">Classification Name</label>
-                            <input type="text" class="form-control" id="course_classification_name" name="course_classification_name" required>
+                            <label for="company_name">Company</label>
+                            <select class="form-control" id="company_name" name="company_name" required>
+                                <option value="">Select Company</option>
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="classification_name">Classification Name</label>
+                            <input type="text" maxlength="10" class="form-control" id="classification_name" name="classification_name" required>
                         </div>
                         <div class="form-group">
                             <label for="icon_file_path">Icon File Path</label>
-                            <input type="file" class="form-control" id="icon_file_path" name="icon_file_path">
+                            <input type="file" accept="image/*" class="form-control" id="icon_file_path" name="icon_file_path" required>
                         </div>
                         <div class="form-group">
-                            <label for="displayorder">Display Order</label>
-                            <input type="number" class="form-control" id="displayorder" name="displayorder" required>
+                            <label for="display_order">Display Order</label>
+                            <input type="number" min="0" max="999" class="form-control" id="display_order" name="display_order" required>
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-sent"></i> Submit</button>
                     </form>

@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">Create Course Classification Detail</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('details.store') }}">
+                    <form method="POST" action="{{ route('details.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="course_classification_id">Classification ID</label>
@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label for="icon_file_path">Icon File Path</label>
-                            <input type="text" class="form-control" id="icon_file_path" name="icon_file_path">
+                            <input type="file" accept="image/*" class="form-control" id="icon_file_path" name="icon_file_path">
                         </div>
                         <div class="form-group">
                             <label for="display_order">Display Order</label>

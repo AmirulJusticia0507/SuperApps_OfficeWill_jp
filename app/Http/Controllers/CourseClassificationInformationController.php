@@ -58,15 +58,8 @@ class CourseClassificationInformationController extends Controller
     public function edit($id)
     {
         $classification = CourseClassificationInformation::findOrFail($id);
-        $company = CompanyInformation::find($classification->company_id);
-        
-        return response()->json([
-            'course_classification_id' => $classification->course_classification_id,
-            'course_classification_name' => $classification->course_classification_name,
-            'displayorder' => $classification->displayorder,
-            'company_id' => $company->company_id,
-            'company_name' => $company->company_name,
-        ]);
+        $companies = CompanyInformation::all();
+        return view('course_classification.edit', compact('classification', 'companies'));
     }
     
 

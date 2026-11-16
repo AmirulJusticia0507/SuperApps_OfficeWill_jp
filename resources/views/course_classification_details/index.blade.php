@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-header" title="Course Classification Details" style="background-color: darkblue">
                         <b style="color:aliceblue">コース分類の詳細</b>
-                        
+
                     </div>
                     <div class="card-body">
                         <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="classificationdetailsTable">
@@ -95,17 +95,7 @@
                             <div class="modal-body">
                                 <form id="createDetailForm" action="{{ route('details.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="mb-3">
-                                        <label for="company_name" class="form-label" title="Company">会社</label>
-                                        <input type="hidden" id="selectedCompanyId" name="company_id"
-                                            value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
-                                        <select class="form-select" id="company_name" name="company_id" title="Select Company" required>
-                                            <option value="" selected disabled>Companyを選択します</option>
-                                            @foreach($companies as $company)
-                                            <option value="{{ $company->company_id }}">{{ $company->company_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+
                                     <div class="mb-3">
                                         <label for="course_classification_id" class="form-label" title="Course Classification">コース分類</label>
                                         <select class="form-select" id="course_classification_id" name="course_classification_id" title="Select Course Classification" required>
@@ -156,18 +146,7 @@
                                 <form id="editDetailForm{{ $detail->course_classification_details_id }}" action="{{ route('course-classification-details.update', $detail->course_classification_details_id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    <div class="mb-3">
-                                        <label for="company_name" class="form-label" title="Company">会社</label>
-                                        <input type="hidden" id="selectedCompanyId" name="company_id" value="{{ isset($editClassification) ? $editClassification->company_id : '' }}">
-                                        <select class="form-select" id="company_name" name="company_id" title="Select Company" required>
-                                            <option value="" selected disabled>Companyを選択します</option>
-                                            @foreach($companies as $company)
-                                            <option value="{{ $company->company_id }}" {{ $detail->company_id == $company->company_id ? 'selected' : '' }}>
-                                                {{ $company->company_name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+
                                     <div class="mb-3">
                                         <label for="course_classification_id" class="form-label" title="Course Classification">コース分類</label>
                                         <select class="form-select" id="course_classification_id" name="course_classification_id" title="Select Course Classification" required>
