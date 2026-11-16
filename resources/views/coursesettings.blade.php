@@ -155,8 +155,9 @@
                             </div>
                         </form>
                         <div class="text-right">
-                            <button x-on:click="open = ! open"
-                                x-text="open ? @js(__('Close search conditions')) : @js(__('Open search conditions'))"></button>
+                            <button type="button" class="btn btn-outline-light btn-sm" x-on:click="open = ! open"
+                                :aria-expanded="open.toString()" aria-label="{{ __('Toggle search conditions') }}"
+                                x-text="open ? '−' : '+'"></button>
                         </div>
                     </div>
 
@@ -325,8 +326,9 @@
                             </div>
                         </form>
                         <div class="text-right">
-                            <button x-on:click="open = ! open"
-                                x-text="open ? @js(__('Close search conditions')) : @js(__('Open search conditions'))"></button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" x-on:click="open = ! open"
+                                :aria-expanded="open.toString()" aria-label="{{ __('Toggle search conditions') }}"
+                                x-text="open ? '−' : '+'"></button>
                         </div>
                     </div>
 
