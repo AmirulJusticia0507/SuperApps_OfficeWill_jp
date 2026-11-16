@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CourseClassificationDetailInformation;
 use App\Models\CourseClassificationInformation;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class CourseClassificationDetailInformationController extends Controller
 {
@@ -49,7 +50,7 @@ class CourseClassificationDetailInformationController extends Controller
 
         // Handle file upload
         if ($request->hasFile('icon_file_path')) {
-            $imagePath = $request->file('icon_file_path')->storeOrFail('course_classification_icons', 'public');
+            $imagePath = $this->storeIcon($request);
             $detail->icon_file_path = $imagePath;
         }
 
@@ -93,13 +94,26 @@ class CourseClassificationDetailInformationController extends Controller
             if ($detail->icon_file_path) {
                 Storage::disk('public')->delete($detail->icon_file_path);
             }
-            $imagePath = $request->file('icon_file_path')->storeOrFail('course_classification_icons', 'public');
+            $imagePath = $this->storeIcon($request);
             $detail->icon_file_path = $imagePath;
         }
 
         $detail->save();
 
         return redirect()->route('details.index')->with('success', 'Detail updated successfully');
+    }
+
+    private function storeIcon(Request $request): string
+    {
+        $file = $request->file('icon_file_path');
+
+        if (!$file || !$file->isValid()) {
+            throw ValidationException::withMessages([
+                'icon_file_path' => $file?->getErrorMessage() ?? 'The icon upload was not received.',
+            ]);
+        }
+
+        return $file->storeOrFail('course_classification_icons', 'public');
     }
 
     /**
