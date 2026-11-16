@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseAttributePulldownSettings;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class CourseAttributePulldownSettingsController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class CourseAttributePulldownSettingsController extends Controller
      */
     public function store(Request $request)
     {
-        CourseAttributePulldownSettings::create($request->all());
+        CourseAttributePulldownSettings::create($this->validatedModelInput($request, new CourseAttributePulldownSettings()));
         return redirect()->route('settings.index')->with('success', 'Settings created successfully');
     }
 
@@ -56,8 +58,8 @@ class CourseAttributePulldownSettingsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $setting = CourseAttributePulldownSettings::find($id);
-        $setting->update($request->all());
+        $setting = CourseAttributePulldownSettings::findOrFail($id);
+        $setting->update($this->validatedModelInput($request, $setting));
         return redirect()->route('settings.index')->with('success', 'Settings updated successfully');
     }
 
@@ -66,7 +68,7 @@ class CourseAttributePulldownSettingsController extends Controller
      */
     public function destroy(string $id)
     {
-        CourseAttributePulldownSettings::destroy($id);
+        CourseAttributePulldownSettings::findOrFail($id)->delete();
         return redirect()->route('settings.index')->with('success', 'Settings deleted successfully');
     }
 }

@@ -183,7 +183,7 @@
                         <div class="mb-3">
                             <label for="employee_code">従業員コード:</label>
                             <input type="text" name="employee_code" id="employee_code" class="form-control"
-                                title="Employee Code">
+                                title="Employee Code" maxlength="10" required>
                         </div>
                         <div class="mb-3">
                             <div style="display: flex; align-items: center;">
@@ -248,7 +248,7 @@
                         <div class="mb-3" style="display: flex; align-items: center;">
                             <label for="password" style="margin-right: 10px;">パスワード:</label>
                             <input type="password" name="password" id="password" class="form-control"
-                                style="width: 100%" title="Password">
+                                style="width: 100%" title="Password" minlength="8" required>
                             <button type="button" id="togglePassword"
                                 style="border: none; background: none; outline: none; margin-left: -30px;">
                                 <i class="fas fa-eye" id="passwordToggleIcon"></i>
@@ -267,16 +267,8 @@
                             <input type="date" name="password_expiration" id="password_expiration"
                                 class="form-control" title="Password Expiration Date">
                         </div>
-                        <div class="mb-3" style="display: flex; align-items: center;">
-                            <label for="numberofincorrect_passwords" style="margin-right: 10px;">誤ったパスワードの数:</label>
-                            <input type="number" name="numberofincorrect_passwords" id="numberofincorrect_passwords"
-                                title="Number of Incorrect Passwords" class="form-control">
-                        </div>
-                        <div class="mb-3" style="display: flex; align-items: center;">
-                            <label for="account_lock_datetime" style="margin-right: 10px;">アカウントロックの日付と時刻:</label>
-                            <input type="datetime-local" name="account_lock_datetime" id="account_lock_datetime"
-                                title="Account Lock Date and Time" class="form-control">
-                        </div>
+
+
                         <div align="center">
                             <button type="submit" class="btn btn-primary" title="Register"><i
                                     class="fas fa-floppy-disk"></i> 登録する</button>

@@ -10,14 +10,14 @@
                 <div class="card-header">Create Course Information</div>
                 <span>basic information</span>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('course-information.store') }}">
+                    <form method="POST" action="{{ route('course-information.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">
                             <label for="course_classification_id">Course Classification : <b style="color: red">*</b></label>
                             <select class="form-control" id="course_classification_id" name="course_classification_id" required>
                                 @foreach($classifications as $classification)
-                                <option value="{{ $classification->id }}">{{ $classification->course_classification_name }}</option>
+                                <option value="{{ $classification->course_classification_id }}">{{ $classification->course_classification_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -46,14 +46,24 @@
                             <label for="possible_retake_course_deadline">Retaking the course within the course deadline : <b style="color: red">*</b></label>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <input type="radio" name="possible_retake_course_deadline" id="re_attendance_possible" value="Re-attendance possible" required>
+                                    <input type="radio" name="possible_retake_course_deadline" id="re_attendance_possible" value="1" required>
                                     <label for="re_attendance_possible"> Re-attendance possible</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="radio" name="possible_retake_course_deadline" id="re_attendance_not_allowed" value="Re-attendance not allowed" required>
+                                    <input type="radio" name="possible_retake_course_deadline" id="re_attendance_not_allowed" value="2" required>
                                     <label for="re_attendance_not_allowed"> Re-attendance not allowed</label>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Teaching Material: <b style="color: red">*</b></label>
+                            <input type="text" name="teaching_material[0][teaching_material_name]" class="form-control" maxlength="20" required>
+                            <select name="teaching_material[0][material_type]" class="form-control" required>
+                                <option value="1">Video</option>
+                                <option value="2">Books</option>
+                            </select>
+                            <input type="url" name="teaching_material[0][youtube_video_url]" class="form-control" placeholder="Video URL (optional)">
+                            <input type="file" name="teaching_material[0][bookfile]" class="form-control" accept=".pdf,.doc,.docx,.ppt,.pptx">
                         </div>
                         <div class="form-group">
                             <label for="course_attributes_01">(Course attribute 01) :</label>
@@ -104,15 +114,15 @@
                             <label for="todo_type">ToDo type : <b style="color: red">*</b></label>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <input type="radio" name="todo_type" id="survey_answers" value="Survey answers" required>
+                                    <input type="radio" name="todo_type" id="survey_answers" value="1" required>
                                     <label for="survey_answers"> Survey answers</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="radio" name="todo_type" id="tests" value="Tests" required>
+                                    <input type="radio" name="todo_type" id="tests" value="2" required>
                                     <label for="tests"> Tests</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="radio" name="todo_type" id="reports" value="Reports" required>
+                                    <input type="radio" name="todo_type" id="reports" value="3" required>
                                     <label for="reports"> Reports</label>
                                 </div>
                             </div>
@@ -125,11 +135,11 @@
                             <label for="repeated_retest">Retest availability : <b style="color: red">*</b></label>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <input type="radio" name="repeated_retest" id="retest_availability" value="Retest availability" required>
+                                    <input type="radio" name="repeated_retest" id="retest_availability" value="1" required>
                                     <label for="retest_availability"> Retest availability</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="radio" name="repeated_retest" id="no_retest_availability" value="No retest availability" required>
+                                    <input type="radio" name="repeated_retest" id="no_retest_availability" value="2" required>
                                     <label for="no_retest_availability"> No retest availability</label>
                                 </div>
                             </div>

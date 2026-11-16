@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseTodoItemInformation;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class CourseTodoItemInformationController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class CourseTodoItemInformationController extends Controller
      */
     public function store(Request $request)
     {
-        CourseTodoItemInformation::create($request->all());
+        CourseTodoItemInformation::create($this->validatedModelInput($request, new CourseTodoItemInformation()));
         return redirect()->route('todo_items.index')->with('success', 'Todo item created successfully');
     }
 
@@ -56,8 +58,8 @@ class CourseTodoItemInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $todoItem = CourseTodoItemInformation::find($id);
-        $todoItem->update($request->all());
+        $todoItem = CourseTodoItemInformation::findOrFail($id);
+        $todoItem->update($this->validatedModelInput($request, $todoItem));
         return redirect()->route('todo_items.index')->with('success', 'Todo item updated successfully');
     }
 
@@ -66,7 +68,7 @@ class CourseTodoItemInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        CourseTodoItemInformation::destroy($id);
+        CourseTodoItemInformation::findOrFail($id)->delete();
         return redirect()->route('todo_items.index')->with('success', 'Todo item deleted successfully');
     }
 }

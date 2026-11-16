@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseAttributeSettingInformation;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class CourseAttributeSettingInformationController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class CourseAttributeSettingInformationController extends Controller
      */
     public function store(Request $request)
     {
-        CourseAttributeSettingInformation::create($request->all());
+        CourseAttributeSettingInformation::create($this->validatedModelInput($request, new CourseAttributeSettingInformation()));
         return redirect()->route('settings.index')->with('success', 'Settings created successfully');
     }
 
@@ -56,8 +58,8 @@ class CourseAttributeSettingInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $setting = CourseAttributeSettingInformation::find($id);
-        $setting->update($request->all());
+        $setting = CourseAttributeSettingInformation::findOrFail($id);
+        $setting->update($this->validatedModelInput($request, $setting));
         return redirect()->route('settings.index')->with('success', 'Settings updated successfully');
     }
 
@@ -66,7 +68,7 @@ class CourseAttributeSettingInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        CourseAttributeSettingInformation::destroy($id);
+        CourseAttributeSettingInformation::findOrFail($id)->delete();
         return redirect()->route('settings.index')->with('success', 'Settings deleted successfully');
     }
 }

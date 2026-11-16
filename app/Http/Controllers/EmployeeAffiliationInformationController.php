@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmployeeAffiliationInformation;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class EmployeeAffiliationInformationController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class EmployeeAffiliationInformationController extends Controller
      */
     public function store(Request $request)
     {
-        EmployeeAffiliationInformation::create($request->all());
+        EmployeeAffiliationInformation::create($this->validatedModelInput($request, new EmployeeAffiliationInformation()));
         return redirect()->route('affiliations.index')->with('success', 'Affiliation created successfully');
     }
 
@@ -56,8 +58,8 @@ class EmployeeAffiliationInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $affiliation = EmployeeAffiliationInformation::find($id);
-        $affiliation->update($request->all());
+        $affiliation = EmployeeAffiliationInformation::findOrFail($id);
+        $affiliation->update($this->validatedModelInput($request, $affiliation));
         return redirect()->route('affiliations.index')->with('success', 'Affiliation updated successfully');
     }
 
@@ -66,7 +68,7 @@ class EmployeeAffiliationInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        EmployeeAffiliationInformation::destroy($id);
+        EmployeeAffiliationInformation::findOrFail($id)->delete();
         return redirect()->route('affiliations.index')->with('success', 'Affiliation deleted successfully');
     }
 }

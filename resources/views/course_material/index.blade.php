@@ -30,13 +30,17 @@
                 <form id="courseMaterialForm" enctype="multipart/form-data" method="POST" action="{{ route('materials.store') }}">
                     @csrf
                     <div class="mb-3">
-                        <label for="company_id" class="form-label">Company</label>
-                        <select class="form-select" id="company_id" name="company_id" required>
-                            <option value="" selected disabled>Select Company</option>
-                            @foreach($companies as $company)
-                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                        <label for="course_id" class="form-label">Course</label>
+                        <select class="form-select" id="course_id" name="course_id" required>
+                            <option value="" selected disabled>Select Course</option>
+                            @foreach($courses as $course)
+                                <option value="{{ $course->course_id }}">{{ $course->coursename }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="display_order">Display Order</label>
+                        <input type="number" min="1" max="999" value="1" class="form-control" id="display_order" name="display_order" required>
                     </div>
                     <div class="form-group">
                         <label for="teaching_material_name">Teaching Material Name: <b style="color: red">*</b></label>

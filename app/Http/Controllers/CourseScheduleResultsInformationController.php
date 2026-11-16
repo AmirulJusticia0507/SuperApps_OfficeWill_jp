@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseScheduleResultsInformation;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class CourseScheduleResultsInformationController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class CourseScheduleResultsInformationController extends Controller
      */
     public function store(Request $request)
     {
-        CourseScheduleResultsInformation::create($request->all());
+        CourseScheduleResultsInformation::create($this->validatedModelInput($request, new CourseScheduleResultsInformation()));
         return redirect()->route('schedules.index')->with('success', 'Schedule created successfully');
     }
 
@@ -56,8 +58,8 @@ class CourseScheduleResultsInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $schedule = CourseScheduleResultsInformation::find($id);
-        $schedule->update($request->all());
+        $schedule = CourseScheduleResultsInformation::findOrFail($id);
+        $schedule->update($this->validatedModelInput($request, $schedule));
         return redirect()->route('schedules.index')->with('success', 'Schedule updated successfully');
     }
 
@@ -66,7 +68,7 @@ class CourseScheduleResultsInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        CourseScheduleResultsInformation::destroy($id);
+        CourseScheduleResultsInformation::findOrFail($id)->delete();
         return redirect()->route('schedules.index')->with('success', 'Schedule deleted successfully');
     }
 }

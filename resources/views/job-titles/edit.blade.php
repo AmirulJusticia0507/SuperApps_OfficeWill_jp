@@ -22,18 +22,18 @@
                         <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
                             <div class="mb-4">
                                 <h1 class="text-center text-2xl font-semibold mb-8" style="color: #2564bc;">JOB INFORMATION</h1>
-                                <form action="{{ isset($jobTitle) ? route('job-titles.update', $jobTitle->JobID) : route('job-titles.store') }}" method="POST">
+                                <form action="{{ isset($jobTitle) ? route('job-titles.update', $jobTitle->job_id) : route('job-titles.store') }}" method="POST">
                                     @csrf
                                     @if(isset($jobTitle))
                                         @method('PUT')
                                     @endif
                                     <div class="mb-4">
                                         <label for="job_title" class="block text-gray-700 text-sm font-bold mb-2">Job Title:</label>
-                                        <input type="text" name="JobTitle" id="job_title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ isset($jobTitle) ? $jobTitle->JobTitle : '' }}" required>
+                                        <input type="text" name="job_title" id="job_title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ isset($jobTitle) ? $jobTitle->job_title : '' }}" required>
                                     </div>
                                     <div class="mb-6">
                                         <label for="display_order" class="block text-gray-700 text-sm font-bold mb-2">Display Order:</label>
-                                        <input type="number" name="DisplayOrder" id="display_order" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ isset($jobTitle) ? $jobTitle->DisplayOrder : '' }}" required>
+                                        <input type="number" name="display_order" id="display_order" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ isset($jobTitle) ? $jobTitle->display_order : '' }}" required>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save</button>
@@ -64,11 +64,11 @@
                                 <tbody>
                                     @foreach ($jobTitles as $jobTitle)
                                         <tr>
-                                            <td class="border px-4 py-2">{{ $jobTitle->JobTitle }}</td>
-                                            <td class="border px-4 py-2">{{ $jobTitle->DisplayOrder }}</td>
+                                            <td class="border px-4 py-2">{{ $jobTitle->job_title }}</td>
+                                            <td class="border px-4 py-2">{{ $jobTitle->display_order }}</td>
                                             <td class="border px-4 py-2">
-                                                <a href="{{ route('job-titles.edit', $jobTitle->JobID) }}" class="text-blue-500 hover:text-blue-800">Edit</a>
-                                                <form action="{{ route('job-titles.destroy', $jobTitle->JobID) }}" method="POST" class="inline-block">
+                                                <a href="{{ route('job-titles.edit', $jobTitle->job_id) }}" class="text-blue-500 hover:text-blue-800">Edit</a>
+                                                <form action="{{ route('job-titles.destroy', $jobTitle->job_id) }}" method="POST" class="inline-block">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="text-red-500 hover:text-red-800 ml-2">Delete</button>

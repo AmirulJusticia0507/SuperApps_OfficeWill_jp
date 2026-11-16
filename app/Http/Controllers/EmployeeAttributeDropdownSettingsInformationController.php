@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmployeeAttributeDropdownSettingsInformation;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class EmployeeAttributeDropdownSettingsInformationController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class EmployeeAttributeDropdownSettingsInformationController extends Controller
      */
     public function store(Request $request)
     {
-        EmployeeAttributeDropdownSettingsInformation::create($request->all());
+        EmployeeAttributeDropdownSettingsInformation::create($this->validatedModelInput($request, new EmployeeAttributeDropdownSettingsInformation()));
         return redirect()->route('settings.index')->with('success', 'Settings created successfully');
     }
 
@@ -56,8 +58,8 @@ class EmployeeAttributeDropdownSettingsInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $setting = EmployeeAttributeDropdownSettingsInformation::find($id);
-        $setting->update($request->all());
+        $setting = EmployeeAttributeDropdownSettingsInformation::findOrFail($id);
+        $setting->update($this->validatedModelInput($request, $setting));
         return redirect()->route('settings.index')->with('success', 'Settings updated successfully');
     }
 
@@ -66,7 +68,7 @@ class EmployeeAttributeDropdownSettingsInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        EmployeeAttributeDropdownSettingsInformation::destroy($id);
+        EmployeeAttributeDropdownSettingsInformation::findOrFail($id)->delete();
         return redirect()->route('settings.index')->with('success', 'Settings deleted successfully');
     }
 }

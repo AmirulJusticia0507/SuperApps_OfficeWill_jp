@@ -125,7 +125,7 @@
                                                     <div class="form-check">
                                                         <label class="form-check-label">
                                                             <input x-model="answer[index].choice"
-                                                                x-bind:name="`todo[${index}][choices]`"
+                                                                x-bind:name="`todo[${index}][choices][]`"
                                                                 class="form-check-input" type="checkbox"
                                                                 :value="choice.todo_option_id" title="Books" required>
                                                             &emsp;<span x-text="choice.choices"></span></label>

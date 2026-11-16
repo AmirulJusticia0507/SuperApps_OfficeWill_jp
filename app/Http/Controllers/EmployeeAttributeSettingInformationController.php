@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmployeeAttributeSettingInformation;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class EmployeeAttributeSettingInformationController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class EmployeeAttributeSettingInformationController extends Controller
      */
     public function store(Request $request)
     {
-        EmployeeAttributeSettingInformation::create($request->all());
+        EmployeeAttributeSettingInformation::create($this->validatedModelInput($request, new EmployeeAttributeSettingInformation()));
         return redirect()->route('settings.index')->with('success', 'Settings created successfully');
     }
 
@@ -56,8 +58,8 @@ class EmployeeAttributeSettingInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $setting = EmployeeAttributeSettingInformation::find($id);
-        $setting->update($request->all());
+        $setting = EmployeeAttributeSettingInformation::findOrFail($id);
+        $setting->update($this->validatedModelInput($request, $setting));
         return redirect()->route('settings.index')->with('success', 'Settings updated successfully');
     }
 
@@ -66,7 +68,7 @@ class EmployeeAttributeSettingInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        EmployeeAttributeSettingInformation::destroy($id);
+        EmployeeAttributeSettingInformation::findOrFail($id)->delete();
         return redirect()->route('settings.index')->with('success', 'Settings deleted successfully');
     }
 }

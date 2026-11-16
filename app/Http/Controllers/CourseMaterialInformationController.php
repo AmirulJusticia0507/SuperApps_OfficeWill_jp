@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseMaterialInformation;
+use App\Models\CourseInformation;
 
 class CourseMaterialInformationController extends Controller
 {
@@ -13,7 +14,8 @@ class CourseMaterialInformationController extends Controller
     public function index()
     {
         $materials = CourseMaterialInformation::all();
-        return view('course_material.index', compact('materials'));
+        $courses = CourseInformation::all();
+        return view('course_material.index', compact('materials', 'courses'));
     }
 
     /**
@@ -21,7 +23,7 @@ class CourseMaterialInformationController extends Controller
      */
     public function create()
     {
-        return view('course_material.create');
+        return redirect()->route('materials.index');
     }
 
     /**
@@ -37,7 +39,7 @@ class CourseMaterialInformationController extends Controller
             'youtube_video_url' => ['nullable', 'url', 'max:255'],
             'bookfile' => ['nullable', 'file', 'max:20480'],
         ]);
-        $course = \App\Models\CourseInformation::findOrFail($data['course_id']);
+        $course = CourseInformation::findOrFail($data['course_id']);
         $data['company_id'] = $course->company_id;
         $data['display_order'] = str_pad((string) $data['display_order'], 3, '0', STR_PAD_LEFT);
         $data['book_file_path'] = $request->file('bookfile')?->store('teaching_materials/' . $course->company_id, 'public');
@@ -51,8 +53,7 @@ class CourseMaterialInformationController extends Controller
      */
     public function show(string $id)
     {
-        $material = CourseMaterialInformation::find($id);
-        return view('course_material.show', compact('material'));
+        return redirect()->route('materials.edit', $id);
     }
 
     /**
@@ -60,8 +61,9 @@ class CourseMaterialInformationController extends Controller
      */
     public function edit(string $id)
     {
-        $material = CourseMaterialInformation::find($id);
-        return view('course_material.edit', compact('material'));
+        $material = CourseMaterialInformation::findOrFail($id);
+        $courses = CourseInformation::where('company_id', $material->company_id)->get();
+        return view('course_material.edit', compact('material', 'courses'));
     }
 
     /**
@@ -79,7 +81,7 @@ class CourseMaterialInformationController extends Controller
             'bookfile' => ['sometimes', 'nullable', 'file', 'max:20480'],
         ]);
         if (isset($data['course_id'])) {
-            $course = \App\Models\CourseInformation::findOrFail($data['course_id']);
+            $course = CourseInformation::findOrFail($data['course_id']);
             abort_unless((int) $course->company_id === (int) $material->company_id, 403);
         }
         if (isset($data['display_order'])) {

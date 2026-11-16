@@ -17,50 +17,46 @@ class JobTitleController extends Controller
 
     public function create()
     {
-        return view('job-titles.create');
+        $jobTitle = null;
+        $jobTitles = JobInformation::all();
+        return view('job-titles.edit', compact('jobTitle', 'jobTitles'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'job_title' => 'required',
-            'display_order' => 'required|numeric',
+        $data = $request->validate([
+            'job_title' => ['required', 'string', 'max:20'],
+            'display_order' => ['required', 'integer', 'between:1,999'],
         ]);
 
-        JobInformation::create([
-            'job_title' => $request->job_title,
-            'display_order' => $request->display_order,
-        ]);
+        JobInformation::create($data);
 
         return redirect()->route('job-titles.index')->with('success', 'Job Title created successfully.');
     }
 
     public function show($id)
     {
-        $jobTitle = JobInformation::findOrFail($id);
-        return view('job-titles.show', compact('jobTitle'));
+        return redirect()->route('job-titles.edit', $id);
     }
 
     public function edit($id)
     {
         $jobTitle = JobInformation::findOrFail($id);
+        $jobTitles = JobInformation::all();
         $isEditing = true; // Setel variabel untuk menandai bahwa sedang dalam mode edit
         $editingId = $id; // Setel ID yang sedang diedit
-        return view('job-titles.edit', compact('jobTitle', 'isEditing', 'editingId'));
+        return view('job-titles.edit', compact('jobTitle', 'jobTitles', 'isEditing', 'editingId'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'job_title' => 'required',
-            'display_order' => 'required|numeric',
+        $data = $request->validate([
+            'job_title' => ['required', 'string', 'max:20'],
+            'display_order' => ['required', 'integer', 'between:1,999'],
         ]);
 
         $jobTitle = JobInformation::findOrFail($id);
-        $jobTitle->update([
-            'job_title' => $request->job_title,
-            'display_order' => $request->display_order,
-        ]);
+        $jobTitle->update($data);
 
         return redirect()->route('job-titles.index')->with('success', 'Job Title updated successfully.');
     }

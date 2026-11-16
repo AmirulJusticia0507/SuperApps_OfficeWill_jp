@@ -93,125 +93,105 @@ class ConfirmCoursesController extends Controller
 		$dataTodoAnswer = json_encode(['todos' => $scheduleResultCourse->course->todo, 'answer' => $answer]);
 		return view('confirmcourses.todo-answer', compact('scheduleResultCourse', 'employee', 'dataTodoAnswer', 'btnSaveText', 'todoTypeTitle', 'confirmTitle', 'confirmHtml'));
 	}
-	public function todoAnswerStore(Request $request)
+	public function todoAnswerStore(Request $request, $course_id)
 	{
-		// dd($request->all());
-		try {
-			DB::beginTransaction();
+		$data = $request->validate([
+			'course_id' => ['required', 'integer', 'in:' . $course_id],
+			'attendance_settings_id' => ['required', 'integer'],
+			'todo_type' => ['required', 'in:1,2,3'],
+			'save_type' => ['nullable', 'in:temporary'],
+			'todo' => ['sometimes', 'array', 'max:100'],
+			'todo.*.todo_item_id' => ['required', 'integer'],
+			'todo.*.answer_type' => ['required', 'in:1,2,3,4'],
+			'todo.*.choices' => ['nullable'],
+			'todo.*.choices_text' => ['nullable', 'string', 'max:10000'],
+			'todo.*.text_answer' => ['nullable', 'string', 'max:10000'],
+			'todo.*.report' => ['nullable', 'string', 'max:10000'],
+		]);
 
-			$course = CourseInformation::where('course_id', $request->course_id)->first();
-			if (!$course) {
-				return "Invalid Course";
-			}
+		$authenticatedEmployee = auth()->guard('employee')->user();
+		$employeeId = $authenticatedEmployee ? $authenticatedEmployee->employee_id : auth()->id();
+		$course = CourseInformation::findOrFail($course_id);
+		abort_unless((string) $course->todo_type === (string) $data['todo_type'], 422);
+		$schedule = CourseScheduleResultsInformation::where('attendance_setting_id', $data['attendance_settings_id'])
+			->where('employee_id', $employeeId)
+			->where('course_id', $course->course_id)
+			->firstOrFail();
+		$todoItems = $course->todo->keyBy('todo_item_id');
+		$submittedItemIds = collect($data['todo'] ?? [])->pluck('todo_item_id')->map('strval')->sort()->values();
+		$expectedItemIds = $todoItems->keys()->map('strval')->sort()->values();
+		abort_unless($submittedItemIds->all() === $expectedItemIds->all(), 422);
+		$testConducted = 0;
+		$testNumberCorrect = 0;
 
-			$user = auth()->guard('employee')->user();
-			if ($user) {
-				$user_id = $user->employee_id;
-			} else {
-				$user = auth()->user();
-				$user_id = $user->id;
-			}
-			$employee = EmployeeInformation::where('employee_id', $user_id)->first();
-			$course_schedule_result = CourseScheduleResultsInformation::where('attendance_setting_id', $request->attendance_settings_id)->first();
+		DB::transaction(function () use ($data, $course, $schedule, $employeeId, $todoItems, &$testConducted, &$testNumberCorrect) {
+			foreach ($data['todo'] ?? [] as $answer) {
+				$item = $todoItems->get($answer['todo_item_id']);
+				abort_unless($item && (string) $item->answer_type === (string) $answer['answer_type'], 422);
+				$choices = $answer['choices'] ?? null;
+				$choices = is_array($choices) ? $choices : ($choices === null || $choices === '' ? [] : [$choices]);
 
-			$test_conducted = 0;
-
-			$test_number_correct = 0;
-			$test_rate_correct_answer = 0; // %
-
-			foreach ($request->todo as $todo) {
-
-
-				$choice = isset($todo['choices']) ? $todo['choices'] : null;
-
-				switch ($todo['answer_type']) {
-					case '1':
-						AttendanceTodoItemAnswerInformation::create([
-							'company_id' => $course->company_id,
-							'employee_id' => $employee->employee_id,
-							'course_id' => $course->course_id,
-							'attendance_settings_id' => $course_schedule_result->attendance_setting_id,
-							'todo_items_id' => $todo['todo_item_id'],
-							'text_answer' => $todo['choices_text'] ?? null,
-							'report' => $todo['report'] ?? null,
-						]);
-						break;
-					case '2':
-					case '3':
-					case '4':
-						if ($choice) {
-							$item_choice = CourseTodoItemsChoiceInformation::where('todo_items_id', $todo['todo_item_id'])->where('todo_option_id', $choice)->first();
-							if ($item_choice->test_choice_correct_answer) {
-								$test_number_correct++;
-							}
-
-							AttendanceTodoAnswerSelectionInformation::create([
-								'company_id' => $course->company_id,
-								'employee_id' => $employee->employee_id,
-								'course_id' => $course->course_id,
-								'attendance_setting_id' => $course_schedule_result->attendance_setting_id,
-								'todo_items_id' => $todo['todo_item_id'],
-								'todo_option_id' => $choice,
-								'selection' => $choice != null ? 1 : null,
-								'other_text_answer' => $choice == 'others' ? $todo['text_answer'] : null,
-							]);
-						}
-
-						break;
+				if ((string) $answer['answer_type'] === '1') {
+					$text = $answer['choices_text'] ?? null;
+					abort_unless((string) $item->required_settings !== '1' || filled($text), 422);
+					AttendanceTodoItemAnswerInformation::create([
+						'company_id' => $course->company_id,
+						'employee_id' => $employeeId,
+						'course_id' => $course->course_id,
+						'attendance_settings_id' => $schedule->attendance_setting_id,
+						'todo_items_id' => $item->todo_item_id,
+						'text_answer' => $text,
+						'report' => $answer['report'] ?? null,
+					]);
+					$testConducted += filled($text) ? 1 : 0;
+					continue;
 				}
-				if ($choice != null || isset($todo['text_answer']) || isset($todo['choices_text'])) {
-					$test_conducted++;
+				abort_unless((string) $item->required_settings !== '1' || count($choices) > 0, 422);
+
+				foreach ($choices as $choiceId) {
+					abort_unless(ctype_digit((string) $choiceId), 422);
+					$choice = CourseTodoItemsChoiceInformation::where('todo_items_id', $item->todo_item_id)
+						->where('todo_option_id', $choiceId)->firstOrFail();
+					AttendanceTodoAnswerSelectionInformation::create([
+						'company_id' => $course->company_id,
+						'employee_id' => $employeeId,
+						'course_id' => $course->course_id,
+						'attendance_setting_id' => $schedule->attendance_setting_id,
+						'todo_items_id' => $item->todo_item_id,
+						'todo_option_id' => $choice->todo_option_id,
+						'selection' => 1,
+						'other_text_answer' => strtolower($choice->choices) === 'others' ? ($answer['text_answer'] ?? null) : null,
+					]);
+					$testNumberCorrect += (bool) $choice->test_choice_correct_answer ? 1 : 0;
 				}
-
-			}
-			$todo_progress = '2';
-			$todo_complete = now();
-			if ($request->save_type == 'temporary') {
-				$todo_progress = '1';
-				$todo_complete = null;
+				$testConducted += count($choices) > 0 ? 1 : 0;
 			}
 
-			$test_rate_correct_answer = round(($test_number_correct / $test_conducted) * 100, 2);
-
-			$course_result_data = [
-				'todo_progress' => $todo_progress,
-				'todo_complete' => $todo_complete,
-				'number_test_conducted' => $test_conducted,
-				'latest_test_number_correct_answer' => $test_number_correct,
-				'latest_test_accuracy_rate' => $test_rate_correct_answer,
-			];
-
-			if ($course_schedule_result->first_test_correct_answer_rate == null || $course_schedule_result->first_test_correct_answer_rate == 0) {
-				$course_result_data['first_test_number_correct_answer'] = $test_number_correct;
-				$course_result_data['first_test_correct_answer_rate'] = $test_rate_correct_answer;
+			$accuracy = $testConducted > 0 ? round(($testNumberCorrect / $testConducted) * 100, 2) : 0;
+			$schedule->update([
+				'todo_progress' => ($data['save_type'] ?? null) === 'temporary' ? '1' : '2',
+				'todo_complete' => ($data['save_type'] ?? null) === 'temporary' ? null : now(),
+				'number_test_conducted' => $testConducted,
+				'latest_test_number_correct_answer' => $testNumberCorrect,
+				'latest_test_accuracy_rate' => $accuracy,
+			]);
+			if (!$schedule->first_test_correct_answer_rate) {
+				$schedule->update([
+					'first_test_number_correct_answer' => $testNumberCorrect,
+					'first_test_correct_answer_rate' => $accuracy,
+				]);
 			}
+		});
 
-			$course_schedule_result->where('attendance_setting_id', $request->attendance_settings_id)->update($course_result_data);
-
-			DB::commit();
-
-			switch ($request->todo_type) {
-				case '1':
-					$successMsg = 'Your survey has been completed.';
-					break;
-				case '3':
-					$successMsg = 'The report submission is complete.';
-					break;
-			}
-
-			if ($request->todo_type == '2') {
-				return redirect()->route('confirm-courses.todo-answer.scoring', $course->course_id);
-			} else {
-				alert()->success('Post-class To-Do', $successMsg);
-				return redirect()->route('confirm-courses.index');
-
-			}
-
-		} catch (\Throwable $th) {
-			throw $th;
-			DB::rollBack();
+		if ((string) $data['todo_type'] === '2') {
+			return redirect()->route('confirm-courses.todo-answer.scoring', $course->course_id);
 		}
 
+		$successMessage = (string) $data['todo_type'] === '1'
+			? 'Your survey has been completed.'
+			: 'The report submission is complete.';
+		alert()->success('Post-class To-Do', $successMessage);
+		return redirect()->route('confirm-courses.index');
 	}
 
 	public function todoAnswerScoring(Request $request, $course_id)

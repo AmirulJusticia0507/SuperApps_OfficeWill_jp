@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CourseTodoItemsChoiceInformation;
+use App\Http\Controllers\Concerns\ValidatesModelInput;
 
 class CourseTodoItemsChoiceInformationController extends Controller
 {
+    use ValidatesModelInput;
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +31,7 @@ class CourseTodoItemsChoiceInformationController extends Controller
      */
     public function store(Request $request)
     {
-        CourseTodoItemsChoiceInformation::create($request->all());
+        CourseTodoItemsChoiceInformation::create($this->validatedModelInput($request, new CourseTodoItemsChoiceInformation()));
         return redirect()->route('choices.index')->with('success', 'Choice created successfully');
     }
 
@@ -56,8 +58,8 @@ class CourseTodoItemsChoiceInformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $choice = CourseTodoItemsChoiceInformation::find($id);
-        $choice->update($request->all());
+        $choice = CourseTodoItemsChoiceInformation::findOrFail($id);
+        $choice->update($this->validatedModelInput($request, $choice));
         return redirect()->route('choices.index')->with('success', 'Choice updated successfully');
     }
 
@@ -66,7 +68,7 @@ class CourseTodoItemsChoiceInformationController extends Controller
      */
     public function destroy(string $id)
     {
-        CourseTodoItemsChoiceInformation::destroy($id);
+        CourseTodoItemsChoiceInformation::findOrFail($id)->delete();
         return redirect()->route('choices.index')->with('success', 'Choice deleted successfully');
     }
 }
