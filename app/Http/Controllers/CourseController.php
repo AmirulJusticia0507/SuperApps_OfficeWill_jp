@@ -46,7 +46,8 @@ class CourseController extends Controller
 
         $coursesQuery = CourseInformation::query();
         if ($courseClassificationId) {
-            $coursesQuery->where('course_classification_id', $courseClassificationId);
+            // The deployed PostgreSQL schema still uses the legacy quoted column name.
+            $coursesQuery->where('Course_classification_id', $courseClassificationId);
         }
         if ($courseClassificationDetailsId) {
             $coursesQuery->where('course_classification_details_id', $courseClassificationDetailsId);
@@ -59,7 +60,6 @@ class CourseController extends Controller
         // Fetch the necessary data
         $classifications = CourseClassificationInformation::all();
         $details = CourseClassificationDetailInformation::all();
-        $courses = CourseInformation::all();
         $affiliations = AffiliationInformation::all();
         $employees = EmployeeInformation::all();
         $jobTitles = JobInformation::all();
