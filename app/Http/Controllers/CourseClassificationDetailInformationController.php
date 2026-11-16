@@ -113,7 +113,15 @@ class CourseClassificationDetailInformationController extends Controller
             ]);
         }
 
-        return $file->storeOrFail('course_classification_icons', 'public');
+        $path = $file->store('course_classification_icons', 'public');
+
+        if ($path === false) {
+            throw ValidationException::withMessages([
+                'icon_file_path' => 'The icon could not be stored.',
+            ]);
+        }
+
+        return $path;
     }
 
     /**
