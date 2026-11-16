@@ -6,7 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEP SERVICE - OFFICE WILL - JAPAN</title>
+    <meta name="theme-color" content="#102a56">
+    <link rel="manifest" href="{{ route('pwa.manifest') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/pwa-icon-192.png') }}">
+    <title>{{ __('DEP SERVICE - OFFICE WILL - JAPAN') }}</title>
     <!-- Tailwind CSS -->
     {{-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
@@ -33,6 +36,20 @@
     </div>
     <script>
         const base_url = "{{ config('app.url') }}";
+    </script>
+    <script>
+        window.uiTranslations = {
+            confirmLogout: @json(__('Confirm logout')),
+            logoutPrompt: @json(__('Are you sure you want to log out?')),
+            yes: @json(__('Yes')),
+            cancel: @json(__('Cancel')),
+            language: @json(app()->getLocale()),
+        };
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register(@json(route('pwa.service-worker'))));
+        }
     </script>
     @include('vendor.sweetalert.alert')
 

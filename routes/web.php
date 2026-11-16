@@ -29,6 +29,19 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\QuestionnaireController;
 
 Route::redirect('/', '/login');
+Route::get('/manifest.webmanifest', function () {
+    return response()->file(public_path('manifest.webmanifest'), [
+        'Content-Type' => 'application/manifest+json',
+        'Cache-Control' => 'public, max-age=3600',
+    ]);
+})->name('pwa.manifest');
+Route::get('/service-worker.js', function () {
+    return response()->file(public_path('service-worker.js'), [
+        'Content-Type' => 'application/javascript',
+        'Cache-Control' => 'no-cache',
+        'Service-Worker-Allowed' => '/',
+    ]);
+})->name('pwa.service-worker');
 Route::get('/locale/{locale}', function (string $locale) {
     abort_unless(in_array($locale, ['ja', 'en'], true), 404);
     session(['locale' => $locale]);
