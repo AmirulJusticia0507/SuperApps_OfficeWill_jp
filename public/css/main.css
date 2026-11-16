@@ -6,10 +6,12 @@
 /* Application pages use a fixed sidebar, so the content should occupy the
    complete viewport instead of reserving Bootstrap columns for the sidebar. */
 body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) {
-    width: 100%;
+    width: calc(100% - 16rem);
     max-width: none;
     margin-right: 0;
-    margin-left: 0;
+    margin-left: 16rem;
+    padding: 1.5rem 2rem;
+    transition: margin-left .2s ease, width .2s ease;
 }
 
 body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) > .col-md-3 {
@@ -26,8 +28,22 @@ body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.
     flex: 0 0 100%;
     width: 100%;
     max-width: 100%;
-    padding-right: 1.25rem;
-    padding-left: 1.25rem;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+body.sidebar-collapsed .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) {
+    width: calc(100% - 4.5rem);
+    margin-left: 4.5rem;
+}
+
+@media (max-width: 767.98px) {
+    body:has(aside.app-sidebar) .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar),
+    body.sidebar-collapsed .row.justify-content-center:has(> .col-md-3 > aside.app-sidebar) {
+        width: 100%;
+        margin-left: 0;
+        padding: 1rem;
+    }
 }
 
 body:has(aside.app-sidebar) .content-wrapper,
