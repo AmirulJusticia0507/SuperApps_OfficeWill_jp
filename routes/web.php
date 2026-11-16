@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardController;
@@ -36,10 +35,6 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-// Rute untuk menampilkan halaman register
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
-
 // Rute untuk menampilkan halaman forgot password
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -57,7 +52,6 @@ Route::middleware('auth.any')->group(function () {
 		Route::resource('member-registration', MasterRegistrationController::class);
 		Route::resource('employee-information', EmployeeInformationController::class);
 		Route::get('/employees/search', [EmployeeInformationController::class, 'search'])->name('employees.search');
-		Route::get('/employees/create', [EmployeeInformationController::class, 'create'])->name('employees.create');
 		Route::get('/employee-index', [EmployeeInformationController::class, 'index'])->name('employee.index');
 		Route::get('/employeelist', [EmployeeInformationController::class, 'employeelist'])->name('employee-list');
 		Route::get('/employee/filter', [EmployeeInformationController::class, 'filter'])->name('employee.filter');
@@ -75,7 +69,7 @@ Route::middleware('auth.any')->group(function () {
 	// Rute untuk job titles
 	Route::middleware('authority:system_administrator_privileges')->group(function () {
 		Route::resource('job-titles', JobTitleController::class);
-		Route::resource('affiliation-information', AffiliationInformationController::class);
+		Route::resource('affiliation-information', AffiliationInformationController::class)->except(['destroy']);
 		Route::post('/affiliation-information/reset', [AffiliationInformationController::class, 'resetForm'])->name('affiliation-information.reset');
 		Route::delete('/affiliation-information/{id}', [AffiliationInformationController::class, 'destroy'])->name('affiliation-information.destroy');
 		Route::resource('company-information', CompanyInformationController::class);
@@ -108,26 +102,21 @@ Route::middleware('auth.any')->group(function () {
 		Route::get('/employee/filter', [CourseController::class, 'filter'])->name('employee.filter');
 	});
 	Route::middleware('authority:employee_registration_authority,course_enrollment_privileges')->group(function () {
-		Route::resource('course-classifications', CourseClassificationInformationController::class);
+		Route::resource('course-classifications', CourseClassificationInformationController::class)->except(['destroy']);
 		Route::get('/course-classification', [CourseClassificationInformationController::class, 'index'])->name('course-classification.index');
 		Route::post('/classifications', [CourseClassificationInformationController::class, 'store'])->name('classifications.store');
-		Route::get('/course-classifications/{id}/edit', [CourseClassificationInformationController::class, 'edit'])->name('course-classifications.edit');
-		Route::put('/course-classifications/{id}', [CourseClassificationInformationController::class, 'update'])->name('course-classifications.update');
 		Route::delete('/course-classifications/{id}', [CourseClassificationInformationController::class, 'destroy'])->name('course-classifications.destroy');
 	});
 
 	// Rute untuk course attribute setting information
 
 	Route::middleware('authority:employee_registration_authority,course_enrollment_privileges')->group(function () {
-		Route::resource('course-classification-details', CourseClassificationDetailInformationController::class);
+		Route::resource('course-classification-details', CourseClassificationDetailInformationController::class)->except(['store', 'update', 'destroy']);
 		Route::post('/course-classification-details', [CourseClassificationDetailInformationController::class, 'store'])->name('details.store');
 		Route::resource('classifications', CourseClassificationDetailInformationController::class);
-		Route::get('/course-classification-details/{id}/edit', [CourseClassificationDetailInformationController::class, 'edit'])->name('course-classification-details.edit');
-		Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('course-classification-details.update');
 		Route::delete('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('course-classification-details.destroy');
 		Route::get('/details', [CourseClassificationDetailInformationController::class, 'index'])->name('details.index');
 		Route::delete('/details/{id}', [CourseClassificationDetailInformationController::class, 'destroy'])->name('details.destroy');
-		Route::put('/course-classification-details/{id}', [CourseClassificationDetailInformationController::class, 'update'])->name('details.update');
 	});
 
 	// Rute untuk course classification information
