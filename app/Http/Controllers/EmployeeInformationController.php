@@ -33,7 +33,9 @@ class EmployeeInformationController extends Controller
 
         EmployeeAffiliationInformation::findOrFail($id)->update($validated);
 
-        return redirect()->route('employee-access-settings.index')->with('success', __('Access settings updated successfully.'));
+        return redirect()->route('employee-access-settings.index')
+            ->with('success', __('Access settings updated successfully.'))
+            ->with('saved_access_setting_id', (int) $id);
     }
 
     /**

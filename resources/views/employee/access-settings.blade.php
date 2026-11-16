@@ -91,6 +91,8 @@
                                             <label class="access-save-switch" title="{{ __('Save') }}">
                                                 <input type="checkbox" data-save-access-switch
                                                     data-form-id="access-form-{{ $employeeAffiliation->eai_id }}"
+                                                    data-save-key="employee-access-saved-{{ $employeeAffiliation->eai_id }}"
+                                                    @checked((int) session('saved_access_setting_id') === (int) $employeeAffiliation->eai_id)
                                                     aria-label="{{ __('Save') }}">
                                                 <span class="access-save-slider"></span>
                                                 <span class="access-save-status">{{ __('Save') }}</span>
@@ -114,12 +116,17 @@
 @section('scripts')
     <script>
         document.querySelectorAll('[data-save-access-switch]').forEach(function (toggle) {
+            if (localStorage.getItem(toggle.dataset.saveKey) === '1') {
+                toggle.checked = true;
+            }
+
             toggle.addEventListener('change', function () {
                 if (!this.checked) return;
 
                 const form = document.getElementById(this.dataset.formId);
                 const status = this.closest('.access-save-switch').querySelector('.access-save-status');
                 status.textContent = @json(__('Saving...'));
+                localStorage.setItem(this.dataset.saveKey, '1');
                 form.requestSubmit();
             });
         });
