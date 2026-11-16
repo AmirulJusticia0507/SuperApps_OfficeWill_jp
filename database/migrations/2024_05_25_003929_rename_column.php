@@ -10,6 +10,10 @@ return new class extends Migration {
 	 */
 	public function up(): void
 	{
+		if (!Schema::hasTable('job_information') || !Schema::hasColumn('job_information', 'Job_id')) {
+			return;
+		}
+
 		Schema::table('job_information', function (Blueprint $table) {
 			$table->renameColumn('Job_id', 'job_id');
 		});
@@ -20,6 +24,10 @@ return new class extends Migration {
 	 */
 	public function down(): void
 	{
+		if (!Schema::hasTable('job_information') || !Schema::hasColumn('job_information', 'job_id')) {
+			return;
+		}
+
 		Schema::table('job_information', function (Blueprint $table) {
 			$table->renameColumn('job_id', 'Job_id');
 		});

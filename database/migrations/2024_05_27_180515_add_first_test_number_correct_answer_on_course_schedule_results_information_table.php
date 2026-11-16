@@ -10,6 +10,10 @@ return new class extends Migration {
 	 */
 	public function up(): void
 	{
+		if (!Schema::hasTable('course_schedule_results_information')) {
+			return;
+		}
+
 		Schema::table('course_schedule_results_information', function (Blueprint $table) {
 			$table->decimal('number_test_conducted', 3, 0)->default(0)->nullable()->change();
 			$table->decimal('first_test_number_correct_answer', 3, 0)->default(0)->nullable()->after('number_test_conducted');

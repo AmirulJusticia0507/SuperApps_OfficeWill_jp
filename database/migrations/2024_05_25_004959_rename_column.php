@@ -10,6 +10,10 @@ return new class extends Migration {
 	 */
 	public function up(): void
 	{
+		if (!Schema::hasTable('course_material_information') || !Schema::hasColumn('course_material_information', 'Course_id')) {
+			return;
+		}
+
 		Schema::table('course_material_information', function (Blueprint $table) {
 			$table->renameColumn('Course_id', 'course_id');
 		});
@@ -20,6 +24,10 @@ return new class extends Migration {
 	 */
 	public function down(): void
 	{
+		if (!Schema::hasTable('course_material_information') || !Schema::hasColumn('course_material_information', 'course_id')) {
+			return;
+		}
+
 		Schema::table('course_material_information', function (Blueprint $table) {
 			$table->renameColumn('course_id', 'Course_id');
 		});
