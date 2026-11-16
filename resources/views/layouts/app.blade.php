@@ -28,6 +28,7 @@
     <!-- Alpine Core -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 

@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Transitional utility layer: Bootstrap/AdminLTE continue to provide the
+   existing component styles while new UI can use Tailwind utilities. */
+@layer components {
+    .tw-card {
+        @apply rounded-xl border border-slate-200 bg-white shadow-sm;
+    }
+
+    .tw-card-header {
+        @apply rounded-t-xl border-b border-slate-200 px-5 py-4 text-base font-semibold text-slate-800;
+    }
+}
