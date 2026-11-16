@@ -8,6 +8,14 @@
         .access-settings-page .card { border: 0; border-radius: .75rem; box-shadow: 0 .125rem .75rem rgba(0,0,0,.08); }
         .access-settings-page .card-body { overflow-x: auto; }
         .access-settings-page table { min-width: 980px; }
+        .access-settings-page .access-save-switch { display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; }
+        .access-settings-page .access-save-switch input { position: absolute; opacity: 0; pointer-events: none; }
+        .access-settings-page .access-save-slider { position: relative; width: 3.25rem; height: 1.75rem; border-radius: 2rem; background: #adb5bd; transition: background-color .2s ease; }
+        .access-settings-page .access-save-slider::after { content: ''; position: absolute; top: .2rem; left: .2rem; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: #fff; box-shadow: 0 .1rem .2rem rgba(0,0,0,.2); transition: transform .2s ease; }
+        .access-settings-page .access-save-switch input:checked + .access-save-slider { background: #198754; }
+        .access-settings-page .access-save-switch input:checked + .access-save-slider::after { transform: translateX(1.5rem); }
+        .access-settings-page .access-save-switch input:focus-visible + .access-save-slider { outline: 2px solid #0d6efd; outline-offset: 2px; }
+        .access-settings-page .access-save-status { color: #6c757d; font-size: .85rem; }
         @media (max-width: 767.98px) {
             .access-settings-page__content, body.sidebar-collapsed .access-settings-page__content { margin-left: 0; width: 100%; padding: 1rem; }
         }
@@ -79,7 +87,15 @@
                                                 <input class="form-control" id="authority_validity_code-{{ $employeeAffiliation->eai_id }}" name="authority_validity_code" value="{{ $employeeAffiliation->authority_validity_code }}" maxlength="255">
                                             </form>
                                         </td>
-                                        <td><button class="btn btn-primary" type="submit" form="access-form-{{ $employeeAffiliation->eai_id }}">{{ __('Save') }}</button></td>
+                                        <td>
+                                            <label class="access-save-switch" title="{{ __('Save') }}">
+                                                <input type="checkbox" data-save-access-switch
+                                                    data-form-id="access-form-{{ $employeeAffiliation->eai_id }}"
+                                                    aria-label="{{ __('Save') }}">
+                                                <span class="access-save-slider"></span>
+                                                <span class="access-save-status">{{ __('Save') }}</span>
+                                            </label>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr><td colspan="5" class="text-center">{{ __('No employees found.') }}</td></tr>
@@ -93,4 +109,19 @@
     </div>
     </div>
     @include('includes.footer')
+    @endsection
+
+@section('scripts')
+    <script>
+        document.querySelectorAll('[data-save-access-switch]').forEach(function (toggle) {
+            toggle.addEventListener('change', function () {
+                if (!this.checked) return;
+
+                const form = document.getElementById(this.dataset.formId);
+                const status = this.closest('.access-save-switch').querySelector('.access-save-status');
+                status.textContent = @json(__('Saving...'));
+                form.requestSubmit();
+            });
+        });
+    </script>
 @endsection
