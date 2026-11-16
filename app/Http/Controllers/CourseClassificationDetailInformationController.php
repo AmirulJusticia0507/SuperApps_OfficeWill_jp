@@ -49,7 +49,7 @@ class CourseClassificationDetailInformationController extends Controller
 
         // Handle file upload
         if ($request->hasFile('icon_file_path')) {
-            $imagePath = $request->file('icon_file_path')->store('course_classification_icons', 'public');
+            $imagePath = $request->file('icon_file_path')->storeOrFail('course_classification_icons', 'public');
             $detail->icon_file_path = $imagePath;
         }
 
@@ -93,7 +93,7 @@ class CourseClassificationDetailInformationController extends Controller
             if ($detail->icon_file_path) {
                 Storage::disk('public')->delete($detail->icon_file_path);
             }
-            $imagePath = $request->file('icon_file_path')->store('course_classification_icons', 'public');
+            $imagePath = $request->file('icon_file_path')->storeOrFail('course_classification_icons', 'public');
             $detail->icon_file_path = $imagePath;
         }
 

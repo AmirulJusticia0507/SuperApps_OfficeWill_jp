@@ -40,7 +40,7 @@ class CourseClassificationInformationController extends Controller
         ]);
 
         $company = CompanyInformation::where('company_name', $data['company_name'])->firstOrFail();
-        $iconPath = $request->file('icon_file_path')->store('icons', 'public');
+        $iconPath = $request->file('icon_file_path')->storeOrFail('icons', 'public');
         
         $classification = new CourseClassificationInformation();
         $classification->company_id = $company->company_id;
@@ -83,7 +83,7 @@ class CourseClassificationInformationController extends Controller
             if ($classification->icon_file_path) {
                 Storage::disk('public')->delete(ltrim(str_replace('/storage/', '', $classification->icon_file_path), '/'));
             }
-            $iconPath = $request->file('icon_file_path')->store('icons', 'public');
+            $iconPath = $request->file('icon_file_path')->storeOrFail('icons', 'public');
             $classification->icon_file_path = $iconPath;
         }
 
