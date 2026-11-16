@@ -16,6 +16,7 @@ use App\Models\EmployeeInformation;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CourseController extends Controller
 {
@@ -87,12 +88,19 @@ class CourseController extends Controller
 	public function settings(Request $request)
 	{
 		$attribute = null;
-		$classifications = CourseClassificationInformation::all();
-		$details = CourseClassificationDetailInformation::all();
+		// Course master tables are supplied by the legacy SQL dump, not migrations.
+		$classifications = Schema::hasTable('course_classification_information')
+			? CourseClassificationInformation::all()
+			: collect();
+		$details = Schema::hasTable('course_classification_detail_information')
+			? CourseClassificationDetailInformation::all()
+			: collect();
 		$employees = EmployeeInformation::all();
 		$affiliations = AffiliationInformation::all();
 		$jobTitles = JobInformation::all();
-		$courses = CourseInformation::all();
+		$courses = Schema::hasTable('course_information')
+			? CourseInformation::all()
+			: collect();
 
 		$employeesQuery = EmployeeInformation::query();
 
