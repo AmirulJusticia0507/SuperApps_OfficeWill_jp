@@ -218,5 +218,7 @@
     "Employee Selection": "従業員の選択",
     "Enter Full Name": "氏名を入力",
     "Enter Employee Code": "従業員コードを入力",
-    "Set up attendance": "受講設定"
+    "Set up attendance": "受講設定",
+    "Toggle course search conditions": "コース検索条件を切り替え",
+    "Toggle employee search conditions": "従業員検索条件を切り替え"
 }

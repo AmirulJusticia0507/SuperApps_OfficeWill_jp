@@ -218,5 +218,7 @@
     "Employee Selection": "Employee Selection",
     "Enter Full Name": "Enter Full Name",
     "Enter Employee Code": "Enter Employee Code",
-    "Set up attendance": "Set up attendance"
+    "Set up attendance": "Set up attendance",
+    "Toggle course search conditions": "Toggle course search conditions",
+    "Toggle employee search conditions": "Toggle employee search conditions"
 }

@@ -25,12 +25,12 @@
             </nav>
             <!-- Create Classification Form -->
             <div id="filterCourseWrap">
-                <div class="card" x-data="{ open: false }">
+                <div class="card" x-data="{ courseFiltersOpen: false }">
                     <div class="card-header" style="background-color: darkblue"
                         title="{{ __('Course Settings - Choose your course') }}"><b style="color:aliceblue">{{ __('Course Settings - Choose your course') }}</b>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('course-settings') }}" x-init x-target="filterCourseWrap" x-show="open">
+                        <form action="{{ route('course-settings') }}" x-init x-target="filterCourseWrap" x-show="courseFiltersOpen">
                             <div class="form-group">
                                 <label for="course_classification">{{ __('Course Classification') }}:</label>
                                 <select class="form-control" id="course_classification_id" name="course_classification_id"
@@ -155,9 +155,9 @@
                             </div>
                         </form>
                         <div class="text-right">
-                            <button type="button" class="btn btn-outline-light btn-sm" x-on:click="open = ! open"
-                                :aria-expanded="open.toString()" aria-label="{{ __('Toggle search conditions') }}"
-                                x-text="open ? '−' : '+'"></button>
+                            <button type="button" class="btn btn-outline-light btn-sm" x-on:click="courseFiltersOpen = ! courseFiltersOpen"
+                                :aria-expanded="courseFiltersOpen.toString()" aria-label="{{ __('Toggle course search conditions') }}"
+                                x-text="courseFiltersOpen ? '−' : '+'"></button>
                         </div>
                     </div>
 
@@ -193,12 +193,12 @@
                 </div>
             </div>
             <div id="filterEmployeeWrap">
-                <div class="card" x-data="{ open: false }">
+                <div class="card" x-data="{ employeeFiltersOpen: false }">
                     <div class="card-header" style="background-color: darkblue" title="{{ __('Employee Selection') }}"><b
                             style="color:aliceblue">{{ __('Employee Selection') }}</b></div>
                     <div class="card-body">
                         <form action="{{ route('course-settings') }}" x-init x-target="filterEmployeeWrap"
-                            x-show="open"><br>
+                            x-show="employeeFiltersOpen"><br>
                             <div class="form-group">
                                 <label for="affiliation_code">{{ __('Affiliation') }}:</label>
                                 <select class="form-control" title="Affiliation" id="affiliation_code"
@@ -326,9 +326,9 @@
                             </div>
                         </form>
                         <div class="text-right">
-                            <button type="button" class="btn btn-outline-secondary btn-sm" x-on:click="open = ! open"
-                                :aria-expanded="open.toString()" aria-label="{{ __('Toggle search conditions') }}"
-                                x-text="open ? '−' : '+'"></button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" x-on:click="employeeFiltersOpen = ! employeeFiltersOpen"
+                                :aria-expanded="employeeFiltersOpen.toString()" aria-label="{{ __('Toggle employee search conditions') }}"
+                                x-text="employeeFiltersOpen ? '−' : '+'"></button>
                         </div>
                     </div>
 
