@@ -10,6 +10,14 @@
         top: 10px;
         /* Anda dapat menyesuaikan offset atas sesuai kebutuhan */
     }
+    .member-registration-page { width: calc(100% - 16rem); max-width: none; margin-left: 16rem; margin-right: 0; padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+    .member-registration-page > .col-md-3 { flex: 0 0 0; width: 0; max-width: 0; padding: 0; overflow: visible; }
+    .member-registration-page > .col-md-6 { flex: 0 0 100%; width: 100%; max-width: 100%; padding: 0; }
+    .member-registration-page > .col-md-2 { display: none; }
+    body.sidebar-collapsed .member-registration-page { width: calc(100% - 4.5rem); margin-left: 4.5rem; }
+    @media (max-width: 767.98px) {
+        .member-registration-page, body.sidebar-collapsed .member-registration-page { width: 100%; margin-left: 0; padding: 1rem; }
+    }
 </style>
 
 @section('content')
@@ -17,7 +25,7 @@
     @include('includes.header')
 
     {{-- <div class="container"> --}}
-    <div class="row justify-content-center">
+    <div class="row justify-content-center member-registration-page">
         <!-- Sidebar -->
         <div class="col-md-3">
             @include('includes.sidebar')
