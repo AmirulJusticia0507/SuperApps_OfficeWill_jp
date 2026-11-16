@@ -197,7 +197,7 @@
                 @endforeach
 
 <div class="modal fade" id="detailImagePreviewModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">{{ __('Image Preview') }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body text-center"><img id="detailImagePreviewTarget" src="" alt="{{ __('Image Preview') }}" class="img-fluid"></div></div></div>
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">{{ __('Image Lightbox') }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body text-center"><img id="detailImagePreviewTarget" src="" alt="{{ __('Image Lightbox') }}" class="img-fluid"></div></div></div>
 </div>
 
 
