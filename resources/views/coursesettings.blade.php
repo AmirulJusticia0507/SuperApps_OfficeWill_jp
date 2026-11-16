@@ -180,9 +180,15 @@
                                         <td><input type="checkbox" class="course-checkbox"
                                                 value="{{ $course->course_id }}">
                                         </td>
-                                        <td>{{ $course->classification->course_classification_name }}</td>
-                                        <td>{{ $course->classification_detail->course_classification_detailsname }}</td>
-                                        <td>{{ $course->coursename }}</td>
+                                        <td>{{ $course->classification?->course_classification_name ?? __('Not available') }}</td>
+                                        <td>{{ $course->classification_detail?->course_classification_detailsname ?? __('Not available') }}</td>
+                                        <td>
+                                            <span class="course-name-label">{{ $course->coursename }}</span>
+                                            <a href="{{ route('course-information.edit', $course->course_id) }}"
+                                                class="course-details-link d-none" data-course-details-link>
+                                                {{ __('View details') }}
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -401,6 +407,11 @@
                 pageLength: 10,
                 dom: 'lBfrtip',
                 buttons: ['copy', 'excel', 'pdf']
+            });
+
+            $('.course-checkbox').on('change', function() {
+                const link = $(this).closest('tr').find('[data-course-details-link]');
+                link.toggleClass('d-none', !this.checked);
             });
         });
     </script>
