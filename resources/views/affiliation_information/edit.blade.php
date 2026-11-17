@@ -15,54 +15,78 @@
     @include('includes.sidebar')
 
     <main class="affil-form-page__content">
-        <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold">
-                    {{ __('Edit Affiliation Information') }}
-                </div>
-                <div class="p-6">
-                    <form method="POST" action="{{ route('affiliation-information.update', $affiliation->affiliation_code) }}" class="space-y-4">
-                        @csrf
-                        @method('PUT')
-                        <div>
-                            <label for="company_name" class="block text-sm font-medium text-slate-700 mb-1">Company: <span class="text-red-500">*</span></label>
-                            <select class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" id="company_name" name="company_name" required>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->company_id }}" @selected((int) $company->company_id === (int) $affiliation->company_id)>{{ $company->company_name }}</option>
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="flex flex-wrap gap-1 text-sm text-slate-500 mb-4">
+                <li><a href="#" title="{{ __('Affiliation Information Registration') }}" class="hover:text-blue-600">{{ __('Affiliation Information Registration') }}</a></li>
+                <li class="before:content-['/'] before:mx-1"><a href="{{ route('affiliation-information.index') }}" title="{{ __('Affiliation Information') }}" class="hover:text-blue-600">{{ __('Affiliation Information') }}</a></li>
+                <li class="before:content-['/'] before:mx-1 text-slate-700 font-medium" aria-current="page" title="{{ __('Edit Affiliation Information') }}">{{ __('Edit Affiliation Information') }}</li>
+            </ol>
+        </nav>
+
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+            <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold" title="{{ __('Edit Affiliation Information') }}">
+                {{ __('Edit Affiliation Information') }}
+            </div>
+
+            <div class="p-6">
+                <form method="POST" action="{{ route('affiliation-information.update', $affiliation->affiliation_code) }}" class="space-y-5">
+                    @csrf
+                    @method('PUT')
+
+                    @if ($errors->any())
+                        <div role="alert" class="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+                            <ul class="list-inside list-disc space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
                                 @endforeach
-                            </select>
+                            </ul>
                         </div>
-                        <div>
-                            <label for="affiliation_code" class="block text-sm font-medium text-slate-700 mb-1">Affiliation Code: <span class="text-red-500">*</span></label>
-                            <input type="number" min="0" max="999" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="affiliation_code" name="affiliation_code" value="{{ $affiliation->affiliation_code }}" required>
+                    @endif
+
+                    <div>
+                        <label for="company_name" class="block text-sm font-semibold text-slate-700 mb-1.5">Company: <span class="text-rose-500">*</span></label>
+                        <select class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm bg-white outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500" id="company_name" name="company_name" required>
+                            @foreach ($companies as $company)
+                                <option value="{{ $company->company_id }}" @selected((int) $company->company_id === (int) $affiliation->company_id)>{{ $company->company_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="affiliation_code" class="block text-sm font-semibold text-slate-700 mb-1.5">Affiliation Code: <span class="text-rose-500">*</span></label>
+                        <input type="number" min="0" max="999" class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500" id="affiliation_code" name="affiliation_code" value="{{ $affiliation->affiliation_code }}" required>
+                    </div>
+
+                    <div>
+                        <label for="affiliation_name" class="block text-sm font-semibold text-slate-700 mb-1.5">Affiliation Name:</label>
+                        <input type="text" class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500" id="affiliation_name" name="affiliation_name" value="{{ $affiliation->affiliation_name }}">
+                    </div>
+
+                    <div>
+                        <label for="display_order" class="block text-sm font-semibold text-slate-700 mb-1.5">Display Order: <span class="text-rose-500">*</span></label>
+                        <input type="number" min="0" max="999" class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500" id="display_order" name="display_order" value="{{ (int) $affiliation->display_order }}" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Organization Type: <span class="text-rose-500">*</span></label>
+                        <div class="flex gap-6 text-sm text-slate-700">
+                            <label class="inline-flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="organization_type" id="main_store_equivalent" value="Main store equivalent" class="text-blue-600 focus:ring-blue-500" {{ $affiliation->organization_type == 'Main store equivalent' ? 'checked' : '' }} required>
+                                <span>Main store equivalent</span>
+                            </label>
+                            <label class="inline-flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="organization_type" id="fc_store" value="FC Store" class="text-blue-600 focus:ring-blue-500" {{ $affiliation->organization_type == 'FC Store' ? 'checked' : '' }} required>
+                                <span>FC Store</span>
+                            </label>
                         </div>
-                        <div>
-                            <label for="affiliation_name" class="block text-sm font-medium text-slate-700 mb-1">Affiliation Name:</label>
-                            <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="affiliation_name" name="affiliation_name" value="{{ $affiliation->affiliation_name }}">
-                        </div>
-                        <div>
-                            <label for="display_order" class="block text-sm font-medium text-slate-700 mb-1">Display Order: <span class="text-red-500">*</span></label>
-                            <input type="number" min="0" max="999" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="display_order" name="display_order" value="{{ (int) $affiliation->display_order }}" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Organization Type: <span class="text-red-500">*</span></label>
-                            <div class="flex gap-6 text-sm text-slate-700">
-                                <label class="inline-flex items-center gap-1.5 cursor-pointer">
-                                    <input type="radio" name="organization_type" id="main_store_equivalent" value="Main store equivalent" class="text-blue-600" {{ $affiliation->organization_type == 'Main store equivalent' ? 'checked' : '' }} required>
-                                    Main store equivalent
-                                </label>
-                                <label class="inline-flex items-center gap-1.5 cursor-pointer">
-                                    <input type="radio" name="organization_type" id="fc_store" value="FC Store" class="text-blue-600" {{ $affiliation->organization_type == 'FC Store' ? 'checked' : '' }} required>
-                                    FC Store
-                                </label>
-                            </div>
-                        </div>
-                        <div class="pt-4 flex justify-end gap-3">
-                            <a href="{{ route('affiliation-information.index') }}" class="inline-flex items-center px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition border border-slate-200">{{ __('Cancel') }}</a>
-                            <button type="submit" class="inline-flex items-center gap-1.5 px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold rounded-lg shadow-sm transition"><i class="fas fa-edit"></i> Update</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <div class="pt-5 flex justify-end gap-3 border-t border-slate-100">
+                        <a href="{{ route('affiliation-information.index') }}" class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-300 text-slate-700 text-sm font-semibold transition hover:bg-slate-50">{{ __('Cancel') }}</a>
+                        <button type="submit" class="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold shadow-sm transition"><i class="fas fa-edit"></i> Update</button>
+                    </div>
+                </form>
             </div>
         </div>
     </main>
