@@ -9,8 +9,13 @@ use Illuminate\Http\Request;
 use App\Models\CourseScheduleResultsInformation;
 use App\Models\CourseTodoItemsChoiceInformation;
 use App\Models\EmployeeInformation;
+use App\Mail\CourseCompleted;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
+use Throwable;
 
 class ConfirmCoursesController extends Controller
 {
@@ -121,6 +126,7 @@ class ConfirmCoursesController extends Controller
 		$submittedItemIds = collect($data['todo'] ?? [])->pluck('todo_item_id')->map('strval')->sort()->values();
 		$expectedItemIds = $todoItems->keys()->map('strval')->sort()->values();
 		abort_unless($submittedItemIds->all() === $expectedItemIds->all(), 422);
+		$wasAlreadyCompleted = (string) $schedule->todo_progress === '2';
 		$testConducted = 0;
 		$testNumberCorrect = 0;
 
@@ -182,6 +188,25 @@ class ConfirmCoursesController extends Controller
 				]);
 			}
 		});
+
+		if (!$wasAlreadyCompleted && ($data['save_type'] ?? null) !== 'temporary') {
+			$employee = EmployeeInformation::find($employeeId);
+			if ($employee && filter_var($employee->email, FILTER_VALIDATE_EMAIL)) {
+				try {
+					Mail::to($employee->email)->send(new CourseCompleted(
+						$employee->fullname,
+						$course->coursename,
+						Carbon::parse($schedule->fresh()->todo_complete)->format('Y-m-d H:i')
+					));
+				} catch (Throwable $exception) {
+					Log::error('Course completion email could not be sent.', [
+						'employee_id' => $employeeId,
+						'course_id' => $course->course_id,
+						'exception' => get_class($exception),
+					]);
+				}
+			}
+		}
 
 		if ((string) $data['todo_type'] === '2') {
 			return redirect()->route('confirm-courses.todo-answer.scoring', $course->course_id);
