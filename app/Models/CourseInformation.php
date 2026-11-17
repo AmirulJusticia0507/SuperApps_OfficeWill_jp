@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Concerns\BelongsToCompany;
+use Illuminate\Support\Facades\Schema;
 
 class CourseInformation extends Model
 {
@@ -44,7 +45,9 @@ class CourseInformation extends Model
 	}
 	public function material()
 	{
-		return $this->hasMany(CourseMaterialInformation::class, 'course_id', 'course_id');
+		$foreignKey = Schema::hasColumn('course_material_information', 'course_id') ? 'course_id' : 'Course_id';
+
+		return $this->hasMany(CourseMaterialInformation::class, $foreignKey, 'course_id');
 	}
 	public function todo()
 	{
