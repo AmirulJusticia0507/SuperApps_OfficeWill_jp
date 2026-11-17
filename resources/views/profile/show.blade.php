@@ -28,7 +28,14 @@
             <div role="status" class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">{{ session('success') }}</div>
         @endif
 
-        <section class="profile-card overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        @error('profile')
+            <div role="alert" class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-800">{{ $message }}</div>
+        @enderror
+
+        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <section class="profile-card overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <header class="bg-blue-900 px-6 py-5 text-white">
                 <h1 class="text-xl font-bold">{{ __('Profile') }}</h1>
                 <p class="mt-1 text-sm text-blue-100">{{ __('Manage your profile photo and password.') }}</p>
@@ -56,53 +63,51 @@
                         </div>
                     </div>
 
-                    <form method="POST" action="{{ route('profile.photo.update') }}" enctype="multipart/form-data" class="mt-6 space-y-4">
-                        @csrf
-                        @method('PUT')
+                    <div class="mt-6 space-y-4">
                         <div>
                             <label for="photo" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('Profile photo') }}</label>
-                            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" required class="block w-full rounded-xl border border-slate-300 bg-white text-sm text-slate-600 file:mr-4 file:border-0 file:bg-blue-50 file:px-4 file:py-2.5 file:font-semibold file:text-blue-800 hover:file:bg-blue-100">
+                            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full rounded-xl border border-slate-300 bg-white text-sm text-slate-600 file:mr-4 file:border-0 file:bg-blue-50 file:px-4 file:py-2.5 file:font-semibold file:text-blue-800 hover:file:bg-blue-100">
                             <p class="mt-1.5 text-xs text-slate-500">{{ __('JPG, PNG, or WebP. Maximum 2 MB.') }}</p>
                             @error('photo')<p class="mt-1 text-sm text-rose-600">{{ $message }}</p>@enderror
                         </div>
                         <div class="flex flex-wrap gap-2">
-                            <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900"><i class="fas fa-upload" aria-hidden="true"></i>{{ __('Upload photo') }}</button>
                             @if ($profilePhotoUrl)
                                 <button type="submit" form="remove-profile-photo" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">{{ __('Remove photo') }}</button>
                             @endif
                         </div>
-                    </form>
-                    @if ($profilePhotoUrl)
-                        <form id="remove-profile-photo" method="POST" action="{{ route('profile.photo.destroy') }}" class="hidden">@csrf @method('DELETE')</form>
-                    @endif
+                    </div>
                 </section>
 
                 <section class="profile-card rounded-xl border border-slate-200 bg-white p-5">
                     <h2 class="text-lg font-semibold text-slate-900">{{ __('Change password') }}</h2>
                     <p class="mt-1 text-sm text-slate-500">{{ __('Enter your current password, then choose a new password.') }}</p>
 
-                    <form method="POST" action="{{ route('profile.password.update') }}" class="mt-5 space-y-4">
-                        @csrf
-                        @method('PUT')
+                    <div class="mt-5 space-y-4">
                         <div>
                             <label for="current_password" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('Current password') }}</label>
-                            <input id="current_password" name="current_password" type="password" autocomplete="current-password" required class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
+                            <input id="current_password" name="current_password" type="password" autocomplete="current-password" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
                             @error('current_password')<p class="mt-1 text-sm text-rose-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label for="password" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('New password') }}</label>
-                            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
+                            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
                             @error('password')<p class="mt-1 text-sm text-rose-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label for="password_confirmation" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('Confirm new password') }}</label>
-                            <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" required class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
+                            <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10">
                         </div>
-                        <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-cyan-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-800"><i class="fas fa-key" aria-hidden="true"></i>{{ __('Update password') }}</button>
-                    </form>
+                    </div>
                 </section>
             </div>
-        </section>
+            <div class="flex justify-end border-t border-slate-100 px-5 py-4 lg:px-7">
+                <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900"><i class="fas fa-floppy-disk" aria-hidden="true"></i>{{ __('Save changes') }}</button>
+            </div>
+            </section>
+        </form>
+        @if ($profilePhotoUrl)
+            <form id="remove-profile-photo" method="POST" action="{{ route('profile.photo.destroy') }}" class="hidden">@csrf @method('DELETE')</form>
+        @endif
     </main>
 </div>
 

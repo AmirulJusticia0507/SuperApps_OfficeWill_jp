@@ -288,5 +288,8 @@
     "Your password has been changed.": "パスワードを変更しました。",
     "The profile photo could not be saved.": "プロフィール写真を保存できませんでした。",
     "Your profile photo has been updated.": "プロフィール写真を更新しました。",
-    "Your profile photo has been removed.": "プロフィール写真を削除しました。"
+    "Your profile photo has been removed.": "プロフィール写真を削除しました。",
+    "Save changes": "変更を保存",
+    "Profile changes have been saved.": "プロフィールを保存しました。",
+    "Choose a photo or enter a new password.": "写真を選択するか、新しいパスワードを入力してください。"
 }

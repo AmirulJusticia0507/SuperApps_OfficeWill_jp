@@ -288,5 +288,8 @@
     "Your password has been changed.": "Your password has been changed.",
     "The profile photo could not be saved.": "The profile photo could not be saved.",
     "Your profile photo has been updated.": "Your profile photo has been updated.",
-    "Your profile photo has been removed.": "Your profile photo has been removed."
+    "Your profile photo has been removed.": "Your profile photo has been removed.",
+    "Save changes": "Save changes",
+    "Profile changes have been saved.": "Profile changes have been saved.",
+    "Choose a photo or enter a new password.": "Choose a photo or enter a new password."
 }

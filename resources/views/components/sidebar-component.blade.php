@@ -130,6 +130,7 @@
 
 <!-- resources/views/includes/sidebar.blade.php -->
 {{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
+@if ($isSysAdmin || $isEmployeeRegis || $isCourseEnroll || $isAttendenceSetting)
 <nav class="floating-menu" aria-label="Floating shortcut menu">
     @if ($isSysAdmin || $isEmployeeRegis)
         <button class="floating-menu__handle" type="button" aria-label="Move shortcut menu" title="Drag to move; use arrow keys to reposition"><i class="fas fa-grip-lines" aria-hidden="true"></i></button>
@@ -139,8 +140,18 @@
         <a href="{{ route('member-registration.create') }}#basic-information">基本情報</a>
         <a href="{{ route('member-registration.create') }}#account-information">アカウント情報</a>
         <a href="{{ route('member-registration.create') }}#registration">登録</a>
+    @else
+        <button class="floating-menu__handle" type="button" aria-label="Move shortcut menu" title="Drag to move; use arrow keys to reposition"><i class="fas fa-grip-lines" aria-hidden="true"></i></button>
+        <a href="{{ route('confirm-courses.index') }}">{{ __('Confirm and attend courses') }}</a>
+        @if ($isCourseEnroll)
+            <a href="{{ route('course-list') }}">{{ __('Course List') }}</a>
+        @endif
+        @if ($isAttendenceSetting)
+            <a href="{{ route('course-settings') }}">{{ __('Course Settings') }}</a>
+        @endif
     @endif
 </nav>
+@endif
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const menu = document.querySelector('.floating-menu');
