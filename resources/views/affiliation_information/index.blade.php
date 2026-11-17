@@ -5,6 +5,32 @@
     .affiliation-page { min-height: 100vh; background: #f4f6f9; }
     .affiliation-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
     body.sidebar-collapsed .affiliation-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
+    html.dark-mode .affiliation-page { background: #0b1220; }
+    html.dark-mode .affiliation-page .bg-white { background-color: #172235 !important; }
+    html.dark-mode .affiliation-page .border-slate-200 { border-color: #334155 !important; }
+    html.dark-mode .affiliation-page .text-slate-700,
+    html.dark-mode .affiliation-page .text-slate-800 { color: #e2e8f0 !important; }
+    html.dark-mode .affiliation-page .text-slate-500 { color: #a7b4c7 !important; }
+    html.dark-mode .affiliation-page input { border-color: #475569; background: #172235; color: #e2e8f0; }
+    html.dark-mode .affiliation-page table { color: #e2e8f0; }
+    html.dark-mode .affiliation-page table thead th { border-color: #334155 !important; background: #10203a !important; color: #f1f5f9 !important; }
+    html.dark-mode .affiliation-page table td { border-color: #334155 !important; }
+    html.dark-mode .affiliation-page table tbody tr,
+    html.dark-mode .affiliation-page table tbody tr:nth-child(odd) { background: #172235; }
+    html.dark-mode .affiliation-page table tbody tr:hover { background: #243249; }
+    html.dark-mode .affiliation-page .dataTables_wrapper,
+    html.dark-mode .affiliation-page .dataTables_info,
+    html.dark-mode .affiliation-page .dataTables_length,
+    html.dark-mode .affiliation-page .dataTables_filter,
+    html.dark-mode .affiliation-page .dataTables_paginate { color: #cbd5e1 !important; }
+    html.dark-mode .affiliation-page .dataTables_wrapper select,
+    html.dark-mode .affiliation-page .dataTables_wrapper input { border: 1px solid #475569; border-radius: .5rem; background: #172235; color: #e2e8f0; }
+    html.dark-mode .affiliation-page .dataTables_wrapper .paginate_button { color: #cbd5e1 !important; }
+    html.dark-mode .affiliation-page .dataTables_wrapper .paginate_button.current,
+    html.dark-mode .affiliation-page .dataTables_wrapper .paginate_button.current:hover { border-color: #2563eb !important; background: #1d4ed8 !important; color: #fff !important; }
+    html.dark-mode .affiliation-page .modal-content { border-color: #334155; background: #172235; color: #e2e8f0; }
+    html.dark-mode .affiliation-page .modal-header,
+    html.dark-mode .affiliation-page .modal-footer { border-color: #334155; }
     @media (max-width: 767.98px) {
         .affiliation-page__content, body.sidebar-collapsed .affiliation-page__content { margin-left: 0; width: 100%; padding: 1rem; }
     }
@@ -94,24 +120,41 @@
 
 @endsection
 
-@section('scripts')
-    <!-- Script DataTables -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+@push('scripts')
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <!-- Script for Modals -->
     <script>
-        $(document).ready(function () {
-            var table = $('#affiliationTable').DataTable({
-                responsive: true,
-                scrollX: true,
-                searching: true,
-                lengthMenu: [10, 25, 50, 100, 500],
-                pageLength: 10,
-                dom: 'lBfrtip',
-                buttons: ['copy', 'excel', 'pdf']
+        function initAffiliationSearch() {
+            const searchBox = document.getElementById('affiliationSearchBox');
+            const tableElement = document.getElementById('affiliationTable');
+            let dataTable = null;
+
+            if (window.jQuery && window.jQuery.fn.DataTable) {
+                dataTable = window.jQuery('#affiliationTable').DataTable({
+                    scrollX: true,
+                    searching: true,
+                    lengthMenu: [10, 25, 50, 100, 500],
+                    pageLength: 10,
+                    dom: 'lrtip'
+                });
+            }
+
+            searchBox.addEventListener('input', function () {
+                const query = this.value.trim().toLocaleLowerCase();
+                if (dataTable) {
+                    dataTable.search(this.value).draw();
+                    return;
+                }
+
+                tableElement.querySelectorAll('tbody tr').forEach(function (row) {
+                    row.hidden = !row.textContent.toLocaleLowerCase().includes(query);
+                });
             });
-            $('#affiliationSearchBox').on('keyup', function () { table.search(this.value).draw(); });
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAffiliationSearch);
+        } else {
+            initAffiliationSearch();
+        }
     </script>
-@endsection
+@endpush
