@@ -64,7 +64,7 @@
                         @method('PUT')
                         <div>
                             <label for="photo" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('Profile photo') }}</label>
-                            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" data-current-photo="{{ $profilePhotoUrl ?? '' }}" class="block w-full rounded-xl border border-slate-300 bg-white text-sm text-slate-600 file:mr-4 file:border-0 file:bg-blue-50 file:px-4 file:py-2.5 file:font-semibold file:text-blue-800 hover:file:bg-blue-100">
+                            <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full rounded-xl border border-slate-300 bg-white text-sm text-slate-600 file:mr-4 file:border-0 file:bg-blue-50 file:px-4 file:py-2.5 file:font-semibold file:text-blue-800 hover:file:bg-blue-100">
                             <p class="mt-1.5 text-xs text-slate-500">{{ __('JPG, PNG, or WebP. Maximum 2 MB.') }} {{ __('Photo saves automatically after selection.') }}</p>
                             @error('photo')<p class="mt-1 text-sm text-rose-600">{{ $message }}</p>@enderror
                             <p id="photo-upload-status" role="status" aria-live="polite" class="mt-2 hidden text-sm font-medium"></p>
@@ -115,67 +115,20 @@
         const input = document.getElementById('photo');
         const preview = document.getElementById('profile-photo-preview');
         const previewInitial = document.getElementById('profile-photo-initial');
-        const headerPhoto = document.getElementById('header-profile-photo');
-        const headerInitial = document.getElementById('header-profile-initial');
         const status = document.getElementById('photo-upload-status');
         if (!form || !input || !preview || !status) return;
 
-        let savedPhotoUrl = input.dataset.currentPhoto || '';
-        const showImage = (image, initial, url) => {
-            if (url) {
-                image.src = url;
-                image.classList.remove('hidden');
-                initial?.classList.add('hidden');
-            } else {
-                image.removeAttribute('src');
-                image.classList.add('hidden');
-                initial?.classList.remove('hidden');
-            }
-        };
-        const setStatus = (message, isError = false) => {
-            status.textContent = message;
-            status.classList.remove('hidden', 'text-emerald-700', 'text-rose-600');
-            status.classList.add(isError ? 'text-rose-600' : 'text-emerald-700');
-        };
-
-        input.addEventListener('change', async () => {
+        input.addEventListener('change', () => {
             const file = input.files?.[0];
             if (!file) return;
 
-            const localPreviewUrl = URL.createObjectURL(file);
-            showImage(preview, previewInitial, localPreviewUrl);
-            setStatus(@json(__('Uploading photo...')));
-
-            const formData = new FormData(form);
-            input.disabled = true;
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value,
-                    },
-                    body: formData,
-                });
-                const result = await response.json().catch(() => ({}));
-                if (!response.ok) {
-                    throw new Error(result.errors?.photo?.[0] || result.message || @json(__('The profile photo could not be saved.')));
-                }
-
-                savedPhotoUrl = result.photo_url;
-                input.dataset.currentPhoto = savedPhotoUrl;
-                showImage(preview, previewInitial, savedPhotoUrl);
-                if (headerPhoto) showImage(headerPhoto, headerInitial, savedPhotoUrl);
-                setStatus(result.message || @json(__('Your profile photo has been updated.')));
-            } catch (error) {
-                showImage(preview, previewInitial, savedPhotoUrl);
-                setStatus(error.message || @json(__('The profile photo could not be saved.')), true);
-            } finally {
-                URL.revokeObjectURL(localPreviewUrl);
-                input.disabled = false;
-                input.value = '';
-            }
+            preview.src = URL.createObjectURL(file);
+            preview.classList.remove('hidden');
+            previewInitial?.classList.add('hidden');
+            status.textContent = @json(__('Uploading photo...'));
+            status.classList.remove('hidden', 'text-rose-600');
+            status.classList.add('text-blue-700');
+            form.requestSubmit();
         });
     })();
 </script>

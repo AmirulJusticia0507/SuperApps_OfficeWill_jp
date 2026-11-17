@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\EmployeeInformation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -46,7 +45,7 @@ class ProfileController extends Controller
 		return back()->with('success', __('Your password has been changed.'));
 	}
 
-	public function updatePhoto(Request $request): RedirectResponse|JsonResponse
+	public function updatePhoto(Request $request): RedirectResponse
 	{
 		$request->validate([
 			'photo' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
@@ -58,10 +57,6 @@ class ProfileController extends Controller
 			: 'profile-photos/users/' . $account->getKey();
 		$newPath = $request->file('photo')->store($directory, 'public');
 		if (!$newPath) {
-			if ($request->expectsJson()) {
-				return response()->json(['message' => __('The profile photo could not be saved.')], 500);
-			}
-
 			return back()->withErrors(['photo' => __('The profile photo could not be saved.')]);
 		}
 
@@ -70,13 +65,6 @@ class ProfileController extends Controller
 		$account->save();
 		if ($oldPath && $oldPath !== $newPath) {
 			Storage::disk('public')->delete($oldPath);
-		}
-
-		if ($request->expectsJson()) {
-			return response()->json([
-				'message' => __('Your profile photo has been updated.'),
-				'photo_url' => Storage::disk('public')->url($newPath),
-			]);
 		}
 
 		return back()->with('success', __('Your profile photo has been updated.'));
