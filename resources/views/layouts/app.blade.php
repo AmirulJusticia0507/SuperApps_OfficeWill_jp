@@ -12,6 +12,12 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/dep-service-logo.svg') }}">
     <title>{{ __('DEP SERVICE - OFFICE WILL - JAPAN') }}</title>
+    <script>
+        try {
+            const savedTheme = localStorage.getItem('officewill.theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark-mode');
+        } catch (_) {}
+    </script>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- SweetAlert2 -->

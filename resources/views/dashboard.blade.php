@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>{{ __('DEP SERVICE - OFFICE WILL - JAPAN') }}</title>
+    <script>
+        try {
+            const savedTheme = localStorage.getItem('officewill.theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark-mode');
+        } catch (_) {}
+    </script>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- SweetAlert2 -->
@@ -19,6 +25,16 @@
         .dashboard-chart-card { border: 1px solid rgba(226, 232, 240, .9); border-radius: 1.25rem; background: linear-gradient(145deg, #fff, #fbfdff); box-shadow: 0 12px 32px rgba(15, 23, 42, .055); overflow: hidden; }
         .dashboard-chart-select { border: 1px solid #e2e8f0; border-radius: .75rem; padding: .55rem 2.25rem .55rem .85rem; color: #334155; background-color: #f8fafc; font-size: .8rem; font-weight: 600; outline: none; transition: all .2s ease; }
         .dashboard-chart-select:focus { border-color: #06b6d4; box-shadow: 0 0 0 4px rgba(6, 182, 212, .12); background: white; }
+        .dark-mode .dashboard-page { background: #0b1220; }
+        .dark-mode .dashboard-chart-card { border-color: #273449; background: linear-gradient(145deg, #172235, #111b2b); box-shadow: 0 12px 32px rgba(0, 0, 0, .2); }
+        .dark-mode .dashboard-chart-card .border-slate-100 { border-color: #273449; }
+        .dark-mode .dashboard-chart-card .text-slate-900 { color: #f1f5f9; }
+        .dark-mode .dashboard-chart-card .text-slate-500 { color: #94a3b8; }
+        .dark-mode .dashboard-chart-select { border-color: #334155; color: #e2e8f0; background-color: #1e293b; }
+        .dark-mode .dashboard-chart-select option { color: #e2e8f0; background: #1e293b; }
+        .dark-mode .dashboard-stat-card { border-color: #273449; background: #172235; }
+        .dark-mode .dashboard-stat-card__value { color: #f1f5f9; }
+        .dark-mode .dashboard-stat-card__label { color: #a7b4c7; }
         @media (max-width: 767.98px) {
             .dashboard-page__content, body.sidebar-collapsed .dashboard-page__content { margin-left: 0; width: 100%; padding: 1rem; }
             .dashboard-chart, .dashboard-chart--donut { height: 250px; }
