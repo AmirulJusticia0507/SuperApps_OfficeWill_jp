@@ -129,7 +129,7 @@ class EmployeeInformationController extends Controller
      */
     public function show(string $id)
     {
-        $employee = EmployeeInformation::find($id);
+        $employee = EmployeeInformation::with(['employee_affiliation.affiliation', 'employee_affiliation.job'])->findOrFail($id);
         return view('employee.show', compact('employee'));
     }
 

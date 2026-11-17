@@ -154,6 +154,7 @@ Route::middleware('auth.any')->group(function () {
 	// Rute untuk course list
 	Route::middleware('authority:attendance_setting_authority')->group(function () {
 		Route::get('/course-settings', [CourseController::class, 'settings'])->name('course-settings');
+		Route::get('/course-settings/employee/{id}', [EmployeeInformationController::class, 'show'])->name('course-settings.employee.show');
 		Route::post('/course-settings', [CourseController::class, 'store'])->name('course-settings.store');
 	});
 

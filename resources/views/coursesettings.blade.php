@@ -300,24 +300,32 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th title="{{ __('Select') }}">{{ __('Select') }}</th>
                                     <th title="{{ __('Affiliation') }}">{{ __('Affiliation') }}</th>
                                     <th title="{{ __('Job Title (Pos)') }}">{{ __('Job Title (Pos)') }}</th>
                                     <th title="{{ __('Full Name') }}">{{ __('Full Name') }}</th>
                                     <th title="{{ __('Employee Code') }}">{{ __('Employee Code') }}</th>
                                     <th title="{{ __('Sex') }}">{{ __('Sex') }}</th>
                                     <th title="{{ __('Age') }}">{{ __('Age') }}</th>
+                                    <th title="{{ __('Actions') }}">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($employees as $employee)
                                     <tr>
-                                        <td><input type="checkbox" class="employee-checkbox w-4 h-4 text-blue-600 rounded" value="{{ $employee->employee_id }}"></td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td><input type="checkbox" class="employee-checkbox h-4 w-4 rounded text-blue-600" value="{{ $employee->employee_id }}" aria-label="{{ __('Select :employee', ['employee' => $employee->fullname]) }}"></td>
                                         <td>{{ $employee->employee_affiliation->affiliation->affiliation_name }}</td>
                                         <td>{{ $employee->employee_affiliation->job->job_title }}</td>
                                         <td>{{ $employee->fullname }}</td>
                                         <td>{{ $employee->employee_code }}</td>
                                         <td>{{ $employee->sex }}</td>
                                         <td>{{ \Carbon\Carbon::parse($employee->dateofbirth)->age }}</td>
+                                        <td>
+                                            <a href="{{ route('course-settings.employee.show', $employee->employee_id) }}" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-700 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-blue-800" title="{{ __('View employee details') }}">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>{{ __('Details') }}
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
