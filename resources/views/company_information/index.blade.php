@@ -3,7 +3,6 @@
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
 
 @section('content')
 <style>
@@ -55,12 +54,17 @@
                             <td>{{ $company->company_name }}</td>
                             <td>{{ $company->login_screen_url }}</td>
                             <td>
-                                <a data-fancybox="gallery{{ $company->id }}"
-                                    data-src="{{ asset($company->icon_storage_file_path) }}"
-                                    data-caption="Company Icon">
-                                    <img src="{{ asset($company->icon_storage_file_path) }}" alt="Company Icon"
-                                    class="company-icon">
-                                </a>
+                                @if($company->icon_storage_file_path)
+                                    <img src="{{ asset($company->icon_storage_file_path) }}"
+                                         alt="Company Icon"
+                                         class="company-icon cursor-pointer hover:opacity-80 transition rounded"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#companyImageModal"
+                                         data-image-src="{{ asset($company->icon_storage_file_path) }}"
+                                         data-caption="{{ $company->company_name }}">
+                                @else
+                                    <span class="text-xs text-slate-400 italic">{{ __('No image') }}</span>
+                                @endif
                             </td>
                             <td>{{ $company->teaching_material_storage_file_path }}</td>
                             <td>
@@ -89,8 +93,20 @@
 <!-- Footer -->
 @include('includes.footer')
 
-
-
+<!-- Company Image Lightbox Modal -->
+<div class="modal fade" id="companyImageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-xl border-0 overflow-hidden shadow-2xl">
+            <div class="modal-header px-5 py-4 bg-blue-900 text-white">
+                <h5 class="modal-title font-semibold text-white" id="companyImageModalTitle">Company Icon</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-6 bg-white text-center">
+                <img id="companyImageTarget" src="" alt="Company Icon" class="max-w-full max-h-[70vh] mx-auto rounded-lg object-contain">
+            </div>
+        </div>
+    </div>
+</div>
 
 </div>
 
@@ -101,9 +117,23 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
 <script>
+    // Image Lightbox: set src via Bootstrap modal show event (relatedTarget)
+    var companyImageModal = document.getElementById('companyImageModal');
+    if (companyImageModal) {
+        companyImageModal.addEventListener('show.bs.modal', function (event) {
+            var trigger = event.relatedTarget;
+            var src = trigger ? trigger.getAttribute('data-image-src') : '';
+            var caption = trigger ? trigger.getAttribute('data-caption') : 'Company Icon';
+            document.getElementById('companyImageTarget').src = src || '';
+            document.getElementById('companyImageModalTitle').textContent = caption || 'Company Icon';
+        });
+        companyImageModal.addEventListener('hidden.bs.modal', function () {
+            document.getElementById('companyImageTarget').src = '';
+        });
+    }
+
     $(document).ready(function () {
         var table = $('#companyTable').DataTable({
             responsive: true,
@@ -121,24 +151,14 @@
         });
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $("[data-fancybox]").fancybox({});
-    });
 
-</script>
-@endsection
-
-@section('scripts')
 <script>
     function previewIcon(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-
             reader.onload = function (e) {
                 $('#icon_preview').attr('src', e.target.result).show();
             }
-
             reader.readAsDataURL(input.files[0]);
         }
     }
@@ -146,14 +166,11 @@
     function previewMaterial(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-
             reader.onload = function (e) {
                 $('#material_preview').attr('src', e.target.result).show();
             }
-
             reader.readAsDataURL(input.files[0]);
         }
     }
-
 </script>
 @endsection

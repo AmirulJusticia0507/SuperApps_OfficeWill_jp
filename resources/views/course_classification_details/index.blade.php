@@ -101,12 +101,12 @@
 
 <div class="modal fade" id="detailImagePreviewModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content rounded-xl border border-slate-200 overflow-hidden shadow-xl">
+        <div class="modal-content rounded-xl border-0 overflow-hidden shadow-2xl">
             <div class="modal-header px-5 py-4 bg-blue-900 text-white">
                 <h5 class="modal-title font-semibold text-white">{{ __('Image Lightbox') }}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-6 text-center">
+            <div class="modal-body p-6 bg-white text-center">
                 <img id="detailImagePreviewTarget" src="" alt="{{ __('Image Lightbox') }}" class="max-w-full max-h-[70vh] mx-auto rounded-lg object-contain">
             </div>
         </div>
@@ -132,9 +132,19 @@ document.addEventListener('DOMContentLoaded', () => Swal.fire({
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script>
-    document.addEventListener('click', function (event) {
-        const image = event.target.closest('.table-image-preview');
-        if (image) document.getElementById('detailImagePreviewTarget').src = image.dataset.imageSrc;
+    document.addEventListener('DOMContentLoaded', function () {
+        // Image Lightbox — set src via Bootstrap show.bs.modal to ensure it fires before modal appears
+        var detailImagePreviewModal = document.getElementById('detailImagePreviewModal');
+        if (detailImagePreviewModal) {
+            detailImagePreviewModal.addEventListener('show.bs.modal', function (event) {
+                var trigger = event.relatedTarget;
+                var src = trigger ? trigger.getAttribute('data-image-src') : '';
+                document.getElementById('detailImagePreviewTarget').src = src || '';
+            });
+            detailImagePreviewModal.addEventListener('hidden.bs.modal', function () {
+                document.getElementById('detailImagePreviewTarget').src = '';
+            });
+        }
     });
     $(document).ready(function () {
         var table = $('#classificationdetailsTable').DataTable({
