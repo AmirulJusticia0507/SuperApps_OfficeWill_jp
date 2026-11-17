@@ -29,7 +29,7 @@
                 <li class="before:content-['/'] before:mx-1 text-slate-700 font-medium" aria-current="page" title="{{ __('Company Information') }}">{{ __('Company Information') }}</li>
             </ol>
         </nav>
-        <!-- Tombol Create Company Modal -->
+        <!-- Tombol Create Company -->
         <div class="flex justify-between items-center gap-3 mb-4 flex-wrap">
             <input type="text" id="customSearchBox" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-xs" placeholder="{{ __('Search table...') }}">
             <a href="{{ route('company-information.create') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition"><i class="fas fa-plus"></i> {{ __('Add Company') }}</a>
@@ -64,7 +64,7 @@
                             </td>
                             <td>{{ $company->teaching_material_storage_file_path }}</td>
                             <td>
-                                <!-- Tombol Edit Company Modal -->
+                                <!-- Tombol Edit Company -->
                                 <a href="{{ route('company-information.edit', $company->company_id) }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition" title="{{ __('Edit') }}"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                 <!-- Form Delete Company -->
                                 <form action="{{ route('company-information.destroy', $company->company_id) }}"
@@ -91,49 +91,7 @@
 
 
 
-@foreach($companies as $company)
-    <div class="modal fade" id="editCompanyModal{{ $company->company_id }}" tabindex="-1" aria-labelledby="editCompanyModalLabel{{ $company->company_id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editCompanyModalLabel{{ $company->id }}">Edit Company</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Form Edit Company -->
-                <form method="POST" action="{{ route('company-information.update', $company->company_id) }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-4">
-                        <label for="company_name" class="block text-sm font-medium text-slate-700 mb-1">Company Name:</label>
-                        <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="company_name" name="company_name" value="{{ $company->company_name }}" required>
-                    </div>
 
-                    <div class="mb-4">
-                        <label for="login_screen_url" class="block text-sm font-medium text-slate-700 mb-1">Login Screen URL:</label>
-                        <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="login_screen_url" value="{{ asset($company->login_screen_url) }}"  readonly>
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="icon_storage_file_path" class="block text-sm font-medium text-slate-700 mb-1">Icon Storage File:</label>
-                        <input type="file" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="icon_storage_file_path" name="icon_storage_file_path" onchange="previewIcon(this)">
-                        <img id="icon_preview" src="{{ asset($company->icon_storage_file_path) }}" alt="Current Icon" style="max-width: 100px;">
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="teaching_material_storage_file_path" class="block text-sm font-medium text-slate-700 mb-1">Teaching Material Storage File:</label>
-                        <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="teaching_material_storage_file_path" value="{{ asset($company->teaching_material_storage_file_path) }}" readonly>
-                    </div>
-                    <div class="flex justify-center gap-3">
-                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition"><i class="fas fa-pen"></i> Update</button>
-                        <button type="reset" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg transition"><i class="fas fa-power-off"></i> Reset</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
 </div>
 
 @endsection

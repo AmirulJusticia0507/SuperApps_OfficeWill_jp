@@ -64,66 +64,7 @@
 </main>
 </div>
 
-<!-- Modal for Create Job Title -->
-<div class="modal fade" id="createJobTitleModal" tabindex="-1" aria-labelledby="createJobTitleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createJobTitleModalLabel">{{ __('Job Title Information Form') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('job-titles.store') }}">
-                    @csrf
-                    <div class="mb-4">
-                        <label for="job_title" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Job Title') }}: <b style="color: red">*</b></label>
-                        <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="job_title" name="job_title" title="Job Title" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="display_order" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Display Order') }}: <b style="color: red">*</b></label>
-                        <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="display_order" name="display_order" title="Display Order" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition">{{ __('Submit') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 @foreach($jobTitles as $jobTitle)
-<!-- Modal for Edit Job Title -->
-<div class="modal fade" id="editJobTitleModal{{ $jobTitle->job_id }}" tabindex="-1" aria-labelledby="editJobTitleModalLabel{{ $jobTitle->job_id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editJobTitleModalLabel{{ $jobTitle->job_id }}">{{ __('Edit Job Title') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('job-titles.update', $jobTitle->job_id) }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-4">
-                        <label for="job_title_{{ $jobTitle->job_id }}" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Job Title') }}: <b style="color: red">*</b></label>
-                        <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="job_title_{{ $jobTitle->job_id }}" name="job_title" title="Job Title" value="{{ $jobTitle->job_title }}" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="display_order_{{ $jobTitle->job_id }}" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Display Order') }}: <b style="color: red">*</b></label>
-                        <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" id="display_order_{{ $jobTitle->job_id }}" name="display_order" title="Display Order" value="{{ $jobTitle->display_order }}" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition">{{ __('Update') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Modal for Delete Job Title -->
 <div class="modal fade" id="deleteJobTitleModal{{ $jobTitle->job_id }}" tabindex="-1" aria-labelledby="deleteJobTitleModalLabel{{ $jobTitle->job_id }}" aria-hidden="true">
     <div class="modal-dialog">

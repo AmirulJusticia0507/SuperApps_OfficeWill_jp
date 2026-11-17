@@ -83,99 +83,11 @@
                             </td>
                         </tr>
 
-                        <!-- Edit Classification Modal -->
-                        <div class="modal fade" id="editClassificationModal{{ $classification->course_classification_id }}" tabindex="-1" aria-labelledby="editClassificationModalLabel{{ $classification->course_classification_id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editClassificationModalLabel{{ $classification->course_classification_id }}">{{ __('Edit Classification') }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Form Edit Classification -->
-                                        <form method="POST" action="{{ route('course-classifications.update', $classification->course_classification_id) }}" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="mb-4">
-                                                <label for="company_name" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Company Name') }}:</label>
-                                                <select class="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-full" id="company_name" name="company_name" required>
-                                                    <option value="" selected disabled>{{ __('Select Company') }}</option>
-                                                    @foreach($companies as $company)
-                                                    <option value="{{ $company->company_name }}" {{ $company->company_id == $classification->company_id ? 'selected' : '' }}>{{ $company->company_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="classification_name" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Classification Name') }}:</label>
-                                                <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="classification_name" name="classification_name" value="{{ $classification->course_classification_name }}" required>
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="icon_file_path" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Company Icon File') }}:</label>
-                                                 <input type="file" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" name="icon_file_path" onchange="previewIcon(this)">
-                                                 <img src="{{ $classification->icon_url ?? '' }}" alt="{{ __('Current Icon') }}" style="max-width: 100px;">
-                                            </div>
-                                            <div class="mb-4">
-                                                <label for="display_order" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Display Order') }}:</label>
-                                                 <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="display_order" name="display_order" value="{{ $classification->displayorder }}" required>
-                                            </div>
-                                            <div class="modal-footer">
-                                                    <button type="reset" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg transition"><i class="fas fa-power-off"></i> {{ __('Reset') }}</button>
-                                                    <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition"><i class="fas fa-pen"></i> {{ __('Update') }}</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         @empty
                             <tr><td colspan="5" class="text-center">{{ __('No classifications found.') }}</td></tr>
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Create Classification Modal -->
-            <div class="modal fade" id="createClassificationModal" tabindex="-1" aria-labelledby="createClassificationModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color: darkblue">
-                            <h5 class="modal-title" id="createClassificationModalLabel" style="color:aliceblue">{{ __('Create Classification') }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Form Create Classification -->
-                            <form method="POST" action="{{ route('classifications.store') }}" enctype="multipart/form-data">
-                                @csrf
-                                <div class="mb-4">
-                                    <label for="company_name" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Company Name') }}</label>
-                                    <select class="px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-full" id="company_name" name="company_name" required>
-                                        <option value="" selected disabled>{{ __('Select Company') }}</option>
-                                        @foreach($companies as $company)
-                                        <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="classification_name" class="block text-sm font-medium text-slate-700 mb-1" title="{{ __('Classification Name') }}">{{ __('Classification Name') }} <span style="color: red">*</span></label>
-                                    <input type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="classification_name" name="classification_name" required>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="icon_file_path" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Icon File Path') }}</label>
-                                    <input type="file" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="icon_file_path" name="icon_file_path" title="Icon File Path" required onchange="previewIcon(this)">
-                                    <img id="icon_preview" src="#" alt="Preview Icon" style="max-width: 100px; display: none;">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="display_order" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Display Order') }} <span style="color: red">*</span></label>
-                                    <input type="number" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="display_order" name="display_order" required>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg border border-slate-200 transition" title="{{ __('Reset') }}"><i class="fas fa-undo"></i> {{ __('Reset') }}</button>
-                                    <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition" title="{{ __('Submit') }}"><i class="fas fa-send"></i> {{ __('Submit') }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
 
 <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
