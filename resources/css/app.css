@@ -125,7 +125,9 @@ html.dark-mode .dashboard-chart-card .text-amber-700 { color: #fcd34d !important
 html.dark-mode body > main > section { border-color: #334155 !important; background-color: #172235 !important; color: #e2e8f0; }
 
 /* Keep Bootstrap-backed create/edit dialogs inside the viewport. */
-.modal { z-index: 2010 !important; overflow-x: hidden !important; overflow-y: auto !important; padding: 1rem !important; }
+.modal { position: fixed !important; inset: 0 !important; z-index: 2010 !important; width: 100vw; height: 100vh; overflow-x: hidden !important; overflow-y: auto !important; padding: 1rem !important; }
+.modal:not(.show) { display: none !important; }
+.modal.show { display: block !important; }
 .modal-backdrop { z-index: 2005 !important; }
 .modal-dialog { display: flex; width: min(100%, 44rem); max-width: 44rem; min-height: calc(100% - 2rem); align-items: center; margin: 0 auto; }
 .modal-dialog:not(.modal-dialog-centered) { align-items: flex-start; padding-top: 1rem; padding-bottom: 1rem; }
