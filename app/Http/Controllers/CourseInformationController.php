@@ -26,6 +26,15 @@ class CourseInformationController extends Controller
 		return view('course_information.index', compact('courses', 'classifications', 'details'));
 	}
 
+	/** Display the selected course details. */
+	public function show(string $id)
+	{
+		$course = CourseInformation::with(['classification', 'classification_detail', 'material', 'todo.choices'])
+			->findOrFail($id);
+
+		return view('course_information.show', compact('course'));
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 */

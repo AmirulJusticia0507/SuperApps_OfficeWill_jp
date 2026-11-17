@@ -144,7 +144,7 @@
                         {{ __('Course List') }}
                     </div>
                     <div class="flex justify-end mb-4" data-course-details-action>
-                        <a href="#" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg shadow-sm transition d-none" data-course-details-button>
+                        <a href="#" data-course-details-url="{{ route('course-information.show', ['id' => '__COURSE_ID__']) }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg shadow-sm transition d-none" data-course-details-button aria-hidden="true" tabindex="-1">
                             <i class="fas fa-eye"></i> {{ __('Check course details') }}
                         </a>
                     </div>
@@ -361,16 +361,30 @@
                 buttons: ['copy', 'excel', 'pdf']
             });
 
-            $('.course-checkbox').on('change', function() {
-                const selected = $('.course-checkbox:checked').first();
+            let selectedCourseId = null;
+            const syncCourseDetailsButton = function() {
                 const detailsButton = $('[data-course-details-button]');
 
-                if (selected.length) {
-                    detailsButton.attr('href', '{{ url('/course-information') }}/' + selected.val() + '/edit');
-                    detailsButton.removeClass('d-none');
+                if (selectedCourseId) {
+                    const detailsUrl = detailsButton.data('course-details-url').replace('__COURSE_ID__', encodeURIComponent(selectedCourseId));
+                    detailsButton.attr('href', detailsUrl).removeClass('d-none').attr('aria-hidden', 'false').removeAttr('tabindex');
                 } else {
-                    detailsButton.addClass('d-none').attr('href', '#');
+                    detailsButton.addClass('d-none').attr({ href: '#', 'aria-hidden': 'true', tabindex: '-1' });
                 }
+            };
+
+            $(document).on('change', '#courseTable .course-checkbox', function() {
+                selectedCourseId = this.checked ? this.value : null;
+                $('#courseTable .course-checkbox').each(function() {
+                    this.checked = selectedCourseId !== null && this.value === selectedCourseId;
+                });
+                syncCourseDetailsButton();
+            });
+
+            $('#courseTable').on('draw.dt', function() {
+                $('#courseTable .course-checkbox').each(function() {
+                    this.checked = selectedCourseId !== null && this.value === selectedCourseId;
+                });
             });
         });
     </script>

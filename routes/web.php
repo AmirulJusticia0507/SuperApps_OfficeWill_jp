@@ -111,6 +111,7 @@ Route::middleware('auth.any')->group(function () {
 		Route::resource('course-attribute-pulldown', CourseAttributePulldownSettingsController::class);
 		Route::resource('course-attribute-setting', CourseAttributeSettingInformationController::class);
 		Route::resource('course-information', CourseInformationController::class)->except(['show']);
+		Route::get('/course-information/{id}', [CourseInformationController::class, 'show'])->name('course-information.show');
 		Route::resource('course-material-information', CourseMaterialInformationController::class);
 		Route::resource('course-todo-item-information', CourseTodoItemInformationController::class);
 		Route::resource('course-todo-items-choice', CourseTodoItemsChoiceInformationController::class);
