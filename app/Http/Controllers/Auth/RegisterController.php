@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\EmployeeInformation;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -19,6 +20,10 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
+		if (auth()->guard('web')->check() || auth()->guard('employee')->check()) {
+			return redirect()->route('dashboard');
+		}
+
         return view('auth.register');
     }
 
@@ -30,24 +35,34 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $request->validate([
+		if (auth()->guard('web')->check() || auth()->guard('employee')->check()) {
+			return redirect()->route('dashboard');
+		}
+
+		$email = Str::lower(trim((string) $request->input('email')));
+		$request->merge(['email' => $email]);
+		$validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'email_verified_at' => null, // Set email_verified_at menjadi null
-            'remember_token' => Str::random(10), // Generate remember_token
+		if (EmployeeInformation::whereRaw('LOWER(email) = ?', [$email])->exists()) {
+			return back()
+				->withErrors(['email' => __('This email already belongs to an employee account. Please log in with it.')])
+				->withInput($request->except(['password', 'password_confirmation']));
+		}
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
         // Optionally, you can login the user after registration
         // auth()->login($user);
 
-        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
+        return redirect()->route('login')->with('success', __('Registration successful. Please log in.'));
     }
 
     public function logout(Request $request)

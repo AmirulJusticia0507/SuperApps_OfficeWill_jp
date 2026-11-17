@@ -294,5 +294,9 @@
     "Choose a photo or enter a new password.": "Choose a photo or enter a new password.",
     "Save password": "Save password",
     "Uploading photo...": "Uploading photo...",
-    "Photo saves automatically after selection.": "Photo saves automatically after selection."
+    "Photo saves automatically after selection.": "Photo saves automatically after selection.",
+    "Sign up": "Sign up",
+    "Registration successful. Please log in.": "Registration successful. Please log in.",
+    "This email already belongs to an employee account. Please log in with it.": "This email already belongs to an employee account. Please log in with it.",
+    "This creates a learner account. Employee records and course assignments are managed separately.": "This creates a learner account. Employee records and course assignments are managed separately."
 }

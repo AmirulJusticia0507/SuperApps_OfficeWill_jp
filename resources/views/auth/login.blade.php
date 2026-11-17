@@ -42,6 +42,11 @@
                     {{ session('error') }}
                 </div>
             @endsession
+            @session('success')
+                <div role="status" class="bg-emerald-50 border border-emerald-300 text-emerald-800 px-4 py-3 rounded-lg mb-4">
+                    {{ session('success') }}
+                </div>
+            @endsession
 
             <!-- Login Form -->
             <form method="POST" action="{{ route('login') }}">
@@ -80,9 +85,9 @@
             </form>
 
             <div class="mt-4 text-center">
-                {{-- <a href="{{ route('register') }}" class="text-blue-700 hover:underline text-sm"><i class="fa fa-edit mr-1"></i> Register</a> --}}
-                <a href="{{ route('password.request') }}" title="{{ __('Change password') }}"
-                    class="text-blue-700 hover:underline text-sm">
+                <a href="{{ route('register') }}" class="text-blue-700 hover:underline text-sm"><i class="fa fa-user-plus mr-1"></i>{{ __('Sign up') }}</a>
+                <span class="mx-2 text-gray-300">|</span>
+                <a href="{{ route('password.request') }}" title="{{ __('Change password') }}" class="text-blue-700 hover:underline text-sm">
                     <i class="fa fa-key mr-1"></i> {{ __('Change password') }}
                 </a>
             </div>

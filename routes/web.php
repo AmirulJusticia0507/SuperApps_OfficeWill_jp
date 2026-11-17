@@ -29,6 +29,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseInquiryController;
 use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::redirect('/', '/login');
 Route::get('/manifest.webmanifest', function () {
@@ -55,6 +56,8 @@ Route::get('/locale/{locale}', function (string $locale) {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::get('/login/{company_id}', [LoginController::class, 'showLoginForm'])->name('login.employee');
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
