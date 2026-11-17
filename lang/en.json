@@ -291,5 +291,8 @@
     "Your profile photo has been removed.": "Your profile photo has been removed.",
     "Save changes": "Save changes",
     "Profile changes have been saved.": "Profile changes have been saved.",
-    "Choose a photo or enter a new password.": "Choose a photo or enter a new password."
+    "Choose a photo or enter a new password.": "Choose a photo or enter a new password.",
+    "Save password": "Save password",
+    "Uploading photo...": "Uploading photo...",
+    "Photo saves automatically after selection.": "Photo saves automatically after selection."
 }

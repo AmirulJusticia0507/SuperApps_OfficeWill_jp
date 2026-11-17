@@ -67,7 +67,8 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 
 Route::middleware(['auth.any', 'limit.web.user'])->group(function () {
 	Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-	Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+	Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+	Route::put('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
 	Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto'])->name('profile.photo.destroy');
 
 	// Rute untuk menampilkan halaman dashboard

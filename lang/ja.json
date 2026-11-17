@@ -291,5 +291,8 @@
     "Your profile photo has been removed.": "プロフィール写真を削除しました。",
     "Save changes": "変更を保存",
     "Profile changes have been saved.": "プロフィールを保存しました。",
-    "Choose a photo or enter a new password.": "写真を選択するか、新しいパスワードを入力してください。"
+    "Choose a photo or enter a new password.": "写真を選択するか、新しいパスワードを入力してください。",
+    "Save password": "パスワードを保存",
+    "Uploading photo...": "写真をアップロードしています...",
+    "Photo saves automatically after selection.": "写真は選択後に自動保存されます。"
 }

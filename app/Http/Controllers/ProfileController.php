@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EmployeeInformation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -23,50 +24,62 @@ class ProfileController extends Controller
 		return view('profile.show', compact('account', 'isEmployee', 'displayName', 'profilePhotoUrl'));
 	}
 
-	public function update(Request $request): RedirectResponse
+	public function updatePassword(Request $request): RedirectResponse
 	{
 		$account = $this->currentAccount();
 		$validated = $request->validate([
-			'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-			'current_password' => ['nullable', 'required_with:password', 'string'],
-			'password' => ['nullable', 'required_with:current_password', 'string', 'min:8', 'confirmed'],
+			'current_password' => ['required', 'string'],
+			'password' => ['required', 'string', 'min:8', 'confirmed'],
 		]);
 
-		if (!$request->hasFile('photo') && !filled($validated['password'] ?? null)) {
-			return back()->withErrors(['profile' => __('Choose a photo or enter a new password.')]);
-		}
-
-		if (filled($validated['password'] ?? null) && !Hash::check($validated['current_password'], $account->getAuthPassword())) {
+		if (!Hash::check($validated['current_password'], $account->getAuthPassword())) {
 			return back()->withErrors(['current_password' => __('The current password is incorrect.')]);
 		}
 
-		$oldPath = $account->profile_photo_path;
-		$newPath = null;
-		if ($request->hasFile('photo')) {
-			$directory = $account instanceof EmployeeInformation
-				? 'profile-photos/employees/' . $account->employee_id
-				: 'profile-photos/users/' . $account->getKey();
-			$newPath = $request->file('photo')->store($directory, 'public');
-			if (!$newPath) {
-				return back()->withErrors(['photo' => __('The profile photo could not be saved.')]);
-			}
-			$account->profile_photo_path = $newPath;
-		}
-
-		if (filled($validated['password'] ?? null)) {
-			$account->password = $validated['password'];
-			if ($account instanceof EmployeeInformation) {
-				$account->numberofincorrect_passwords = 0;
-				$account->account_lock_datetime = null;
-			}
+		$account->password = $validated['password'];
+		if ($account instanceof EmployeeInformation) {
+			$account->numberofincorrect_passwords = 0;
+			$account->account_lock_datetime = null;
 		}
 		$account->save();
 
-		if ($oldPath && $newPath && $oldPath !== $newPath) {
+		return back()->with('success', __('Your password has been changed.'));
+	}
+
+	public function updatePhoto(Request $request): RedirectResponse|JsonResponse
+	{
+		$request->validate([
+			'photo' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+		]);
+
+		$account = $this->currentAccount();
+		$directory = $account instanceof EmployeeInformation
+			? 'profile-photos/employees/' . $account->employee_id
+			: 'profile-photos/users/' . $account->getKey();
+		$newPath = $request->file('photo')->store($directory, 'public');
+		if (!$newPath) {
+			if ($request->expectsJson()) {
+				return response()->json(['message' => __('The profile photo could not be saved.')], 500);
+			}
+
+			return back()->withErrors(['photo' => __('The profile photo could not be saved.')]);
+		}
+
+		$oldPath = $account->profile_photo_path;
+		$account->profile_photo_path = $newPath;
+		$account->save();
+		if ($oldPath && $oldPath !== $newPath) {
 			Storage::disk('public')->delete($oldPath);
 		}
 
-		return back()->with('success', __('Profile changes have been saved.'));
+		if ($request->expectsJson()) {
+			return response()->json([
+				'message' => __('Your profile photo has been updated.'),
+				'photo_url' => Storage::disk('public')->url($newPath),
+			]);
+		}
+
+		return back()->with('success', __('Your profile photo has been updated.'));
 	}
 
 	public function deletePhoto(): RedirectResponse
