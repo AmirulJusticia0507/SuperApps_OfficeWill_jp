@@ -97,7 +97,7 @@
                                 <tr>
                                     <td>{{ $course->classification?->course_classification_name ?? __('Not available') }}</td>
                                     <td>{{ $course->classification_detail?->course_classification_detailsname ?? __('Not available') }}</td>
-                                    <td><a href="#" class="text-blue-600 hover:underline font-medium">{{ $course->coursename }}</a></td>
+                                    <td><a href="{{ route('course-information.show', $course->course_id) }}" class="text-blue-600 hover:underline font-medium">{{ $course->coursename }}</a></td>
                                 </tr>
                             @endforeach
                         @else
