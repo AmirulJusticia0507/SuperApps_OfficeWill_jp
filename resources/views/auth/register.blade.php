@@ -9,7 +9,7 @@
     <title>{{ __('Register') }} · DEP Service</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-10 text-slate-900 antialiased">
+<body class="relative flex min-h-screen items-start justify-center overflow-x-auto overflow-y-auto bg-slate-950 px-4 py-10 text-slate-900 antialiased sm:items-center">
     <x-theme-toggle />
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden"><div class="absolute -left-32 -top-40 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl"></div><div class="absolute -bottom-48 -right-24 h-[32rem] w-[32rem] rounded-full bg-blue-600/25 blur-3xl"></div><div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800/70 via-slate-950 to-slate-950"></div></div>
     <main class="relative z-10 w-full max-w-md">
