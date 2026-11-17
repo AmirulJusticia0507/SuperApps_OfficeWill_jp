@@ -151,7 +151,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-slate-200">
             <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold flex justify-between items-center" title="List of employees attending the course">
                 <span>{{ __('Employees Enrolled in Course') }}</span>
-                <a href="#" class="inline-flex items-center gap-1 px-3 py-1 bg-white text-slate-800 hover:bg-slate-100 text-xs font-semibold rounded-lg shadow-sm transition" title="{{ __('ToDo Inquiry') }}">{{ __('All Inquiries') }}</a>
+                <a href="{{ route('course-inquiry.results') }}" class="inline-flex items-center gap-1 px-3 py-1 bg-white text-slate-800 hover:bg-slate-100 text-xs font-semibold rounded-lg shadow-sm transition" title="{{ __('Course Result Inquiry') }}">{{ __('All Inquiries') }}</a>
             </div>
             <div class="p-5 overflow-x-auto">
                 <table id="courseinquiryTable" class="display table table-bordered table-striped table-hover responsive nowrap w-full text-sm" style="width:100%">

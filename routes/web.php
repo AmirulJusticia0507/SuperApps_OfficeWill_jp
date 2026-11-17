@@ -26,6 +26,7 @@ use App\Http\Controllers\EmployeeAttributeSettingInformationController;
 use App\Http\Controllers\EmployeeInformationController;
 use App\Http\Controllers\ConfirmCoursesController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseInquiryController;
 use App\Http\Controllers\QuestionnaireController;
 
 Route::redirect('/', '/login');
@@ -76,7 +77,6 @@ Route::middleware('auth.any')->group(function () {
 		Route::get('/employee-index', [EmployeeInformationController::class, 'index'])->name('employee.index');
 		Route::get('/employeelist', [EmployeeInformationController::class, 'employeelist'])->name('employee-list');
 		Route::get('/employee/filter', [EmployeeInformationController::class, 'filter'])->name('employee.filter');
-		Route::get('/employee-inquiry', [EmployeeInformationController::class, 'employeeInquiry'])->name('employee-inquiry');
 		Route::get('/employees/filter', [EmployeeInformationController::class, 'filter'])->name('employees.filter');
 		Route::resource('employee-affiliation-information', EmployeeAffiliationInformationController::class);
 		Route::resource('employee-attribute-dropdown-settings', EmployeeAttributeDropdownSettingsInformationController::class)->parameters([
@@ -100,10 +100,18 @@ Route::middleware('auth.any')->group(function () {
 
 	Route::middleware('authority:attendance_setting_authority')->group(function () {
 		Route::get('/coursesettings', [AffiliationInformationController::class, 'showCourseSettings']);
+		Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
+		Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
+		Route::get('/employee-inquiry', [EmployeeInformationController::class, 'employeeInquiry'])->name('employee-inquiry');
+		Route::get('/employee-inquiry/filter', [EmployeeInformationController::class, 'filter'])->name('employee-inquiry.filter');
 		Route::resource('attendance', AttendanceTodoAnswerSelectionInformationController::class);
 		Route::resource('attendance-item', AttendanceTodoItemAnswerInformationController::class);
 		Route::resource('course-schedule-results', CourseScheduleResultsInformationController::class);
 		Route::post('/questionnaire/store', [QuestionnaireController::class, 'store'])->name('questionnaire.store');
+		Route::get('/course-inquiry/results', [CourseInquiryController::class, 'index'])->name('course-inquiry.results');
+		Route::get('/course-inquiry/course/{courseId}', [CourseInquiryController::class, 'courseEnrollments'])->name('course-inquiry.enrollments');
+		Route::get('/course-inquiry/enrollment/{attendanceSettingId}/responses', [CourseInquiryController::class, 'responses'])->name('course-inquiry.responses');
+		Route::get('/employee-inquiry/{employeeId}/attendance', [CourseInquiryController::class, 'employeeAttendance'])->name('employee-inquiry.attendance');
 	});
 
 	// Rute untuk course attribute pulldown settings
@@ -119,8 +127,6 @@ Route::middleware('auth.any')->group(function () {
 		Route::get('/course-registration/attribute/{attribute_id}', [CourseInformationController::class, 'attribute'])->name('course-registration.attribute');
 		Route::get('/course-list', [CourseController::class, 'index'])->name('course-list');
 		Route::get('/course/filter', [CourseController::class, 'filter'])->name('course.filter');
-		Route::get('/course-inquiry', [CourseController::class, 'inquiry'])->name('course-inquiry');
-		Route::get('/course-inquiry-search', [CourseController::class, 'search'])->name('course-inquiry-search');
 		Route::get('/search-courses', [CourseController::class, 'search'])->name('search.courses');
 		Route::get('/employee/filter', [CourseController::class, 'filter'])->name('employee.filter');
 	});

@@ -52,6 +52,11 @@ class CourseScheduleResultsInformation extends Model
 	{
 		return $this->belongsTo(CourseInformation::class, 'course_id', 'course_id');
 	}
+
+	public function employee()
+	{
+		return $this->belongsTo(EmployeeInformation::class, 'employee_id', 'employee_id');
+	}
 	// Fungsi CRUD
 
 	// Create

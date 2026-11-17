@@ -31,7 +31,7 @@
             <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold" title="{{ __('Employee') }}">
                 {{ __('Employee') }}
             </div>
-            <form action="{{ route('employee.filter') }}" method="get">
+            <form action="{{ route('employee-inquiry.filter') }}" method="get">
                 @csrf
                 <div class="p-5 space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
@@ -138,18 +138,20 @@
                             <th title="{{ __('Employee Code') }}">{{ __('Employee Code') }}</th>
                             <th title="{{ __('Sex') }}">{{ __('Sex') }}</th>
                             <th title="{{ __('Age') }}">{{ __('Age') }}</th>
+                            <th title="{{ __('Actions') }}">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($filteredEmployees as $employee)
                             <tr>
-                                <td><input type="checkbox" class="employee-checkbox w-4 h-4 text-blue-600 rounded" value="{{ $employee->id }}"></td>
+                                <td><input type="checkbox" class="employee-checkbox w-4 h-4 text-blue-600 rounded" value="{{ $employee->employee_id }}"></td>
                                 <td>{{ $employee->employee_affiliation->affiliation->affiliation_name }}</td>
                                 <td>{{ $employee->employee_affiliation->job->job_title }}</td>
                                 <td>{{ $employee->fullname }}</td>
                                 <td>{{ $employee->employee_code }}</td>
                                 <td>{{ $employee->sex }}</td>
                                 <td>{{ \Carbon\Carbon::parse($employee->dateofbirth)->age }}</td>
+                                <td><a href="{{ route('employee-inquiry.attendance', $employee->employee_id) }}" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-blue-800"><i class="fas fa-clock-rotate-left"></i>{{ __('Attendance History') }}</a></td>
                             </tr>
                         @endforeach
                     </tbody>

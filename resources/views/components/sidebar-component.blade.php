@@ -299,6 +299,8 @@
                                             class="sidebar-link sidebar-sub-link {{ $isActiveRoute('course-inquiry') ? 'is-active' : '' }}"><i class="fas fa-envelope"></i><span class="sidebar-label">{{ __('Course-specific Inquiry') }}</span></a></li>
                                     <li><a href="{{ route('employee-inquiry') }}" title="Employee-Specific Inquiry"
                                             class="sidebar-link sidebar-sub-link {{ $isActiveRoute('employee-inquiry') ? 'is-active' : '' }}"><i class="fas fa-user"></i><span class="sidebar-label">{{ __('Employee-specific Inquiry') }}</span></a></li>
+                                    <li><a href="{{ route('course-inquiry.results') }}" title="Course Result Inquiry"
+                                            class="sidebar-link sidebar-sub-link {{ $isActiveRoute(['course-inquiry.results', 'course-inquiry.enrollments', 'course-inquiry.responses']) ? 'is-active' : '' }}"><i class="fas fa-square-poll-vertical"></i><span class="sidebar-label">{{ __('Course Result Inquiry') }}</span></a></li>
                                 </ul>
                             </li>
                         @endif
