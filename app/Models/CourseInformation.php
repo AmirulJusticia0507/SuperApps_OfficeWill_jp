@@ -45,7 +45,8 @@ class CourseInformation extends Model
 	}
 	public function material()
 	{
-		$foreignKey = Schema::hasColumn('course_material_information', 'course_id') ? 'course_id' : 'Course_id';
+		$columns = Schema::getColumnListing('course_material_information');
+		$foreignKey = in_array('course_id', $columns, true) ? 'course_id' : 'Course_id';
 
 		return $this->hasMany(CourseMaterialInformation::class, $foreignKey, 'course_id');
 	}
