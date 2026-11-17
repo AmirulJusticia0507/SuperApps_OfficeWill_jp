@@ -242,17 +242,19 @@
                 <a href="{{ route('dashboard') }}" title="{{ __('Dashboard') }}"
                     class="sidebar-link {{ $isActiveRoute('dashboard') ? 'is-active' : '' }}"><i class="fas fa-home"></i><span class="sidebar-label">{{ __('Dashboard') }}</span></a>
             </li>
-            <li>
-                <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer" title="{{ __('Mail') }}"
-                    class="sidebar-link"><i class="fas fa-envelope"></i><span class="sidebar-label">{{ __('Mail') }}</span><i class="fas fa-arrow-up-right-from-square ml-auto text-xs opacity-60" aria-hidden="true"></i></a>
-            </li>
+            @unless ($isLimitedUser)
+                <li>
+                    <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer" title="{{ __('Mail') }}"
+                        class="sidebar-link"><i class="fas fa-envelope"></i><span class="sidebar-label">{{ __('Mail') }}</span><i class="fas fa-arrow-up-right-from-square ml-auto text-xs opacity-60" aria-hidden="true"></i></a>
+                </li>
+            @endunless
             @if ($isSysAdmin)
                 <li>
                     <a href="{{ route('company-information.index') }}" title="{{ __('Company Information') }}"
                         class="sidebar-link {{ $isActiveRoute('company-information.*') ? 'is-active' : '' }}"><i class="fas fa-building"></i><span class="sidebar-label">{{ __('Company Information') }}</span></a>
                 </li>
             @endif
-            @if ($isSysAdmin || $isEmployeeRegis || $isCourseEnroll || $isAttendenceSetting)
+            @if ($isSysAdmin || $isEmployeeRegis || $isCourseEnroll || $isAttendenceSetting || $isLimitedUser)
                 <li>
                     <button type="button" class="sidebar-accordion" aria-expanded="false" title="{{ __('In-house Training') }}"><i class="fas fa-graduation-cap"></i><span class="sidebar-label">{{ __('In-house Training') }}</span><i class="fas fa-chevron-right sidebar-accordion__chevron"></i></button>
                     <ul class="sidebar-treeview">
@@ -260,14 +262,16 @@
                             <a href="{{ route('confirm-courses.index') }}" title="Confirm and attend courses"
                                 class="sidebar-link sidebar-sub-link {{ $isActiveRoute('confirm-courses.*') ? 'is-active' : '' }}"><i class="fas fa-clipboard-check"></i><span class="sidebar-label">{{ __('Confirm and attend courses') }}</span></a>
                         </li>
-                        @if ($isSysAdmin || $isCourseEnroll || $isEmployeeRegis)
+                        @if ($isSysAdmin || $isCourseEnroll || $isEmployeeRegis || $isLimitedUser)
                             <li>
                                 <button type="button" class="sidebar-accordion sidebar-sub-link" aria-expanded="false" title="{{ __('Course Registration') }}"><i class="fas fa-book-open"></i><span class="sidebar-label">{{ __('Course Registration') }}</span><i class="fas fa-chevron-right sidebar-accordion__chevron"></i></button>
                                 <ul class="sidebar-treeview">
                                     <!-- <li><a href="{{ route('materials.index') }}" class="block py-2 px-4 text-sm sub-submenu-item">&emsp;&emsp;&emsp;&emsp;<i class="fas fa-book mr-2"></i>Course Material Registration</a></li> -->
-                                    @if ($isSysAdmin || $isCourseEnroll)
+                                    @if ($isSysAdmin || $isCourseEnroll || $isLimitedUser)
                                         <li><a href="{{ route('course-list') }}" title="{{ __('Course List') }}"
                                                 class="sidebar-link sidebar-sub-link {{ $isActiveRoute(['course-list', 'course-list.*']) ? 'is-active' : '' }}"><i class="fas fa-list"></i><span class="sidebar-label">{{ __('Course List') }}</span></a></li>
+                                    @endif
+                                    @if ($isSysAdmin || $isCourseEnroll)
                                         <li><a href="{{ route('course-registration.index') }}"
                                                 title="Course Information Registration"
                                                 class="sidebar-link sidebar-sub-link {{ $isActiveRoute('course-registration.*') ? 'is-active' : '' }}"><i class="fas fa-pen-to-square"></i><span class="sidebar-label">{{ __('Course Information Registration') }}</span></a></li>

@@ -63,6 +63,7 @@ class LoginController extends Controller
 			}
 
 			if (Auth::guard('employee')->attempt($credentials)) {
+				Auth::guard('web')->logout();
 				$employee->numberofincorrect_passwords = 0;
 				$employee->account_lock_datetime = null;
 				$employee->save();
@@ -87,6 +88,7 @@ class LoginController extends Controller
 		}
 
 		if (User::where('email', $email)->exists() && Auth::guard('web')->attempt($credentials)) {
+			Auth::guard('employee')->logout();
 			RateLimiter::clear($throttleKey);
 			$request->session()->regenerate();
 

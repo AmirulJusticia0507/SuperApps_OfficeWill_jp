@@ -22,8 +22,9 @@ class SidebarComponent extends Component
 	public function render(): View|Closure|string
 	{
 		$yourCompany = null;
-		$isSysAdmin = true;
+		$isSysAdmin = false;
 		$isEmployeeRegis = $isCourseEnroll = $isAttendenceSetting = false;
+		$isLimitedUser = auth()->guard('web')->check() && !auth()->guard('employee')->check();
 		if (auth()->guard('employee')->check()) {
 			$user = auth()->guard('employee')->user();
 			$yourCompany = \App\Models\CompanyInformation::where(
@@ -37,6 +38,6 @@ class SidebarComponent extends Component
 			$isAttendenceSetting = $affiliation?->attendance_setting_authority == 1;
 		}
 
-		return view('components.sidebar-component', compact('yourCompany', 'isSysAdmin', 'isEmployeeRegis', 'isCourseEnroll', 'isAttendenceSetting'));
+		return view('components.sidebar-component', compact('yourCompany', 'isSysAdmin', 'isEmployeeRegis', 'isCourseEnroll', 'isAttendenceSetting', 'isLimitedUser'));
 	}
 }

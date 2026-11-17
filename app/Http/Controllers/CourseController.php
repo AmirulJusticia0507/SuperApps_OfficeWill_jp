@@ -27,13 +27,14 @@ class CourseController extends Controller
 	 */
 	public function index()
 	{
-		$classifications = CourseClassificationInformation::all();
-		$details = CourseClassificationDetailInformation::all();
-		$courses = CourseInformation::all();
+		$companyId = $this->currentUserCompanyId();
+		$classifications = $companyId ? CourseClassificationInformation::where('company_id', $companyId)->get() : collect();
+		$details = $companyId ? CourseClassificationDetailInformation::where('company_id', $companyId)->get() : collect();
+		$courses = $companyId ? CourseInformation::where('company_id', $companyId)->get() : collect();
 		$filteredEmployees = [];
-		$affiliations = AffiliationInformation::all();
-		$employees = EmployeeInformation::all();
-		$jobTitles = JobInformation::all(); // Initialize the $jobTitles variable
+		$affiliations = $companyId ? AffiliationInformation::where('company_id', $companyId)->get() : collect();
+		$employees = $companyId ? EmployeeInformation::where('company_id', $companyId)->get() : collect();
+		$jobTitles = $companyId ? JobInformation::where('company_id', $companyId)->get() : collect();
 
 		// Pass the $classifications variable to the view
 		return view('courselist', compact('classifications', 'details', 'courses', 'employees', 'filteredEmployees', 'affiliations', 'jobTitles'));
@@ -43,8 +44,14 @@ class CourseController extends Controller
     {
         $courseClassificationId = $request->input('course_classification_id');
         $courseClassificationDetailsId = $request->input('course_classification_details_id');
+        $companyId = $this->currentUserCompanyId();
 
         $coursesQuery = CourseInformation::query();
+        if ($companyId) {
+            $coursesQuery->where('company_id', $companyId);
+        } else {
+            $coursesQuery->whereRaw('1 = 0');
+        }
         if ($courseClassificationId) {
             // The deployed PostgreSQL schema still uses the legacy quoted column name.
             $coursesQuery->where('Course_classification_id', $courseClassificationId);
@@ -58,14 +65,24 @@ class CourseController extends Controller
         $courses = $coursesQuery->get();
 
         // Fetch the necessary data
-        $classifications = CourseClassificationInformation::all();
-        $details = CourseClassificationDetailInformation::all();
-        $affiliations = AffiliationInformation::all();
-        $employees = EmployeeInformation::all();
-        $jobTitles = JobInformation::all();
+        $classifications = $companyId ? CourseClassificationInformation::where('company_id', $companyId)->get() : collect();
+        $details = $companyId ? CourseClassificationDetailInformation::where('company_id', $companyId)->get() : collect();
+        $affiliations = $companyId ? AffiliationInformation::where('company_id', $companyId)->get() : collect();
+        $employees = $companyId ? EmployeeInformation::where('company_id', $companyId)->get() : collect();
+        $jobTitles = $companyId ? JobInformation::where('company_id', $companyId)->get() : collect();
 
         return view('courselist', compact('classifications', 'details', 'courses', 'employees', 'affiliations', 'jobTitles'));
     }
+
+	private function currentUserCompanyId(): ?int
+	{
+		$employee = auth()->guard('employee')->user();
+		if (!$employee && ($user = auth()->guard('web')->user())) {
+			$employee = EmployeeInformation::where('email', $user->email)->first();
+		}
+
+		return $employee?->company_id === null ? null : (int) $employee->company_id;
+	}
 
 	public function settings(Request $request)
 	{

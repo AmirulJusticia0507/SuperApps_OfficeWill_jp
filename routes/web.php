@@ -64,7 +64,7 @@ Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkE
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-Route::middleware('auth.any')->group(function () {
+Route::middleware(['auth.any', 'limit.web.user'])->group(function () {
 
 	// Rute untuk menampilkan halaman dashboard
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

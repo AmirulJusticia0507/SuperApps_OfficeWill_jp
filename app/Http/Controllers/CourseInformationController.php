@@ -29,7 +29,14 @@ class CourseInformationController extends Controller
 	/** Display the selected course details. */
 	public function show(string $id)
 	{
+		$employee = auth()->guard('employee')->user();
+		if (!$employee && ($user = auth()->guard('web')->user())) {
+			$employee = \App\Models\EmployeeInformation::where('email', $user->email)->first();
+		}
+		abort_unless($employee, 403, 'Your account is not linked to an employee profile.');
+
 		$course = CourseInformation::with(['classification', 'classification_detail', 'material', 'todo.choices'])
+			->where('company_id', $employee->company_id)
 			->findOrFail($id);
 
 		return view('course_information.show', compact('course'));

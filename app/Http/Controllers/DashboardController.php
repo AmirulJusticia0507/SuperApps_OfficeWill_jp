@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CourseInformation;
 use App\Models\CourseScheduleResultsInformation;
+use App\Models\EmployeeInformation;
 use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
@@ -16,7 +17,12 @@ class DashboardController extends Controller
     public function index()
     {
         $months = min(12, max(1, (int) request()->input('months', 6)));
-        $companyId = request()->attributes->get('tenant.company_id');
+        $employee = auth()->guard('employee')->user();
+        $webUser = auth()->guard('web')->user();
+        if (!$employee && $webUser) {
+            $employee = EmployeeInformation::where('email', $webUser->email)->first();
+        }
+        $companyId = request()->attributes->get('tenant.company_id') ?? $employee?->company_id;
         $hasCourses = Schema::hasTable('course_information');
         $hasEnrollments = Schema::hasTable('course_schedule_results_information');
 
@@ -26,6 +32,14 @@ class DashboardController extends Controller
         if ($companyId !== null) {
             $courses?->where('company_id', $companyId);
             $enrollments?->where('company_id', $companyId);
+        }
+        if ($webUser) {
+            if ($employee) {
+                $enrollments?->where('employee_id', $employee->employee_id);
+            } else {
+                $enrollments?->whereRaw('1 = 0');
+                $courses?->whereRaw('1 = 0');
+            }
         }
 
         $courseCount = $courses?->count() ?? 0;

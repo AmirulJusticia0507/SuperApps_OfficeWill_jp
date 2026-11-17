@@ -20,7 +20,11 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="flex flex-wrap gap-1 text-sm text-slate-500 mb-4">
-                <li><a href="{{ route('course-settings') }}" title="{{ __('Course Settings') }}" class="hover:text-blue-600">{{ __('Course Settings') }}</a></li>
+                @if (auth()->guard('employee')->check())
+                    <li><a href="{{ route('course-settings') }}" title="{{ __('Course Settings') }}" class="hover:text-blue-600">{{ __('Course Settings') }}</a></li>
+                @else
+                    <li><a href="{{ route('dashboard') }}" title="{{ __('Dashboard') }}" class="hover:text-blue-600">{{ __('Dashboard') }}</a></li>
+                @endif
                 <li class="before:content-['/'] before:mx-1"><a href="{{ route('course-list') }}" title="{{ __('Course List') }}" class="hover:text-blue-600">{{ __('Course List') }}</a></li>
                 <li class="before:content-['/'] before:mx-1 text-slate-700 font-medium" aria-current="page" title="{{ __('Course List') }}">{{ __('Course List') }}</li>
             </ol>
@@ -30,8 +34,10 @@
         <div class="bg-white rounded-xl shadow-sm border border-slate-200">
             <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold flex items-center justify-between" title="Course Registration">
                 <span>{{ __('Course Registration') }}</span>
-                <a class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white text-slate-700 hover:bg-slate-100 text-xs font-semibold rounded-lg shadow-sm transition"
-                    href="{{ route('course-registration.index') }}"><i class="fas fa-plus"></i> {{ __('Register a course') }}</a>
+                @if (auth()->guard('employee')->check())
+                    <a class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white text-slate-700 hover:bg-slate-100 text-xs font-semibold rounded-lg shadow-sm transition"
+                        href="{{ route('course-registration.index') }}"><i class="fas fa-plus"></i> {{ __('Register a course') }}</a>
+                @endif
             </div>
             <div class="p-5">
                 <form action="{{ route('course.filter') }}" method="GET" class="space-y-4">

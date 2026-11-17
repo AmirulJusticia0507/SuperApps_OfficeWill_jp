@@ -22,17 +22,11 @@ class ConfirmCoursesController extends Controller
 {
 	public function index()
 	{
-		$user = auth()->guard('employee')->user();
-		if ($user) {
-			$user_id = $user->employee_id;
-		} else {
-			$user = auth()->user();
-			$user_id = $user->id;
-		}
+		$userId = $this->currentEmployeeId();
 		// Database lama menyediakan tabel ini melalui dump SQL, bukan migration.
 		// Tampilkan daftar kosong sampai dump/migration kursus tersedia.
-		$scheduleResultCourses = Schema::hasTable('course_schedule_results_information')
-			? CourseScheduleResultsInformation::where('employee_id', $user_id)->get()
+		$scheduleResultCourses = $userId && Schema::hasTable('course_schedule_results_information')
+			? CourseScheduleResultsInformation::where('employee_id', $userId)->get()
 			: collect();
 		// Kirim data ke view confirmcourses.blade.php
 		return view('confirmcourses.index', compact('scheduleResultCourses'));
@@ -40,8 +34,8 @@ class ConfirmCoursesController extends Controller
 
 	public function certificate(int $attendance_setting_id)
 	{
-		$user = auth()->guard('employee')->user();
-		$employeeId = $user ? $user->employee_id : auth()->id();
+		$employeeId = $this->currentEmployeeId();
+		abort_unless($employeeId, 403, 'Your account is not linked to an employee profile.');
 		$enrollment = CourseScheduleResultsInformation::where('attendance_setting_id', $attendance_setting_id)
 			->where('employee_id', $employeeId)
 			->where('todo_progress', '2')
@@ -63,33 +57,25 @@ class ConfirmCoursesController extends Controller
 
 	public function attendence(Request $request, $course_id)
 	{
-		$user = auth()->guard('employee')->user();
-		if ($user) {
-			$user_id = $user->employee_id;
-		} else {
-			$user = auth()->user();
-			$user_id = $user->id;
-		}
+		$user_id = $this->currentEmployeeId();
+		abort_unless($user_id, 403, 'Your account is not linked to an employee profile.');
 
 		$scheduleResultCourse = CourseScheduleResultsInformation::where('employee_id', $user_id)->whereHas('course', function ($query) use ($course_id) {
 			$query->where('course_id', $course_id);
 		})->first();
+		abort_unless($scheduleResultCourse, 404);
 
 		return view('confirmcourses.attendence', compact('scheduleResultCourse'));
 	}
 
 	public function todoAnswerForm(Request $request, $course_id)
 	{
-		$user = auth()->guard('employee')->user();
-		if ($user) {
-			$user_id = $user->employee_id;
-		} else {
-			$user = auth()->user();
-			$user_id = $user->id;
-		}
+		$user_id = $this->currentEmployeeId();
+		abort_unless($user_id, 403, 'Your account is not linked to an employee profile.');
 		$scheduleResultCourse = CourseScheduleResultsInformation::where('employee_id', $user_id)->whereHas('course', function ($query) use ($course_id) {
 			$query->where('course_id', $course_id);
 		})->with('course.todo.choices')->first();
+		abort_unless($scheduleResultCourse, 404);
 		$employee = EmployeeInformation::where('employee_id', $user_id)->first();
 
 		$answer = [];
@@ -138,8 +124,8 @@ class ConfirmCoursesController extends Controller
 			'todo.*.report' => ['nullable', 'string', 'max:10000'],
 		]);
 
-		$authenticatedEmployee = auth()->guard('employee')->user();
-		$employeeId = $authenticatedEmployee ? $authenticatedEmployee->employee_id : auth()->id();
+		$employeeId = $this->currentEmployeeId();
+		abort_unless($employeeId, 403, 'Your account is not linked to an employee profile.');
 		$course = CourseInformation::findOrFail($course_id);
 		abort_unless((string) $course->todo_type === (string) $data['todo_type'], 422);
 		$schedule = CourseScheduleResultsInformation::where('attendance_setting_id', $data['attendance_settings_id'])
@@ -246,16 +232,12 @@ class ConfirmCoursesController extends Controller
 
 	public function todoAnswerScoring(Request $request, $course_id)
 	{
-		$user = auth()->guard('employee')->user();
-		if ($user) {
-			$user_id = $user->employee_id;
-		} else {
-			$user = auth()->user();
-			$user_id = $user->id;
-		}
+		$user_id = $this->currentEmployeeId();
+		abort_unless($user_id, 403, 'Your account is not linked to an employee profile.');
 		$scheduleResultCourse = CourseScheduleResultsInformation::where('employee_id', $user_id)->whereHas('course', function ($query) use ($course_id) {
 			$query->where('course_id', $course_id);
 		})->with('course.todo.choices')->first();
+		abort_unless($scheduleResultCourse, 404);
 		$employee = EmployeeInformation::where('employee_id', $user_id)->first();
 
 		$answer = [];
@@ -267,5 +249,21 @@ class ConfirmCoursesController extends Controller
 		$dataTodoAnswer = json_encode(['todos' => $scheduleResultCourse->course->todo, 'answer' => $answer]);
 		return view('confirmcourses.todo-answer-scoring', compact('scheduleResultCourse', 'employee', 'dataTodoAnswer', 'attendenceItem'));
 
+	}
+
+	private function currentEmployeeId(): ?int
+	{
+		$employee = auth()->guard('employee')->user();
+		if ($employee) {
+			return (int) $employee->employee_id;
+		}
+
+		$user = auth()->guard('web')->user();
+		if (!$user) {
+			return null;
+		}
+
+		$employeeId = EmployeeInformation::where('email', $user->email)->value('employee_id');
+		return $employeeId === null ? null : (int) $employeeId;
 	}
 }

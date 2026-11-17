@@ -16,7 +16,11 @@
 
     <main class="course-detail-page__content space-y-6">
         <nav aria-label="breadcrumb" class="text-sm text-slate-500">
-            <a href="{{ route('course-settings') }}" class="hover:text-blue-700">{{ __('Course Settings') }}</a>
+            @if (auth()->guard('employee')->check())
+                <a href="{{ route('course-settings') }}" class="hover:text-blue-700">{{ __('Course Settings') }}</a>
+            @else
+                <a href="{{ route('course-list') }}" class="hover:text-blue-700">{{ __('Course List') }}</a>
+            @endif
             <span class="mx-2">/</span><span class="font-medium text-slate-700">{{ __('Course Details') }}</span>
         </nav>
 
@@ -26,8 +30,8 @@
                     <p class="text-sm text-blue-200">{{ __('Course Details') }}</p>
                     <h1 class="text-xl font-semibold">{{ $course->coursename }}</h1>
                 </div>
-                <a href="{{ route('course-settings') }}" class="inline-flex items-center gap-2 rounded-lg border border-white/40 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
-                    <i class="fas fa-arrow-left" aria-hidden="true"></i>{{ __('Back to course settings') }}
+                <a href="{{ auth()->guard('employee')->check() ? route('course-settings') : route('course-list') }}" class="inline-flex items-center gap-2 rounded-lg border border-white/40 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>{{ auth()->guard('employee')->check() ? __('Back to course settings') : __('Back to course list') }}
                 </a>
             </header>
 

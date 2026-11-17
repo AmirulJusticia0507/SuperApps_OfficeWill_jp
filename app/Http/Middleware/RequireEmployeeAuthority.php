@@ -10,11 +10,11 @@ class RequireEmployeeAuthority
 {
 	public function handle(Request $request, Closure $next, string ...$authorities): Response
 	{
-		if (auth()->guard('web')->check()) {
+		$employee = auth()->guard('employee')->user();
+		if (!$employee && auth()->guard('web')->check()) {
 			return $next($request);
 		}
 
-		$employee = auth()->guard('employee')->user();
 		$affiliation = $employee?->employee_affiliation;
 
 		if (!$affiliation) {
