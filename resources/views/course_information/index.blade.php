@@ -8,6 +8,67 @@
     @media (max-width: 767.98px) {
         .course-info-page__content, body.sidebar-collapsed .course-info-page__content { margin-left: 0; width: 100%; padding: 1rem; }
     }
+
+    /* ── Wizard stepper indicator states ── */
+    /* Default (not yet visited) */
+    [data-step-indicator] {
+        color: #94a3b8; /* slate-400 */
+        transition: color .15s, background .15s;
+    }
+    [data-step-indicator] .course-stepper__number {
+        background: #f1f5f9; /* slate-100 */
+        color: #94a3b8;
+        transition: background .15s, color .15s;
+    }
+
+    /* Current active step */
+    [data-step-indicator].is-current {
+        color: #1e3a8a; /* blue-900 */
+        font-weight: 700;
+        background: #eff6ff; /* blue-50 */
+        border-radius: .5rem;
+    }
+    [data-step-indicator].is-current .course-stepper__number {
+        background: #1d4ed8; /* blue-700 */
+        color: #fff;
+        box-shadow: 0 0 0 3px #bfdbfe; /* blue-200 ring */
+    }
+
+    /* Completed step */
+    [data-step-indicator].is-complete {
+        color: #15803d; /* green-700 */
+    }
+    [data-step-indicator].is-complete .course-stepper__number {
+        background: #dcfce7; /* green-100 */
+        color: #15803d;
+        font-size: 0; /* hide number, show checkmark */
+        position: relative;
+    }
+    [data-step-indicator].is-complete .course-stepper__number::after {
+        content: '✓';
+        font-size: .75rem;
+        font-weight: 700;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Connector line between steps */
+    .course-stepper__progress li:not(:last-child)::after {
+        content: '';
+        display: inline-block;
+        width: 1.5rem;
+        height: 2px;
+        background: #e2e8f0;
+        vertical-align: middle;
+        margin: 0 .25rem;
+        border-radius: 1px;
+    }
+    .course-stepper__progress li:not(:last-child):has(button.is-complete)::after {
+        background: #86efac; /* green-300 */
+    }
 </style>
 
 <div class="course-info-page">
