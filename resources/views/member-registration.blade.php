@@ -43,7 +43,8 @@
                                 </div>
                                 <div>
                                     <label for="kananame" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Kana Name') }}: <span class="text-red-500">*</span></label>
-                                    <input type="text" name="kananame" id="kananame" title="Kana Name" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <input type="text" name="kananame" id="kananame" title="Kana Name" aria-describedby="kananame-help" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <p id="kananame-help" class="mt-1 text-xs text-slate-500">{{ __('Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings.') }}</p>
                                 </div>
                             </div>
 
@@ -269,6 +270,130 @@
 
 @push('scripts')
 <script>
+    (() => {
+        const fullNameInput = document.getElementById('fullname');
+        const kanaNameInput = document.getElementById('kananame');
+        if (!fullNameInput || !kanaNameInput) return;
+
+        const romajiKana = {
+            a: 'あ', i: 'い', u: 'う', e: 'え', o: 'お',
+            ka: 'か', ki: 'き', ku: 'く', ke: 'け', ko: 'こ',
+            sa: 'さ', shi: 'し', si: 'し', su: 'す', se: 'せ', so: 'そ',
+            ta: 'た', chi: 'ち', ti: 'ち', tsu: 'つ', tu: 'つ', te: 'て', to: 'と',
+            na: 'な', ni: 'に', nu: 'ぬ', ne: 'ね', no: 'の',
+            ha: 'は', hi: 'ひ', fu: 'ふ', hu: 'ふ', he: 'へ', ho: 'ほ',
+            ma: 'ま', mi: 'み', mu: 'む', me: 'め', mo: 'も',
+            ya: 'や', yu: 'ゆ', yo: 'よ',
+            ra: 'ら', ri: 'り', ru: 'る', re: 'れ', ro: 'ろ',
+            wa: 'わ', wo: 'を',
+            ga: 'が', gi: 'ぎ', gu: 'ぐ', ge: 'げ', go: 'ご',
+            za: 'ざ', ji: 'じ', zi: 'じ', zu: 'ず', ze: 'ぜ', zo: 'ぞ',
+            da: 'だ', di: 'ぢ', du: 'づ', de: 'で', do: 'ど',
+            ba: 'ば', bi: 'び', bu: 'ぶ', be: 'べ', bo: 'ぼ',
+            pa: 'ぱ', pi: 'ぴ', pu: 'ぷ', pe: 'ぺ', po: 'ぽ',
+            kya: 'きゃ', kyu: 'きゅ', kyo: 'きょ',
+            sha: 'しゃ', shu: 'しゅ', sho: 'しょ', sya: 'しゃ', syu: 'しゅ', syo: 'しょ',
+            cha: 'ちゃ', chu: 'ちゅ', cho: 'ちょ', tya: 'ちゃ', tyu: 'ちゅ', tyo: 'ちょ',
+            nya: 'にゃ', nyu: 'にゅ', nyo: 'にょ',
+            hya: 'ひゃ', hyu: 'ひゅ', hyo: 'ひょ',
+            mya: 'みゃ', myu: 'みゅ', myo: 'みょ',
+            rya: 'りゃ', ryu: 'りゅ', ryo: 'りょ',
+            gya: 'ぎゃ', gyu: 'ぎゅ', gyo: 'ぎょ',
+            ja: 'じゃ', ju: 'じゅ', jo: 'じょ', jya: 'じゃ', jyu: 'じゅ', jyo: 'じょ',
+            bya: 'びゃ', byu: 'びゅ', byo: 'びょ',
+            pya: 'ぴゃ', pyu: 'ぴゅ', pyo: 'ぴょ',
+            fa: 'ふぁ', fi: 'ふぃ', fe: 'ふぇ', fo: 'ふぉ',
+            wi: 'うぃ', we: 'うぇ', va: 'ゔぁ', vi: 'ゔぃ', vu: 'ゔ', ve: 'ゔぇ', vo: 'ゔぉ',
+            tsa: 'つぁ', tsi: 'つぃ', tse: 'つぇ', tso: 'つぉ'
+        };
+
+        function toKatakana(value) {
+            const text = value.normalize('NFKC').trim();
+            if (!text) return '';
+            if (/[\u3400-\u9fff々〆]/u.test(text)) return null;
+
+            if (/^[\u3040-\u30ff\u31f0-\u31ff\s・ー]+$/u.test(text)) {
+                return Array.from(text, character => {
+                    const code = character.codePointAt(0);
+                    return code >= 0x3041 && code <= 0x3096 ? String.fromCodePoint(code + 0x60) : character;
+                }).join('').replace(/\s+/g, '　');
+            }
+
+            if (!/^[a-zA-Z\s'-]+$/.test(text)) return null;
+            const input = text.toLowerCase().replace(/[ -]+/g, ' ');
+            let hiragana = '';
+
+            for (let index = 0; index < input.length;) {
+                const character = input[index];
+                if (character === ' ') {
+                    hiragana += '　';
+                    index++;
+                    continue;
+                }
+
+                if (character === 'n') {
+                    if (input[index + 1] === "'") {
+                        hiragana += 'ん';
+                        index += 2;
+                        continue;
+                    }
+                    if (input[index + 1] === 'n' && !'aiueo'.includes(input[index + 2] || '')) {
+                        hiragana += 'ん';
+                        index += 2;
+                        continue;
+                    }
+                    if (index === input.length - 1 || (!'aiueoy'.includes(input[index + 1] || '') && input[index + 1] !== ' ')) {
+                        hiragana += 'ん';
+                        index++;
+                        continue;
+                    }
+                }
+
+                if (character === input[index + 1] && /[bcdfghjklmpqrstvwxyz]/.test(character) && character !== 'n') {
+                    hiragana += 'っ';
+                    index++;
+                    continue;
+                }
+
+                let matched = false;
+                for (const length of [3, 2, 1]) {
+                    const syllable = input.slice(index, index + length);
+                    if (romajiKana[syllable]) {
+                        hiragana += romajiKana[syllable];
+                        index += length;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) return null;
+            }
+
+            return Array.from(hiragana, character => {
+                const code = character.codePointAt(0);
+                return code >= 0x3041 && code <= 0x3096 ? String.fromCodePoint(code + 0x60) : character;
+            }).join('');
+        }
+
+        let lastGeneratedValue = '';
+        let kanaWasEdited = false;
+
+        kanaNameInput.addEventListener('input', () => {
+            kanaWasEdited = kanaNameInput.value.trim() !== '' && kanaNameInput.value !== lastGeneratedValue;
+        });
+
+        fullNameInput.addEventListener('input', event => {
+            if (event.isComposing || kanaWasEdited) return;
+            const generatedValue = toKatakana(fullNameInput.value);
+            if (generatedValue === null) {
+                if (kanaNameInput.value === lastGeneratedValue) kanaNameInput.value = '';
+                lastGeneratedValue = '';
+                return;
+            }
+            kanaNameInput.value = generatedValue;
+            lastGeneratedValue = generatedValue;
+        });
+    })();
+
     var dateOfBirthInput = document.getElementById('dateofbirth');
     var dateOfJoiningInput = document.getElementById('dateofjoining');
 

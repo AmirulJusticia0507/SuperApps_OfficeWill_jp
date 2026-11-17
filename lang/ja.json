@@ -266,5 +266,6 @@
     "Success": "成功",
     "Last :months Months": "過去 :months か月",
     "Number of months": "月数",
-    "Months": "か月"
+    "Months": "か月",
+    "Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings.": "氏名からカナを自動入力します。漢字の読み方は確認してください。"
 }
