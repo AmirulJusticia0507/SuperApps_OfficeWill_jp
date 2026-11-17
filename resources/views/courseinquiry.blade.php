@@ -2,10 +2,12 @@
 
 @section('content')
 <style>
-    .course-inquiry-page { min-height: 100vh; background: #f4f6f9; }
+    .course-inquiry-page { min-height: 100vh; width: 100%; max-width: none; margin: 0; padding: 0; background: #f4f6f9; }
     .course-inquiry-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+    body.sidebar-collapsed .course-inquiry-page { width: 100%; margin: 0; }
     body.sidebar-collapsed .course-inquiry-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
     @media (max-width: 767.98px) {
+        .course-inquiry-page, body.sidebar-collapsed .course-inquiry-page { width: 100%; margin: 0; padding: 0; }
         .course-inquiry-page__content, body.sidebar-collapsed .course-inquiry-page__content { margin-left: 0; width: 100%; padding: 1rem; }
     }
 </style>
