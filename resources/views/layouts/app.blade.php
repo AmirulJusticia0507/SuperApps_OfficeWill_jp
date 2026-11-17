@@ -40,6 +40,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini bg-gray-50 antialiased">
+    <x-theme-toggle />
     <div class="wrapper">
         @yield('content')
         <div id="showModalHere"></div>

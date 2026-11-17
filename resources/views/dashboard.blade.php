@@ -42,6 +42,7 @@
     </style>
 </head>
 <body class="hold-transition sidebar-mini bg-gray-50 antialiased">
+    <x-theme-toggle />
     <div class="wrapper dashboard-page">
         <!-- Include Header -->
         @include('includes.header')

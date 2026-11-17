@@ -168,11 +168,6 @@
                 <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer" title="{{ __('Mail') }}"
                     class="sidebar-link"><i class="fas fa-envelope"></i><span class="sidebar-label">{{ __('Mail') }}</span><i class="fas fa-arrow-up-right-from-square ml-auto text-xs opacity-60" aria-hidden="true"></i></a>
             </li>
-            <li>
-                <button id="themeToggle" type="button" class="sidebar-link" aria-pressed="false" title="{{ __('Toggle dark mode') }}">
-                    <i id="themeToggleIcon" class="fas fa-moon" aria-hidden="true"></i><span id="themeToggleLabel" class="sidebar-label">{{ __('Dark mode') }}</span>
-                </button>
-            </li>
             @if ($isSysAdmin)
                 <li>
                     <a href="{{ route('company-information.index') }}" title="{{ __('Company Information') }}"
@@ -291,23 +286,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const sidebarToggle = document.getElementById('sidebarToggle');
-        const themeToggle = document.getElementById('themeToggle');
-        const themeToggleIcon = document.getElementById('themeToggleIcon');
-        const themeToggleLabel = document.getElementById('themeToggleLabel');
-        const applyTheme = (isDark) => {
-            document.documentElement.classList.toggle('dark-mode', isDark);
-            document.body.classList.toggle('dark-mode', isDark);
-            themeToggle?.setAttribute('aria-pressed', String(isDark));
-            themeToggle?.setAttribute('title', isDark ? @json(__('Switch to light mode')) : @json(__('Switch to dark mode')));
-            if (themeToggleIcon) themeToggleIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-            if (themeToggleLabel) themeToggleLabel.textContent = isDark ? @json(__('Light mode')) : @json(__('Dark mode'));
-        };
-        applyTheme(document.documentElement.classList.contains('dark-mode'));
-        themeToggle?.addEventListener('click', () => {
-            const isDark = !document.documentElement.classList.contains('dark-mode');
-            applyTheme(isDark);
-            localStorage.setItem('officewill.theme', isDark ? 'dark' : 'light');
-        });
         const collapsedKey = 'officewill.sidebar.collapsed';
         const setCollapsedState = (collapsed) => {
             document.body.classList.toggle('sidebar-collapsed', collapsed);

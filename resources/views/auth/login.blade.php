@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>try { const savedTheme = localStorage.getItem('officewill.theme'); if (savedTheme === 'dark' || (savedTheme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark-mode'); } catch (_) {}</script>
     <meta name="theme-color" content="#102a56">
     <link rel="manifest" href="{{ route('pwa.manifest') }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('img/dep-service-logo.svg') }}">
@@ -16,6 +17,7 @@
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center px-4 py-12">
+    <x-theme-toggle />
     <div class="w-full max-w-md">
         <!-- Card -->
         <div class="bg-white rounded-2xl shadow-2xl p-8">
