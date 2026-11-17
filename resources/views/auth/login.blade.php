@@ -10,67 +10,83 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/dep-service-logo.svg') }}">
     <title>{{ __('Login') }}</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
-    <div class="container mt-5">
-        <div class="d-flex justify-content-end mb-3">
-            <a class="btn btn-sm {{ app()->getLocale() === 'ja' ? 'btn-primary' : 'btn-outline-primary' }}" href="{{ route('locale.switch', 'ja') }}">日本語</a>
-            <a class="btn btn-sm ml-2 {{ app()->getLocale() === 'en' ? 'btn-primary' : 'btn-outline-primary' }}" href="{{ route('locale.switch', 'en') }}">English</a>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header" align="center" title="{{ __('Login') }}">{{ __('Login') }} <h2 style="color: cornflowerblue" title="DEP SERVICE">DEP Service</h2>
-                    </div>
-                    <div class="card-body">
-                        @session('error')
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                        @endsession
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label" title="{{ __('Email') }}">{{ __('Email') }}</label>
-                                <input type="email" id="email" name="email" class="form-control" required
-                                    autofocus>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label" title="{{ __('Password') }}">{{ __('Password') }}</label>
-                                <div class="input-group">
-                                    <input type="password" id="password" name="password" class="form-control" required>
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                        <i class="fas fa-eye-slash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            {{-- <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                <label class="form-check-label" for="remember">Remember Me</label>
-                            </div> --}}
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary" title="Login"><i class="fa fa-signin"></i>
-                                    {{ __('Log in') }}</button>
+<body class="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+        <!-- Card -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <!-- Language Switcher -->
+            <div class="flex justify-end gap-2 mb-6">
+                <a class="px-3 py-1 text-sm rounded {{ app()->getLocale() === 'ja' ? 'bg-blue-700 text-white' : 'border border-blue-700 text-blue-700' }}"
+                    href="{{ route('locale.switch', 'ja') }}">日本語</a>
+                <a class="px-3 py-1 text-sm rounded {{ app()->getLocale() === 'en' ? 'bg-blue-700 text-white' : 'border border-blue-700 text-blue-700' }}"
+                    href="{{ route('locale.switch', 'en') }}">English</a>
+            </div>
 
-                            </div>
-                        </form>
-                        <div class="mt-3 text-center">
-                            {{-- <a href="{{ route('register') }}" class="btn btn-info"><i class="fa fa-edit"></i> Register</a> --}}
-                            <a href="{{ route('password.request') }}" title="{{ __('Change password') }}" class="btn btn-default"><i class="fa fa-key"></i>
-                                {{ __('Change password') }}</a>
-                        </div>
+            <!-- Logo / Title -->
+            <div class="text-center mb-8">
+                <img src="{{ asset('img/dep-service-logo.svg') }}" alt="DEP Service Logo" class="h-16 mx-auto mb-3">
+                <h1 class="text-2xl font-bold text-blue-900">DEP Service</h1>
+                <p class="text-gray-500 text-sm mt-1">{{ __('Login') }}</p>
+            </div>
+
+            <!-- Error Message -->
+            @session('error')
+                <div class="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg mb-4">
+                    {{ session('error') }}
+                </div>
+            @endsession
+
+            <!-- Login Form -->
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1" title="{{ __('Email') }}">{{ __('Email') }}</label>
+                    <input type="email" id="email" name="email"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required autofocus>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1" title="{{ __('Password') }}">{{ __('Password') }}</label>
+                    <div class="flex">
+                        <input type="password" id="password" name="password"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required>
+                        <button class="px-3 border border-l-0 border-gray-300 rounded-r-lg bg-gray-50 hover:bg-gray-100 text-gray-600"
+                            type="button" id="togglePassword">
+                            <i class="fas fa-eye-slash"></i>
+                        </button>
                     </div>
                 </div>
 
+                {{-- <div class="mb-4 flex items-center gap-2">
+                    <input type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded" id="remember" name="remember">
+                    <label class="text-sm text-gray-700" for="remember">Remember Me</label>
+                </div> --}}
+
+                <div class="text-center mt-6">
+                    <button type="submit"
+                        class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition"
+                        title="Login">
+                        <i class="fa fa-signin mr-1"></i> {{ __('Log in') }}
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-4 text-center">
+                {{-- <a href="{{ route('register') }}" class="text-blue-700 hover:underline text-sm"><i class="fa fa-edit mr-1"></i> Register</a> --}}
+                <a href="{{ route('password.request') }}" title="{{ __('Change password') }}"
+                    class="text-blue-700 hover:underline text-sm">
+                    <i class="fa fa-key mr-1"></i> {{ __('Change password') }}
+                </a>
             </div>
         </div>
     </div>
+
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Font Awesome -->
