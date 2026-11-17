@@ -298,5 +298,10 @@
     "Sign up": "Sign up",
     "Registration successful. Please log in.": "Registration successful. Please log in.",
     "This email already belongs to an employee account. Please log in with it.": "This email already belongs to an employee account. Please log in with it.",
-    "This creates a learner account. Employee records and course assignments are managed separately.": "This creates a learner account. Employee records and course assignments are managed separately."
+    "This creates a learner account. Employee records and course assignments are managed separately.": "This creates a learner account. Employee records and course assignments are managed separately.",
+    "Profile photo": "Profile photo",
+    "Optional": "Optional",
+    "Profile photo preview": "Profile photo preview",
+    "Preview": "Preview",
+    "JPG, PNG, or WebP. Maximum 2 MB.": "JPG, PNG, or WebP. Maximum 2 MB."
 }

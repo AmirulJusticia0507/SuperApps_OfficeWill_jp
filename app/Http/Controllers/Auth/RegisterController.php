@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
-
 class RegisterController extends Controller
 {
     /**
@@ -45,6 +44,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
 		if (EmployeeInformation::whereRaw('LOWER(email) = ?', [$email])->exists()) {
@@ -53,10 +53,18 @@ class RegisterController extends Controller
 				->withInput($request->except(['password', 'password_confirmation']));
 		}
 
+        $photoPath = $request->file('photo')?->store('profile-photos/users', 'public');
+        if ($request->hasFile('photo') && !$photoPath) {
+            return back()
+                ->withErrors(['photo' => __('The profile photo could not be saved.')])
+                ->withInput($request->except(['password', 'password_confirmation']));
+        }
+
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'profile_photo_path' => $photoPath,
         ]);
 
         // Optionally, you can login the user after registration

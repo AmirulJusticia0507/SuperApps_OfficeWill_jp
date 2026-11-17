@@ -298,5 +298,10 @@
     "Sign up": "新規登録",
     "Registration successful. Please log in.": "登録が完了しました。ログインしてください。",
     "This email already belongs to an employee account. Please log in with it.": "このメールアドレスは従業員アカウントに登録済みです。そのアカウントでログインしてください。",
-    "This creates a learner account. Employee records and course assignments are managed separately.": "受講者アカウントを作成します。従業員情報とコース割り当ては別途管理されます。"
+    "This creates a learner account. Employee records and course assignments are managed separately.": "受講者アカウントを作成します。従業員情報とコース割り当ては別途管理されます。",
+    "Profile photo": "プロフィール写真",
+    "Optional": "任意",
+    "Profile photo preview": "プロフィール写真のプレビュー",
+    "Preview": "プレビュー",
+    "JPG, PNG, or WebP. Maximum 2 MB.": "JPG、PNG、WebP形式、最大2MBです。"
 }
