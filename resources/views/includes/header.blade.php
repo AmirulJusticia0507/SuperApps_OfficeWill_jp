@@ -13,3 +13,4 @@
         </div>
     </div>
 </nav>
+<div class="app-topbar-spacer" aria-hidden="true"></div>
