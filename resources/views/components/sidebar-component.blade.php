@@ -242,6 +242,10 @@
                 <a href="{{ route('dashboard') }}" title="{{ __('Dashboard') }}"
                     class="sidebar-link {{ $isActiveRoute('dashboard') ? 'is-active' : '' }}"><i class="fas fa-home"></i><span class="sidebar-label">{{ __('Dashboard') }}</span></a>
             </li>
+            <li>
+                <a href="{{ route('profile.show') }}" title="{{ __('Profile') }}"
+                    class="sidebar-link {{ $isActiveRoute('profile.*') ? 'is-active' : '' }}"><i class="fas fa-user-circle"></i><span class="sidebar-label">{{ __('Profile') }}</span></a>
+            </li>
             @unless ($isLimitedUser)
                 <li>
                     <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer" title="{{ __('Mail') }}"

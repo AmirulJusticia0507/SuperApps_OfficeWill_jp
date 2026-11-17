@@ -28,6 +28,7 @@ use App\Http\Controllers\ConfirmCoursesController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseInquiryController;
 use App\Http\Controllers\QuestionnaireController;
+use App\Http\Controllers\ProfileController;
 
 Route::redirect('/', '/login');
 Route::get('/manifest.webmanifest', function () {
@@ -65,6 +66,10 @@ Route::get('reset-password/{token}', [ResetPasswordController::class, 'showReset
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::middleware(['auth.any', 'limit.web.user'])->group(function () {
+	Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+	Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+	Route::put('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
+	Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto'])->name('profile.photo.destroy');
 
 	// Rute untuk menampilkan halaman dashboard
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -40,7 +40,8 @@ class EmployeeInformation extends Authenticatable
         'employee_attribute02',
         'employee_attribute03',
         'employee_attribute04',
-        'employee_attribute05'
+        'employee_attribute05',
+        'profile_photo_path'
     ];
 
 	protected $hidden = [

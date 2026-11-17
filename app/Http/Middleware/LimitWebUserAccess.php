@@ -10,6 +10,10 @@ class LimitWebUserAccess
 {
 	private const ALLOWED_ROUTES = [
 		'dashboard' => ['GET', 'HEAD'],
+		'profile.show' => ['GET', 'HEAD'],
+		'profile.password.update' => ['PUT'],
+		'profile.photo.update' => ['PUT'],
+		'profile.photo.destroy' => ['DELETE'],
 		'course-list' => ['GET', 'HEAD'],
 		'course.filter' => ['GET', 'HEAD'],
 		'course-information.show' => ['GET', 'HEAD'],
