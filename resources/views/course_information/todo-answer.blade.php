@@ -1,184 +1,140 @@
 @extends('layouts.app')
 
+@section('content')
 <style>
-    .sticky-list-group {
-        position: sticky;
-        top: 10px;
-        /* Anda dapat menyesuaikan offset atas sesuai kebutuhan */
+    .course-todo-ans-page { min-height: 100vh; background: #f4f6f9; }
+    .course-todo-ans-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+    body.sidebar-collapsed .course-todo-ans-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
+    @media (max-width: 767.98px) {
+        .course-todo-ans-page__content, body.sidebar-collapsed .course-todo-ans-page__content { margin-left: 0; width: 100%; padding: 1rem; }
     }
 </style>
 
-@section('content')
-    <!-- Header -->
+<div class="course-todo-ans-page">
     @include('includes.header')
-    <!-- <div class="container"> -->
-    <div class="row justify-content-center">
-        <div class="col-md-3">
-            @include('includes.sidebar')
-        </div>
-        <div class="col-md-6">
-            <br><br>
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">コース登録</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('course-list') }}">コース一覧</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('course-inquiry') }}">コース固有の問い合わせ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">ToDo answer inquiry after taking the course</li>
-                </ol>
-            </nav>
-            <div id="courseRegistrationWrap" class="card" x-data={}>
-                <form action="{{ route('confirm-courses.todo-answer.store', $course->course_id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="course_id" value="{{ $course->course_id }}">
-                    <div id="curse" class="card-header" style="background-color: darkblue">
-                        <div class="row">
-                            <div class="col"><b style="color:aliceblue"> course</b></div>
-                        </div>
-                    </div>
+    @include('includes.sidebar')
 
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">Course Classification</div>
-                            <div class="col-md-8">{{ $course->classification->course_classification_name }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Course classification details
-                            </div>
-                            <div class="col-md-8">{{ $course->classification_detail->course_classification_detailsname }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Course Name
-                            </div>
-                            <div class="col-md-8">{{ $course->coursename }}</div>
-                        </div>
+    <main class="course-todo-ans-page__content space-y-6">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="flex flex-wrap gap-1 text-sm text-slate-500 mb-4">
+                <li><a href="#" class="hover:text-blue-600">コース登録</a></li>
+                <li class="before:content-['/'] before:mx-1"><a href="{{ route('course-list') }}" class="hover:text-blue-600">コース一覧</a></li>
+                <li class="before:content-['/'] before:mx-1"><a href="{{ route('course-inquiry') }}" class="hover:text-blue-600">コース固有の問い合わせ</a></li>
+                <li class="before:content-['/'] before:mx-1 text-slate-700 font-medium" aria-current="page">ToDo answer inquiry after taking the course</li>
+            </ol>
+        </nav>
 
-                    </div>
-                    <div id="attending_course" class="card-header" style="background-color: darkblue">
-                        <div class="row">
-                            <div class="col"><b style="color:aliceblue"> Employees attending the course</b></div>
-                        </div>
-                    </div>
+        <form action="{{ route('confirm-courses.todo-answer.store', $course->course_id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+            <input type="hidden" name="course_id" value="{{ $course->course_id }}">
 
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">Affiliation name</div>
-                            <div class="col-md-8">{{ $employee->employee_affiliation->affiliation->affiliation_name }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Job title
-                            </div>
-                            <div class="col-md-8">{{ $employee->employee_affiliation->job->job_title }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">full name
-                            </div>
-                            <div class="col-md-8">{{ $employee->fullname }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">employee code
-                            </div>
-                            <div class="col-md-8">{{ $employee->employee_code }}</div>
-                        </div>
-
+            <!-- Course Info -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-5 py-4 bg-blue-900 text-white font-semibold">
+                    {{ __('Course Information') }}
+                </div>
+                <div class="p-5 space-y-3 text-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 py-2 border-b border-slate-100">
+                        <div class="md:col-span-4 font-medium text-slate-600">{{ __('Course Classification') }}</div>
+                        <div class="md:col-span-8 text-slate-800">{{ $course->classification->course_classification_name }}</div>
                     </div>
-                    <div id="survey_response" class="card-header" style="background-color: darkblue">
-                        <div class="row">
-                            <div class="col"><b style="color:aliceblue"> Survey responses </b></div>
-                        </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 py-2 border-b border-slate-100">
+                        <div class="md:col-span-4 font-medium text-slate-600">{{ __('Course Classification Details') }}</div>
+                        <div class="md:col-span-8 text-slate-800">{{ $course->classification_detail->course_classification_detailsname }}</div>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 py-2">
+                        <div class="md:col-span-4 font-medium text-slate-600">{{ __('Course Name') }}</div>
+                        <div class="md:col-span-8 font-semibold text-slate-800">{{ $course->coursename }}</div>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="card-body" x-data="{{ $dataTodoAnswer }}">
-                        <template x-for="(todo, index) in todos" :key="index">
-                            <div class="row mb-3">
-                                <div class="col"><span x-text="index+1"></span></div>
-                                <div class="col-11">
-                                    <div class="mb-2"><span x-text="todo.question"></span></div>
-                                    <div class="mb-2"><template x-if="todo.answer_type == 1">
-                                            <textarea name="" id="" class="form-control"></textarea>
-                                        </template>
-                                        <template x-if="todo.answer_type == 2">
+            <!-- Employee Info -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-5 py-4 bg-blue-900 text-white font-semibold">
+                    {{ __('Employees Enrolled in Course') }}
+                </div>
+                <div class="p-5 space-y-3 text-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 py-2 border-b border-slate-100">
+                        <div class="md:col-span-4 font-medium text-slate-600">{{ __('Affiliation') }}</div>
+                        <div class="md:col-span-8 text-slate-800">{{ $employee->employee_affiliation->affiliation->affiliation_name }}</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 py-2 border-b border-slate-100">
+                        <div class="md:col-span-4 font-medium text-slate-600">{{ __('Job Title') }}</div>
+                        <div class="md:col-span-8 text-slate-800">{{ $employee->employee_affiliation->job->job_title }}</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 py-2 border-b border-slate-100">
+                        <div class="md:col-span-4 font-medium text-slate-600">{{ __('Full Name') }}</div>
+                        <div class="md:col-span-8 text-slate-800">{{ $employee->fullname }}</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 py-2">
+                        <div class="md:col-span-4 font-medium text-slate-600">{{ __('Employee Code') }}</div>
+                        <div class="md:col-span-8 text-slate-800">{{ $employee->employee_code }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Survey Responses -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-5 py-4 bg-blue-900 text-white font-semibold">
+                    {{ __('Survey Responses') }}
+                </div>
+                <div class="p-5 space-y-6" x-data="{{ $dataTodoAnswer }}">
+                    <template x-for="(todo, index) in todos" :key="index">
+                        <div class="flex gap-4 p-4 rounded-lg border border-slate-100 bg-slate-50/50">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center shrink-0 text-sm" x-text="index+1"></div>
+                            <div class="flex-1 space-y-3">
+                                <div class="font-medium text-slate-800 text-sm" x-text="todo.question"></div>
+                                <div>
+                                    <template x-if="todo.answer_type == 1">
+                                        <textarea class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3"></textarea>
+                                    </template>
+                                    <template x-if="todo.answer_type == 2">
+                                        <div class="space-y-2">
                                             <template x-for="(choice, choiceIndex) in todo.choices" :key="choiceIndex">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input x-model="answer[index].choice"
-                                                            x-bind:name="`todo[${index}][choices]`" class="form-check-input"
-                                                            type="radio"
-                                                            :value="choice.choices == 'others' ? 'others' : choice
-                                                                .todo_option_id"
-                                                            title="Books" required>
-                                                        &emsp;<span x-text="choice.choices"></span></label>
-                                                </div>
-
+                                                <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                                                    <input x-model="answer[index].choice" x-bind:name="`todo[${index}][choices]`" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" type="radio" :value="choice.choices == 'others' ? 'others' : choice.todo_option_id" required>
+                                                    <span x-text="choice.choices"></span>
+                                                </label>
                                             </template>
-                                        </template>
-                                        <template x-if="todo.answer_type == 3">
+                                        </div>
+                                    </template>
+                                    <template x-if="todo.answer_type == 3">
+                                        <div class="space-y-2">
                                             <template x-for="(choice, choiceIndex) in todo.choices" :key="choiceIndex">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input x-model="answer[index].choice"
-                                                            x-bind:name="`todo[${index}][choices]`" class="form-check-input"
-                                                            type="checkbox" :value="choice.todo_option_id" title="Books"
-                                                            required>
-                                                        &emsp;<span x-text="choice.choices"></span></label>
-                                                </div>
+                                                <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                                                    <input x-model="answer[index].choice" x-bind:name="`todo[${index}][choices]`" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" type="checkbox" :value="choice.todo_option_id" required>
+                                                    <span x-text="choice.choices"></span>
+                                                </label>
                                             </template>
-                                        </template>
-                                        <template x-if="todo.answer_type == 4">
-                                            <select x-model="answer[index].choice" x-bind:name="`todo[${index}][choices]`"
-                                                class="form-control">
-                                                <option value="">-</option>
-                                                <template x-for="(choice, choiceIndex) in todo.choices"
-                                                    :key="choiceIndex">
-                                                    <option :value="choice.todo_option_id" x-text="choice.choices">
-                                                    </option>
-                                                </template>
-                                            </select>
-                                        </template>
-                                    </div>
-                                    <template x-if="answer[index].choice == 'others'">
-                                        <textarea x-model="answer[index].choice_text" x-bind:name="`todo[${index}][choices_text]`" class="form-control"></textarea>
+                                        </div>
+                                    </template>
+                                    <template x-if="todo.answer_type == 4">
+                                        <select x-model="answer[index].choice" x-bind:name="`todo[${index}][choices]`" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option value="">-</option>
+                                            <template x-for="(choice, choiceIndex) in todo.choices" :key="choiceIndex">
+                                                <option :value="choice.todo_option_id" x-text="choice.choices"></option>
+                                            </template>
+                                        </select>
                                     </template>
                                 </div>
+                                <template x-if="answer[index].choice == 'others'">
+                                    <textarea x-model="answer[index].choice_text" x-bind:name="`todo[${index}][choices_text]`" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" rows="2" placeholder="{{ __('Please specify') }}"></textarea>
+                                </template>
                             </div>
-                        </template>
+                        </div>
+                    </template>
 
-                        <div class="text-center"><button type="submit" class="btn btn-info">Submit</button></div>
-
+                    <div class="flex justify-center pt-4 border-t border-slate-100">
+                        <button type="submit" class="inline-flex items-center gap-1.5 px-6 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold rounded-lg shadow-sm transition"><i class="fas fa-paper-plane"></i> Submit</button>
                     </div>
-
-
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
+    </main>
+</div>
 
-        <!-- List of Links and Buttons -->
-        <div class="col-md-2">
-            <br><br><br><br><br>
-            <div class="mt-2 sticky-list-group">
-                <ul class="list-group">
-                    <li class="list-group-item" style="background-color: darkblue">
-                        <a href="#curse" title="course"><b style="color:aliceblue">
-                                コース一覧
-                            </b></a>
-                    </li>
-                    <li class="list-group-item" style="background-color: darkblue">
-                        <a href="#attending_course" title="Employees attending the course"><b style="color:aliceblue">
-                                社員一覧
-                            </b></a>
-                    </li>
-                    <li class="list-group-item" style="background-color: #92CDFC">
-                        <a href="#survey_response" title="Survey responses"><b style="color:aliceblue"> 回答トップ
-                            </b></a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Footer -->
-    @include('includes.footer')
+<!-- Footer -->
+@include('includes.footer')
 @endsection

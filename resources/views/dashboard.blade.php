@@ -4,26 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>{{ __('DEP SERVICE - OFFICE WILL - JAPAN') }}</title>
-    <!-- Tailwind CSS -->
-    {{-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> --}}
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         .dashboard-page { min-height: 100vh; background: #f4f6f9; }
         .dashboard-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
         body.sidebar-collapsed .dashboard-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
-        .dashboard-page .breadcrumb { margin-bottom: 1.25rem; }
-        .dashboard-page .small-box { min-height: 128px; border-radius: .75rem; box-shadow: 0 .125rem .75rem rgba(0,0,0,.08); overflow: hidden; }
-        .dashboard-page .small-box h3 { font-size: 2rem; font-weight: 700; }
-        .dashboard-page .small-box p { font-size: .95rem; }
-        .dashboard-page .card { border: 0; border-radius: .75rem; box-shadow: 0 .125rem .75rem rgba(0,0,0,.08); }
-        .dashboard-page .card-header { border-bottom: 1px solid rgba(0,0,0,.08); background: #fff; padding: 1rem 1.25rem; }
-        .dashboard-page .card-title { margin: 0; font-size: 1rem; font-weight: 600; }
-        .dashboard-page .card-body { padding: 1.25rem; }
         .dashboard-chart { position: relative; height: 300px; }
         .dashboard-chart--donut { height: 280px; }
         @media (max-width: 767.98px) {
@@ -32,66 +21,82 @@
         }
     </style>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini bg-gray-50 antialiased">
     <div class="wrapper dashboard-page">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light shadow">
-            <!-- Tambahkan tombol hamburger di sini -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-            <!-- Include Header -->
-            @include('includes.header')
-        </nav>
+        <!-- Include Header -->
+        @include('includes.header')
 
         <!-- Include Sidebar -->
         @include('includes.sidebar')
 
-        <div class="content-wrapper dashboard-page__content">
+        <div class="dashboard-page__content">
             <!-- Konten Utama -->
             <main class="content">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">{{ __('Home') }}</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ __('Dashboard') }}</li>
+                    <ol class="flex flex-wrap gap-1 text-sm text-slate-500 mb-4">
+                        <li><a href="#" class="hover:text-blue-600">{{ __('Home') }}</a></li>
+                        <li class="before:content-['/'] before:mx-1 text-slate-700 font-medium" aria-current="page">{{ __('Dashboard') }}</li>
                     </ol>
                 </nav>
-                <div class="container-fluid px-0">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 col-xl-3 mb-3">
+                <div class="w-full">
+                    <!-- Stat Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+                        <div>
                             <div class="dashboard-stat-card dashboard-stat-card--cyan">
                                 <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-book"></i></div><p class="dashboard-stat-card__label">{{ __('Courses') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($courseCount) }}</h3></div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-xl-3 mb-3">
+                        <div>
                             <div class="dashboard-stat-card dashboard-stat-card--blue">
                                 <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-users"></i></div><p class="dashboard-stat-card__label">{{ __('Course Enrollments') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($enrollmentCount) }}</h3></div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-xl-3 mb-3">
+                        <div>
                             <div class="dashboard-stat-card dashboard-stat-card--green">
                                 <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-check-circle"></i></div><p class="dashboard-stat-card__label">{{ __('Completed') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($completedCount) }}</h3></div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6 col-xl-3 mb-3">
+                        <div>
                             <div class="dashboard-stat-card dashboard-stat-card--amber">
                                 <div class="dashboard-stat-card__body"><div class="dashboard-stat-card__icon"><i class="fas fa-clock"></i></div><p class="dashboard-stat-card__label">{{ __('In Progress or Not Started') }}</p><h3 class="dashboard-stat-card__value">{{ number_format($inProgressCount + $notStartedCount) }}</h3></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-12 col-lg-8 mb-3">
-                            <div class="card h-100">
-                                <div class="card-header d-flex align-items-center justify-content-between gap-2"><h3 class="card-title mb-0">{{ __('Course Enrollments') }} - {{ __('Last :months Months', ['months' => $months]) }}</h3><form method="GET" action="{{ route('dashboard') }}" class="mb-0"><label for="dashboardMonths" class="visually-hidden">{{ __('Number of months') }}</label><select id="dashboardMonths" name="months" class="form-select form-select-sm" onchange="this.form.submit()" aria-label="{{ __('Number of months') }}">@foreach(range(1, 12) as $option)<option value="{{ $option }}" @selected($months === $option)>{{ $option }} {{ __('Months') }}</option>@endforeach</select></form></div>
-                                 <div class="card-body"><div class="dashboard-chart"><canvas id="enrollmentTrendChart" role="img" aria-label="{{ __('Course Enrollments') }} - {{ __('Last :months Months', ['months' => $months]) }}"></canvas><p id="enrollmentChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <div class="lg:col-span-8">
+                            <div class="bg-white rounded-xl shadow-sm border border-slate-200 h-full flex flex-col">
+                                <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between gap-2 flex-wrap">
+                                    <h3 class="text-base font-semibold text-slate-800 m-0">{{ __('Course Enrollments') }} - {{ __('Last :months Months', ['months' => $months]) }}</h3>
+                                    <form method="GET" action="{{ route('dashboard') }}" class="m-0">
+                                        <label for="dashboardMonths" class="sr-only">{{ __('Number of months') }}</label>
+                                        <select id="dashboardMonths" name="months" class="px-3 py-1.5 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="this.form.submit()" aria-label="{{ __('Number of months') }}">
+                                            @foreach(range(1, 12) as $option)
+                                                <option value="{{ $option }}" @selected($months === $option)>{{ $option }} {{ __('Months') }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </div>
+                                <div class="p-5 flex-1">
+                                    <div class="dashboard-chart">
+                                        <canvas id="enrollmentTrendChart" role="img" aria-label="{{ __('Course Enrollments') }} - {{ __('Last :months Months', ['months' => $months]) }}"></canvas>
+                                        <p id="enrollmentChartFallback" class="text-slate-400 text-center text-sm pt-12" hidden>{{ __('Chart library unavailable') }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4 mb-3">
-                            <div class="card h-100">
-                                <div class="card-header"><h3 class="card-title">{{ __('ToDo Progress') }}</h3></div>
-                                 <div class="card-body d-flex align-items-center justify-content-center"><div class="dashboard-chart dashboard-chart--donut w-100"><canvas id="todoProgressChart" role="img" aria-label="{{ __('ToDo Progress') }}"></canvas><p id="todoChartFallback" class="text-muted text-center" hidden>{{ __('Chart library unavailable') }}</p></div></div>
+                        <div class="lg:col-span-4">
+                            <div class="bg-white rounded-xl shadow-sm border border-slate-200 h-full flex flex-col">
+                                <div class="px-5 py-4 border-b border-slate-100">
+                                    <h3 class="text-base font-semibold text-slate-800 m-0">{{ __('ToDo Progress') }}</h3>
+                                </div>
+                                <div class="p-5 flex-1 flex items-center justify-center">
+                                    <div class="dashboard-chart dashboard-chart--donut w-full">
+                                        <canvas id="todoProgressChart" role="img" aria-label="{{ __('ToDo Progress') }}"></canvas>
+                                        <p id="todoChartFallback" class="text-slate-400 text-center text-sm pt-12" hidden>{{ __('Chart library unavailable') }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,13 +115,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Popper.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-    <!-- AdminLTE -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
     <!-- jQuery UI -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <!-- Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     <script>
         const enrollmentTrend = @json($enrollmentTrend);
@@ -127,18 +129,6 @@
         ]) !!};
 
         $(document).ready(function() {
-            // Tambahkan event click pada tombol pushmenu
-            $('.nav-link[data-widget="pushmenu"]').on('click', function() {
-                // Toggle class 'sidebar-collapse' pada elemen body
-                $('body').toggleClass('sidebar-collapse');
-            });
-
-            // Tambahkan event click pada tombol toggler untuk sidebar
-            $('.navbar-toggler[aria-controls="sidebar"]').on('click', function() {
-                // Toggle class 'show' pada elemen sidebar
-            $('#sidebar').toggleClass('show');
-            });
-
             if (typeof Chart === 'undefined') {
                 document.getElementById('enrollmentChartFallback').hidden = false;
                 document.getElementById('todoChartFallback').hidden = false;
@@ -172,7 +162,7 @@
                     labels: todoProgress.map((item) => item.label),
                     datasets: [{
                         data: todoProgress.map((item) => item.total),
-                        backgroundColor: ['#28a745', '#17a2b8', '#ffc107'],
+                        backgroundColor: ['#22c55e', '#06b6d4', '#f59e0b'],
                         borderWidth: 1,
                     }],
                 },

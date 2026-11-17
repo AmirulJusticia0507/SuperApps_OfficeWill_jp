@@ -1,125 +1,177 @@
 @extends('layouts.app')
 
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
 @section('content')
-    <!-- Header -->
+<style>
+    .materials-page { min-height: 100vh; background: #f4f6f9; }
+    .materials-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+    body.sidebar-collapsed .materials-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
+    @media (max-width: 767.98px) {
+        .materials-page__content, body.sidebar-collapsed .materials-page__content { margin-left: 0; width: 100%; padding: 1rem; }
+    }
+</style>
+
+<div class="materials-page">
     @include('includes.header')
+    @include('includes.sidebar')
 
-    <div class="row justify-content-center">
-        <!-- Sidebar -->
-        <div class="col-md-3">
-            @include('includes.sidebar')
-        </div>
+    <main class="materials-page__content pt-20">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-5" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3 text-sm text-gray-600">
+                <li class="inline-flex items-center">
+                    <span class="text-gray-500">Teaching Material Information</span>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 text-xs mx-2"></i>
+                        <a href="{{ route('materials.index') }}" class="text-blue-600 hover:text-blue-800">Material List</a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 text-xs mx-2"></i>
+                        <span class="text-gray-500 font-medium">Teaching Material Information</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
 
-        <div class="col-md-8">
-            <br><br><br>
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Teaching Material Information</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('materials.index') }}">Material List</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Teaching Material Information</li>
-                </ol>
-            </nav>
-            <!-- Material Form -->
-            <div id="materialForm">
-                <form id="courseMaterialForm" enctype="multipart/form-data" method="POST" action="{{ route('materials.store') }}">
+        <!-- Material Form Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+            <div class="bg-slate-900 px-6 py-4">
+                <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                    <i class="fas fa-book-open text-blue-400"></i>
+                    Teaching Material Information
+                </h2>
+            </div>
+            <div class="p-6">
+                <form id="courseMaterialForm" enctype="multipart/form-data" method="POST" action="{{ route('materials.store') }}" class="space-y-6">
                     @csrf
-                    <div class="mb-3">
-                        <label for="course_id" class="form-label">Course</label>
-                        <select class="form-select" id="course_id" name="course_id" required>
-                            <option value="" selected disabled>Select Course</option>
-                            @foreach($courses as $course)
-                                <option value="{{ $course->course_id }}">{{ $course->coursename }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="display_order">Display Order</label>
-                        <input type="number" min="1" max="999" value="1" class="form-control" id="display_order" name="display_order" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="teaching_material_name">Teaching Material Name: <b style="color: red">*</b></label>
-                        <input type="text" class="form-control" id="teaching_material_name" name="teaching_material_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="material_type">Material Type:</label><br>
-                        <select id="material_type" name="material_type" class="form-control" required>
-                            <option value="">Select Material Type</option>
-                            <option value="Video">Video</option>
-                            <option value="Books">Books</option>
-                        </select>
-                    </div>
-                    <div id="videoFields" >
-                        <div class="form-group">
-                            <label for="youtube_video_url">Video URL: </label>
-                            <input type="url" class="form-control" id="youtube_video_url" name="youtube_video_url">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="course_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Course <span class="text-red-500">*</span>
+                            </label>
+                            <select class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition" id="course_id" name="course_id" required>
+                                <option value="" selected disabled>Select Course</option>
+                                @foreach($courses as $course)
+                                    <option value="{{ $course->course_id }}">{{ $course->coursename }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="display_order" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Display Order <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" min="1" max="999" value="1" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition" id="display_order" name="display_order" required>
                         </div>
                     </div>
-                    <div id="booksFields" >
-                        <div class="form-group">
-                            <label for="bookfile">Book File: </label>
-                            <input type="file" class="form-control" id="bookfile" name="bookfile">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="teaching_material_name" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Teaching Material Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition" id="teaching_material_name" name="teaching_material_name" required>
+                        </div>
+
+                        <div>
+                            <label for="material_type" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Material Type <span class="text-red-500">*</span>
+                            </label>
+                            <select id="material_type" name="material_type" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition" required>
+                                <option value="">Select Material Type</option>
+                                <option value="Video">Video</option>
+                                <option value="Books">Books</option>
+                            </select>
                         </div>
                     </div>
-                    <div align="center">
-                        <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Save</button>
-                        <button type="reset" class="btn btn-light"><i class="fas fa-undo"></i> Reset</button>
+
+                    <div id="videoFields" style="display: none;">
+                        <label for="youtube_video_url" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Video URL
+                        </label>
+                        <input type="url" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition" id="youtube_video_url" name="youtube_video_url" placeholder="https://www.youtube.com/watch?v=...">
+                    </div>
+
+                    <div id="booksFields" style="display: none;">
+                        <label for="bookfile" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Book File
+                        </label>
+                        <input type="file" class="w-full px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="bookfile" name="bookfile">
+                    </div>
+
+                    <div class="flex items-center justify-center gap-4 pt-4 border-t border-gray-100">
+                        <button type="submit" class="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg shadow-sm transition">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button type="reset" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-sm rounded-lg transition">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
                     </div>
                 </form>
             </div>
+        </div>
 
-            <!-- Material List -->
-            <div class="card">
-                <div class="card-header" style="background-color: darkblue"><b style="color: aliceblue">Teaching Material Information</b></div>
-                <div class="card-body">
-                    <table class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%" id="coursematerialsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Teaching Material Name</th>
-                                <th>Material Type</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($materials as $material)
-                            <tr>
-                                <td>{{ $material->material_id }}</td> <!-- Ubah $material->id menjadi $material->material_id -->
-                                <td>{{ $material->teaching_material_name }}</td>
-                                <td>{{ $material->material_type }}</td>
-                                <td>
-                                    <a href="{{ route('materials.edit', $material->material_id) }}" class="btn btn-primary btn-sm">Edit</a> <!-- Ubah $material->id menjadi $material->material_id -->
-                                    <form action="{{ route('materials.destroy', $material->material_id) }}" method="POST" style="display: inline;"> <!-- Ubah $material->id menjadi $material->material_id -->
+        <!-- Material List Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-slate-900 px-6 py-4 flex items-center justify-between">
+                <h3 class="text-base font-semibold text-white flex items-center gap-2">
+                    <i class="fas fa-list text-blue-400"></i>
+                    Teaching Material List
+                </h3>
+            </div>
+            <div class="p-6">
+                <table class="w-full text-sm text-left text-gray-600" id="coursematerialsTable">
+                    <thead class="text-xs uppercase bg-gray-50 text-gray-700 border-b">
+                        <tr>
+                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">Teaching Material Name</th>
+                            <th class="px-4 py-3">Material Type</th>
+                            <th class="px-4 py-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @foreach($materials as $material)
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-4 py-3 font-medium text-gray-900">{{ $material->material_id }}</td>
+                            <td class="px-4 py-3">{{ $material->teaching_material_name }}</td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $material->material_type === 'Video' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800' }}">
+                                    {{ $material->material_type }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <div class="inline-flex items-center gap-2">
+                                    <a href="{{ route('materials.edit', $material->material_id) }}" class="inline-flex items-center gap-1 px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium rounded shadow-sm transition">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <form action="{{ route('materials.destroy', $material->material_id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
+                                        <button type="submit" class="inline-flex items-center gap-1 px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded shadow-sm transition" onclick="return confirm('Are you sure you want to delete this item?')">
+                                            <i class="fas fa-trash-alt"></i> Delete
+                                        </button>
                                     </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-
         </div>
-    </div>
+    </main>
+</div>
+
+@include('includes.footer')
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-
 <script>
     $(document).ready(function () {
-        var table = $('#coursematerialsTable').DataTable({
+        $('#coursematerialsTable').DataTable({
             responsive: true,
             scrollX: true,
             searching: true,
@@ -135,55 +187,23 @@
         const videoFields = document.getElementById('videoFields');
         const booksFields = document.getElementById('booksFields');
 
-        // Function to hide both video and books fields
         const hideAllFields = () => {
-            videoFields.style.display = 'none';
-            booksFields.style.display = 'none';
+            if (videoFields) videoFields.style.display = 'none';
+            if (booksFields) booksFields.style.display = 'none';
         };
 
-        // Initially hide all fields
         hideAllFields();
 
-        materialTypeSelect.addEventListener('change', function() {
-            const selectedValue = this.value;
-            // Hide all fields first
-            hideAllFields();
-            // Show fields based on selected value
-            if (selectedValue === 'Video') {
-                videoFields.style.display = 'block';
-            } else if (selectedValue === 'Books') {
-                booksFields.style.display = 'block';
-            }
-        });
-
-        // const materialFormElement = document.getElementById('courseMaterialForm');
-        // materialFormElement.addEventListener('submit', function(event) {
-        //     event.preventDefault();
-        //     const formData = new FormData(this);
-        //     fetch(this.action, {
-        //         method: this.method,
-        //         body: formData,
-        //     })
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         console.log(data);
-        //         // Reset form after successful submission
-        //         materialFormElement.reset();
-        //         // Hide form after successful submission
-        //         hideAllFields();
-        //         // You may want to reload or update the table here
-        //     })
-        //     .catch(error => {
-        //         console.error('There has been a problem with your fetch operation:', error);
-        //     });
-        // });
+        if (materialTypeSelect) {
+            materialTypeSelect.addEventListener('change', function() {
+                hideAllFields();
+                if (this.value === 'Video') {
+                    videoFields.style.display = 'block';
+                } else if (this.value === 'Books') {
+                    booksFields.style.display = 'block';
+                }
+            });
+        }
     });
-
 </script>
 @endsection
-

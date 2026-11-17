@@ -4,18 +4,17 @@
         $screenType = 'course_attribute0' . $i . '_screentype';
         $inputName = 'course_attributes_0' . $i;
     @endphp
-    <div class="form-group row">
-        <label for="{{ $inputName }}" class="col-sm-3 col-form-label">{{ $displayname }}</label>
-        <div class="col-sm-9">
-
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center mb-4">
+        <label for="{{ $inputName }}" class="md:col-span-3 text-sm font-medium text-slate-700">{{ $displayname }}</label>
+        <div class="md:col-span-9">
             @switch($attribute->{$screenType})
                 @case(1)
-                    <input type="text" name="{{ $inputName }}" id="{{ $inputName }}" class="form-control"
+                    <input type="text" name="{{ $inputName }}" id="{{ $inputName }}" class="w-full max-w-md px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         title="{{ $displayname }}">
                 @break
 
                 @case(2)
-                    <select name="{{ $inputName }}" id="{{ $inputName }}" class="form-control" title="{{ $displayname }}">
+                    <select name="{{ $inputName }}" id="{{ $inputName }}" class="w-full max-w-md px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" title="{{ $displayname }}">
                         <option value="">Dropdown</option>
                         <option value="">Dropdown</option>
                         <option value="">Dropdown</option>
@@ -24,19 +23,18 @@
                 @break
 
                 @case(3)
-                    <input type="text" name="{{ $inputName }}" id="{{ $inputName }}" class="form-control date-picker"
+                    <input type="text" name="{{ $inputName }}" id="{{ $inputName }}" class="w-full max-w-md px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 date-picker"
                         title="{{ $displayname }}">
                 @break
 
                 @case(4)
                     <input type="text" name="{{ $inputName }}" id="{{ $inputName }}"
-                        class="form-control month-picker" title="{{ $displayname }}">
+                        class="w-full max-w-md px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 month-picker" title="{{ $displayname }}">
                 @break
 
                 @default
             @endswitch
         </div>
-
     </div>
 @endfor
 

@@ -1,110 +1,106 @@
 @extends('layouts.app')
 
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
+@section('content')
 <style>
-    /* Style untuk textarea */
-    textarea {
-        resize: both; /* Membuat textarea bisa diresize */
-        overflow: auto; /* Menambahkan scrollbar jika konten terlalu besar */
-        width: 100%; /* Lebar textarea */
-        height: 150px; /* Tinggi textarea */
-    }
-
-    .sticky-list-group {
-        position: sticky;
-        top: 10px; /* Anda dapat menyesuaikan offset atas sesuai kebutuhan */
+    .list-course-taken-page { min-height: 100vh; background: #f4f6f9; }
+    .list-course-taken-page__content { margin-left: 16rem; width: calc(100% - 16rem); padding: 1.5rem 2rem; transition: margin-left .2s ease, width .2s ease; }
+    body.sidebar-collapsed .list-course-taken-page__content { margin-left: 4.5rem; width: calc(100% - 4.5rem); }
+    @media (max-width: 767.98px) {
+        .list-course-taken-page__content, body.sidebar-collapsed .list-course-taken-page__content { margin-left: 0; width: 100%; padding: 1rem; }
     }
 </style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.15/css/jquery.dataTables.min.css">
 
-@section('content')
+<div class="list-course-taken-page">
     <!-- Header -->
     @include('includes.header')
+    @include('includes.sidebar')
 
+    <main class="list-course-taken-page__content space-y-6">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="flex flex-wrap gap-1 text-sm text-slate-500 mb-4">
+                <li><a href="{{ route('confirm-courses.index') }}" title="Confirm and take courses" class="hover:text-blue-600">コースを確認して撮影します</a></li>
+                <li class="before:content-['/'] before:mx-1"><a href="{{ route('employee-list') }}" title="List of courses taken" class="hover:text-blue-600">撮影したコースのリスト</a></li>
+                <li class="before:content-['/'] before:mx-1 text-slate-700 font-medium" aria-current="page" title="Attendance">出席</li>
+            </ol>
+        </nav>
 
-    <!-- Main Content -->
-    {{-- <div class="container"> --}}
-        <div class="row justify-content-center">
-            <div class="col-md-3">
-                @include('includes.sidebar')
+        <!-- Course Information Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+            <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold" title="Course information">
+                コース情報
             </div>
-            <div class="col-md-6">
-                <br><br><br>
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('confirm-courses.index') }}" title="Confirm and take courses">コースを確認して撮影します</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('employee-list') }}" title="List of courses taken">撮影したコースのリスト</a></li>
-                        <li class="breadcrumb-item active" aria-current="page" title="Attendance">出席</li>
-                    </ol>
-                </nav>
-                <div class="card">
-                    <div class="card-header" style="background-color: darkblue" title=" Course information"><b style="color:aliceblue">コース情報</b></div>
-                        <div class="card-body">
-                            <div class="card-header" title="Employee List" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">従業員リスト</b></div>
-                            <!-- DataTable -->
-                            <table id="employeelistTable" class="display table table-bordered table-striped table-hover responsive nowrap" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th title="Course Name">コース名</th>
-                                        <th title="Deadline for enrollment">登録の締め切り</th>
-                                        <th title="ToDo">全て</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($courseScheduleResults as $index => $result)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $result->course->coursename ?? 'N/A' }}</td>
-                                            <td>{{ $result->employee->fullname ?? 'N/A' }}</td>
-                                            <td>{{ $result->deadline_enrollment }}</td>
-                                            <td>{{ $result->todo_complete ? '完了' : '未完了' }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>    
+            <div class="p-5 overflow-x-auto space-y-4">
+                <div class="px-4 py-2.5 bg-blue-100 text-blue-900 rounded-lg font-semibold text-center text-sm" title="Employee List">
+                    従業員リスト
                 </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-header" title="Course Description" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">コースの説明:</b></div><br>
-                        @foreach($courses as $course)
-                            <textarea name="course_description" id="course_description" cols="10" rows="10" readonly>{{ $course->course_description }}</textarea>
+                <table id="employeelistTable" class="display table table-bordered table-striped table-hover responsive nowrap w-full text-sm" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th title="Course Name">コース名</th>
+                            <th>{{ __('Employee') }}</th>
+                            <th title="Deadline for enrollment">登録の締め切り</th>
+                            <th title="ToDo">全て</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($courseScheduleResults as $index => $result)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $result->course->coursename ?? 'N/A' }}</td>
+                                <td>{{ $result->employee->fullname ?? 'N/A' }}</td>
+                                <td>{{ $result->deadline_enrollment }}</td>
+                                <td>
+                                    <span class="inline-flex px-2 py-0.5 text-xs font-medium rounded-full {{ $result->todo_complete ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800' }}">
+                                        {{ $result->todo_complete ? '完了' : '未完了' }}
+                                    </span>
+                                </td>
+                            </tr>
                         @endforeach
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-header" title="Materials" style="background-color: #92CDFC" align="center"><b style="color:aliceblue">材料:</b></div>
-                        <ul>
-                            @foreach($materials as $material)
-                                <li>{{ $material->teaching_material_name }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-            <br><br><br><br><br>
-                <div class="mt-2 sticky-list-group">
-                    <ul class="list-group rounded-6" style="float: right;">
-                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-list') }}" title="Course list"><b style="color:aliceblue"> 社員一覧</b></a></li>
-                        <li class="list-group-item rounded-6" style="background-color: darkblue"><a href="{{ route('employee-inquiry') }}" title="Attendance inquiry"><b style="color:aliceblue">  受講照会トップ</b></a></li>
-                    </ul>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
-     <!-- Footer -->
-     @include('includes.footer')
-    @endsection
 
-    @section('scripts')
+        <!-- Course Description Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+            <div class="px-5 py-3.5 bg-blue-100 text-blue-900 rounded-t-xl font-semibold text-center text-sm" title="Course Description">
+                コースの説明:
+            </div>
+            <div class="p-5 space-y-4">
+                @foreach($courses as $course)
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 leading-relaxed">
+                        {{ $course->course_description }}
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Materials Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+            <div class="px-5 py-3.5 bg-blue-100 text-blue-900 rounded-t-xl font-semibold text-center text-sm" title="Materials">
+                材料:
+            </div>
+            <div class="p-5">
+                <ul class="divide-y divide-slate-100 text-sm">
+                    @foreach($materials as $material)
+                        <li class="py-2.5 flex items-center gap-2 text-slate-800">
+                            <i class="fas fa-file-alt text-slate-400"></i> {{ $material->teaching_material_name }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Footer -->
+@include('includes.footer')
+@endsection
+
+@section('scripts')
     <!-- Script DataTables -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -122,3 +118,4 @@
             });
         });
     </script>
+@endsection
