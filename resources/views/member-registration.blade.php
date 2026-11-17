@@ -160,7 +160,8 @@
                                     </div>
                                     <div>
                                         <label for="employee_code" class="block text-sm font-medium text-slate-700 mb-1">{{ __('Employee Code') }}: <span class="text-red-500">*</span></label>
-                                        <input type="text" name="employee_code" id="employee_code" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" title="Employee Code" maxlength="10" required>
+                                        <input type="text" name="employee_code" id="employee_code" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" title="Employee Code" maxlength="10" aria-describedby="employee-code-help" required>
+                                        <p id="employee-code-help" class="mt-1 text-xs text-slate-500">{{ __('Generated from Full Name. Edit if needed; code must be unique.') }}</p>
                                     </div>
                                 </div>
 
@@ -414,6 +415,48 @@
             }
             kanaNameInput.value = generatedValue;
             lastGeneratedValue = generatedValue;
+        });
+    })();
+
+    (() => {
+        const fullNameInput = document.getElementById('fullname');
+        const employeeCodeInput = document.getElementById('employee_code');
+        if (!fullNameInput || !employeeCodeInput) return;
+
+        const existingCodes = new Set(@json(($employeeCodes ?? collect())->map(fn ($code) => mb_strtoupper((string) $code))->values()));
+        let lastGeneratedCode = '';
+        let employeeCodeWasEdited = false;
+
+        function generateUniqueEmployeeCode(fullName) {
+            const lettersAndNumbers = Array.from(fullName.normalize('NFKC').matchAll(/[\p{L}\p{N}]/gu), match => match[0].toUpperCase());
+            const baseCode = lettersAndNumbers.slice(0, 3).join('');
+            if (!baseCode) return '';
+
+            let candidate = baseCode;
+            let suffixNumber = 1;
+            while (existingCodes.has(candidate)) {
+                const suffix = String(suffixNumber++).padStart(3, '0');
+                candidate = baseCode.slice(0, 10 - suffix.length) + suffix;
+            }
+            return candidate;
+        }
+
+        employeeCodeInput.addEventListener('input', () => {
+            employeeCodeWasEdited = employeeCodeInput.value.trim() !== '' && employeeCodeInput.value.toUpperCase() !== lastGeneratedCode;
+        });
+
+        fullNameInput.addEventListener('input', event => {
+            if (event.isComposing || employeeCodeWasEdited) return;
+            const generatedCode = generateUniqueEmployeeCode(fullNameInput.value);
+            employeeCodeInput.value = generatedCode;
+            lastGeneratedCode = generatedCode.toUpperCase();
+        });
+
+        fullNameInput.form?.addEventListener('reset', () => {
+            window.setTimeout(() => {
+                lastGeneratedCode = '';
+                employeeCodeWasEdited = false;
+            }, 0);
         });
     })();
 

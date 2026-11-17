@@ -267,5 +267,6 @@
     "Last :months Months": "過去 :months か月",
     "Number of months": "月数",
     "Months": "か月",
-    "Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings.": "氏名からカナを自動入力します。漢字の読み方は確認してください。"
+    "Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings.": "氏名からカナを自動入力します。漢字の読み方は確認してください。",
+    "Generated from Full Name. Edit if needed; code must be unique.": "氏名から自動生成します。必要に応じて編集できます。コードは重複できません。"
 }

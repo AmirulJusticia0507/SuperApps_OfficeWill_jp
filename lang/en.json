@@ -267,5 +267,6 @@
     "Last :months Months": "Last :months Months",
     "Number of months": "Number of months",
     "Months": "Months",
-    "Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings.": "Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings."
+    "Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings.": "Kana Name is auto-converted from Romaji or Kana. Please check Kanji readings.",
+    "Generated from Full Name. Edit if needed; code must be unique.": "Generated from Full Name. Edit if needed; code must be unique."
 }

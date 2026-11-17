@@ -19,7 +19,8 @@ class MasterRegistrationController extends Controller
 	{
 		$affiliations = AffiliationInformation::all();
 		$jobTitles = JobInformation::all();
-		return view('member-registration', compact('affiliations', 'jobTitles'));
+		$employeeCodes = DB::table('employee_information')->whereNotNull('employee_code')->pluck('employee_code');
+		return view('member-registration', compact('affiliations', 'jobTitles', 'employeeCodes'));
 	}
 
 	public function create()
@@ -27,7 +28,8 @@ class MasterRegistrationController extends Controller
 		$affiliations = AffiliationInformation::all();
 		$jobTitles = JobInformation::all();
 		$attribute = EmployeeAttributeSettingInformation::where('company_id', 1)->latest()->first();
-		return view('member-registration', compact('affiliations', 'jobTitles', 'attribute'));
+		$employeeCodes = DB::table('employee_information')->whereNotNull('employee_code')->pluck('employee_code');
+		return view('member-registration', compact('affiliations', 'jobTitles', 'attribute', 'employeeCodes'));
 	}
 
 	public function store(Request $request)
