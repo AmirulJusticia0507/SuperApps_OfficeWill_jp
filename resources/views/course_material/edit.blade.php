@@ -36,7 +36,7 @@
             </ol>
         </nav>
 
-        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="bg-slate-900 px-6 py-4">
                 <h1 class="text-lg font-semibold text-white flex items-center gap-2">
                     <i class="fas fa-edit text-blue-400"></i>

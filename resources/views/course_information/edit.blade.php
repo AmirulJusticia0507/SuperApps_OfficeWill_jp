@@ -15,9 +15,8 @@
     @include('includes.sidebar')
 
     <main class="course-edit-page__content">
-        <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold">
                     {{ __('Edit Course Information') }}
                 </div>
 
@@ -51,7 +50,6 @@
                     </form>
                 </div>
             </div>
-        </div>
     </main>
 </div>
 

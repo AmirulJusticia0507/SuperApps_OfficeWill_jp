@@ -30,7 +30,7 @@
             </ol>
         </nav>
 
-        <div class="max-w-2xl mx-auto space-y-8">
+        <div class="space-y-8">
             <!-- Form Card -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="bg-slate-900 px-6 py-4">
