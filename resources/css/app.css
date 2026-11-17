@@ -123,3 +123,25 @@ html.dark-mode .dashboard-chart-card .text-emerald-700 { color: #6ee7b7 !importa
 html.dark-mode .dashboard-chart-card .text-cyan-700 { color: #67e8f9 !important; }
 html.dark-mode .dashboard-chart-card .text-amber-700 { color: #fcd34d !important; }
 html.dark-mode body > main > section { border-color: #334155 !important; background-color: #172235 !important; color: #e2e8f0; }
+
+/* Keep Bootstrap-backed create/edit dialogs inside the viewport. */
+.modal { z-index: 2010 !important; overflow-x: hidden !important; overflow-y: auto !important; padding: 1rem !important; }
+.modal-backdrop { z-index: 2005 !important; }
+.modal-dialog { display: flex; width: min(100%, 44rem); max-width: 44rem; min-height: calc(100% - 2rem); align-items: center; margin: 0 auto; }
+.modal-dialog:not(.modal-dialog-centered) { align-items: flex-start; padding-top: 1rem; padding-bottom: 1rem; }
+.modal-content { display: flex; max-height: calc(100dvh - 2rem); overflow: hidden; border: 1px solid #e2e8f0; border-radius: 1rem; box-shadow: 0 24px 64px rgba(15, 23, 42, .24); }
+.modal-header, .modal-footer { flex: 0 0 auto; }
+.modal-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.modal-footer { flex-wrap: wrap; gap: .5rem; }
+html.dark-mode .modal-content { border-color: #334155; background-color: #172235 !important; color: #e2e8f0; }
+html.dark-mode .modal-header,
+html.dark-mode .modal-footer { border-color: #334155 !important; }
+html.dark-mode .modal-header:not([class*="bg-"]) { background-color: #172235; color: #f1f5f9; }
+html.dark-mode .modal-title { color: inherit !important; }
+html.dark-mode .modal .btn-close { filter: invert(1) grayscale(1); }
+@media (max-width: 575.98px) {
+    .modal { padding: .5rem !important; }
+    .modal-dialog { width: 100%; max-width: none; min-height: calc(100% - 1rem); }
+    .modal-content { max-height: calc(100dvh - 1rem); border-radius: .85rem; }
+    .modal-header, .modal-body, .modal-footer { padding: 1rem; }
+}
