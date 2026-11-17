@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AttendanceTodoAnswerSelectionInformation;
 use App\Models\AttendanceTodoItemAnswerInformation;
 use App\Models\CourseInformation;
+use App\Models\CompanyInformation;
 use Illuminate\Http\Request;
 use App\Models\CourseScheduleResultsInformation;
 use App\Models\CourseTodoItemsChoiceInformation;
@@ -35,6 +36,29 @@ class ConfirmCoursesController extends Controller
 			: collect();
 		// Kirim data ke view confirmcourses.blade.php
 		return view('confirmcourses.index', compact('scheduleResultCourses'));
+	}
+
+	public function certificate(int $attendance_setting_id)
+	{
+		$user = auth()->guard('employee')->user();
+		$employeeId = $user ? $user->employee_id : auth()->id();
+		$enrollment = CourseScheduleResultsInformation::where('attendance_setting_id', $attendance_setting_id)
+			->where('employee_id', $employeeId)
+			->where('todo_progress', '2')
+			->whereNotNull('todo_complete')
+			->firstOrFail();
+
+		$course = CourseInformation::findOrFail($enrollment->course_id);
+		$employee = EmployeeInformation::findOrFail($enrollment->employee_id);
+		$company = CompanyInformation::find($enrollment->company_id);
+
+		return view('confirmcourses.certificate', [
+			'course' => $course,
+			'employee' => $employee,
+			'company' => $company,
+			'completedAt' => Carbon::parse($enrollment->todo_complete),
+			'certificateNumber' => sprintf('DEP-%04d-%04d-%06d', $enrollment->company_id, $enrollment->course_id, $enrollment->attendance_setting_id),
+		]);
 	}
 
 	public function attendence(Request $request, $course_id)
@@ -196,7 +220,8 @@ class ConfirmCoursesController extends Controller
 					Mail::to($employee->email)->send(new CourseCompleted(
 						$employee->fullname,
 						$course->coursename,
-						Carbon::parse($schedule->fresh()->todo_complete)->format('Y-m-d H:i')
+						Carbon::parse($schedule->fresh()->todo_complete)->format('Y-m-d H:i'),
+						route('confirm-courses.certificate', $schedule->attendance_setting_id)
 					));
 				} catch (Throwable $exception) {
 					Log::error('Course completion email could not be sent.', [

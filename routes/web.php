@@ -146,6 +146,7 @@ Route::middleware('auth.any')->group(function () {
 
 	// Rute untuk konfirmasi kursus
 	Route::get('/confirm-courses', [ConfirmCoursesController::class, 'index'])->name('confirm-courses.index');
+	Route::get('/confirm-courses/{attendance_setting_id}/certificate', [ConfirmCoursesController::class, 'certificate'])->name('confirm-courses.certificate');
 	Route::get('/confirm-courses/{course_id}/attendence', [ConfirmCoursesController::class, 'attendence'])->name('confirm-courses.attendence');
 	Route::get('/confirm-courses/{course_id}/todo-answer', [ConfirmCoursesController::class, 'todoAnswerForm'])->name('confirm-courses.todo-answer.index');
 	Route::post('/confirm-courses/{course_id}/todo-answer', [ConfirmCoursesController::class, 'todoAnswerStore'])->name('confirm-courses.todo-answer.store');

@@ -16,6 +16,7 @@
             <p style="margin:0;font-size:15px;font-weight:700">{{ $completedAt }}</p>
         </div>
         <p style="margin:0 0 24px;color:#475569;line-height:1.7">{{ __('Thank you for completing the course materials and ToDo.') }}</p>
+        <p style="margin:0 0 24px"><a href="{{ $certificateUrl }}" style="display:inline-block;border-radius:10px;background:#1d4ed8;padding:12px 18px;color:#fff;font-weight:700;text-decoration:none">{{ __('View and download your certificate') }}</a></p>
         <p style="margin:0;border-top:1px solid #e2e8f0;padding-top:18px;color:#64748b;font-size:13px">{{ config('app.name') }}</p>
     </main>
 </body>

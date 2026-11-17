@@ -16,6 +16,7 @@ class CourseCompleted extends Mailable
         public string $employeeName,
         public string $courseName,
         public string $completedAt,
+        public string $certificateUrl,
     ) {}
 
     public function envelope(): Envelope
@@ -33,6 +34,7 @@ class CourseCompleted extends Mailable
                 'employeeName' => $this->employeeName,
                 'courseName' => $this->courseName,
                 'completedAt' => $this->completedAt,
+                'certificateUrl' => $this->certificateUrl,
             ],
         );
     }

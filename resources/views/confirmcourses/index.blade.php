@@ -36,6 +36,7 @@
                             <th title="{{ __('Course Name') }}">{{ __('Course Name') }}</th>
                             <th title="{{ __('Deadline for enrollment') }}">{{ __('Deadline for enrollment') }}</th>
                             <th title="ToDo">ToDo</th>
+                            <th title="{{ __('Certificate') }}">{{ __('Certificate') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,6 +60,15 @@
                                 </td>
                                 <td>{{ $scheduleResultCourse->deadline_enrollment }}</td>
                                 <td>{{ $scheduleResultCourse->todo_progress_text }}</td>
+                                <td>
+                                    @if ((string) $scheduleResultCourse->todo_progress === '2' && $scheduleResultCourse->todo_complete)
+                                        <a href="{{ route('confirm-courses.certificate', $scheduleResultCourse->attendance_setting_id) }}" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-700 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-blue-800">
+                                            <i class="fas fa-award" aria-hidden="true"></i>{{ __('Get certificate') }}
+                                        </a>
+                                    @else
+                                        <span class="text-sm text-slate-400">{{ __('Available after course completion') }}</span>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
