@@ -279,7 +279,7 @@
             a: 'あ', i: 'い', u: 'う', e: 'え', o: 'お',
             ka: 'か', ki: 'き', ku: 'く', ke: 'け', ko: 'こ',
             sa: 'さ', shi: 'し', si: 'し', su: 'す', se: 'せ', so: 'そ',
-            ta: 'た', chi: 'ち', ti: 'ち', tsu: 'つ', tu: 'つ', te: 'て', to: 'と',
+            ta: 'た', chi: 'ち', ti: 'てぃ', tsu: 'つ', tu: 'とぅ', te: 'て', to: 'と',
             na: 'な', ni: 'に', nu: 'ぬ', ne: 'ね', no: 'の',
             ha: 'は', hi: 'ひ', fu: 'ふ', hu: 'ふ', he: 'へ', ho: 'ほ',
             ma: 'ま', mi: 'み', mu: 'む', me: 'め', mo: 'も',
@@ -288,7 +288,7 @@
             wa: 'わ', wo: 'を',
             ga: 'が', gi: 'ぎ', gu: 'ぐ', ge: 'げ', go: 'ご',
             za: 'ざ', ji: 'じ', zi: 'じ', zu: 'ず', ze: 'ぜ', zo: 'ぞ',
-            da: 'だ', di: 'ぢ', du: 'づ', de: 'で', do: 'ど',
+            da: 'だ', di: 'でぃ', du: 'どぅ', de: 'で', do: 'ど',
             ba: 'ば', bi: 'び', bu: 'ぶ', be: 'べ', bo: 'ぼ',
             pa: 'ぱ', pi: 'ぴ', pu: 'ぷ', pe: 'ぺ', po: 'ぽ',
             kya: 'きゃ', kyu: 'きゅ', kyo: 'きょ',
@@ -303,6 +303,7 @@
             bya: 'びゃ', byu: 'びゅ', byo: 'びょ',
             pya: 'ぴゃ', pyu: 'ぴゅ', pyo: 'ぴょ',
             fa: 'ふぁ', fi: 'ふぃ', fe: 'ふぇ', fo: 'ふぉ',
+            cia: 'しあ', cio: 'しお', ciu: 'しう',
             wi: 'うぃ', we: 'うぇ', va: 'ゔぁ', vi: 'ゔぃ', vu: 'ゔ', ve: 'ゔぇ', vo: 'ゔぉ',
             tsa: 'つぁ', tsi: 'つぃ', tse: 'つぇ', tso: 'つぉ'
         };
@@ -365,7 +366,29 @@
                         break;
                     }
                 }
-                if (!matched) return null;
+                if (!matched) {
+                    const nextCharacter = input[index + 1];
+                    if (character === 'c' && nextCharacter && 'aeiou'.includes(nextCharacter)) {
+                        const softC = nextCharacter === 'i' || nextCharacter === 'e';
+                        hiragana += romajiKana[(softC ? 's' : 'k') + nextCharacter];
+                        index += 2;
+                        continue;
+                    }
+
+                    if (/[a-z]/.test(character)) {
+                        const consonant = character === 'l' ? 'r' : (character === 'q' || character === 'x' ? 'k' : character);
+                        const hasVowel = nextCharacter && 'aeiou'.includes(nextCharacter);
+                        const insertedVowel = hasVowel ? nextCharacter : (character === 't' || character === 'd' ? 'o' : 'u');
+                        const fallbackSyllable = romajiKana[consonant + insertedVowel];
+                        if (fallbackSyllable) {
+                            hiragana += fallbackSyllable;
+                            index += hasVowel ? 2 : 1;
+                            continue;
+                        }
+                    }
+
+                    return null;
+                }
             }
 
             return Array.from(hiragana, character => {
