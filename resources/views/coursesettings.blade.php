@@ -143,11 +143,6 @@
                     <div class="px-4 py-2.5 bg-blue-100 text-blue-900 rounded-lg font-semibold text-center text-sm mb-4" title="Course List">
                         {{ __('Course List') }}
                     </div>
-                    <div class="flex justify-end mb-4" data-course-details-action>
-                        <a href="#" data-course-details-url="{{ route('course-information.show', ['id' => '__COURSE_ID__']) }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg shadow-sm transition d-none" data-course-details-button aria-hidden="true" tabindex="-1">
-                            <i class="fas fa-eye"></i> {{ __('Check course details') }}
-                        </a>
-                    </div>
                     <div class="overflow-x-auto">
                         <table id="courseTable" class="display table table-bordered table-striped table-hover responsive nowrap w-full text-sm" style="width:100%">
                             <thead>
@@ -156,15 +151,21 @@
                                     <th title="{{ __('Course Classification') }}">{{ __('Course Classification') }}</th>
                                     <th title="{{ __('Course Classification Details') }}">{{ __('Course Classification Details') }}</th>
                                     <th title="{{ __('Course Name') }}">{{ __('Course Name') }}</th>
+                                    <th title="{{ __('Actions') }}">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($courses as $course)
                                     <tr>
-                                        <td><input type="checkbox" class="course-checkbox w-4 h-4 text-blue-600 rounded" value="{{ $course->course_id }}"></td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $course->classification?->course_classification_name ?? __('Not available') }}</td>
                                         <td>{{ $course->classification_detail?->course_classification_detailsname ?? __('Not available') }}</td>
                                         <td>{{ $course->coursename }}</td>
+                                        <td>
+                                            <a href="{{ route('course-information.show', $course->course_id) }}" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-700 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-blue-800" title="{{ __('Check course details') }}" aria-label="{{ __('Check details for :course', ['course' => $course->coursename]) }}">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>{{ __('Details') }}
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -361,31 +362,6 @@
                 buttons: ['copy', 'excel', 'pdf']
             });
 
-            let selectedCourseId = null;
-            const syncCourseDetailsButton = function() {
-                const detailsButton = $('[data-course-details-button]');
-
-                if (selectedCourseId) {
-                    const detailsUrl = detailsButton.data('course-details-url').replace('__COURSE_ID__', encodeURIComponent(selectedCourseId));
-                    detailsButton.attr('href', detailsUrl).removeClass('d-none').attr('aria-hidden', 'false').removeAttr('tabindex');
-                } else {
-                    detailsButton.addClass('d-none').attr({ href: '#', 'aria-hidden': 'true', tabindex: '-1' });
-                }
-            };
-
-            $(document).on('change', '#courseTable .course-checkbox', function() {
-                selectedCourseId = this.checked ? this.value : null;
-                $('#courseTable .course-checkbox').each(function() {
-                    this.checked = selectedCourseId !== null && this.value === selectedCourseId;
-                });
-                syncCourseDetailsButton();
-            });
-
-            $('#courseTable').on('draw.dt', function() {
-                $('#courseTable .course-checkbox').each(function() {
-                    this.checked = selectedCourseId !== null && this.value === selectedCourseId;
-                });
-            });
         });
     </script>
 @endsection
