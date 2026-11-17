@@ -71,6 +71,9 @@
     .floating-menu a:last-child { background: #17345f; }
     .floating-menu a:hover { filter: brightness(.92); }
     .floating-menu-label { display: none; }
+    .floating-menu__handle { display: grid; width: 100%; min-height: 1.5rem; place-items: center; border: 0; background: #17345f; color: #fff; cursor: grab; touch-action: none; }
+    .floating-menu__handle:active { cursor: grabbing; }
+    .floating-menu__handle:focus-visible { outline: 3px solid #38bdf8; outline-offset: -3px; }
     @media (max-width: 575.98px) {
         aside.app-sidebar { transform: translateX(-100%); }
         body.sidebar-mobile-open aside.app-sidebar { transform: translateX(0); }
@@ -129,6 +132,7 @@
 {{-- <aside class="bg-gray-400 h-screen w-64 fixed top-0 left-0 overflow-y-auto"> --}}
 <nav class="floating-menu" aria-label="Floating shortcut menu">
     @if ($isSysAdmin || $isEmployeeRegis)
+        <button class="floating-menu__handle" type="button" aria-label="Move shortcut menu" title="Drag to move; use arrow keys to reposition"><i class="fas fa-grip-lines" aria-hidden="true"></i></button>
         <a href="{{ route('employee-list') }}">社員一覧</a>
         <a href="{{ route('member-registration.create') }}">社員登録トップ</a>
         <a href="{{ route('member-registration.create') }}#affiliation-information">所属情報</a>
@@ -137,6 +141,80 @@
         <a href="{{ route('member-registration.create') }}#registration">登録</a>
     @endif
 </nav>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menu = document.querySelector('.floating-menu');
+        const handle = menu?.querySelector('.floating-menu__handle');
+        if (!menu || !handle) return;
+
+        const positionKey = 'officewill.floating-menu.position';
+        let dragging = false;
+        let pointerOffsetX = 0;
+        let pointerOffsetY = 0;
+        let hasCustomPosition = false;
+
+        const clamp = (value, max) => Math.max(0, Math.min(value, max));
+        const placeAt = (left, top, persist = false) => {
+            const maxLeft = Math.max(0, window.innerWidth - menu.offsetWidth);
+            const maxTop = Math.max(0, window.innerHeight - menu.offsetHeight);
+            const x = clamp(left, maxLeft);
+            const y = clamp(top, maxTop);
+            menu.style.left = `${x}px`;
+            menu.style.top = `${y}px`;
+            menu.style.right = 'auto';
+            menu.style.transform = 'none';
+            hasCustomPosition = true;
+            if (persist) {
+                try { localStorage.setItem(positionKey, JSON.stringify({ left: x, top: y })); } catch (_) {}
+            }
+        };
+
+        try {
+            const savedPosition = JSON.parse(localStorage.getItem(positionKey) || 'null');
+            if (savedPosition && Number.isFinite(savedPosition.left) && Number.isFinite(savedPosition.top)) {
+                placeAt(savedPosition.left, savedPosition.top);
+            }
+        } catch (_) {}
+
+        handle.addEventListener('pointerdown', function (event) {
+            if (event.button !== undefined && event.button !== 0) return;
+            const rect = menu.getBoundingClientRect();
+            pointerOffsetX = event.clientX - rect.left;
+            pointerOffsetY = event.clientY - rect.top;
+            dragging = true;
+            handle.setPointerCapture(event.pointerId);
+            event.preventDefault();
+        });
+
+        handle.addEventListener('pointermove', function (event) {
+            if (!dragging) return;
+            placeAt(event.clientX - pointerOffsetX, event.clientY - pointerOffsetY);
+        });
+
+        const stopDragging = function () {
+            if (!dragging) return;
+            dragging = false;
+            const rect = menu.getBoundingClientRect();
+            try { localStorage.setItem(positionKey, JSON.stringify({ left: rect.left, top: rect.top })); } catch (_) {}
+        };
+        handle.addEventListener('pointerup', stopDragging);
+        handle.addEventListener('pointercancel', stopDragging);
+
+        handle.addEventListener('keydown', function (event) {
+            const movement = { ArrowUp: [0, -12], ArrowDown: [0, 12], ArrowLeft: [-12, 0], ArrowRight: [12, 0] }[event.key];
+            if (!movement) return;
+            event.preventDefault();
+            const rect = menu.getBoundingClientRect();
+            placeAt(rect.left + movement[0], rect.top + movement[1], true);
+        });
+
+        window.addEventListener('resize', function () {
+            if (!hasCustomPosition) return;
+            const rect = menu.getBoundingClientRect();
+            placeAt(rect.left, rect.top, true);
+        });
+    });
+</script>
 <button id="sidebarToggle" type="button" class="sidebar-toggle-outside" aria-label="Toggle sidebar" aria-expanded="true" title="Toggle sidebar"><i class="fas fa-bars"></i></button>
 
 <aside class="app-sidebar bg-blue-900 h-screen w-64 fixed top-0 left-0 overflow-y-auto">
