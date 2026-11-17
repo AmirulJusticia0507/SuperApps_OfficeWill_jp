@@ -29,7 +29,7 @@
         <!-- Button to Open Modal -->
         <div class="flex justify-between items-center gap-3 mb-4 flex-wrap">
             <input type="text" id="classificationSearchBox" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-xs" placeholder="{{ __('Search table...') }}">
-            <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg transition" data-bs-toggle="modal" data-bs-target="#createClassificationModal">{{ __('Create New Classification') }}</button>
+            <a href="{{ route('course-classifications.create') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg transition">{{ __('Create New Classification') }}</a>
         </div>
         <!-- Course Classifications Table -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200">
@@ -70,9 +70,9 @@
                             <td>{{ $classification->course_classification_name }}</td>
                             <td>{{ $classification->displayorder }}</td>
                             <td>
-                                <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg border border-slate-200 transition edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal{{ $classification->course_classification_id }}" title="Edit">
+                                <a href="{{ route('course-classifications.edit', $classification->course_classification_id) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg border border-slate-200 transition edit-btn" title="Edit">
                                     <i class="fas fa-edit"></i> {{ __('Edit') }}
-                                </button>
+                                </a>
                                 <form action="{{ route('course-classifications.destroy', $classification->course_classification_id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')

@@ -26,7 +26,7 @@
 
     <div class="flex justify-between items-center gap-3 mb-4 flex-wrap">
         <input type="text" id="affiliationSearchBox" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="{{ __('Search table...') }}" style="max-width: 320px;">
-        <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition ml-auto" data-bs-toggle="modal" data-bs-target="#createAffiliationModal" title="{{ __('Add Affiliation') }}"><i class="fas fa-plus"></i> {{ __('Add Affiliation') }}</button>
+        <a href="{{ route('affiliation-information.create') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition ml-auto" title="{{ __('Add Affiliation') }}"><i class="fas fa-plus"></i> {{ __('Add Affiliation') }}</a>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-slate-200">
@@ -48,9 +48,9 @@
                             <td>{{ $affiliation->affiliation_code }}</td>
                             <td nowrap>{{ $affiliation->affiliation_name }}</td>
                             <td>
-                                <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition border border-slate-200 mr-2" title="Edit Affiliation" data-bs-toggle="modal" data-bs-target="#editAffiliationModal{{ $affiliation->affiliation_code }}">
+                                <a href="{{ route('affiliation-information.edit', $affiliation->affiliation_code) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition border border-slate-200 mr-2" title="Edit Affiliation">
                                     <i class="fas fa-edit"></i> {{ __('Edit') }}
-                                </button>
+                                </a>
                                 <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg transition mr-2" title="Delete Affiliation" data-bs-toggle="modal" data-bs-target="#deleteAffiliationModal{{ $affiliation->affiliation_code }}">
                                     <i class="fas fa-trash-alt"></i> {{ __('Delete') }}
                                 </button>

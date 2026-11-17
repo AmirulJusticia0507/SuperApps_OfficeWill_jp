@@ -25,11 +25,7 @@ class CompanyInformationController extends Controller
 	 */
 	public function create()
 	{
-		$modalId = 'create_company_information';
-		return [
-			'data' => ['modal_id' => $modalId],
-			'html' => view('company_information.create', compact('modalId'))->render(),
-		];
+		return view('company_information.create');
 	}
 
 	/**
@@ -70,8 +66,8 @@ class CompanyInformationController extends Controller
 	 */
 	public function edit(string $id)
 	{
-		$company = CompanyInformation::find($id);
-		return view('company.edit', compact('company'));
+		$company = CompanyInformation::findOrFail($id);
+		return view('company_information.edit', compact('company'));
 	}
 
 	/**

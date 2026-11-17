@@ -32,7 +32,7 @@
         <!-- Tombol Create Company Modal -->
         <div class="flex justify-between items-center gap-3 mb-4 flex-wrap">
             <input type="text" id="customSearchBox" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-xs" placeholder="{{ __('Search table...') }}">
-            <button class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition open-modal" data-url="{{ route('company-information.create') }}"><i class="fas fa-plus"></i> {{ __('Add Company') }}</button>
+            <a href="{{ route('company-information.create') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition"><i class="fas fa-plus"></i> {{ __('Add Company') }}</a>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-slate-200">
             <div class="px-5 py-4 bg-blue-900 text-white rounded-t-xl font-semibold" title="{{ __('Company Information') }}">{{ __('Company Information') }}</div>
@@ -65,7 +65,7 @@
                             <td>{{ $company->teaching_material_storage_file_path }}</td>
                             <td>
                                 <!-- Tombol Edit Company Modal -->
-                                <button class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition" data-bs-toggle="modal" data-bs-target="#editCompanyModal{{ $company->company_id }}" title="{{ __('Edit') }}"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
+                                <a href="{{ route('company-information.edit', $company->company_id) }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition" title="{{ __('Edit') }}"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                 <!-- Form Delete Company -->
                                 <form action="{{ route('company-information.destroy', $company->company_id) }}"
                                     method="POST" style="display: inline;">
@@ -145,10 +145,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
-<!-- Script for Modals -->
 <script>
-    // Function to show modal when the button is clicked
-    const createCompanyModal = new bootstrap.Modal(document.getElementById('createCompanyModal'));
     $(document).ready(function () {
         var table = $('#companyTable').DataTable({
             responsive: true,

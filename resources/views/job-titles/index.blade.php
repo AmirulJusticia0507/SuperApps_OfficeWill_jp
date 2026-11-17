@@ -25,7 +25,7 @@
 
     <div class="flex justify-between items-center gap-3 mb-4 flex-wrap">
         <input type="text" id="jobTitleSearchBox" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="{{ __('Search table...') }}" style="max-width: 320px;">
-        <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition ml-auto" data-bs-toggle="modal" data-bs-target="#createJobTitleModal" title="{{ __('Add Job Title') }}"><i class="fas fa-plus"></i> {{ __('Add Job Title') }}</button>
+        <a href="{{ route('job-titles.create') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium rounded-lg transition ml-auto" title="{{ __('Add Job Title') }}"><i class="fas fa-plus"></i> {{ __('Add Job Title') }}</a>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-slate-200">
@@ -47,9 +47,9 @@
                             <td>{{ $jobTitle->job_id }}</td>
                             <td>{{ $jobTitle->job_title }}</td>
                             <td nowrap>
-                                <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition border border-slate-200 mr-2" title="Edit Job Title" data-bs-toggle="modal" data-bs-target="#editJobTitleModal{{ $jobTitle->job_id }}">
+                                <a href="{{ route('job-titles.edit', $jobTitle->job_id) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition border border-slate-200 mr-2" title="Edit Job Title">
                                     <i class="fas fa-edit"></i> {{ __('Edit') }}
-                                </button>
+                                </a>
                                 <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg transition mr-2" title="Delete Job Title" data-bs-toggle="modal" data-bs-target="#deleteJobTitleModal{{ $jobTitle->job_id }}">
                                     <i class="fas fa-trash"></i> {{ __('Delete') }}
                                 </button>

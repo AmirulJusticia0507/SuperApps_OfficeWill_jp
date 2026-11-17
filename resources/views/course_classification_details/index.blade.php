@@ -28,7 +28,7 @@
 
         <div class="flex justify-between items-center gap-3 mb-4 flex-wrap">
             <input type="text" id="classificationDetailsSearchBox" class="w-full max-w-xs px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="{{ __('Search table...') }}">
-            <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold rounded-lg shadow-sm transition" data-bs-toggle="modal" data-bs-target="#createDetailModal" title="{{ __('Create New Details') }}"><i class="fas fa-plus"></i> {{ __('Create New Details') }}</button>
+            <a href="{{ route('course-classification-details.create') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold rounded-lg shadow-sm transition" title="{{ __('Create New Details') }}"><i class="fas fa-plus"></i> {{ __('Create New Details') }}</a>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm border border-slate-200">
@@ -72,9 +72,9 @@
                                     </td>
                                     <td>
                                         <div class="flex items-center gap-2">
-                                            <button type="button" class="inline-flex items-center gap-1 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-medium rounded-lg transition" title="Edit" data-bs-toggle="modal" data-bs-target="#editDetailModal{{ $detail->course_classification_details_id }}">
+                                            <a href="{{ route('course-classification-details.edit', $detail->course_classification_details_id) }}" class="inline-flex items-center gap-1 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-medium rounded-lg transition" title="Edit">
                                                 <i class="fas fa-edit"></i> {{ __('Edit') }}
-                                            </button>
+                                            </a>
                                             <form action="{{ route('details.destroy', $detail->course_classification_details_id) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
