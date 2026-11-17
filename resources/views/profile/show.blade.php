@@ -9,6 +9,9 @@
     html.dark-mode .profile-card { border-color: #273449; background: #172235; }
     html.dark-mode .profile-card h1, html.dark-mode .profile-card h2, html.dark-mode .profile-card label { color: #e2e8f0; }
     html.dark-mode .profile-card input { border-color: #475569; background: #111b2b; color: #e2e8f0; }
+    .profile-photo-frame { width: 3.5rem; height: 3.5rem; flex: 0 0 3.5rem; }
+    .profile-photo-frame img:not(.hidden) { display: block; width: 100%; height: 100%; max-width: 100%; object-fit: cover; }
+    .profile-photo-frame img.hidden { display: none; }
     @media (max-width: 767.98px) {
         .profile-page__content, body.sidebar-collapsed .profile-page__content { margin-left: 0; width: 100%; padding: 1rem; }
     }
@@ -45,7 +48,7 @@
                 <section class="profile-card rounded-xl border border-slate-200 bg-white p-5">
                     <h2 class="text-lg font-semibold text-slate-900">{{ __('Account information') }}</h2>
                     <div class="mt-5 flex items-center gap-4">
-                        <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-blue-100 text-2xl font-bold text-blue-800 ring-4 ring-blue-50">
+                        <div class="profile-photo-frame flex items-center justify-center overflow-hidden rounded-full bg-blue-100 text-xl font-bold text-blue-800 ring-4 ring-blue-50">
                             @if ($profilePhotoUrl)
                                 <img id="profile-photo-preview" src="{{ $profilePhotoUrl }}" alt="{{ __('Profile photo') }}" class="h-full w-full object-cover">
                             @else
