@@ -165,7 +165,7 @@
                     class="sidebar-link {{ $isActiveRoute('dashboard') ? 'is-active' : '' }}"><i class="fas fa-home"></i><span class="sidebar-label">{{ __('Dashboard') }}</span></a>
             </li>
             <li>
-                <a href="mailto:" title="{{ __('Open default email app') }}"
+                <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer" title="{{ __('Mail') }}"
                     class="sidebar-link"><i class="fas fa-envelope"></i><span class="sidebar-label">{{ __('Mail') }}</span><i class="fas fa-arrow-up-right-from-square ml-auto text-xs opacity-60" aria-hidden="true"></i></a>
             </li>
             @if ($isSysAdmin)
